@@ -9,3 +9,6 @@ export type { BadgeVariant, BadgeSize } from './badge/badge.types';
 
 export { Spinner } from './spinner/spinner';
 export type { SpinnerSize, SpinnerColor } from './spinner/spinner.types';
+
+export { Divider } from './divider/divider';
+export type { DividerOrientation, DividerVariant } from './divider/divider.types';
