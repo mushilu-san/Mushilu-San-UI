@@ -1,0 +1,36 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: var(--mui-color-surface-raised);
+  color: var(--mui-color-text-muted);
+  font-weight: var(--mui-font-weight-medium);
+  user-select: none;
+}
+
+/* sizes */
+:host([data-size="xs"]) { width: 24px; height: 24px; font-size: 10px; }
+:host([data-size="sm"]) { width: 32px; height: 32px; font-size: 12px; }
+:host([data-size="md"]) { width: 40px; height: 40px; font-size: 14px; }
+:host([data-size="lg"]) { width: 48px; height: 48px; font-size: 16px; }
+:host([data-size="xl"]) { width: 64px; height: 64px; font-size: 20px; }
+
+/* shape */
+:host([data-shape="circle"]) { border-radius: var(--mui-radius-full); }
+:host([data-shape="square"]) { border-radius: var(--mui-radius-md); }
+
+/* image fills the host */
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* fallback initials */
+.fallback {
+  line-height: 1;
+  letter-spacing: 0.025em;
+}
