@@ -1,0 +1,88 @@
+{
+  "name": "mushilu-san-ui",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "build": "ng build ui",
+    "build:watch": "ng build ui --watch --configuration development",
+    "test": "ng test ui",
+    "test:ci": "ng test ui --no-watch",
+    "storybook": "ng run ui:storybook",
+    "storybook:build": "storybook build -o storybook-static",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "npm run build && changeset publish",
+    "lint": "ng lint ui",
+    "size": "size-limit",
+    "build-storybook": "ng run ui:build-storybook"
+  },
+  "private": true,
+  "packageManager": "npm@10.9.8",
+  "dependencies": {
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/architect": "^0.2102.0",
+    "@angular-devkit/build-angular": "^21.2.0",
+    "@angular-devkit/core": "^21.2.0",
+    "@angular/build": "^21.2.14",
+    "@angular/cli": "^21.2.14",
+    "@angular/compiler-cli": "^21.2.0",
+    "@angular/platform-browser-dynamic": "^21.2.0",
+    "@changesets/cli": "^2.31.0",
+    "@compodoc/compodoc": "^1.2.1",
+    "@size-limit/preset-small-lib": "^12.1.0",
+    "@storybook/addon-a11y": "^10.4.2",
+    "@storybook/addon-docs": "^10.4.2",
+    "@storybook/addon-onboarding": "^10.4.2",
+    "@storybook/angular": "^10.4.2",
+    "@testing-library/angular": "^19.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitest/coverage-v8": "^4.1.8",
+    "jsdom": "^28.0.0",
+    "ng-packagr": "^21.2.0",
+    "prettier": "^3.8.1",
+    "size-limit": "^12.1.0",
+    "storybook": "^10.4.2",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  },
+  "size-limit": [
+    {
+      "path": "dist/ui/primitives/index.mjs",
+      "limit": "5 KB"
+    },
+    {
+      "path": "dist/ui/forms/index.mjs",
+      "limit": "5 KB"
+    },
+    {
+      "path": "dist/ui/layout/index.mjs",
+      "limit": "5 KB"
+    },
+    {
+      "path": "dist/ui/navigation/index.mjs",
+      "limit": "5 KB"
+    },
+    {
+      "path": "dist/ui/feedback/index.mjs",
+      "limit": "5 KB"
+    },
+    {
+      "path": "dist/ui/data-display/index.mjs",
+      "limit": "5 KB"
+    },
+    {
+      "path": "dist/ui/mobile/index.mjs",
+      "limit": "5 KB"
+    }
+  ]
+}

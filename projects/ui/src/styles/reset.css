@@ -1,0 +1,69 @@
+/*
+ * Mushilu-San-UI opt-in reset.
+ * NOT auto-applied. Import explicitly: @import '@mushilu-san/ui/styles/reset.css'
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  font-family: var(--mui-font-sans);
+  font-size: var(--mui-font-size-base);
+  line-height: var(--mui-line-height-base);
+  color: var(--mui-color-text);
+  background-color: var(--mui-color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Remove default list styles when lists are used as navigation */
+[role="list"],
+[role="listbox"] {
+  list-style: none;
+  padding: 0;
+}
+
+/* Ensure reduced-motion is respected globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

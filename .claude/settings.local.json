@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ng version *)",
+      "Bash(npm --version)",
+      "Bash(npx --yes @angular/cli@21 new mushilu-san-ui --no-create-application --directory . --strict --skip-git --style=css --package-manager=npm)",
+      "Bash(command -v nvm)",
+      "Bash(command -v fnm)",
+      "Bash(command -v volta)",
+      "Read(//Users/mzakay/.nvm/versions/node/**)",
+      "Bash(chmod +x \"/Users/mzakay/Desktop/code project/Mushilu-San-UI/dev.sh\")",
+      "Bash(\"/Users/mzakay/Desktop/code project/Mushilu-San-UI/dev.sh\" help)",
+      "Bash(\"/Users/mzakay/Desktop/code project/Mushilu-San-UI/dev.sh\" build)",
+      "Bash(git add *)",
+      "Bash(git log *)",
+      "Bash(git remote *)",
+      "Bash(gh auth *)"
+    ]
+  }
+}
