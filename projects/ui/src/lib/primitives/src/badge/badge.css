@@ -40,7 +40,7 @@
 :host([data-variant="default"]),
 :host(:not([data-variant])) {
   background-color: var(--mui-color-surface);
-  color: var(--mui-color-text-muted);
+  color: var(--mui-color-text);
   border-color: var(--mui-color-border);
 }
 
@@ -51,12 +51,12 @@
 
 :host([data-variant="success"]) {
   background-color: var(--mui-color-success-subtle);
-  color: var(--mui-color-success);
+  color: var(--mui-color-success-text);
 }
 
 :host([data-variant="warning"]) {
   background-color: var(--mui-color-warning-subtle);
-  color: var(--mui-color-warning);
+  color: var(--mui-color-warning-text);
 }
 
 :host([data-variant="danger"]) {

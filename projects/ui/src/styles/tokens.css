@@ -74,9 +74,11 @@
 
   --mui-color-success:        var(--mui-palette-green-600);
   --mui-color-success-subtle: var(--mui-palette-green-50);
+  --mui-color-success-text:   var(--mui-palette-green-700);
 
   --mui-color-warning:        var(--mui-palette-amber-600);
   --mui-color-warning-subtle: var(--mui-palette-amber-50);
+  --mui-color-warning-text:   var(--mui-palette-amber-700);
 
   --mui-color-focus-ring:     var(--mui-palette-blue-600);
   --mui-color-overlay:        rgba(15, 23, 42, 0.4);
@@ -215,9 +217,11 @@
 
     --mui-color-success:        var(--mui-palette-green-500);
     --mui-color-success-subtle: rgba(34, 197, 94, 0.15);
+    --mui-color-success-text:   var(--mui-palette-green-500);
 
     --mui-color-warning:        var(--mui-palette-amber-500);
     --mui-color-warning-subtle: rgba(245, 158, 11, 0.15);
+    --mui-color-warning-text:   var(--mui-palette-amber-500);
 
     --mui-color-focus-ring:     var(--mui-palette-blue-400);
     --mui-color-overlay:        rgba(2, 6, 23, 0.6);
@@ -254,9 +258,11 @@
 
   --mui-color-success:        var(--mui-palette-green-500);
   --mui-color-success-subtle: rgba(34, 197, 94, 0.15);
+  --mui-color-success-text:   var(--mui-palette-green-500);
 
   --mui-color-warning:        var(--mui-palette-amber-500);
   --mui-color-warning-subtle: rgba(245, 158, 11, 0.15);
+  --mui-color-warning-text:   var(--mui-palette-amber-500);
 
   --mui-color-focus-ring:     var(--mui-palette-blue-400);
   --mui-color-overlay:        rgba(2, 6, 23, 0.6);
