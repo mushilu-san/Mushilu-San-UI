@@ -83,6 +83,9 @@
   --mui-color-focus-ring:     var(--mui-palette-blue-600);
   --mui-color-overlay:        rgba(15, 23, 42, 0.4);
 
+  /* Form element borders — slate-500 gives 4.69:1 on white (WCAG 1.4.11 ✓) */
+  --mui-color-input-border:   var(--mui-palette-slate-500);
+
   /* ================================================================
      Spacing (4px base)
      ================================================================ */
@@ -226,6 +229,9 @@
     --mui-color-focus-ring:     var(--mui-palette-blue-400);
     --mui-color-overlay:        rgba(2, 6, 23, 0.6);
 
+    /* slate-400 gives 5.72:1 on slate-800 input background (WCAG 1.4.11 ✓) */
+    --mui-color-input-border:   var(--mui-palette-slate-400);
+
     --mui-shadow-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     --mui-shadow-2: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
     --mui-shadow-3: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
@@ -266,6 +272,8 @@
 
   --mui-color-focus-ring:     var(--mui-palette-blue-400);
   --mui-color-overlay:        rgba(2, 6, 23, 0.6);
+
+  --mui-color-input-border:   var(--mui-palette-slate-400);
 
   --mui-shadow-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --mui-shadow-2: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);

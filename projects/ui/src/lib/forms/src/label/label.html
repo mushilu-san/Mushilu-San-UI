@@ -1,0 +1,6 @@
+<label [for]="for()">
+  <ng-content />
+  @if (required()) {
+    <span class="required-mark" aria-hidden="true">*</span>
+  }
+</label>

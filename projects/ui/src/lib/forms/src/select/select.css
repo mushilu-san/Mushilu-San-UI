@@ -1,0 +1,59 @@
+:host {
+  display: block;
+  width: 100%;
+  font-family: var(--mui-font-sans);
+  color: var(--mui-color-text);
+  background-color: var(--mui-color-surface-raised);
+  border-radius: var(--mui-radius-md);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 8l4 4 4-4' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+  padding-right: 32px;
+  transition:
+    border-color var(--mui-duration-fast) var(--mui-easing-default),
+    box-shadow   var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+:host([data-size="sm"]) { height: 32px; padding-left: var(--mui-space-2); font-size: var(--mui-font-size-sm); }
+:host([data-size="md"]) { height: 40px; padding-left: var(--mui-space-3); font-size: var(--mui-font-size-base); }
+:host([data-size="lg"]) { height: 48px; padding-left: var(--mui-space-4); font-size: var(--mui-font-size-lg); }
+
+:host([data-variant="outline"]) { border: 1px solid var(--mui-color-input-border); }
+:host([data-variant="outline"]:focus-visible) {
+  border-color: var(--mui-color-focus-ring);
+  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+:host([data-variant="filled"]) { border: 1px solid transparent; background-color: var(--mui-color-surface); }
+:host([data-variant="filled"]:focus-visible) {
+  border-color: var(--mui-color-focus-ring);
+  background-color: var(--mui-color-surface-raised);
+  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+:host([data-variant="ghost"]) { border: 1px solid transparent; background-color: transparent; }
+:host([data-variant="ghost"]:focus-visible) {
+  border-color: var(--mui-color-focus-ring);
+  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+:host([data-invalid]) { border-color: var(--mui-color-danger) !important; }
+:host([data-invalid]:focus-visible) {
+  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-danger) !important;
+}
+
+:host(:disabled) {
+  color: var(--mui-color-text-disabled);
+  background-color: var(--mui-color-surface);
+  border-color: var(--mui-color-border);
+  cursor: not-allowed;
+}

@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mui-space-1);
+  width: 100%;
+}
+
+.field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mui-space-1);
+  font-size: var(--mui-font-size-sm);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text);
+  line-height: var(--mui-line-height-tight);
+  user-select: none;
+}
+
+:host([data-disabled]) .field-label {
+  color: var(--mui-color-text-disabled);
+}
+
+.required-mark {
+  color: var(--mui-color-danger);
+}
+
+.field-control {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.field-hint {
+  margin: 0;
+  font-size: var(--mui-font-size-xs);
+  color: var(--mui-color-text-muted);
+  line-height: var(--mui-line-height-base);
+}
+
+.field-error {
+  margin: 0;
+  font-size: var(--mui-font-size-xs);
+  color: var(--mui-color-danger);
+  line-height: var(--mui-line-height-base);
+}

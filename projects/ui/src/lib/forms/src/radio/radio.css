@@ -1,0 +1,41 @@
+:host {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--mui-radius-full);
+  border: 1px solid var(--mui-color-input-border);
+  background-color: var(--mui-color-surface-raised);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color var(--mui-duration-fast) var(--mui-easing-default),
+    border-color     var(--mui-duration-fast) var(--mui-easing-default),
+    box-shadow       var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+:host([data-size="sm"]) { width: 14px; height: 14px; }
+:host([data-size="md"]) { width: 16px; height: 16px; }
+:host([data-size="lg"]) { width: 20px; height: 20px; }
+
+:host(:focus-visible) {
+  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+:host(:checked) {
+  border-color: var(--mui-color-primary);
+  box-shadow: inset 0 0 0 4px var(--mui-color-primary);
+  background-color: var(--mui-color-surface-raised);
+}
+
+:host(:checked:focus-visible) {
+  box-shadow:
+    inset 0 0 0 4px var(--mui-color-primary),
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+:host(:disabled) { opacity: 0.5; cursor: not-allowed; }

@@ -1,0 +1,26 @@
+:host {
+  display: contents;
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mui-space-1);
+  font-size: var(--mui-font-size-sm);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text);
+  line-height: var(--mui-line-height-tight);
+  cursor: default;
+  user-select: none;
+}
+
+:host([data-disabled]) label {
+  color: var(--mui-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.required-mark {
+  color: var(--mui-color-danger);
+  font-size: var(--mui-font-size-sm);
+  line-height: 1;
+}

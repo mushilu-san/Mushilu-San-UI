@@ -1,0 +1,19 @@
+@if (label()) {
+  <label class="field-label" [for]="controlId() || null">
+    {{ label() }}
+    @if (required()) {
+      <span class="required-mark" aria-hidden="true">*</span>
+    }
+  </label>
+}
+
+<div class="field-control">
+  <ng-content />
+</div>
+
+@if (hint() && !error()) {
+  <p class="field-hint" [id]="hintId">{{ hint() }}</p>
+}
+@if (error()) {
+  <p class="field-error" [id]="errorId" role="alert">{{ error() }}</p>
+}
