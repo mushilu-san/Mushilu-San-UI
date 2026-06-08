@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/angular';
 import { describe, expect, it } from 'vitest';
 import { renderComponent, renderTemplate } from '../../../../core/testing';
 import { Input } from '../input/input';

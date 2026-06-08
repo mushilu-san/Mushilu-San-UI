@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { Checkbox } from '../checkbox/checkbox';
 import { Input } from '../input/input';
-import { Label } from '../label/label';
 import { Select } from '../select/select';
 import { Textarea } from '../textarea/textarea';
 import { Toggle } from '../toggle/toggle';

@@ -51,8 +51,8 @@ export class Toggle implements ControlValueAccessor {
   private readonly _cvaDisabled = signal(false);
   protected readonly isDisabled = () => this.disabled() || this._cvaDisabled();
 
-  _onChange: (v: boolean) => void = () => {};
-  _onTouched: () => void          = () => {};
+  _onChange: (v: boolean) => void = () => undefined;
+  _onTouched: () => void = () => undefined;
 
   toggle(): void {
     if (this.isDisabled()) return;
