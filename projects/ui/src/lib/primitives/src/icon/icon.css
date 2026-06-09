@@ -20,8 +20,13 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes mui-icon-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   :host([data-name="loading"]) svg {
-    animation: none;
+    animation: mui-icon-pulse 1.5s ease-in-out infinite;
   }
 }

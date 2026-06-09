@@ -10,6 +10,8 @@
   background-color: var(--mui-color-surface-raised);
   cursor: pointer;
   outline: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition:
     background-color var(--mui-duration-fast) var(--mui-easing-default),
     border-color     var(--mui-duration-fast) var(--mui-easing-default),

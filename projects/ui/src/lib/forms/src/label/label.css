@@ -10,6 +10,7 @@ label {
   font-weight: var(--mui-font-weight-medium);
   color: var(--mui-color-text);
   line-height: var(--mui-line-height-tight);
+  min-height: var(--mui-touch-target);
   cursor: default;
   user-select: none;
 }

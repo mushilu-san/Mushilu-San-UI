@@ -6,6 +6,8 @@
   border-radius: var(--mui-radius-full);
   transition: box-shadow var(--mui-duration-fast) var(--mui-easing-default);
   flex-shrink: 0;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :host:focus-visible {
@@ -44,7 +46,7 @@
   width: var(--thumb-size);
   height: var(--thumb-size);
   border-radius: var(--mui-radius-full);
-  background-color: #fff;
+  background-color: var(--mui-color-white, #fff);
   box-shadow: var(--mui-shadow-1);
   transition: transform var(--mui-duration-base) var(--mui-easing-default);
 }

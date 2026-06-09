@@ -14,8 +14,7 @@
 /* ----------------------------------------------------------------
    Sizes
    ---------------------------------------------------------------- */
-:host([data-size="sm"]),
-:host(:not([data-size])[data-size="sm"]) {
+:host([data-size="sm"]) {
   font-size: var(--mui-font-size-xs);
   padding: 2px var(--mui-space-2);
   gap: var(--mui-space-1);

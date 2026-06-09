@@ -24,6 +24,7 @@ import { TABS_CONTEXT } from './tabs';
     '[attr.tabindex]': 'isActive() ? "0" : "-1"',
     '[attr.data-active]': 'isActive() ? "" : null',
     '[attr.data-disabled]': 'disabled() ? "" : null',
+    '[attr.data-orientation]': 'ctx.orientation()',
     '[attr.id]': 'tabId()',
     '[attr.aria-controls]': 'panelId()',
     '[attr.part]': '"tab"',

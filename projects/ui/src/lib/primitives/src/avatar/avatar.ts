@@ -23,7 +23,7 @@ function initials(name: string): string {
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[attr.role]':       '"img"',
-    '[attr.aria-label]': 'label()',
+    '[attr.aria-label]': 'label() || name() || null',
     '[attr.data-size]':  'size()',
     '[attr.data-shape]': 'shape()',
     '[attr.part]':       '"root"',

@@ -11,6 +11,7 @@
     box-shadow   var(--mui-duration-fast) var(--mui-easing-default);
   appearance: none;
   -webkit-appearance: none;
+  touch-action: manipulation;
 }
 
 /* sizes */

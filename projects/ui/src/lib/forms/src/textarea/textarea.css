@@ -7,6 +7,7 @@
   background-color: var(--mui-color-surface-raised);
   border-radius: var(--mui-radius-md);
   outline: none;
+  touch-action: manipulation;
   transition:
     border-color var(--mui-duration-fast) var(--mui-easing-default),
     box-shadow   var(--mui-duration-fast) var(--mui-easing-default);

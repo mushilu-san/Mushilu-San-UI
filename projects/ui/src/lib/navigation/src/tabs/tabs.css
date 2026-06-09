@@ -43,7 +43,7 @@ mui-tabs {
   outline: none;
 }
 
-:host(mui-tab[aria-orientation='vertical']) {
+:host(mui-tab[data-orientation='vertical']) {
   border-bottom: none;
   border-right: 2px solid transparent;
   margin-bottom: 0;
@@ -57,6 +57,11 @@ mui-tabs {
 :host(mui-tab)[data-active] {
   color: var(--mui-color-primary);
   border-bottom-color: var(--mui-color-primary);
+}
+
+:host(mui-tab[data-orientation='vertical'])[data-active] {
+  border-bottom-color: transparent;
+  border-right-color: var(--mui-color-primary);
 }
 
 :host(mui-tab)[data-disabled] {

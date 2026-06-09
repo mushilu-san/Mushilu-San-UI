@@ -82,7 +82,12 @@
 }
 
 :host([data-variant="secondary"]:hover:not([aria-disabled="true"])) {
-  background-color: var(--mui-color-surface);
+  background-color: var(--mui-color-border);
+  border-color: var(--mui-color-border-strong);
+}
+
+:host([data-variant="secondary"]:active:not([aria-disabled="true"])) {
+  background-color: var(--mui-color-border-strong);
   border-color: var(--mui-color-border-strong);
 }
 
@@ -96,6 +101,10 @@
   background-color: var(--mui-color-surface);
 }
 
+:host([data-variant="ghost"]:active:not([aria-disabled="true"])) {
+  background-color: var(--mui-color-border);
+}
+
 :host([data-variant="destructive"]) {
   background-color: var(--mui-color-danger);
   color: var(--mui-color-danger-text);
@@ -105,6 +114,10 @@
 :host([data-variant="destructive"]:hover:not([aria-disabled="true"])) {
   background-color: var(--mui-color-danger-hover);
   border-color: var(--mui-color-danger-hover);
+}
+
+:host([data-variant="destructive"]:active:not([aria-disabled="true"])) {
+  filter: brightness(0.85);
 }
 
 /* ----------------------------------------------------------------
@@ -119,7 +132,7 @@
 /* ----------------------------------------------------------------
    Loading state
    ---------------------------------------------------------------- */
-:host([class*="mui-loading"]) .mui-button__label {
+:host([aria-busy="true"]) .mui-button__label {
   opacity: 0;
 }
 
@@ -143,8 +156,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .mui-button__spinner svg {
-    animation: none;
+    animation: mui-spin-pulse 1.5s ease-in-out infinite;
   }
+}
+
+@keyframes mui-spin-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
 }
 
 /* ----------------------------------------------------------------
