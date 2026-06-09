@@ -1,0 +1,93 @@
+/* mui-tabs host */
+mui-tabs {
+  display: block;
+}
+
+:host(mui-tabs) {
+  display: block;
+}
+
+/* tab-list */
+:host(mui-tab-list) {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 2px solid var(--mui-color-border);
+  overflow-x: auto;
+}
+
+:host(mui-tab-list)[aria-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
+  border-bottom: none;
+  border-right: 2px solid var(--mui-color-border);
+}
+
+/* tab */
+:host(mui-tab) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--mui-touch-target);
+  padding: var(--mui-space-2) var(--mui-space-4);
+  font-size: var(--mui-font-size-base);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 150ms ease, border-color 150ms ease;
+  outline: none;
+}
+
+:host(mui-tab[aria-orientation='vertical']) {
+  border-bottom: none;
+  border-right: 2px solid transparent;
+  margin-bottom: 0;
+  margin-right: -2px;
+}
+
+:host(mui-tab):hover:not([data-disabled]) {
+  color: var(--mui-color-text);
+}
+
+:host(mui-tab)[data-active] {
+  color: var(--mui-color-primary);
+  border-bottom-color: var(--mui-color-primary);
+}
+
+:host(mui-tab)[data-disabled] {
+  color: var(--mui-color-text-disabled);
+  cursor: not-allowed;
+}
+
+:host(mui-tab):focus-visible {
+  outline: var(--mui-focus-ring-width, 2px) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset, 2px);
+  border-radius: var(--mui-radius-sm);
+}
+
+/* tab-panel */
+:host(mui-tab-panel) {
+  display: block;
+  padding: var(--mui-space-4) 0;
+  outline: none;
+}
+
+:host(mui-tab-panel):focus-visible {
+  outline: var(--mui-focus-ring-width, 2px) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset, 2px);
+}
+
+:host(mui-tab-panel)[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(mui-tab) {
+    transition: none;
+  }
+}

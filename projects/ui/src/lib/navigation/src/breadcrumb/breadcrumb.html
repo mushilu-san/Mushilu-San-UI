@@ -1,0 +1,20 @@
+<nav aria-label="Breadcrumb" part="nav">
+  <ol class="breadcrumb-list" role="list">
+    @for (item of items(); track item.label; let i = $index) {
+      <li class="breadcrumb-item" [attr.part]="'item'">
+        @if (item.href && i !== lastIndex()) {
+          <a [href]="item.href" class="breadcrumb-link" part="link">{{ item.label }}</a>
+        } @else {
+          <span
+            class="breadcrumb-current"
+            [attr.aria-current]="i === lastIndex() ? 'page' : null"
+            part="current"
+          >{{ item.label }}</span>
+        }
+        @if (i !== lastIndex()) {
+          <span class="breadcrumb-separator" aria-hidden="true" part="separator">{{ separator() }}</span>
+        }
+      </li>
+    }
+  </ol>
+</nav>

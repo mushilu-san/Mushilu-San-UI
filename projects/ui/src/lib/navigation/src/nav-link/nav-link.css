@@ -1,0 +1,51 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mui-space-1);
+  font-size: var(--mui-font-size-base);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text-muted);
+  text-decoration: none;
+  padding: var(--mui-space-1) var(--mui-space-2);
+  border-radius: var(--mui-radius-sm);
+  min-height: var(--mui-touch-target);
+  min-width: var(--mui-touch-target);
+  transition: color 150ms ease, background-color 150ms ease;
+  outline: none;
+  cursor: pointer;
+}
+
+:host([data-size='sm']) {
+  font-size: var(--mui-font-size-sm);
+  min-height: var(--mui-touch-target);
+}
+
+:host([data-size='lg']) {
+  font-size: var(--mui-font-size-lg);
+}
+
+:host(:hover) {
+  color: var(--mui-color-text);
+  background-color: var(--mui-color-surface);
+}
+
+:host([data-active]) {
+  color: var(--mui-color-primary);
+  background-color: var(--mui-color-primary-subtle);
+}
+
+:host([data-variant='primary'][data-active]) {
+  color: var(--mui-color-primary);
+  font-weight: var(--mui-font-weight-semibold, 600);
+}
+
+:host(:focus-visible) {
+  outline: var(--mui-focus-ring-width, 2px) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset, 2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}

@@ -1,0 +1,54 @@
+<ul class="pagination-list" role="list">
+  <!-- Previous -->
+  <li class="pagination-item" part="item">
+    <button
+      type="button"
+      class="pagination-btn pagination-prev"
+      part="prev"
+      [attr.aria-label]="'Go to previous page'"
+      [attr.aria-disabled]="prevDisabled ? 'true' : null"
+      [attr.tabindex]="prevDisabled ? '-1' : null"
+      (click)="goTo(page() - 1)"
+      (keydown)="onKeydown($event, page() - 1)"
+    >
+      <span aria-hidden="true">&#8249;</span>
+    </button>
+  </li>
+
+  <!-- Page numbers -->
+  @for (p of pages(); track $index) {
+    <li class="pagination-item" part="item">
+      @if (p === null) {
+        <span class="pagination-ellipsis" aria-hidden="true" part="ellipsis">&#8230;</span>
+      } @else {
+        <button
+          type="button"
+          class="pagination-btn"
+          part="page"
+          [attr.aria-label]="'Page ' + p"
+          [attr.aria-current]="p === page() ? 'page' : null"
+          [attr.data-active]="p === page() ? '' : null"
+          [attr.tabindex]="p === page() ? '0' : null"
+          (click)="goTo(p)"
+          (keydown)="onKeydown($event, p)"
+        >{{ p }}</button>
+      }
+    </li>
+  }
+
+  <!-- Next -->
+  <li class="pagination-item" part="item">
+    <button
+      type="button"
+      class="pagination-btn pagination-next"
+      part="next"
+      [attr.aria-label]="'Go to next page'"
+      [attr.aria-disabled]="nextDisabled ? 'true' : null"
+      [attr.tabindex]="nextDisabled ? '-1' : null"
+      (click)="goTo(page() + 1)"
+      (keydown)="onKeydown($event, page() + 1)"
+    >
+      <span aria-hidden="true">&#8250;</span>
+    </button>
+  </li>
+</ul>

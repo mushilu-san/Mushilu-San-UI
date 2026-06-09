@@ -1,0 +1,85 @@
+:host {
+  display: block;
+}
+
+.pagination-list {
+  display: flex;
+  align-items: center;
+  gap: var(--mui-space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--mui-touch-target);
+  min-width: var(--mui-touch-target);
+  padding: 0 var(--mui-space-2);
+  border-radius: var(--mui-radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--mui-color-text);
+  font-size: var(--mui-font-size-base);
+  font-weight: var(--mui-font-weight-medium);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  outline: none;
+}
+
+:host([data-size='sm']) .pagination-btn {
+  min-height: var(--mui-touch-target);
+  font-size: var(--mui-font-size-sm, 14px);
+  padding: 0 var(--mui-space-2);
+}
+
+:host([data-size='lg']) .pagination-btn {
+  font-size: var(--mui-font-size-lg, 18px);
+  padding: 0 var(--mui-space-3);
+}
+
+.pagination-btn:hover:not([aria-disabled='true']) {
+  background-color: var(--mui-color-surface);
+}
+
+.pagination-btn[data-active] {
+  background-color: var(--mui-color-primary);
+  color: var(--mui-color-primary-text);
+  border-color: var(--mui-color-primary);
+}
+
+:host([data-variant='outline']) .pagination-btn {
+  border-color: var(--mui-color-border);
+}
+
+:host([data-variant='outline']) .pagination-btn[data-active] {
+  border-color: var(--mui-color-primary);
+}
+
+.pagination-btn[aria-disabled='true'] {
+  color: var(--mui-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.pagination-btn:focus-visible {
+  outline: var(--mui-focus-ring-width, 2px) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset, 2px);
+}
+
+.pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--mui-touch-target);
+  min-width: var(--mui-touch-target);
+  color: var(--mui-color-text-muted);
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pagination-btn {
+    transition: none;
+  }
+}
