@@ -1,0 +1,63 @@
+<div class="mui-table__scroll" part="scroll">
+  <table class="mui-table__table" part="table">
+    @if (caption()) {
+      <caption class="mui-table__caption" part="caption" [id]="captionId">{{ caption() }}</caption>
+    }
+    <thead
+      class="mui-table__thead"
+      part="thead"
+      [class.mui-table__thead--sticky]="stickyHeader()"
+    >
+      <tr>
+        @for (col of columns(); track col.key) {
+          <th
+            class="mui-table__th"
+            part="th"
+            scope="col"
+            [attr.aria-sort]="ariaSortAttr(col.key)"
+          >
+            @if (col.sortable) {
+              <button
+                type="button"
+                class="mui-table__sort-btn"
+                part="sort-btn"
+                (click)="sort(col)"
+              >
+                <span>{{ col.label }}</span>
+                <svg
+                  class="mui-table__sort-icon"
+                  part="sort-icon"
+                  viewBox="0 0 16 16"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  @if (ariaSortAttr(col.key) === 'ascending') {
+                    <path d="M8 3l4 5H4l4-5z" fill="currentColor" />
+                  } @else if (ariaSortAttr(col.key) === 'descending') {
+                    <path d="M8 13l4-5H4l4 5z" fill="currentColor" />
+                  } @else {
+                    <path d="M8 3l3 4H5l3-4z" fill="currentColor" opacity="0.4" />
+                    <path d="M8 13l3-4H5l3 4z" fill="currentColor" opacity="0.4" />
+                  }
+                </svg>
+              </button>
+            } @else {
+              {{ col.label }}
+            }
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody class="mui-table__tbody" part="tbody">
+      @for (row of rows(); track $index) {
+        <tr class="mui-table__tr" part="tr">
+          @for (col of columns(); track col.key) {
+            <td class="mui-table__td" part="td">{{ cellValue(row, col.key) }}</td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

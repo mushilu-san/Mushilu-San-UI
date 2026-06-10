@@ -1,0 +1,41 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Display/Overview" />
+
+# Data Display
+
+Content and data presentation components. Import from `@mushilu-san/ui/data-display`.
+
+```ts
+import { Card, AccordionGroup, AccordionItem, Table, Tooltip }
+  from '@mushilu-san/ui/data-display';
+```
+
+## Components
+
+| Component | Selector | Status |
+|-----------|----------|--------|
+| Card | `mui-card` | ✅ Ready |
+| Accordion | `mui-accordion` + `mui-accordion-item` | ✅ Ready |
+| Table | `mui-table` | ✅ Ready |
+| Tooltip | `[muiTooltip]` | ✅ Ready |
+
+## Usage notes
+
+- **Card** — content container with `flat` / `elevated` / `outlined` variants. Add `[clickable]` to get `role="button"`, `tabindex`, and keyboard activation (Enter/Space).
+- **Accordion** — compound widget: wrap `<mui-accordion-item>` inside `<mui-accordion>`. Single-open by default; set `[multiple]="true"` to allow multiple panels. Arrow keys, Home, and End navigate between triggers. Each panel has `role="region"` and `aria-labelledby`.
+- **Table** — data-driven table with optional `caption` (also the region's accessible name) and per-column `sortable` flag. Click a sortable header to cycle `asc → desc → none`; `sortChange` event carries `{ key, direction }`. The host is `role="region"` with `tabindex="0"` for keyboard-scroll access.
+- **Tooltip** — attribute directive applied directly to any element: `[muiTooltip]="'text'"`. Shows on hover and focus; `aria-describedby` wired automatically; Escape dismisses. Appends to `document.body` with `position: fixed`. Four `placement` values: `top` (default), `bottom`, `left`, `right`.
+
+## Design tokens used
+
+- `--mui-color-surface` / `--mui-color-surface-raised` / `--mui-color-border`
+- `--mui-shadow-1` … `--mui-shadow-3` (Card elevation)
+- `--mui-color-text` / `--mui-color-text-muted` / `--mui-color-primary`
+- `--mui-color-inverse-surface` / `--mui-color-inverse-text` (Tooltip overlay)
+- `--mui-z-tooltip` (z-index for tooltip)
+- `--mui-space-*`, `--mui-radius-sm` / `--mui-radius-md` / `--mui-radius-lg`
+- `--mui-font-size-sm` / `--mui-font-size-xs`, `--mui-font-weight-medium`
+- `--mui-touch-target` (44px minimum on all interactive controls)
+- `--mui-color-focus-ring`, `--mui-focus-ring-width`, `--mui-focus-ring-offset`
+- Reduced motion: every animated component honours `prefers-reduced-motion`

@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  border-radius: var(--mui-radius-lg);
+  background-color: var(--mui-color-surface);
+  overflow: hidden;
+  transition: box-shadow var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+/* ----------------------------------------------------------------
+   Variants
+   ---------------------------------------------------------------- */
+:host([data-variant="flat"]) {
+  border: 1px solid var(--mui-color-border);
+}
+
+:host([data-variant="elevated"]) {
+  box-shadow: var(--mui-shadow-2);
+}
+
+:host([data-variant="outlined"]) {
+  border: 2px solid var(--mui-color-border);
+}
+
+/* ----------------------------------------------------------------
+   Clickable state
+   ---------------------------------------------------------------- */
+:host([data-clickable]) {
+  cursor: pointer;
+  user-select: none;
+}
+
+:host([data-clickable]):hover {
+  box-shadow: var(--mui-shadow-3);
+}
+
+:host([data-clickable]):active {
+  box-shadow: var(--mui-shadow-1);
+  transform: translateY(1px);
+}
+
+:host([data-clickable]):focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+/* ----------------------------------------------------------------
+   Reduced motion
+   ---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+    transform: none !important;
+  }
+}

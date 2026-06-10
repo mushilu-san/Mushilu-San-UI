@@ -1,0 +1,109 @@
+:host {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-md);
+  background-color: var(--mui-color-surface);
+}
+
+:host:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+/* ----------------------------------------------------------------
+   Scrollable wrapper — horizontal overflow on narrow viewports
+   ---------------------------------------------------------------- */
+.mui-table__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ----------------------------------------------------------------
+   Table base
+   ---------------------------------------------------------------- */
+.mui-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--mui-font-size-sm);
+}
+
+.mui-table__caption {
+  padding: var(--mui-space-3) var(--mui-space-4);
+  font-size: var(--mui-font-size-base);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text);
+  text-align: left;
+  caption-side: top;
+}
+
+/* ----------------------------------------------------------------
+   Header
+   ---------------------------------------------------------------- */
+.mui-table__thead {
+  background-color: var(--mui-color-surface-raised);
+}
+
+.mui-table__thead--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mui-table__th {
+  padding: var(--mui-space-3) var(--mui-space-4);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--mui-color-border);
+  text-align: left;
+}
+
+/* ----------------------------------------------------------------
+   Sort button — full touch target, inherits th typography
+   ---------------------------------------------------------------- */
+.mui-table__sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mui-space-1);
+  min-height: var(--mui-touch-target);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+
+.mui-table__sort-btn:hover {
+  color: var(--mui-color-primary);
+}
+
+.mui-table__sort-btn:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--mui-radius-sm);
+}
+
+/* ----------------------------------------------------------------
+   Body rows
+   ---------------------------------------------------------------- */
+.mui-table__td {
+  padding: var(--mui-space-3) var(--mui-space-4);
+  color: var(--mui-color-text);
+  border-bottom: 1px solid var(--mui-color-border);
+  vertical-align: top;
+}
+
+.mui-table__tr:last-child .mui-table__td {
+  border-bottom: none;
+}
+
+.mui-table__tr:hover .mui-table__td {
+  background-color: var(--mui-color-surface-raised);
+}
