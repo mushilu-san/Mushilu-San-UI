@@ -1,0 +1,49 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Feedback/Overview" />
+
+# Feedback
+
+Status, notification, and loading components. Import from `@mushilu-san/ui/feedback`.
+
+```ts
+import { Alert, Progress, Skeleton, Toast, ToastContainer, ToastService, Dialog }
+  from '@mushilu-san/ui/feedback';
+```
+
+## Components
+
+| Component | Selector | Status |
+|-----------|----------|--------|
+| Alert | `mui-alert` | ✅ Ready |
+| Progress | `mui-progress` | ✅ Ready |
+| Skeleton | `mui-skeleton` | ✅ Ready |
+| Toast | `mui-toast` + `ToastService` / `mui-toast-container` | ✅ Ready |
+| Dialog | `mui-dialog` | ✅ Ready |
+
+## Usage notes
+
+- **Alert** — `role="alert"` (assertive) for `danger`/`warning`, `role="status"` (polite)
+  for `info`/`success`. Set `dismissible` to show a close button and enable Escape-to-dismiss.
+- **Progress** — `role="progressbar"` with `aria-valuenow/min/max`; `indeterminate` drops
+  `aria-valuenow` and sets `aria-busy`. `linear` and `circular` variants.
+- **Skeleton** — decorative (`aria-hidden="true"`); place inside a region that carries
+  `aria-busy="true"`. `text` (multi-line), `rect`, and `circle` variants.
+- **Toast** — render one `<mui-toast-container>` near the app root and push notifications via
+  `ToastService` (`info`/`success`/`warning`/`danger`). The container hosts polite and assertive
+  live regions; timers pause on hover/focus; Escape or the dismiss button closes a toast.
+- **Dialog** — built on the native `<dialog>` element: focus trap, focus return, implicit
+  `role="dialog"` + `aria-modal`. Two-way `[(open)]`, `aria-labelledby` wired from `heading`,
+  closes on Escape and backdrop click (both configurable).
+
+## Design tokens used
+
+- `--mui-color-primary` / `--mui-color-success` / `--mui-color-warning` / `--mui-color-danger`
+  and their `*-subtle` backgrounds
+- `--mui-color-overlay` (dialog backdrop)
+- `--mui-z-modal` (dialog), `--mui-z-toast` (toast layer)
+- `--mui-color-surface` / `--mui-color-surface-raised` / `--mui-color-border`
+- `--mui-shadow-3` (toast), `--mui-shadow-5` (dialog)
+- `--mui-space-*`, `--mui-radius-md` / `--mui-radius-lg`
+- `--mui-touch-target` (44px minimum on all interactive controls)
+- Reduced motion: every animated component honours `prefers-reduced-motion`

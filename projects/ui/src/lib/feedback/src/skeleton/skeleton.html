@@ -1,0 +1,17 @@
+@if (variant() === 'text') {
+  @for (line of lineArray(); track $index) {
+    <span
+      class="mui-skeleton__item"
+      part="item"
+      [style.inline-size]="width()"
+      [style.block-size]="height()"
+    ></span>
+  }
+} @else {
+  <span
+    class="mui-skeleton__item"
+    part="item"
+    [style.inline-size]="itemWidth()"
+    [style.block-size]="itemHeight()"
+  ></span>
+}

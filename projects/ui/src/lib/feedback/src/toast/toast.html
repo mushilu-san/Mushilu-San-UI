@@ -1,0 +1,18 @@
+<div class="mui-toast__content">
+  @if (heading()) {
+    <p class="mui-toast__title" part="title">{{ heading() }}</p>
+  }
+  <p class="mui-toast__message" part="message">{{ message() }}</p>
+</div>
+
+<button
+  type="button"
+  class="mui-toast__dismiss"
+  part="dismiss"
+  aria-label="Dismiss notification"
+  (click)="dismiss()"
+>
+  <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true">
+    <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  </svg>
+</button>

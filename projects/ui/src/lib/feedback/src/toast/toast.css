@@ -1,0 +1,79 @@
+:host {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mui-space-3);
+  inline-size: 100%;
+  max-inline-size: 360px;
+  padding: var(--mui-space-3) var(--mui-space-4);
+  background-color: var(--mui-color-surface-raised);
+  border: 1px solid var(--mui-color-border);
+  border-left-width: 4px;
+  border-radius: var(--mui-radius-md);
+  box-shadow: var(--mui-shadow-3);
+  color: var(--mui-color-text);
+  font-size: var(--mui-font-size-sm);
+  line-height: var(--mui-line-height-base);
+  animation: mui-toast-in var(--mui-duration-base) var(--mui-easing-default);
+}
+
+.mui-toast__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mui-toast__title {
+  margin: 0 0 var(--mui-space-1);
+  font-weight: var(--mui-font-weight-medium);
+  font-size: var(--mui-font-size-base);
+  line-height: var(--mui-line-height-snug);
+}
+
+.mui-toast__message {
+  margin: 0;
+}
+
+/* Variant accent */
+:host([data-variant="info"])    { border-left-color: var(--mui-color-primary); }
+:host([data-variant="success"]) { border-left-color: var(--mui-color-success); }
+:host([data-variant="warning"]) { border-left-color: var(--mui-color-warning); }
+:host([data-variant="danger"])  { border-left-color: var(--mui-color-danger); }
+
+/* Dismiss button — 44px touch target */
+.mui-toast__dismiss {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
+  margin: calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--mui-radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.mui-toast__dismiss:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.mui-toast__dismiss:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: calc(var(--mui-focus-ring-offset) * -1);
+}
+
+@keyframes mui-toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+}

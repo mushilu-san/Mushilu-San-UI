@@ -1,0 +1,24 @@
+<!-- Two persistent live regions; display:contents keeps a single visual stack. -->
+<div class="mui-toast-container__live" role="status" aria-live="polite" aria-relevant="additions">
+  @for (toast of politeToasts(); track trackId($index, toast)) {
+    <mui-toast
+      [variant]="toast.variant"
+      [message]="toast.message"
+      [heading]="toast.title"
+      [duration]="toast.duration"
+      (dismissed)="dismiss(toast.id)"
+    />
+  }
+</div>
+
+<div class="mui-toast-container__live" role="alert" aria-live="assertive" aria-relevant="additions">
+  @for (toast of urgentToasts(); track trackId($index, toast)) {
+    <mui-toast
+      [variant]="toast.variant"
+      [message]="toast.message"
+      [heading]="toast.title"
+      [duration]="toast.duration"
+      (dismissed)="dismiss(toast.id)"
+    />
+  }
+</div>

@@ -60,13 +60,13 @@ projects/ui/
 │   │   ├── tokens/       provideMushiluUi(), MUSHILU_UI_CONFIG token
 │   │   └── testing/      renderComponent(), renderTemplate() — also published as /testing entry
 │   ├── lib/
-│   │   ├── primitives/src/   Button (done) | Icon Badge Spinner Divider Avatar (planned)
-│   │   ├── forms/src/        (planned)
-│   │   ├── layout/src/       (planned)
-│   │   ├── navigation/src/   (planned)
-│   │   ├── feedback/src/     (planned)
-│   │   ├── data-display/src/ (planned)
-│   │   └── mobile/src/       (planned)
+│   │   ├── primitives/src/   Button, Icon, Badge, Spinner, Divider, Avatar (done)
+│   │   ├── forms/src/        Checkbox, Input, Radio, Select, Textarea, Toggle, Label, FormField (done)
+│   │   ├── layout/src/       Container, Stack, Grid, Spacer (done)
+│   │   ├── navigation/src/   Breadcrumb, Tabs (TabList/Tab/TabPanel), Pagination, NavLink (done)
+│   │   ├── feedback/src/     Alert, Progress, Skeleton, Toast (+ ToastService/ToastContainer), Dialog (done)
+│   │   ├── data-display/src/ (planned) — Card, Table, Accordion, Tooltip
+│   │   └── mobile/src/       (planned) — BottomSheet, FAB, SwipeAction, MobileNav
 │   └── public-api.ts     PRIMARY entry — exports only provideMushiluUi()
 ├── primitives/ng-package.json   → @mushilu-san/ui/primitives
 ├── forms/ng-package.json        → @mushilu-san/ui/forms
@@ -177,6 +177,17 @@ Include `src/test-setup.ts` in `tsconfig.spec.json`'s `include` array to suppres
 ### 8. Node version
 Angular 21 requires Node ≥ 20.19 or ≥ 22.12. The machine has Node 20.16 as default.
 nvm must be sourced and `nvm use 22` called before any Angular command.
+
+### 9. Secondary entry points cannot relative-import `core/*`
+Shipped code in a secondary entry (e.g. `lib/feedback/`) must NOT reach into the shared
+`src/core/` tree with a relative path like `../../../../core/a11y/live-announcer`. `core/` belongs
+to the PRIMARY entry point, so ng-packagr fails with the cryptic
+`Cannot destructure property 'pos' of 'file.referencedFiles[index]' as it is undefined`.
+**Fix:** keep cross-cutting helpers inside the component (e.g. generate ARIA ids with a local
+module counter), make the host component the live region instead of injecting `LiveAnnouncer`, or
+— if the helper truly must be shared — export it from the primary `public-api.ts` and import it via
+the `@mushilu-san/ui` package path. Relative `../../../../core/testing` is fine in `*.spec.ts` only
+(specs aren't part of the published build).
 
 ## Adding a new component — quick recipe
 

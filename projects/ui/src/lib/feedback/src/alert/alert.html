@@ -1,0 +1,22 @@
+<div class="mui-alert__content">
+  @if (heading()) {
+    <p class="mui-alert__title" part="title">{{ heading() }}</p>
+  }
+  <div class="mui-alert__body" part="body">
+    <ng-content />
+  </div>
+</div>
+
+@if (dismissible()) {
+  <button
+    type="button"
+    class="mui-alert__dismiss"
+    part="dismiss"
+    aria-label="Dismiss"
+    (click)="dismiss()"
+  >
+    <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true">
+      <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </button>
+}

@@ -1,0 +1,69 @@
+:host {
+  display: block;
+}
+
+:host([data-variant="text"]) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mui-space-2);
+}
+
+:host([data-variant="circle"]),
+:host([data-variant="rect"]) {
+  display: inline-block;
+  line-height: 0;
+}
+
+.mui-skeleton__item {
+  display: block;
+  background-color: var(--mui-color-border);
+  background-image: linear-gradient(
+    90deg,
+    var(--mui-color-border) 0%,
+    var(--mui-color-surface) 50%,
+    var(--mui-color-border) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--mui-radius-sm);
+  animation: mui-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+/* Text lines */
+:host([data-variant="text"]) .mui-skeleton__item {
+  block-size: 0.75em;
+  inline-size: 100%;
+  border-radius: var(--mui-radius-sm);
+}
+
+/* Last line is shorter for a natural paragraph look */
+:host([data-variant="text"]) .mui-skeleton__item:last-child:not(:only-child) {
+  inline-size: 60%;
+}
+
+/* Rect */
+:host([data-variant="rect"]) .mui-skeleton__item {
+  inline-size: 100%;
+  block-size: 120px;
+  border-radius: var(--mui-radius-md);
+}
+
+/* Circle */
+:host([data-variant="circle"]) .mui-skeleton__item {
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--mui-radius-full);
+}
+
+@keyframes mui-skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Reduced motion: drop the shimmer, keep a static muted placeholder */
+@media (prefers-reduced-motion: reduce) {
+  .mui-skeleton__item {
+    animation: none;
+    background-image: none;
+    background-color: var(--mui-color-border);
+  }
+}

@@ -1,0 +1,115 @@
+:host {
+  display: contents;
+}
+
+.mui-dialog__panel {
+  z-index: var(--mui-z-modal);
+  inline-size: min(92vw, var(--dialog-width, 32rem));
+  max-block-size: 86vh;
+  padding: 0;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-lg);
+  background-color: var(--mui-color-surface-raised);
+  color: var(--mui-color-text);
+  box-shadow: var(--mui-shadow-5);
+  overflow: hidden;
+}
+
+.mui-dialog__panel[data-size="sm"] { --dialog-width: 24rem; }
+.mui-dialog__panel[data-size="md"] { --dialog-width: 32rem; }
+.mui-dialog__panel[data-size="lg"] { --dialog-width: 48rem; }
+
+.mui-dialog__panel::backdrop {
+  background-color: var(--mui-color-overlay);
+}
+
+.mui-dialog__surface {
+  display: flex;
+  flex-direction: column;
+  max-block-size: 86vh;
+}
+
+.mui-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--mui-space-3);
+  padding: var(--mui-space-4) var(--mui-space-5) var(--mui-space-2);
+}
+
+.mui-dialog__title {
+  margin: 0;
+  font-size: var(--mui-font-size-lg);
+  font-weight: var(--mui-font-weight-medium);
+  line-height: var(--mui-line-height-snug);
+}
+
+.mui-dialog__body {
+  flex: 1 1 auto;
+  padding: var(--mui-space-2) var(--mui-space-5);
+  overflow-y: auto;
+  font-size: var(--mui-font-size-base);
+  line-height: var(--mui-line-height-base);
+}
+
+.mui-dialog__footer:not(:empty) {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--mui-space-3);
+  padding: var(--mui-space-3) var(--mui-space-5) var(--mui-space-4);
+}
+
+/* Close button — 44px touch target */
+.mui-dialog__close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
+  margin: calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) 0 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--mui-radius-sm);
+  background: transparent;
+  color: var(--mui-color-text-secondary, inherit);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.mui-dialog__close:hover {
+  background-color: var(--mui-color-surface);
+}
+
+.mui-dialog__close:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: calc(var(--mui-focus-ring-offset) * -1);
+}
+
+/* Entrance animation */
+.mui-dialog__panel[open] {
+  animation: mui-dialog-in var(--mui-duration-base) var(--mui-easing-default);
+}
+
+.mui-dialog__panel[open]::backdrop {
+  animation: mui-dialog-backdrop-in var(--mui-duration-base) var(--mui-easing-default);
+}
+
+@keyframes mui-dialog-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mui-dialog-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-dialog__panel[open],
+  .mui-dialog__panel[open]::backdrop {
+    animation: none;
+  }
+}

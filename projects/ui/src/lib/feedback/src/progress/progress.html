@@ -1,0 +1,23 @@
+@if (variant() === 'circular') {
+  <svg class="mui-progress__circle" viewBox="0 0 36 36" aria-hidden="true">
+    <circle class="mui-progress__track" cx="18" cy="18" [attr.r]="radius" fill="none" />
+    <circle
+      class="mui-progress__indicator"
+      part="indicator"
+      cx="18"
+      cy="18"
+      [attr.r]="radius"
+      fill="none"
+      [style.stroke-dasharray]="circumference"
+      [style.stroke-dashoffset]="indeterminate() ? null : dashOffset()"
+    />
+  </svg>
+} @else {
+  <div class="mui-progress__track" aria-hidden="true">
+    <div
+      class="mui-progress__bar"
+      part="indicator"
+      [style.inline-size.%]="indeterminate() ? null : percent()"
+    ></div>
+  </div>
+}

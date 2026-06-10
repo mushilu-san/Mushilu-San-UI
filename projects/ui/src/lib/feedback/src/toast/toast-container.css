@@ -1,0 +1,35 @@
+:host {
+  position: fixed;
+  z-index: var(--mui-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--mui-space-3);
+  padding: var(--mui-space-4);
+  pointer-events: none;
+  max-block-size: 100vh;
+  overflow: hidden;
+}
+
+/* Live-region wrappers don't affect layout — toasts flow into the host stack. */
+.mui-toast-container__live {
+  display: contents;
+}
+
+/* Toasts themselves remain interactive even though the layer ignores pointers. */
+:host ::ng-deep mui-toast {
+  pointer-events: auto;
+}
+
+/* Placement */
+:host([data-placement^="top"])    { inset-block-start: 0; }
+:host([data-placement^="bottom"]) {
+  inset-block-end: 0;
+  flex-direction: column-reverse;
+}
+
+:host([data-placement$="start"])  { inset-inline-start: 0; align-items: flex-start; }
+:host([data-placement$="end"])    { inset-inline-end: 0; align-items: flex-end; }
+:host([data-placement$="center"]) {
+  inset-inline: 0;
+  align-items: center;
+}

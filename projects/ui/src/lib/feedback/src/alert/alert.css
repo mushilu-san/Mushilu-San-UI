@@ -1,0 +1,82 @@
+:host {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mui-space-3);
+  padding: var(--mui-space-3) var(--mui-space-4);
+  border: 1px solid transparent;
+  border-left-width: 4px;
+  border-radius: var(--mui-radius-md);
+  color: var(--mui-color-text);
+  font-size: var(--mui-font-size-sm);
+  line-height: var(--mui-line-height-base);
+}
+
+.mui-alert__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mui-alert__title {
+  margin: 0 0 var(--mui-space-1);
+  font-weight: var(--mui-font-weight-medium);
+  font-size: var(--mui-font-size-base);
+  line-height: var(--mui-line-height-snug);
+}
+
+.mui-alert__body {
+  margin: 0;
+}
+
+/* ----------------------------------------------------------------
+   Variants — subtle background, strong accent border
+   ---------------------------------------------------------------- */
+:host([data-variant="info"]) {
+  background-color: var(--mui-color-primary-subtle);
+  border-color: var(--mui-color-primary);
+}
+
+:host([data-variant="success"]) {
+  background-color: var(--mui-color-success-subtle);
+  border-color: var(--mui-color-success);
+}
+
+:host([data-variant="warning"]) {
+  background-color: var(--mui-color-warning-subtle);
+  border-color: var(--mui-color-warning);
+}
+
+:host([data-variant="danger"]) {
+  background-color: var(--mui-color-danger-subtle);
+  border-color: var(--mui-color-danger);
+}
+
+/* ----------------------------------------------------------------
+   Dismiss button — 44px touch target
+   ---------------------------------------------------------------- */
+.mui-alert__dismiss {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
+  margin: calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--mui-radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.mui-alert__dismiss:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.mui-alert__dismiss:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: calc(var(--mui-focus-ring-offset) * -1);
+}

@@ -1,0 +1,106 @@
+:host {
+  display: block;
+  color: var(--mui-color-primary);
+}
+
+/* ----------------------------------------------------------------
+   Linear
+   ---------------------------------------------------------------- */
+:host([data-variant="linear"]) {
+  inline-size: 100%;
+}
+
+:host([data-variant="linear"]) .mui-progress__track {
+  position: relative;
+  inline-size: 100%;
+  block-size: var(--track-height, 8px);
+  background-color: var(--mui-color-border);
+  border-radius: var(--mui-radius-full);
+  overflow: hidden;
+}
+
+:host([data-variant="linear"][data-size="sm"]) { --track-height: 4px; }
+:host([data-variant="linear"][data-size="md"]) { --track-height: 8px; }
+:host([data-variant="linear"][data-size="lg"]) { --track-height: 12px; }
+
+.mui-progress__bar {
+  block-size: 100%;
+  inline-size: 0;
+  background-color: var(--mui-color-primary);
+  border-radius: inherit;
+  transition: inline-size var(--mui-duration-base) var(--mui-easing-default);
+}
+
+/* Indeterminate linear: a sliding chunk */
+:host([data-variant="linear"][data-indeterminate]) .mui-progress__bar {
+  inline-size: 40%;
+  animation: mui-progress-slide 1.4s ease-in-out infinite;
+}
+
+@keyframes mui-progress-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+/* ----------------------------------------------------------------
+   Circular
+   ---------------------------------------------------------------- */
+:host([data-variant="circular"]) {
+  display: inline-block;
+  line-height: 0;
+}
+
+.mui-progress__circle {
+  inline-size: var(--circle-size, 40px);
+  block-size: var(--circle-size, 40px);
+  transform: rotate(-90deg);
+}
+
+:host([data-variant="circular"][data-size="sm"]) { --circle-size: 24px; }
+:host([data-variant="circular"][data-size="md"]) { --circle-size: 40px; }
+:host([data-variant="circular"][data-size="lg"]) { --circle-size: 56px; }
+
+.mui-progress__circle .mui-progress__track {
+  stroke: var(--mui-color-border);
+  stroke-width: 4;
+}
+
+.mui-progress__indicator {
+  stroke: var(--mui-color-primary);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--mui-duration-base) var(--mui-easing-default);
+}
+
+/* Indeterminate circular: fixed arc + spin */
+:host([data-variant="circular"][data-indeterminate]) .mui-progress__circle {
+  animation: mui-progress-spin 1s linear infinite;
+}
+
+:host([data-variant="circular"][data-indeterminate]) .mui-progress__indicator {
+  stroke-dasharray: 75 25; /* ~75% arc visible */
+}
+
+@keyframes mui-progress-spin {
+  to { transform: rotate(270deg); }
+}
+
+/* ----------------------------------------------------------------
+   Reduced motion — keep meaning via a gentle opacity pulse
+   ---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :host([data-indeterminate]) .mui-progress__bar,
+  :host([data-indeterminate]) .mui-progress__circle {
+    animation: mui-progress-pulse 1.6s ease-in-out infinite;
+  }
+
+  :host([data-variant="linear"][data-indeterminate]) .mui-progress__bar {
+    inline-size: 100%;
+    transform: none;
+  }
+
+  @keyframes mui-progress-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+}
