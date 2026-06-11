@@ -1,0 +1,46 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mui-space-2);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: var(--mui-radius-full);
+  background-color: var(--mui-color-border-strong);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color var(--mui-duration-fast) var(--mui-easing-default),
+    transform        var(--mui-duration-fast) var(--mui-easing-default);
+  /* Touch target: surround with extra hit area */
+  position: relative;
+}
+
+.dot::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+}
+
+.dot[data-active] {
+  background-color: var(--mui-color-primary);
+  transform: scale(1.25);
+}
+
+.dot:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot { transition: none; }
+}

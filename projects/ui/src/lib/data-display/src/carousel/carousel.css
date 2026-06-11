@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}

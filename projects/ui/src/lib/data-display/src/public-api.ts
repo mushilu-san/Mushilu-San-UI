@@ -22,3 +22,11 @@ export { Empty } from './empty/empty';
 // Typography
 export { Typography } from './typography/typography';
 export type { TypographyVariant } from './typography/typography';
+
+// Carousel
+export { Carousel } from './carousel/carousel';
+export { CarouselContent } from './carousel/carousel-content';
+export { CarouselItem } from './carousel/carousel-item';
+export { CarouselPrev } from './carousel/carousel-prev';
+export { CarouselNext } from './carousel/carousel-next';
+export { CarouselDots } from './carousel/carousel-dots';

@@ -1,0 +1,13 @@
+@for (idx of dots(); track idx) {
+  <button
+    role="tab"
+    class="dot"
+    part="dot"
+    type="button"
+    [attr.aria-label]="'Go to slide ' + (idx + 1)"
+    [attr.aria-selected]="idx === active()"
+    [attr.data-active]="idx === active() ? '' : null"
+    [attr.tabindex]="idx === active() ? 0 : -1"
+    (click)="select(idx)"
+  ></button>
+}

@@ -1,0 +1,39 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mui-space-1);
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--mui-space-2);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-full);
+  background-color: var(--mui-color-surface);
+  color: var(--mui-color-text);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color var(--mui-duration-fast) var(--mui-easing-default),
+    border-color     var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+:host(:hover) {
+  background-color: var(--mui-color-surface-raised);
+}
+
+:host(:focus-visible) {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+:host([aria-disabled='true']) {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host { transition: none; }
+}
