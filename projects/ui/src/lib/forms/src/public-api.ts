@@ -27,3 +27,5 @@ export type { ToggleGroupType, ToggleGroupSize, ToggleGroupVariant } from './tog
 export { InputGroup, INPUT_GROUP_CONTEXT } from './input-group/input-group';
 export { InputGroupAddon } from './input-group/input-group-addon';
 export type { InputGroupSize } from './input-group/input-group.types';
+
+export { Slider } from './slider/slider';

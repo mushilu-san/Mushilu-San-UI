@@ -1,0 +1,23 @@
+<div
+  #trackRef
+  class="slider-track"
+  part="track"
+  (pointerdown)="onTrackPointerDown($event)"
+  (pointermove)="onTrackPointerMove($event)"
+>
+  <div class="slider-fill" part="fill" [style.width.%]="fillPercent()"></div>
+
+  <div
+    class="slider-thumb"
+    part="thumb"
+    role="slider"
+    [attr.aria-valuemin]="min()"
+    [attr.aria-valuemax]="max()"
+    [attr.aria-valuenow]="value()"
+    [attr.aria-disabled]="isDisabled() || null"
+    [attr.tabindex]="isDisabled() ? -1 : 0"
+    [style.left.%]="fillPercent()"
+    (keydown)="onKeydown($event)"
+    (blur)="onBlur()"
+  ></div>
+</div>
