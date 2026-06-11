@@ -33,3 +33,5 @@ export { Slider } from './slider/slider';
 export { Calendar } from './calendar/calendar';
 
 export { DatePicker } from './date-picker/date-picker';
+
+export { InputOtp } from './input-otp/input-otp';

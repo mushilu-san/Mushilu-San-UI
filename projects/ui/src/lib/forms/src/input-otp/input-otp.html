@@ -1,0 +1,27 @@
+<div
+  role="group"
+  class="otp-container"
+  part="container"
+  aria-label="One-time password"
+>
+  @for (idx of indices(); track idx) {
+    <input
+      class="otp-slot"
+      part="slot"
+      type="text"
+      inputmode="numeric"
+      autocomplete="one-time-code"
+      maxlength="1"
+      [value]="slots()[idx]"
+      [attr.aria-label]="'Digit ' + (idx + 1) + ' of ' + length()"
+      [attr.aria-disabled]="isDisabled() || null"
+      [attr.tabindex]="isDisabled() ? -1 : 0"
+      [attr.data-filled]="slots()[idx] ? '' : null"
+      (input)="onInput($event, idx)"
+      (keydown)="onKeydown($event, idx)"
+      (focus)="onFocus(idx)"
+      (paste)="onPaste($event, idx)"
+      (blur)="onBlur()"
+    />
+  }
+</div>

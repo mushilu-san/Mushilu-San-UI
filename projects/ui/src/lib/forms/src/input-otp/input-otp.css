@@ -1,0 +1,58 @@
+:host {
+  display: inline-block;
+}
+
+.otp-container {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mui-space-2);
+}
+
+.otp-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  text-align: center;
+  font-size: var(--mui-font-size-lg);
+  font-family: var(--mui-font-mono);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text);
+  background-color: var(--mui-color-surface-raised);
+  border: 1px solid var(--mui-color-input-border);
+  border-radius: var(--mui-radius-md);
+  outline: none;
+  caret-color: var(--mui-color-primary);
+  appearance: none;
+  -webkit-appearance: none;
+  transition:
+    border-color var(--mui-duration-fast) var(--mui-easing-default),
+    box-shadow   var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.otp-slot[data-filled] {
+  border-color: var(--mui-color-border-strong);
+}
+
+.otp-slot:focus-visible,
+.otp-slot:focus {
+  outline: none;
+  border-color: var(--mui-color-focus-ring);
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+:host([data-disabled]) .otp-slot {
+  color: var(--mui-color-text-disabled);
+  background-color: var(--mui-color-surface);
+  border-color: var(--mui-color-border);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .otp-slot { transition: none; }
+}
