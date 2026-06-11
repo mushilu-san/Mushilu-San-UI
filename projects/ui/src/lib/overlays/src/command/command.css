@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.mui-command__root {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-lg);
+  background-color: var(--mui-color-surface-raised);
+  color: var(--mui-color-text);
+  box-shadow: var(--mui-shadow-3);
+  overflow: hidden;
+  max-block-size: 400px;
+}

@@ -1,0 +1,24 @@
+<div class="mui-empty__icon-area" part="icon" aria-hidden="true">
+  <ng-content select="[slot=icon]">
+    <!-- default icon -->
+    <svg viewBox="0 0 48 48" width="48" height="48" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <circle cx="24" cy="24" r="20"/>
+      <path d="M16 24h16M24 16v16" stroke-linecap="round"/>
+    </svg>
+  </ng-content>
+</div>
+
+@if (title()) {
+  <h3 class="mui-empty__title" part="title">{{ title() }}</h3>
+}
+
+@if (description()) {
+  <p class="mui-empty__description" part="description">{{ description() }}</p>
+}
+
+<ng-content />
+
+<div class="mui-empty__action" part="action">
+  <ng-content select="[slot=action]" />
+</div>

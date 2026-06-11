@@ -1,0 +1,178 @@
+:host {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--mui-color-surface-raised);
+  border-bottom: 1px solid var(--mui-color-border);
+}
+
+/* ----------------------------------------------------------------
+   Container — stacking context for rails + track
+   ---------------------------------------------------------------- */
+.mui-swipe-action__container {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-height: var(--mui-touch-target);
+}
+
+/* ----------------------------------------------------------------
+   Action rails
+   ---------------------------------------------------------------- */
+.mui-swipe-action__rail {
+  display: flex;
+  align-items: stretch;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.mui-swipe-action__rail--left  { left: 0; }
+.mui-swipe-action__rail--right { right: 0; }
+
+.mui-swipe-action__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--mui-space-5);
+  min-width: 72px;
+  min-height: var(--mui-touch-target);
+  border: none;
+  cursor: pointer;
+  font-family: var(--mui-font-sans);
+  font-size: var(--mui-font-size-sm);
+  font-weight: var(--mui-font-weight-medium);
+  color: #fff;
+  white-space: nowrap;
+  transition: filter var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.mui-swipe-action__action:hover { filter: brightness(1.1); }
+.mui-swipe-action__action:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: -3px;
+}
+
+/* Action color variants */
+.mui-swipe-action__action--primary  { background-color: var(--mui-color-primary); }
+.mui-swipe-action__action--danger   { background-color: var(--mui-color-danger); }
+.mui-swipe-action__action--success  { background-color: var(--mui-color-success); }
+.mui-swipe-action__action--warning  { background-color: var(--mui-color-warning); color: var(--mui-color-text); }
+.mui-swipe-action__action--surface  { background-color: var(--mui-color-surface); color: var(--mui-color-text); }
+
+/* ----------------------------------------------------------------
+   Swipeable track
+   ---------------------------------------------------------------- */
+.mui-swipe-action__track {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  background-color: var(--mui-color-surface-raised);
+  will-change: transform;
+  touch-action: pan-y;  /* allow vertical scroll, intercept horizontal */
+}
+
+/* ----------------------------------------------------------------
+   Keyboard-trigger / collapse buttons (visible on focus, positioned
+   at the trailing edge of the track)
+   ---------------------------------------------------------------- */
+.mui-swipe-action__kbd-trigger,
+.mui-swipe-action__kbd-collapse {
+  position: absolute;
+  right: var(--mui-space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-full);
+  background: var(--mui-color-surface);
+  color: var(--mui-color-text-muted);
+  cursor: pointer;
+  padding: 0;
+
+  /* Hidden by default — only shown when the row has keyboard focus */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+:host:focus-within .mui-swipe-action__kbd-trigger,
+:host:focus-within .mui-swipe-action__kbd-collapse {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mui-swipe-action__kbd-trigger:focus-visible,
+.mui-swipe-action__kbd-collapse:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+/* ----------------------------------------------------------------
+   Accessible action buttons (visually hidden, keyboard/AT only)
+   ---------------------------------------------------------------- */
+.mui-swipe-action__a11y-actions {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mui-swipe-action__a11y-btn {
+  /* Invisible but tabbable */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: transparent;
+  font-size: 0;
+}
+
+.mui-swipe-action__a11y-btn:focus-visible {
+  /* Becomes visible on focus */
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: auto;
+  height: auto;
+  clip: auto;
+  white-space: normal;
+  padding: var(--mui-space-2) var(--mui-space-4);
+  background: var(--mui-color-surface-raised);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-md);
+  color: var(--mui-color-text);
+  font-size: var(--mui-font-size-base);
+  font-family: var(--mui-font-sans);
+  box-shadow: var(--mui-shadow-4);
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-swipe-action__track {
+    transition: none !important;
+  }
+
+  .mui-swipe-action__action,
+  .mui-swipe-action__kbd-trigger,
+  .mui-swipe-action__kbd-collapse {
+    transition: none;
+  }
+}

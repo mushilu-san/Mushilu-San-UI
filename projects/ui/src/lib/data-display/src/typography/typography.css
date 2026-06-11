@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  font-family: var(--mui-font-sans);
+  color: var(--mui-color-text);
+}
+
+/* ---- Variants ---- */
+:host([data-variant="h1"]) {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--mui-color-text);
+}
+
+:host([data-variant="h2"]) {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--mui-color-text);
+}
+
+:host([data-variant="h3"]) {
+  font-size: var(--mui-font-size-xl, 1.25rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--mui-color-text);
+}
+
+:host([data-variant="h4"]) {
+  font-size: var(--mui-font-size-lg, 1.125rem);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--mui-color-text);
+}
+
+:host([data-variant="p"]) {
+  font-size: var(--mui-font-size-base, 1rem);
+  line-height: var(--mui-line-height-base, 1.6);
+  color: var(--mui-color-text);
+}
+
+:host([data-variant="lead"]) {
+  font-size: var(--mui-font-size-lg, 1.125rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--mui-color-text-muted);
+}
+
+:host([data-variant="large"]) {
+  font-size: var(--mui-font-size-lg, 1.125rem);
+  font-weight: var(--mui-font-weight-medium, 500);
+  line-height: 1.5;
+}
+
+:host([data-variant="small"]) {
+  font-size: var(--mui-font-size-sm, 0.875rem);
+  font-weight: var(--mui-font-weight-medium, 500);
+  line-height: 1.4;
+}
+
+:host([data-variant="muted"]) {
+  font-size: var(--mui-font-size-sm, 0.875rem);
+  color: var(--mui-color-text-muted);
+  line-height: 1.5;
+}
+
+:host([data-variant="code"]) {
+  display: inline;
+  font-family: var(--mui-font-mono, monospace);
+  font-size: 0.875em;
+  background-color: color-mix(in srgb, var(--mui-color-text) 8%, transparent);
+  padding: 0.15em 0.35em;
+  border-radius: var(--mui-radius-sm);
+}
+
+:host([data-variant="blockquote"]) {
+  border-left: 3px solid var(--mui-color-border);
+  padding-left: var(--mui-space-4);
+  color: var(--mui-color-text-muted);
+  font-style: italic;
+  line-height: var(--mui-line-height-base, 1.6);
+}

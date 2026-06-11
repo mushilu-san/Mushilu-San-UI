@@ -1,0 +1,28 @@
+:host {
+  display: contents;
+}
+
+.mui-context-menu__panel {
+  position: fixed;
+  left: var(--ctx-x, 0px);
+  top: var(--ctx-y, 0px);
+  z-index: var(--mui-z-modal);
+  min-inline-size: 180px;
+  max-inline-size: 280px;
+  padding: var(--mui-space-1) 0;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-md);
+  background-color: var(--mui-color-surface-raised);
+  box-shadow: var(--mui-shadow-4);
+  outline: none;
+  animation: mui-ctx-in var(--mui-duration-fast, 120ms) var(--mui-easing-default, ease) both;
+}
+
+@keyframes mui-ctx-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-context-menu__panel { animation: none; }
+}

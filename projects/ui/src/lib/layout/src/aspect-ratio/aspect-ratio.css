@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+  /* padding-top hack: 1 / ratio * 100% */
+  padding-top: calc(100% / var(--_ratio, 1.7778));
+}
+
+.mui-aspect-ratio__inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Make direct children fill the container */
+.mui-aspect-ratio__inner > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

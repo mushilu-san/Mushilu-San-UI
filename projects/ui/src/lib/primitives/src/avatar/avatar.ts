@@ -30,6 +30,11 @@ function initials(name: string): string {
   },
 })
 export class Avatar {
+  /**
+   * Image URL. Bound via `[src]`, so Angular's built-in URL sanitizer applies
+   * (e.g. `javascript:` URLs are neutralized). Consumers remain responsible
+   * for passing trusted/validated URLs, especially user-generated ones.
+   */
   src   = input<string>();
   name  = input<string>('');
   label = input<string>('');

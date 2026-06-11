@@ -19,3 +19,7 @@ export { Select } from './select/select';
 export type { SelectSize, SelectVariant } from './select/select.types';
 
 export { FormField } from './form-field/form-field';
+
+export { ToggleGroup, TOGGLE_GROUP_CONTEXT } from './toggle-group/toggle-group';
+export { ToggleGroupItem } from './toggle-group/toggle-group-item';
+export type { ToggleGroupType, ToggleGroupSize, ToggleGroupVariant } from './toggle-group/toggle-group.types';

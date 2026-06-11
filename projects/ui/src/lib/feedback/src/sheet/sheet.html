@@ -1,0 +1,37 @@
+<dialog
+  #dialog
+  class="mui-sheet__panel"
+  part="panel"
+  [attr.data-side]="side()"
+  [attr.data-size]="size()"
+  [attr.aria-labelledby]="heading() ? headingId : null"
+  [attr.aria-modal]="'true'"
+  (close)="onNativeClose()"
+  (cancel)="onCancel($event)"
+  (click)="onBackdropClick($event)"
+>
+  <div class="mui-sheet__surface" part="surface">
+    <div class="mui-sheet__header" part="header">
+      @if (heading()) {
+        <h2 class="mui-sheet__title" part="title" [id]="headingId">{{ heading() }}</h2>
+      }
+      @if (showClose()) {
+        <button
+          type="button"
+          class="mui-sheet__close"
+          part="close"
+          aria-label="Close"
+          (click)="close()"
+        >
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M3 3l10 10M13 3L3 13"/>
+          </svg>
+        </button>
+      }
+    </div>
+    <div class="mui-sheet__body" part="body">
+      <ng-content />
+    </div>
+    <ng-content select="[slot=footer]" />
+  </div>
+</dialog>

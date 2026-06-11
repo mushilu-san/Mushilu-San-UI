@@ -1,0 +1,18 @@
+<ng-content select="[muiPopoverTrigger]" />
+
+@if (open()) {
+  <div
+    class="mui-popover__panel"
+    part="panel"
+    role="dialog"
+    [id]="panelId"
+    [attr.data-placement]="placement()"
+    [attr.aria-labelledby]="heading() ? headingId : null"
+    [attr.aria-modal]="'true'"
+  >
+    @if (heading()) {
+      <p class="mui-popover__heading" part="heading" [id]="headingId">{{ heading() }}</p>
+    }
+    <ng-content />
+  </div>
+}

@@ -1,0 +1,214 @@
+:host {
+  display: inline-block;
+}
+
+/* ----------------------------------------------------------------
+   Base button
+   ---------------------------------------------------------------- */
+.mui-fab__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mui-space-2);
+  border: none;
+  border-radius: var(--mui-radius-full);
+  cursor: pointer;
+  font-family: var(--mui-font-sans);
+  font-weight: var(--mui-font-weight-medium);
+  line-height: 1;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  position: relative;
+  transition:
+    background-color var(--mui-duration-fast) var(--mui-easing-default),
+    box-shadow var(--mui-duration-fast) var(--mui-easing-default),
+    transform var(--mui-duration-fast) var(--mui-easing-default);
+  box-shadow: var(--mui-shadow-3);
+}
+
+.mui-fab__btn:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+/* ----------------------------------------------------------------
+   Sizes — sm: 40px, md: 56px (spec), lg: 96px
+   ---------------------------------------------------------------- */
+:host([data-size="sm"]) .mui-fab__btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+:host([data-size="sm"]) .mui-fab__icon svg,
+:host([data-size="sm"]) .mui-fab__icon {
+  width: 20px;
+  height: 20px;
+}
+
+:host([data-size="md"]) .mui-fab__btn,
+:host(:not([data-size])) .mui-fab__btn {
+  width: 56px;
+  height: 56px;
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
+}
+
+:host([data-size="md"]) .mui-fab__icon svg,
+:host(:not([data-size])) .mui-fab__icon svg,
+:host([data-size="md"]) .mui-fab__icon,
+:host(:not([data-size])) .mui-fab__icon {
+  width: 24px;
+  height: 24px;
+}
+
+:host([data-size="lg"]) .mui-fab__btn {
+  width: 96px;
+  height: 96px;
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
+}
+
+:host([data-size="lg"]) .mui-fab__icon svg,
+:host([data-size="lg"]) .mui-fab__icon {
+  width: 36px;
+  height: 36px;
+}
+
+/* Extended FAB — pill shape, auto width */
+:host([data-extended]) .mui-fab__btn {
+  width: auto;
+  height: 56px;
+  border-radius: var(--mui-radius-full);
+  padding: 0 var(--mui-space-5);
+  gap: var(--mui-space-2);
+}
+
+:host([data-size="sm"][data-extended]) .mui-fab__btn {
+  height: 40px;
+  padding: 0 var(--mui-space-4);
+}
+
+:host([data-size="lg"][data-extended]) .mui-fab__btn {
+  height: 96px;
+  padding: 0 var(--mui-space-8);
+  font-size: var(--mui-font-size-lg);
+}
+
+/* ----------------------------------------------------------------
+   Variants
+   ---------------------------------------------------------------- */
+:host([data-variant="primary"]) .mui-fab__btn,
+:host(:not([data-variant])) .mui-fab__btn {
+  background-color: var(--mui-color-primary);
+  color: var(--mui-color-primary-text);
+}
+
+:host([data-variant="primary"]) .mui-fab__btn:hover:not([aria-disabled="true"]),
+:host(:not([data-variant])) .mui-fab__btn:hover:not([aria-disabled="true"]) {
+  background-color: var(--mui-color-primary-hover);
+  box-shadow: var(--mui-shadow-4);
+}
+
+:host([data-variant="primary"]) .mui-fab__btn:active:not([aria-disabled="true"]),
+:host(:not([data-variant])) .mui-fab__btn:active:not([aria-disabled="true"]) {
+  background-color: var(--mui-color-primary-active);
+  box-shadow: var(--mui-shadow-2);
+  transform: scale(0.97);
+}
+
+:host([data-variant="secondary"]) .mui-fab__btn {
+  background-color: var(--mui-color-surface-raised);
+  color: var(--mui-color-primary);
+  border: 1px solid var(--mui-color-border);
+}
+
+:host([data-variant="secondary"]) .mui-fab__btn:hover:not([aria-disabled="true"]) {
+  background-color: var(--mui-color-primary-subtle);
+  box-shadow: var(--mui-shadow-4);
+}
+
+:host([data-variant="secondary"]) .mui-fab__btn:active:not([aria-disabled="true"]) {
+  box-shadow: var(--mui-shadow-2);
+  transform: scale(0.97);
+}
+
+:host([data-variant="surface"]) .mui-fab__btn {
+  background-color: var(--mui-color-surface);
+  color: var(--mui-color-text);
+}
+
+:host([data-variant="surface"]) .mui-fab__btn:hover:not([aria-disabled="true"]) {
+  background-color: var(--mui-color-border);
+  box-shadow: var(--mui-shadow-4);
+}
+
+:host([data-variant="surface"]) .mui-fab__btn:active:not([aria-disabled="true"]) {
+  box-shadow: var(--mui-shadow-2);
+  transform: scale(0.97);
+}
+
+/* ----------------------------------------------------------------
+   Disabled
+   ---------------------------------------------------------------- */
+.mui-fab__btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+/* ----------------------------------------------------------------
+   Loading spinner
+   ---------------------------------------------------------------- */
+.mui-fab__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mui-fab__btn[aria-busy="true"] .mui-fab__icon {
+  opacity: 0;
+}
+
+.mui-fab__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.mui-fab__spinner svg {
+  width: 1.4em;
+  height: 1.4em;
+  animation: mui-fab-spin 0.8s linear infinite;
+}
+
+@keyframes mui-fab-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-fab__btn {
+    transition: none;
+  }
+
+  .mui-fab__spinner svg {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Label (extended FAB)
+   ---------------------------------------------------------------- */
+.mui-fab__label {
+  font-size: var(--mui-font-size-base);
+  font-weight: var(--mui-font-weight-medium);
+  white-space: nowrap;
+}

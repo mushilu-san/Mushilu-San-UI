@@ -16,3 +16,8 @@ export type { ToastVariant, ToastOptions, ToastRef } from './toast/toast.types';
 
 export { Dialog } from './dialog/dialog';
 export type { DialogSize } from './dialog/dialog.types';
+
+export { AlertDialog } from './alert-dialog/alert-dialog';
+
+export { Sheet } from './sheet/sheet';
+export type { SheetSide, SheetSize } from './sheet/sheet.types';

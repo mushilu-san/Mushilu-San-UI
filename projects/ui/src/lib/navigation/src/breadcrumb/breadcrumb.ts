@@ -21,6 +21,12 @@ import type { BreadcrumbItem } from './breadcrumb.types';
   },
 })
 export class Breadcrumb {
+  /**
+   * Breadcrumb items. `item.href` is bound via `[href]`, so Angular's built-in
+   * URL sanitizer applies (e.g. `javascript:` URLs are neutralized). Consumers
+   * remain responsible for passing trusted/validated URLs, especially
+   * user-generated ones.
+   */
   items = input.required<BreadcrumbItem[]>();
   separator = input<string>('/');
 

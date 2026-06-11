@@ -8,3 +8,8 @@ export { Grid } from './grid/grid';
 export type { GridAlign } from './grid/grid.types';
 
 export { Spacer } from './spacer/spacer';
+
+export { AspectRatio } from './aspect-ratio/aspect-ratio';
+
+export { ScrollArea } from './scroll-area/scroll-area';
+export type { ScrollAreaOrientation } from './scroll-area/scroll-area';

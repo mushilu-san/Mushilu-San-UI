@@ -1,0 +1,49 @@
+<button
+  type="button"
+  class="mui-combobox__trigger"
+  part="trigger"
+  [attr.aria-expanded]="open()"
+  [attr.aria-haspopup]="'listbox'"
+  [attr.aria-disabled]="disabled() || null"
+  [attr.data-placeholder]="!value()"
+  (click)="toggle(); $event.stopPropagation()"
+>
+  <span class="mui-combobox__value">
+    {{ selectedLabel() || placeholder() }}
+  </span>
+  <svg class="mui-combobox__chevron" viewBox="0 0 16 16" width="14" height="14"
+       fill="currentColor" aria-hidden="true">
+    <path d="M8 11L3 6h10z"/>
+  </svg>
+</button>
+
+@if (open()) {
+  <div class="mui-combobox__panel" part="panel" (click)="$event.stopPropagation()">
+    <!-- search input -->
+    <div class="mui-combobox__search-wrapper" part="search-wrapper">
+      <svg viewBox="0 0 16 16" width="14" height="14" fill="none"
+           stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="6.5" cy="6.5" r="4"/>
+        <path d="M11 11l3 3"/>
+      </svg>
+      <input
+        type="text"
+        class="mui-combobox__search"
+        part="search"
+        placeholder="Search…"
+        [value]="search()"
+        (input)="search.set($any($event.target).value)"
+        autocomplete="off"
+        aria-autocomplete="list"
+        aria-label="Search options"
+        (keydown.arrowDown)="$event.preventDefault()"
+        (keydown.arrowUp)="$event.preventDefault()"
+        (keydown.escape)="open.set(false)"
+      />
+    </div>
+    <!-- items list -->
+    <div class="mui-combobox__list" part="list" role="listbox">
+      <ng-content />
+    </div>
+  </div>
+}

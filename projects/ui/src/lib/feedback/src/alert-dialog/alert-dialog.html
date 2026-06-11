@@ -1,0 +1,41 @@
+<dialog
+  #dialog
+  class="mui-alert-dialog__panel"
+  part="panel"
+  [attr.aria-labelledby]="titleId"
+  [attr.aria-describedby]="descId"
+  [attr.aria-modal]="'true'"
+  (close)="onNativeClose()"
+  (cancel)="onCancel($event)"
+>
+  <div class="mui-alert-dialog__surface" part="surface">
+    <div class="mui-alert-dialog__header" part="header">
+      <h2 class="mui-alert-dialog__title" part="title" [id]="titleId">{{ heading() }}</h2>
+    </div>
+
+    <div class="mui-alert-dialog__body" part="body" [id]="descId">
+      <ng-content />
+    </div>
+
+    <div class="mui-alert-dialog__footer" part="footer">
+      <button
+        #cancelBtn
+        type="button"
+        class="mui-alert-dialog__btn mui-alert-dialog__btn--cancel"
+        part="cancel"
+        (click)="cancel()"
+      >
+        {{ cancelLabel() }}
+      </button>
+      <button
+        type="button"
+        class="mui-alert-dialog__btn mui-alert-dialog__btn--confirm"
+        part="confirm"
+        [class.mui-alert-dialog__btn--destructive]="destructive()"
+        (click)="confirm()"
+      >
+        {{ confirmLabel() }}
+      </button>
+    </div>
+  </div>
+</dialog>

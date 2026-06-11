@@ -1,0 +1,81 @@
+:host {
+  display: contents;
+}
+
+.mui-toggle-group-item__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mui-space-1);
+  border: none;
+  background-color: transparent;
+  color: var(--mui-color-text-muted);
+  cursor: pointer;
+  font-family: var(--mui-font-sans);
+  font-size: var(--mui-font-size-base);
+  font-weight: var(--mui-font-weight-medium);
+  white-space: nowrap;
+  transition:
+    background-color var(--mui-duration-fast) var(--mui-easing-default),
+    color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+/* ---- Sizes ---- */
+.mui-toggle-group-item__btn[data-size="sm"] {
+  min-height: 32px;
+  min-width: 32px;
+  padding: 0 var(--mui-space-2);
+  font-size: var(--mui-font-size-sm);
+}
+.mui-toggle-group-item__btn[data-size="md"] {
+  min-height: var(--mui-touch-target);
+  min-width: var(--mui-touch-target);
+  padding: 0 var(--mui-space-3);
+}
+.mui-toggle-group-item__btn[data-size="lg"] {
+  min-height: 48px;
+  min-width: 48px;
+  padding: 0 var(--mui-space-4);
+  font-size: var(--mui-font-size-lg);
+}
+
+/* ---- Hover ---- */
+.mui-toggle-group-item__btn:not([aria-disabled]):hover {
+  background-color: var(--mui-color-surface-hover, color-mix(in srgb, var(--mui-color-primary) 8%, transparent));
+  color: var(--mui-color-text);
+}
+
+/* ---- Selected state ---- */
+.mui-toggle-group-item__btn[data-selected] {
+  background-color: var(--mui-color-primary);
+  color: var(--mui-color-primary-text);
+}
+.mui-toggle-group-item__btn[data-selected]:hover {
+  background-color: var(--mui-color-primary-hover, var(--mui-color-primary));
+  color: var(--mui-color-primary-text);
+}
+
+/* ---- Outline variant ---- */
+.mui-toggle-group-item__btn[data-variant="outline"][data-selected] {
+  background-color: transparent;
+  color: var(--mui-color-primary);
+  box-shadow: inset 0 0 0 2px var(--mui-color-primary);
+}
+
+/* ---- Disabled ---- */
+.mui-toggle-group-item__btn[aria-disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ---- Focus ---- */
+.mui-toggle-group-item__btn:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+  z-index: 1;
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-toggle-group-item__btn { transition: none; }
+}

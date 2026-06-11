@@ -1,0 +1,49 @@
+.mui-command-item__btn {
+  display: flex;
+  align-items: center;
+  gap: var(--mui-space-2);
+  width: 100%;
+  min-height: 36px;
+  padding: 0 var(--mui-space-3);
+  border: none;
+  background: transparent;
+  color: var(--mui-color-text);
+  cursor: pointer;
+  font-family: var(--mui-font-sans);
+  font-size: var(--mui-font-size-base);
+  text-align: left;
+  border-radius: var(--mui-radius-sm);
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.mui-command-item__btn:hover:not([aria-disabled]) {
+  background-color: color-mix(in srgb, var(--mui-color-primary) 8%, transparent);
+}
+
+.mui-command-item__btn:focus-visible {
+  outline: none;
+  background-color: color-mix(in srgb, var(--mui-color-primary) 12%, transparent);
+}
+
+.mui-command-item__btn[aria-disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.mui-command-item__btn[aria-selected="true"] {
+  background-color: color-mix(in srgb, var(--mui-color-primary) 10%, transparent);
+}
+
+.mui-command-item__label { flex: 1; }
+
+.mui-command-item__shortcut {
+  margin-left: auto;
+  font-size: 11px;
+  font-family: var(--mui-font-mono, monospace);
+  color: var(--mui-color-text-muted);
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-command-item__btn { transition: none; }
+}

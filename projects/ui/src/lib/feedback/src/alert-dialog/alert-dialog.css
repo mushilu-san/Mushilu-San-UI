@@ -1,0 +1,110 @@
+:host { display: contents; }
+
+.mui-alert-dialog__panel {
+  z-index: var(--mui-z-modal);
+  inline-size: min(92vw, 28rem);
+  padding: 0;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-lg);
+  background-color: var(--mui-color-surface-raised);
+  color: var(--mui-color-text);
+  box-shadow: var(--mui-shadow-5);
+  overflow: hidden;
+  animation: mui-alert-in var(--mui-duration-normal, 200ms) var(--mui-easing-default, ease) both;
+}
+
+.mui-alert-dialog__panel::backdrop {
+  background-color: var(--mui-color-overlay);
+}
+
+@keyframes mui-alert-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-alert-dialog__panel { animation: none; }
+}
+
+.mui-alert-dialog__surface {
+  display: flex;
+  flex-direction: column;
+}
+
+.mui-alert-dialog__header {
+  padding: var(--mui-space-5) var(--mui-space-5) var(--mui-space-2);
+}
+
+.mui-alert-dialog__title {
+  margin: 0;
+  font-size: var(--mui-font-size-lg);
+  font-weight: var(--mui-font-weight-medium);
+  line-height: var(--mui-line-height-snug);
+}
+
+.mui-alert-dialog__body {
+  padding: 0 var(--mui-space-5) var(--mui-space-4);
+  font-size: var(--mui-font-size-base);
+  color: var(--mui-color-text-muted);
+  line-height: var(--mui-line-height-base);
+}
+
+.mui-alert-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--mui-space-2);
+  padding: var(--mui-space-3) var(--mui-space-5) var(--mui-space-4);
+  border-top: 1px solid var(--mui-color-border);
+}
+
+/* ---- Buttons ---- */
+.mui-alert-dialog__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--mui-touch-target);
+  padding: 0 var(--mui-space-4);
+  border-radius: var(--mui-radius-md);
+  font-family: var(--mui-font-sans);
+  font-size: var(--mui-font-size-base);
+  font-weight: var(--mui-font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default),
+              border-color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.mui-alert-dialog__btn:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+.mui-alert-dialog__btn--cancel {
+  background-color: var(--mui-color-surface);
+  color: var(--mui-color-text);
+  border: 1px solid var(--mui-color-border);
+}
+.mui-alert-dialog__btn--cancel:hover {
+  background-color: var(--mui-color-border);
+}
+
+.mui-alert-dialog__btn--confirm {
+  background-color: var(--mui-color-primary);
+  color: var(--mui-color-primary-text);
+  border: 1px solid var(--mui-color-primary);
+}
+.mui-alert-dialog__btn--confirm:hover {
+  background-color: var(--mui-color-primary-hover);
+}
+
+.mui-alert-dialog__btn--destructive {
+  background-color: var(--mui-color-danger);
+  color: var(--mui-color-danger-text, #fff);
+  border-color: var(--mui-color-danger);
+}
+.mui-alert-dialog__btn--destructive:hover {
+  background-color: var(--mui-color-danger-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-alert-dialog__btn { transition: none; }
+}

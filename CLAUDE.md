@@ -65,8 +65,9 @@ projects/ui/
 │   │   ├── layout/src/       Container, Stack, Grid, Spacer (done)
 │   │   ├── navigation/src/   Breadcrumb, Tabs (TabList/Tab/TabPanel), Pagination, NavLink (done)
 │   │   ├── feedback/src/     Alert, Progress, Skeleton, Toast (+ ToastService/ToastContainer), Dialog (done)
-│   │   ├── data-display/src/ (planned) — Card, Table, Accordion, Tooltip
-│   │   └── mobile/src/       (planned) — BottomSheet, FAB, SwipeAction, MobileNav
+│   │   ├── data-display/src/ Card, Table, Accordion, Tooltip (done)
+│   │   ├── mobile/src/       BottomSheet, FAB, SwipeAction, MobileNav (done)
+│   │   └── overlays/src/     (planned) — Popover, Dropdown Menu, Context Menu, Hover Card, Command, Combobox
 │   └── public-api.ts     PRIMARY entry — exports only provideMushiluUi()
 ├── primitives/ng-package.json   → @mushilu-san/ui/primitives
 ├── forms/ng-package.json        → @mushilu-san/ui/forms
@@ -245,6 +246,73 @@ await renderTemplate('<button muiButton (clicked)="handler($event)">Btn</button>
 // Blocked-click testing (pointer-events: none elements)
 fireEvent.click(screen.getByRole('button'));   // not userEvent.click()
 ```
+
+## Component backlog — shadcn/ui parity gaps
+
+Components not yet built, grouped by implementation complexity.
+
+### Group: overlays (new entry point `@mushilu-san/ui/overlays`)
+All share a floating-panel primitive. Build Popover first — the rest compose on top of it.
+
+| Component | shadcn equivalent | Notes |
+|-----------|-------------------|-------|
+| Popover | Popover | Floating panel anchored to a trigger; foundation for the group |
+| Dropdown Menu | Dropdown Menu | Popover + keyboard-navigable menu list |
+| Context Menu | Context Menu | Same as Dropdown but opened on right-click / long-press |
+| Hover Card | Hover Card | Popover opened on hover/focus with a delay |
+| Command | Command | Searchable command palette (input + filtered list) |
+| Combobox | Combobox | Input + Dropdown with search/filter (builds on Command) |
+| Alert Dialog | Alert Dialog | Blocking confirmation dialog — variant of Dialog |
+| Sheet (side) | Sheet | Side-sliding panel (left/right) — variant of Dialog |
+| Toggle Group | Toggle Group | Group of Toggle buttons with single/multi-select |
+
+### Group: forms additions (extend `@mushilu-san/ui/forms`)
+
+| Component | shadcn equivalent | Notes |
+|-----------|-------------------|-------|
+| Slider | Slider | Range input with accessible thumb |
+| Input OTP | Input OTP | Multi-box one-time-password input |
+| Date Picker | Date Picker | Builds on Calendar + Popover |
+| Calendar | Calendar | Month grid date selector |
+| Input Group | Input Group | Input with leading/trailing addons |
+
+### Group: layout additions (extend `@mushilu-san/ui/layout`)
+
+| Component | shadcn equivalent | Notes |
+|-----------|-------------------|-------|
+| Scroll Area | Scroll Area | Custom-styled scrollable region |
+| Resizable | Resizable | Drag-to-resize panel split |
+| Aspect Ratio | Aspect Ratio | Container that enforces a width:height ratio |
+| Sidebar | Sidebar | Collapsible app sidebar with nav sections |
+
+### Group: data-display additions (extend `@mushilu-san/ui/data-display`)
+
+| Component | shadcn equivalent | Notes |
+|-----------|-------------------|-------|
+| Data Table | Data Table | Table + sorting + filtering + pagination |
+| Carousel | Carousel | Touch/keyboard-navigable slide show |
+| Chart | Chart | Wrapper around a charting library |
+| Empty | Empty | Empty-state placeholder with icon + CTA |
+| Typography | Typography | Styled prose heading/paragraph/lead/muted components |
+
+### Group: navigation additions (extend `@mushilu-san/ui/navigation`)
+
+| Component | shadcn equivalent | Notes |
+|-----------|-------------------|-------|
+| Navigation Menu | Navigation Menu | Horizontal nav bar with dropdown panels |
+| Menubar | Menubar | Desktop app-style menu bar |
+
+### Not planned (out of scope)
+
+| Component | Reason |
+|-----------|--------|
+| Direction | RTL utility — not a component |
+| Item | Unstyled primitive — too generic |
+| Kbd | Simple `<kbd>` wrapper — trivial, add inline if needed |
+| Sonner | Covered by Toast + ToastService |
+| Native Select | Covered by Select |
+
+---
 
 ## Publishing checklist
 

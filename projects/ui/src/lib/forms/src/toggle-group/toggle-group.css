@@ -1,0 +1,13 @@
+:host {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-md);
+  overflow: hidden;
+  background-color: var(--mui-color-surface);
+}
+
+/* Remove internal borders between items */
+:host > mui-toggle-group-item + mui-toggle-group-item {
+  border-left: 1px solid var(--mui-color-border);
+}

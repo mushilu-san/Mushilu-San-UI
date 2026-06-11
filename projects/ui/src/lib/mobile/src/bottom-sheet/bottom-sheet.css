@@ -1,0 +1,157 @@
+:host {
+  display: contents;
+}
+
+/* ----------------------------------------------------------------
+   Native dialog — positioned at bottom edge
+   ---------------------------------------------------------------- */
+.mui-bottom-sheet__panel {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: var(--mui-z-modal);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  border: none;
+  border-radius: var(--mui-radius-lg) var(--mui-radius-lg) 0 0;
+  background: transparent;
+  overflow: visible;
+
+  /* Slide-in animation */
+  animation: mui-sheet-enter var(--mui-duration-normal, 300ms) var(--mui-easing-default, ease) forwards;
+}
+
+.mui-bottom-sheet__panel::backdrop {
+  background-color: var(--mui-color-overlay);
+  animation: mui-backdrop-enter var(--mui-duration-normal, 300ms) var(--mui-easing-default, ease) forwards;
+}
+
+@keyframes mui-sheet-enter {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes mui-backdrop-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-bottom-sheet__panel,
+  .mui-bottom-sheet__panel::backdrop {
+    animation: none;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Size variants (max-height)
+   ---------------------------------------------------------------- */
+.mui-bottom-sheet__panel[data-size="sm"]  .mui-bottom-sheet__surface { max-block-size: 40vh; }
+.mui-bottom-sheet__panel[data-size="md"]  .mui-bottom-sheet__surface { max-block-size: 60vh; }
+.mui-bottom-sheet__panel[data-size="lg"]  .mui-bottom-sheet__surface { max-block-size: 85vh; }
+.mui-bottom-sheet__panel[data-size="full"] .mui-bottom-sheet__surface {
+  max-block-size: calc(100vh - env(safe-area-inset-top, 0px) - 16px);
+  border-radius: var(--mui-radius-lg) var(--mui-radius-lg) 0 0;
+}
+
+/* ----------------------------------------------------------------
+   Sheet surface
+   ---------------------------------------------------------------- */
+.mui-bottom-sheet__surface {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--mui-color-surface-raised);
+  border-radius: var(--mui-radius-lg) var(--mui-radius-lg) 0 0;
+  border-top: 1px solid var(--mui-color-border);
+  box-shadow: var(--mui-shadow-5);
+  overflow: hidden;
+  /* Safe area for iPhone home indicator */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ----------------------------------------------------------------
+   Drag handle
+   ---------------------------------------------------------------- */
+.mui-bottom-sheet__handle {
+  flex-shrink: 0;
+  width: 36px;
+  height: 4px;
+  margin: var(--mui-space-3) auto var(--mui-space-1);
+  background-color: var(--mui-color-border-strong);
+  border-radius: var(--mui-radius-full);
+}
+
+/* ----------------------------------------------------------------
+   Header
+   ---------------------------------------------------------------- */
+.mui-bottom-sheet__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mui-space-3);
+  padding: var(--mui-space-3) var(--mui-space-4) var(--mui-space-2);
+  flex-shrink: 0;
+}
+
+.mui-bottom-sheet__title {
+  margin: 0;
+  font-size: var(--mui-font-size-lg);
+  font-weight: var(--mui-font-weight-medium);
+  line-height: var(--mui-line-height-snug);
+}
+
+/* Close button */
+.mui-bottom-sheet__close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
+  margin: calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) 0 auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--mui-radius-sm);
+  background: transparent;
+  color: var(--mui-color-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.mui-bottom-sheet__close:hover {
+  background-color: var(--mui-color-surface);
+  color: var(--mui-color-text);
+}
+
+.mui-bottom-sheet__close:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+/* ----------------------------------------------------------------
+   Body
+   ---------------------------------------------------------------- */
+.mui-bottom-sheet__body {
+  flex: 1 1 auto;
+  padding: var(--mui-space-2) var(--mui-space-5) var(--mui-space-4);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: var(--mui-font-size-base);
+  line-height: var(--mui-line-height-base);
+}
+
+/* ----------------------------------------------------------------
+   Footer
+   ---------------------------------------------------------------- */
+.mui-bottom-sheet__footer:not(:empty) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mui-space-2);
+  padding: var(--mui-space-2) var(--mui-space-5) var(--mui-space-4);
+  border-top: 1px solid var(--mui-color-border);
+  flex-shrink: 0;
+}

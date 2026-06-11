@@ -1,0 +1,26 @@
+<button
+  class="mui-fab__btn"
+  part="button"
+  type="button"
+  [attr.aria-label]="extended() ? null : label()"
+  [attr.aria-disabled]="disabled() || loading() ? 'true' : null"
+  [attr.aria-busy]="loading() ? 'true' : null"
+  [attr.tabindex]="disabled() ? '-1' : null"
+  (click)="handleClick($event)"
+>
+  <span class="mui-fab__icon" part="icon" aria-hidden="true">
+    <ng-content />
+  </span>
+
+  @if (extended()) {
+    <span class="mui-fab__label" part="label">{{ label() }}</span>
+  }
+
+  @if (loading()) {
+    <span class="mui-fab__spinner" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M12 2a10 10 0 0 1 10 10" />
+      </svg>
+    </span>
+  }
+</button>

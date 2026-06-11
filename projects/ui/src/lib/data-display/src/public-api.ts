@@ -15,3 +15,10 @@ export type { TableColumn, SortState, SortDirection } from './table/table.types'
 // Tooltip
 export { Tooltip } from './tooltip/tooltip';
 export type { TooltipPlacement } from './tooltip/tooltip';
+
+// Empty
+export { Empty } from './empty/empty';
+
+// Typography
+export { Typography } from './typography/typography';
+export type { TypographyVariant } from './typography/typography';

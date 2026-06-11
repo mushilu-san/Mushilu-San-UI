@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.mui-mobile-nav__bar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  width: 100%;
+  background-color: var(--mui-color-surface-raised);
+  border-top: 1px solid var(--mui-color-border);
+  /* Safe area inset for iOS home indicator */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

@@ -1,0 +1,13 @@
+<ng-content select="[muiContextMenuTrigger]" />
+
+@if (open()) {
+  <div
+    class="mui-context-menu__panel"
+    part="panel"
+    role="menu"
+    aria-orientation="vertical"
+    (click)="$event.stopPropagation()"
+  >
+    <ng-content />
+  </div>
+}

@@ -1,0 +1,104 @@
+:host {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.mui-mobile-nav-item__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mui-space-1);
+  width: 100%;
+  min-height: var(--mui-touch-target);
+  padding: var(--mui-space-2) var(--mui-space-1);
+  border: none;
+  background: transparent;
+  color: var(--mui-color-text-muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    color var(--mui-duration-fast) var(--mui-easing-default),
+    background-color var(--mui-duration-fast) var(--mui-easing-default);
+  position: relative;
+}
+
+.mui-mobile-nav-item__btn:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: -2px;
+  border-radius: var(--mui-radius-sm);
+}
+
+/* Active state */
+.mui-mobile-nav-item__btn[aria-current="page"] {
+  color: var(--mui-color-primary);
+}
+
+/* Active indicator pill (top of item) */
+.mui-mobile-nav-item__btn[aria-current="page"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 3px;
+  background-color: var(--mui-color-primary);
+  border-radius: 0 0 var(--mui-radius-full) var(--mui-radius-full);
+}
+
+.mui-mobile-nav-item__btn:hover:not([aria-current="page"]) {
+  color: var(--mui-color-text);
+  background-color: var(--mui-color-surface);
+}
+
+/* Icon + badge wrapper */
+.mui-mobile-nav-item__icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.mui-mobile-nav-item__icon ::ng-deep svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Badge */
+.mui-mobile-nav-item__badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background-color: var(--mui-color-danger);
+  color: var(--mui-color-primary-text);
+  font-size: var(--mui-font-size-xs);
+  font-weight: var(--mui-font-weight-medium);
+  line-height: 16px;
+  border-radius: var(--mui-radius-full);
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 0 0 2px var(--mui-color-surface-raised);
+}
+
+.mui-mobile-nav-item__label {
+  font-size: var(--mui-font-size-xs);
+  font-weight: var(--mui-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-mobile-nav-item__btn {
+    transition: none;
+  }
+}

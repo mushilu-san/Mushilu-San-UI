@@ -1,0 +1,12 @@
+<ng-content select="[muiDropdownTrigger]" />
+
+@if (open()) {
+  <div
+    class="mui-dropdown-menu__panel"
+    part="panel"
+    role="menu"
+    [attr.aria-orientation]="'vertical'"
+  >
+    <ng-content />
+  </div>
+}

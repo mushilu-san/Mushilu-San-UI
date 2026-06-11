@@ -1,0 +1,96 @@
+<div class="mui-swipe-action__container" part="container">
+
+  <!-- Left action rail -->
+  @if (hasLeft()) {
+    <div class="mui-swipe-action__rail mui-swipe-action__rail--left" part="rail-left" aria-hidden="true">
+      @for (action of leftActions(); track action.key) {
+        <button
+          type="button"
+          class="mui-swipe-action__action"
+          [class]="colorClass(action.color)"
+          part="action"
+          tabindex="-1"
+          (click)="triggerAction(action.key)"
+        >
+          {{ action.label }}
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Swipeable track (contains the row content) -->
+  <div
+    #track
+    class="mui-swipe-action__track"
+    part="track"
+    role="listitem"
+    [style]="trackStyle()"
+  >
+    <ng-content />
+
+    <!-- Keyboard-accessible "more actions" button (only shown when actions exist) -->
+    @if (actions().length > 0 && revealedSide() === null) {
+      <button
+        type="button"
+        class="mui-swipe-action__kbd-trigger"
+        part="kbd-trigger"
+        [attr.aria-expanded]="revealedSide() !== null"
+        [attr.aria-label]="'More actions'"
+        (click)="revealSide(hasRight() ? 'right' : 'left')"
+      >
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <circle cx="10" cy="4" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="16" r="1.5"/>
+        </svg>
+      </button>
+    }
+
+    @if (revealedSide() !== null) {
+      <button
+        type="button"
+        class="mui-swipe-action__kbd-collapse"
+        part="kbd-collapse"
+        aria-label="Close actions"
+        (click)="collapse()"
+      >
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 5l10 10M15 5L5 15" stroke-linecap="round"/>
+        </svg>
+      </button>
+    }
+  </div>
+
+  <!-- Right action rail -->
+  @if (hasRight()) {
+    <div class="mui-swipe-action__rail mui-swipe-action__rail--right" part="rail-right" aria-hidden="true">
+      @for (action of rightActions(); track action.key) {
+        <button
+          type="button"
+          class="mui-swipe-action__action"
+          [class]="colorClass(action.color)"
+          part="action"
+          tabindex="-1"
+          (click)="triggerAction(action.key)"
+        >
+          {{ action.label }}
+        </button>
+      }
+    </div>
+  }
+
+</div>
+
+<!-- Accessible action buttons (always in DOM for keyboard/AT users) -->
+@if (actions().length > 0) {
+  <div class="mui-swipe-action__a11y-actions" role="group" aria-label="Row actions">
+    @for (action of actions(); track action.key) {
+      <button
+        type="button"
+        class="mui-swipe-action__a11y-btn"
+        part="a11y-btn"
+        (click)="triggerAction(action.key)"
+      >
+        {{ action.label }}
+      </button>
+    }
+  </div>
+}
