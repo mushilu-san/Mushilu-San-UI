@@ -1,0 +1,16 @@
+@if (withHandle()) {
+  <div class="handle-grip" aria-hidden="true">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="10"
+      height="10"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      @for (r of gripDots; track r) {
+        <circle [attr.cx]="r[0]" [attr.cy]="r[1]" r="2" />
+      }
+    </svg>
+  </div>
+}

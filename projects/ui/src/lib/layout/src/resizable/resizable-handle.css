@@ -1,0 +1,59 @@
+:host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--mui-color-border);
+  outline: none;
+  transition:
+    background-color var(--mui-duration-fast) var(--mui-easing-default),
+    box-shadow var(--mui-duration-fast) var(--mui-easing-default);
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+:host([data-direction='horizontal']) {
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+}
+
+:host([data-direction='vertical']) {
+  width: 100%;
+  height: 5px;
+  cursor: row-resize;
+}
+
+:host(:focus-visible) {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+  z-index: 1;
+}
+
+:host(:hover),
+:host(:focus-visible) {
+  background-color: var(--mui-color-primary);
+}
+
+.handle-grip {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--mui-radius-sm);
+  background-color: var(--mui-color-border);
+  color: var(--mui-color-text-muted);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host { transition: none; }
+}

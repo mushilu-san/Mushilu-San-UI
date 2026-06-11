@@ -13,3 +13,7 @@ export { AspectRatio } from './aspect-ratio/aspect-ratio';
 
 export { ScrollArea } from './scroll-area/scroll-area';
 export type { ScrollAreaOrientation } from './scroll-area/scroll-area';
+
+export { ResizablePanelGroup } from './resizable/resizable-panel-group';
+export { ResizablePanel } from './resizable/resizable-panel';
+export { ResizableHandle } from './resizable/resizable-handle';
