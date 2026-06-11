@@ -1,0 +1,147 @@
+:host {
+  display: inline-block;
+}
+
+/* ── Container ──────────────────────────────────────────── */
+.cal-container {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--mui-space-3);
+  padding: var(--mui-space-3);
+  background-color: var(--mui-color-surface-raised);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-lg);
+  font-family: var(--mui-font-sans);
+  min-width: 308px; /* 7 × 44px */
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mui-space-2);
+}
+
+.cal-title {
+  flex: 1;
+  text-align: center;
+  font-size: var(--mui-font-size-sm);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text);
+}
+
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-md);
+  color: var(--mui-color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default),
+              color var(--mui-duration-fast) var(--mui-easing-default);
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.cal-nav:hover { background-color: var(--mui-color-surface); color: var(--mui-color-text); }
+
+.cal-nav:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+/* ── Grid ───────────────────────────────────────────────── */
+.cal-grid {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.cal-weekday {
+  width: 44px;
+  height: 32px;
+  text-align: center;
+  font-size: var(--mui-font-size-xs);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text-muted);
+  padding: 0;
+}
+
+.cal-cell { padding: 1px; text-align: center; }
+
+/* ── Day button ─────────────────────────────────────────── */
+.cal-day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--mui-radius-md);
+  font-size: var(--mui-font-size-sm);
+  font-family: inherit;
+  color: var(--mui-color-text);
+  cursor: pointer;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default),
+              color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+.cal-day:hover:not([aria-disabled]):not([data-selected]) {
+  background-color: var(--mui-color-surface);
+}
+
+.cal-day:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+}
+
+/* Today */
+.cal-day[data-today]:not([data-selected]) {
+  background-color: var(--mui-color-surface);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-primary);
+}
+
+/* Selected */
+.cal-day[data-selected] {
+  background-color: var(--mui-color-primary);
+  color: var(--mui-color-primary-text);
+  font-weight: var(--mui-font-weight-medium);
+}
+
+.cal-day[data-selected]:hover { background-color: var(--mui-color-primary-hover); }
+
+/* Outside current month */
+.cal-day[data-outside] {
+  color: var(--mui-color-text-disabled);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Disabled */
+.cal-day[aria-disabled] {
+  color: var(--mui-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Disabled whole calendar ────────────────────────────── */
+.cal-grid[aria-disabled] .cal-day { pointer-events: none; opacity: 0.5; }
+.cal-nav[aria-disabled] { opacity: 0.5; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-day, .cal-nav { transition: none; }
+}

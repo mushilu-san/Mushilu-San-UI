@@ -1,0 +1,88 @@
+<div class="cal-container">
+
+  <!-- Header: navigation + month/year title -->
+  <div class="cal-header">
+    <button
+      class="cal-nav"
+      type="button"
+      part="prev-btn"
+      [attr.aria-label]="'Previous month, ' + prevMonthLabel()"
+      [attr.aria-disabled]="isDisabled() || null"
+      [attr.tabindex]="isDisabled() ? -1 : 0"
+      (click)="prevMonth()"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <span
+      [id]="'cal-title-' + uid"
+      class="cal-title"
+      role="heading"
+      aria-level="2"
+      aria-live="polite"
+    >{{ monthLabel() }}</span>
+
+    <button
+      class="cal-nav"
+      type="button"
+      part="next-btn"
+      [attr.aria-label]="'Next month, ' + nextMonthLabel()"
+      [attr.aria-disabled]="isDisabled() || null"
+      [attr.tabindex]="isDisabled() ? -1 : 0"
+      (click)="nextMonth()"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Grid -->
+  <table
+    role="grid"
+    class="cal-grid"
+    [attr.aria-labelledby]="'cal-title-' + uid"
+    [attr.aria-disabled]="isDisabled() || null"
+  >
+    <thead>
+      <tr role="row">
+        @for (name of weekDayNames(); track name.long) {
+          <th
+            role="columnheader"
+            scope="col"
+            class="cal-weekday"
+            [attr.abbr]="name.long"
+          >{{ name.short }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (week of weeks(); track $index) {
+        <tr role="row" class="cal-week">
+          @for (day of week; track day.time) {
+            <td role="gridcell" class="cal-cell">
+              <button
+                type="button"
+                class="cal-day"
+                part="day"
+                [attr.aria-label]="formatDayLabel(day.date)"
+                [attr.aria-selected]="day.time === selectedTime() ? 'true' : null"
+                [attr.aria-current]="day.isToday ? 'date' : null"
+                [attr.aria-disabled]="day.isDisabled || null"
+                [attr.data-selected]="day.time === selectedTime() ? '' : null"
+                [attr.data-today]="day.isToday ? '' : null"
+                [attr.data-outside]="!day.isCurrentMonth ? '' : null"
+                [attr.tabindex]="day.time === focusedTime() ? 0 : -1"
+                (click)="onDayClick(day)"
+                (keydown)="onDayKeydown($event, day)"
+                (blur)="onBlur()"
+              >{{ day.day }}</button>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
