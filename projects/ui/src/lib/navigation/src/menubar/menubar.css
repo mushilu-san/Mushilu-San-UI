@@ -1,0 +1,10 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mui-space-1);
+  padding: 0 var(--mui-space-2);
+  height: 44px;
+  background-color: var(--mui-color-surface);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-md);
+}

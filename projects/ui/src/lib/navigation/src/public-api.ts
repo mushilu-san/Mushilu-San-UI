@@ -18,3 +18,10 @@ export { NavigationMenuItem } from './navigation-menu/navigation-menu-item';
 export { NavigationMenuTrigger } from './navigation-menu/navigation-menu-trigger';
 export { NavigationMenuContent } from './navigation-menu/navigation-menu-content';
 export { NavigationMenuLink } from './navigation-menu/navigation-menu-link';
+
+export { Menubar } from './menubar/menubar';
+export { MenubarMenu } from './menubar/menubar-menu';
+export { MenubarTrigger } from './menubar/menubar-trigger';
+export { MenubarContent } from './menubar/menubar-content';
+export { MenubarItem } from './menubar/menubar-item';
+export { MenubarSeparator } from './menubar/menubar-separator';

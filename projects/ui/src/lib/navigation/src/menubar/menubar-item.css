@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  align-items: center;
+  gap: var(--mui-space-2);
+  padding: var(--mui-space-2) var(--mui-space-3);
+  min-height: 32px;
+  border-radius: var(--mui-radius-sm);
+  color: var(--mui-color-text);
+  font-size: var(--mui-font-size-sm);
+  cursor: default;
+  outline: none;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
+  user-select: none;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+:host(:hover:not([data-disabled])),
+:host(:focus-visible:not([data-disabled])) {
+  background-color: var(--mui-color-primary);
+  color: var(--mui-color-surface);
+}
+
+:host(:focus-visible) {
+  outline: none;
+  /* highlight via background change above; no box-shadow needed inside menu */
+}
+
+:host([data-disabled]) {
+  color: var(--mui-color-text-disabled);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host { transition: none; }
+}
