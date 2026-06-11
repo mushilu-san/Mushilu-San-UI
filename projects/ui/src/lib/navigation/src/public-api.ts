@@ -12,3 +12,9 @@ export type { TabsOrientation } from './tabs/tabs.types';
 export { TabList } from './tabs/tab-list';
 export { Tab } from './tabs/tab';
 export { TabPanel } from './tabs/tab-panel';
+
+export { NavigationMenu } from './navigation-menu/navigation-menu';
+export { NavigationMenuItem } from './navigation-menu/navigation-menu-item';
+export { NavigationMenuTrigger } from './navigation-menu/navigation-menu-trigger';
+export { NavigationMenuContent } from './navigation-menu/navigation-menu-content';
+export { NavigationMenuLink } from './navigation-menu/navigation-menu-link';
