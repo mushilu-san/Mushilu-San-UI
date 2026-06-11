@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/angular';
+import { screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
@@ -25,37 +25,37 @@ describe('HoverCard', () => {
     const user = userEvent.setup();
     await renderTemplate(BASE, { imports: IMPORTS });
     await user.hover(screen.getByTestId('trigger'));
-    expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
   });
 
   it('hides panel on mouseleave', async () => {
     const user = userEvent.setup();
     await renderTemplate(BASE, { imports: IMPORTS });
     await user.hover(screen.getByTestId('trigger'));
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     await user.unhover(screen.getByTestId('trigger'));
-    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
   });
 
   it('shows panel on focus', async () => {
-    const user = userEvent.setup();
     await renderTemplate(BASE, { imports: IMPORTS });
     screen.getByTestId('trigger').focus();
-    expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
   });
 
   it('hides panel on blur', async () => {
-    const user = userEvent.setup();
     await renderTemplate(BASE, { imports: IMPORTS });
     screen.getByTestId('trigger').focus();
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     screen.getByTestId('trigger').blur();
-    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
   });
 
   it('projects content into panel', async () => {
     const user = userEvent.setup();
     await renderTemplate(BASE, { imports: IMPORTS });
     await user.hover(screen.getByTestId('trigger'));
-    expect(screen.getByText('Card content')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('Card content')).toBeInTheDocument());
   });
 
   it('emits opened event when card opens', async () => {
@@ -69,7 +69,7 @@ describe('HoverCard', () => {
       { imports: IMPORTS, componentProperties: { onOpened } },
     );
     await user.hover(screen.getByTestId('t'));
-    expect(onOpened).toHaveBeenCalledOnce();
+    await waitFor(() => expect(onOpened).toHaveBeenCalledOnce());
   });
 
   it('emits closed event when card closes', async () => {
@@ -83,7 +83,8 @@ describe('HoverCard', () => {
       { imports: IMPORTS, componentProperties: { onClosed } },
     );
     await user.hover(screen.getByTestId('t'));
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     await user.unhover(screen.getByTestId('t'));
-    expect(onClosed).toHaveBeenCalledOnce();
+    await waitFor(() => expect(onClosed).toHaveBeenCalledOnce());
   });
 });

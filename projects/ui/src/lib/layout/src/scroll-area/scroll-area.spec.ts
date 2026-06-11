@@ -9,18 +9,18 @@ describe('ScrollArea', () => {
   });
 
   it('defaults to vertical orientation', async () => {
-    await renderComponent(ScrollArea, { inputs: {} });
-    expect(document.querySelector('mui-scroll-area')).toHaveAttribute('data-orientation', 'vertical');
+    const { container } = await renderComponent(ScrollArea, { inputs: {} });
+    expect(container).toHaveAttribute('data-orientation', 'vertical');
   });
 
   it('sets horizontal orientation', async () => {
-    await renderComponent(ScrollArea, { inputs: { orientation: 'horizontal' } });
-    expect(document.querySelector('mui-scroll-area')).toHaveAttribute('data-orientation', 'horizontal');
+    const { container } = await renderComponent(ScrollArea, { inputs: { orientation: 'horizontal' } });
+    expect(container).toHaveAttribute('data-orientation', 'horizontal');
   });
 
   it('sets both orientation', async () => {
-    await renderComponent(ScrollArea, { inputs: { orientation: 'both' } });
-    expect(document.querySelector('mui-scroll-area')).toHaveAttribute('data-orientation', 'both');
+    const { container } = await renderComponent(ScrollArea, { inputs: { orientation: 'both' } });
+    expect(container).toHaveAttribute('data-orientation', 'both');
   });
 
   it('projects content into viewport', async () => {

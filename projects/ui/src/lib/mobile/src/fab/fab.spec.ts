@@ -11,13 +11,13 @@ describe('Fab', () => {
   });
 
   it('applies default variant primary', async () => {
-    await renderComponent(Fab, { inputs: { label: 'Add' } });
-    expect(document.querySelector('mui-fab')).toHaveAttribute('data-variant', 'primary');
+    const { container } = await renderComponent(Fab, { inputs: { label: 'Add' } });
+    expect(container).toHaveAttribute('data-variant', 'primary');
   });
 
   it('reflects size attribute on host', async () => {
-    await renderComponent(Fab, { inputs: { label: 'Add', size: 'sm' } });
-    expect(document.querySelector('mui-fab')).toHaveAttribute('data-size', 'sm');
+    const { container } = await renderComponent(Fab, { inputs: { label: 'Add', size: 'sm' } });
+    expect(container).toHaveAttribute('data-size', 'sm');
   });
 
   it('emits clicked on user click when enabled', async () => {
@@ -74,8 +74,8 @@ describe('Fab', () => {
   });
 
   it('sets data-extended attribute when extended', async () => {
-    await renderComponent(Fab, { inputs: { label: 'Compose', extended: true } });
-    expect(document.querySelector('mui-fab')).toHaveAttribute('data-extended');
+    const { container } = await renderComponent(Fab, { inputs: { label: 'Compose', extended: true } });
+    expect(container).toHaveAttribute('data-extended');
   });
 
   it('is keyboard activatable via Enter', async () => {

@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/angular';
+import { fireEvent, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
@@ -72,7 +72,7 @@ describe('Combobox', () => {
     const user = userEvent.setup();
     await renderTemplate(BASE, { imports: IMPORTS, componentProperties: { val: '' } });
     await user.click(screen.getByRole('button'));
-    const searchInput = screen.getByRole('searchbox', { hidden: true }) ?? screen.getByLabelText('Search options');
+    const searchInput = screen.getByRole('searchbox');
     await user.type(searchInput, 'ang');
     // "angular".includes("ang") → true; react, vue → false
     expect(screen.getAllByRole('option')).toHaveLength(1);
@@ -80,14 +80,13 @@ describe('Combobox', () => {
   });
 
   it('disabled combobox does not open', async () => {
-    const user = userEvent.setup();
     await renderTemplate(
       `<mui-combobox [disabled]="true">
         <mui-combobox-item value="a">A</mui-combobox-item>
       </mui-combobox>`,
       { imports: IMPORTS },
     );
-    await user.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('button'));
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
 });

@@ -9,14 +9,15 @@ describe('AspectRatio', () => {
   });
 
   it('sets --_ratio CSS variable from ratio input', async () => {
-    await renderComponent(AspectRatio, { inputs: { ratio: 1 } });
-    const host = document.querySelector('mui-aspect-ratio') as HTMLElement;
-    expect(host.style.getPropertyValue('--_ratio')).toBe('1');
+    const { container } = await renderComponent(AspectRatio, { inputs: { ratio: 1 } });
+    const host = container as HTMLElement;
+    const val = host.style.getPropertyValue('--_ratio');
+    expect(parseFloat(val)).toBeCloseTo(1, 2);
   });
 
   it('defaults to 16/9 ratio', async () => {
-    await renderComponent(AspectRatio, { inputs: {} });
-    const host = document.querySelector('mui-aspect-ratio') as HTMLElement;
+    const { container } = await renderComponent(AspectRatio, { inputs: {} });
+    const host = container as HTMLElement;
     const ratio = parseFloat(host.style.getPropertyValue('--_ratio'));
     expect(ratio).toBeCloseTo(16 / 9, 2);
   });

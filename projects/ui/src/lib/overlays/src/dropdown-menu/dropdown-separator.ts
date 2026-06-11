@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 @Component({
   selector: 'mui-dropdown-separator',
   standalone: true,
-  template: `<hr class="mui-dropdown-separator" part="separator" role="separator" aria-hidden="true" />`,
+  template: `<hr class="mui-dropdown-separator" part="separator" />`,
   styles: [`
     :host { display: block; }
     .mui-dropdown-separator {

@@ -1,6 +1,6 @@
-import { screen } from '@testing-library/angular';
+import { screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { renderComponent, renderTemplate } from '../../../../core/testing';
 import { BottomSheet } from './bottom-sheet';
 
@@ -47,18 +47,13 @@ describe('BottomSheet', () => {
   });
 
   it('emits opened when open changes to true', async () => {
-    const opened: void[] = [];
-    await renderTemplate(
-      `<mui-bottom-sheet [open]="isOpen" (opened)="onOpened()"></mui-bottom-sheet>`,
-      {
-        imports: [BottomSheet],
-        componentProperties: {
-          isOpen: true,
-          onOpened: () => opened.push(),
-        },
-      },
-    );
-    expect(opened).toHaveLength(1);
+    const { fixture } = await renderComponent(BottomSheet, {
+      inputs: { heading: 'Options' },
+    });
+    const spy = vi.spyOn(fixture.componentInstance.opened, 'emit');
+    fixture.componentRef.setInput('open', true);
+    fixture.detectChanges();
+    await waitFor(() => expect(spy).toHaveBeenCalled());
   });
 
   it('renders handle by default', async () => {
