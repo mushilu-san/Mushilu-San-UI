@@ -23,6 +23,10 @@ export { Empty } from './empty/empty';
 export { Typography } from './typography/typography';
 export type { TypographyVariant } from './typography/typography';
 
+// Chart
+export { Chart } from './chart/chart';
+export type { ChartType, ChartData, ChartOptions } from './chart/chart.types';
+
 // Carousel
 export { Carousel } from './carousel/carousel';
 export { CarouselContent } from './carousel/carousel-content';

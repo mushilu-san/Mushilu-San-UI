@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.mui-chart__canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+  min-height: 200px;
+}
+
+.mui-chart__fallback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-chart__canvas {
+    animation: none !important;
+    transition: none !important;
+  }
+}
