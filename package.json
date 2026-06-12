@@ -45,7 +45,6 @@
     "@storybook/addon-docs": "^10.4.2",
     "@storybook/addon-onboarding": "^10.4.2",
     "@storybook/angular": "^10.4.2",
-    "@storybook/test": "^8.6.15",
     "@testing-library/angular": "^19.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/user-event": "^14.6.1",
