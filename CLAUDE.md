@@ -14,6 +14,31 @@ Mobile-first, token-themed, zero runtime dependencies beyond Angular itself.
 - **No zone.js** — library is fully zoneless. Never import `fakeAsync`/`tick` in tests.
 - **Storybook version:** 10.4.2 (at `projects/ui/.storybook/`). Config is NOT at workspace root.
 
+## Dependency & lockfile rules (MANDATORY — CI broke repeatedly because of this)
+
+CI failed for days in June 2026 because `package-lock.json` drifted out of sync with
+`package.json` and local Node didn't match CI. These rules are non-negotiable:
+
+1. **Any change to `package.json`** (deps, devDeps, `workspaces`, anything) MUST be followed
+   in the SAME commit by a lockfile regen:
+   ```bash
+   nvm use && npm install
+   git add package.json package-lock.json   # always commit both together
+   ```
+   This includes "metadata-only" changes like `workspaces` — they change npm resolution.
+2. **Node version comes from `.nvmrc` only.** Never hardcode a Node version in workflows
+   (`node-version-file: '.nvmrc'`), scripts, or docs. To upgrade Node: change `.nvmrc`,
+   regenerate the lockfile under that version, test, commit all together.
+3. **Never run `npm install` with the wrong Node.** `.npmrc` has `engine-strict=true` and
+   `package.json` has an `engines` field — if install errors with EBADENGINE, run `nvm use`,
+   do NOT bypass with `--force` / removing the engines field.
+4. **Never replace `npm ci` with `npm install` in workflows.** `npm ci` failing with EUSAGE
+   means the lockfile is stale — fix it locally per rule 1, never paper over it in CI.
+5. **Before every push:** run `./scripts/ci-verify.sh` — it mirrors `.github/workflows/ci.yml`
+   exactly (npm ci → lint → test → build → storybook). If it's green locally, CI is green.
+6. **GitHub Actions are pinned by commit SHA** with a `# vX.Y.Z` comment. When bumping,
+   update both SHA and comment; pick releases that run on the current runner Node (≥24).
+
 ## Activating the correct Node version
 
 Every shell command that runs Angular/npm/npx must be prefixed with nvm activation:
