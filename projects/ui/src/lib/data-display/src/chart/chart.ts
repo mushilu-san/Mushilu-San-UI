@@ -12,6 +12,8 @@ import {
 import { Chart as ChartJs, registerables } from 'chart.js';
 import type { ChartData, ChartOptions, ChartType } from 'chart.js';
 
+type PortableChartOptions = Record<string, unknown>;
+
 ChartJs.register(...registerables);
 
 let chartUid = 0;
@@ -36,7 +38,7 @@ const prefersReducedMotion =
 export class Chart implements AfterViewInit, OnDestroy {
   type = input<ChartType>('bar');
   data = input.required<ChartData>();
-  options = input<ChartOptions>({});
+  options = input<PortableChartOptions>({});
   label = input<string>('Chart');
 
   @ViewChild('canvasRef') private canvasRef!: ElementRef<HTMLCanvasElement>;
@@ -56,7 +58,7 @@ export class Chart implements AfterViewInit, OnDestroy {
         this.chartInstance = new ChartJs(this.canvasRef.nativeElement, {
           type,
           data,
-          options: opts,
+          options: opts as ChartOptions,
         });
       } else {
         this.chartInstance.data = data;
@@ -74,7 +76,7 @@ export class Chart implements AfterViewInit, OnDestroy {
     this.chartInstance = new ChartJs(this.canvasRef.nativeElement, {
       type: this.type(),
       data: this.data(),
-      options: { ...baseOptions, ...this.options() },
+      options: { ...baseOptions, ...this.options() } as ChartOptions,
     });
   }
 
