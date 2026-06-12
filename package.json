@@ -17,7 +17,9 @@
     "build-storybook": "ng run ui:build-storybook"
   },
   "private": true,
-  "workspaces": ["projects/ui"],
+  "workspaces": [
+    "projects/ui"
+  ],
   "packageManager": "npm@10.9.8",
   "dependencies": {
     "@angular/common": "^21.2.0",
@@ -90,5 +92,8 @@
       "path": "dist/ui/mobile/index.mjs",
       "limit": "5 KB"
     }
-  ]
+  ],
+  "engines": {
+    "node": "^22.12.0 || >=24.0.0"
+  }
 }

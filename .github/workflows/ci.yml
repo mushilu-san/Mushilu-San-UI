@@ -9,28 +9,51 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
+      # Node version comes from .nvmrc — single source of truth shared with
+      # local dev (nvm use) and the other workflows. Never hardcode it here.
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: '22'
+          node-version-file: '.nvmrc'
           cache: 'npm'
 
+      # npm ci fails hard if package-lock.json is out of sync with
+      # package.json (including workspaces). That is intentional: fix the
+      # lockfile locally with `npm install` and commit it — never replace
+      # this with `npm install` in CI.
       - name: Install dependencies
         run: npm ci
 
+      # 1. Linting & code quality — fail fast, nothing else runs if this fails
       - name: Lint
-        run: npm run lint --if-present
+        run: npm run lint
 
-      - name: Test (with coverage)
+      # 2. Tests — full suite, no watch
+      - name: Test
         run: npm run test:ci
 
+      # 3. Production build
       - name: Build library
         run: npm run build
 
-      - name: Build Storybook (smoke test)
+      # 4. Archive build output — downloadable zip on the run summary page
+      - name: Upload build artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mushilu-san-ui-${{ github.sha }}
+          path: dist/ui
+          if-no-files-found: error
+          retention-days: 14
+
+      # Smoke test: catches broken stories before the deploy workflow runs on main
+      - name: Build Storybook
         run: npm run storybook:build
