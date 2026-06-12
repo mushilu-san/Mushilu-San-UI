@@ -17,6 +17,7 @@
     "build-storybook": "ng run ui:build-storybook"
   },
   "private": true,
+  "workspaces": ["projects/ui"],
   "packageManager": "npm@10.9.8",
   "dependencies": {
     "@angular/common": "^21.2.0",
