@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { SwipeAction } from './swipe-action';
 import type { SwipeActionItem } from './swipe-action.types';
 
-const TrashIcon = `<svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>`;
-
 const meta: Meta = {
   title: 'Mobile/SwipeAction',
   component: SwipeAction,
@@ -32,7 +30,7 @@ export const Default: Story = {
     props: {
       actions: rightActions,
       lastAction: '',
-      onAction: (key: string) => { /* handled in template */ },
+      onAction: (_key: string) => { /* handled in template */ },
     },
     template: `
       <div style="width:375px;">

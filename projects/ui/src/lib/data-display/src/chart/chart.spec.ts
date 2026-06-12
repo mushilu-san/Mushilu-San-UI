@@ -5,7 +5,7 @@ import { Chart } from './chart';
 const mockDestroy = vi.hoisted(() => vi.fn());
 const mockUpdate = vi.hoisted(() => vi.fn());
 const mockRegister = vi.hoisted(() => vi.fn());
-const ctorCalls = vi.hoisted(() => [] as Array<{ canvas: unknown; cfg: unknown }>);
+const ctorCalls = vi.hoisted(() => [] as { canvas: unknown; cfg: unknown }[]);
 
 vi.mock('chart.js', () => {
   class MockChart {

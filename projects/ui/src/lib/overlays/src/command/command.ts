@@ -2,14 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   InjectionToken,
   Signal,
   ViewEncapsulation,
   input,
   model,
   output,
-  signal,
 } from '@angular/core';
 
 export interface CommandContext {

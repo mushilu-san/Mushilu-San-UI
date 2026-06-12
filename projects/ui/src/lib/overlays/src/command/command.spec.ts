@@ -75,7 +75,6 @@ describe('Command', () => {
   });
 
   it('disabled item does not activate', async () => {
-    const user = userEvent.setup();
     const onActivated = vi.fn();
     await renderTemplate(
       `<mui-command (itemActivated)="onActivated($event)">

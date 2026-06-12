@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   Signal,
   ViewEncapsulation,
   computed,
   forwardRef,
   inject,
-  signal,
 } from '@angular/core';
 import { NAV_MENU_CONTEXT, NAV_MENU_ITEM_CONTEXT, NavMenuItemContext } from './navigation-menu-context';
 
@@ -28,13 +26,11 @@ let _uid = 0;
   ],
   host: { '[attr.part]': '"item"', '[attr.data-open]': 'isOpen() ? "" : null' },
 })
-export class NavigationMenuItem implements NavMenuItemContext, OnInit {
+export class NavigationMenuItem implements NavMenuItemContext {
   private readonly root = inject(NAV_MENU_CONTEXT);
 
   readonly id: string = `nav-item-${++_uid}`;
   readonly isOpen: Signal<boolean> = computed(() => this.root.openId() === this.id);
-
-  ngOnInit(): void {}
 
   toggle(): void {
     this.root.setOpen(this.isOpen() ? null : this.id);

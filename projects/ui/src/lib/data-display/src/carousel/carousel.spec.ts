@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/angular';
+import { fireEvent } from '@testing-library/angular';
 import { describe, expect, it } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
 import { Carousel } from './carousel';

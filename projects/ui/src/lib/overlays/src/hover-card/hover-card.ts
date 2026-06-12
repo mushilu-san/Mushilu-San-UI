@@ -9,7 +9,6 @@ import {
   model,
   numberAttribute,
   output,
-  signal,
 } from '@angular/core';
 import type { PopoverPlacement } from '../popover/popover.types';
 

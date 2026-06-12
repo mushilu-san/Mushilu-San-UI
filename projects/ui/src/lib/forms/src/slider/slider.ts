@@ -7,7 +7,6 @@ import {
   booleanAttribute,
   computed,
   forwardRef,
-  inject,
   input,
   model,
   numberAttribute,

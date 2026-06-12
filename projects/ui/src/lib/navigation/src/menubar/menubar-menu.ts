@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   Signal,
   ViewEncapsulation,
   computed,
@@ -29,13 +28,11 @@ let _uid = 0;
     '[attr.part]':              '"menu"',
   },
 })
-export class MenubarMenu implements MenubarMenuContext, OnInit {
+export class MenubarMenu implements MenubarMenuContext {
   private readonly root = inject(MENUBAR_CONTEXT);
 
   readonly id: string = `menubar-menu-${++_uid}`;
   readonly isOpen: Signal<boolean> = computed(() => this.root.openId() === this.id);
-
-  ngOnInit(): void {}
 
   toggle(): void {
     this.root.setOpen(this.isOpen() ? null : this.id);

@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   ViewEncapsulation,
   booleanAttribute,
   forwardRef,
   input,
   model,
-  signal,
 } from '@angular/core';
 import { SIDEBAR_CONTEXT, SidebarContext } from './sidebar-context';
 

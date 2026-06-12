@@ -2,6 +2,7 @@
   #dialog
   class="mui-sheet__panel"
   part="panel"
+  tabindex="-1"
   [attr.data-side]="side()"
   [attr.data-size]="size()"
   [attr.aria-labelledby]="heading() ? headingId : null"
@@ -9,6 +10,7 @@
   (close)="onNativeClose()"
   (cancel)="onCancel($event)"
   (click)="onBackdropClick($event)"
+  (keydown.escape)="close()"
 >
   <div class="mui-sheet__surface" part="surface">
     <div class="mui-sheet__header" part="header">

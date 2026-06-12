@@ -18,7 +18,8 @@
 </button>
 
 @if (open()) {
-  <div class="mui-combobox__panel" part="panel" (click)="$event.stopPropagation()">
+  <div class="mui-combobox__panel" part="panel" tabindex="-1"
+    (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
     <!-- search input -->
     <div class="mui-combobox__search-wrapper" part="search-wrapper">
       <svg viewBox="0 0 16 16" width="14" height="14" fill="none"

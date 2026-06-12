@@ -61,7 +61,6 @@ describe('ContextMenu', () => {
   });
 
   it('does not select disabled item', async () => {
-    const user = userEvent.setup();
     const onSelected = vi.fn();
     await renderTemplate(
       `<mui-context-menu>

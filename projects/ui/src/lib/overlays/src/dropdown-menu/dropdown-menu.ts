@@ -52,7 +52,7 @@ export class DropdownMenu {
   toggle(): void {
     const next = !this.open();
     this.open.set(next);
-    next ? this.opened.emit() : this.closed.emit();
+    if (next) { this.opened.emit(); } else { this.closed.emit(); }
   }
 
   close(): void {

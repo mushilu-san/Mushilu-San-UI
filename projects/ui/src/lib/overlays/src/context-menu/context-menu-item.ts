@@ -1,14 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   ViewEncapsulation,
   booleanAttribute,
-  computed,
   inject,
   input,
   output,
-  viewChild,
 } from '@angular/core';
 import { CONTEXT_MENU_CONTEXT } from './context-menu';
 import type { ContextMenuItemColor } from './context-menu.types';

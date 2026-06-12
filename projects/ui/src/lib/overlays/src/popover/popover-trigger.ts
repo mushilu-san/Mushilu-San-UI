@@ -1,7 +1,6 @@
 import {
   Directive,
   HostListener,
-  ViewEncapsulation,
   computed,
   inject,
 } from '@angular/core';
