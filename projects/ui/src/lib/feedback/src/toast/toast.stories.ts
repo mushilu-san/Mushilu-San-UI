@@ -11,9 +11,16 @@ import { ToastService } from './toast.service';
   template: `
     <div style="display:flex;flex-wrap:wrap;gap:8px;">
       <button type="button" (click)="svc.info('A new message arrived.')">Info</button>
-      <button type="button" (click)="svc.success('Your changes were saved.', { title: 'Saved' })">Success</button>
+      <button type="button" (click)="svc.success('Your changes were saved.', { title: 'Saved' })">
+        Success
+      </button>
       <button type="button" (click)="svc.warning('Your session expires soon.')">Warning</button>
-      <button type="button" (click)="svc.danger('Could not save changes.', { title: 'Error', duration: 0 })">Danger (sticky)</button>
+      <button
+        type="button"
+        (click)="svc.danger('Could not save changes.', { title: 'Error', duration: 0 })"
+      >
+        Danger (sticky)
+      </button>
     </div>
     <mui-toast-container [placement]="placement" />
   `,
@@ -39,7 +46,14 @@ export const Playground: Story = {
   argTypes: {
     placement: {
       control: 'select',
-      options: ['top-start', 'top-center', 'top-end', 'bottom-start', 'bottom-center', 'bottom-end'],
+      options: [
+        'top-start',
+        'top-center',
+        'top-end',
+        'bottom-start',
+        'bottom-center',
+        'bottom-end',
+      ],
     },
   },
 };

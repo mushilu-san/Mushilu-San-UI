@@ -45,10 +45,10 @@ describe('Sheet', () => {
   it('closes on close button click', async () => {
     const user = userEvent.setup();
     const onClosed = vi.fn();
-    await renderTemplate(
-      `<mui-sheet [(open)]="open" (closed)="onClosed()">Content</mui-sheet>`,
-      { imports: [Sheet], componentProperties: { open: true, onClosed } },
-    );
+    await renderTemplate(`<mui-sheet [(open)]="open" (closed)="onClosed()">Content</mui-sheet>`, {
+      imports: [Sheet],
+      componentProperties: { open: true, onClosed },
+    });
     await user.click(screen.getByRole('button', { name: 'Close' }));
     expect(document.querySelector('dialog')).not.toHaveAttribute('open');
     expect(onClosed).toHaveBeenCalledOnce();
@@ -56,18 +56,17 @@ describe('Sheet', () => {
 
   it('emits opened event when opened', async () => {
     const onOpened = vi.fn();
-    await renderTemplate(
-      `<mui-sheet [(open)]="open" (opened)="onOpened()">Content</mui-sheet>`,
-      { imports: [Sheet], componentProperties: { open: true, onOpened } },
-    );
+    await renderTemplate(`<mui-sheet [(open)]="open" (opened)="onOpened()">Content</mui-sheet>`, {
+      imports: [Sheet],
+      componentProperties: { open: true, onOpened },
+    });
     expect(onOpened).toHaveBeenCalledOnce();
   });
 
   it('projects body content', async () => {
-    await renderTemplate(
-      `<mui-sheet [open]="true"><p>Sheet body</p></mui-sheet>`,
-      { imports: [Sheet] },
-    );
+    await renderTemplate(`<mui-sheet [open]="true"><p>Sheet body</p></mui-sheet>`, {
+      imports: [Sheet],
+    });
     expect(screen.getByText('Sheet body')).toBeInTheDocument();
   });
 

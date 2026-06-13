@@ -25,8 +25,12 @@ describe('FormField', () => {
   });
 
   it('renders hint text when provided and no error', async () => {
-    await renderComponent(FormField, { inputs: { label: 'Email', hint: 'We will never share your email.' } });
-    expect(document.querySelector('.field-hint')?.textContent?.trim()).toBe('We will never share your email.');
+    await renderComponent(FormField, {
+      inputs: { label: 'Email', hint: 'We will never share your email.' },
+    });
+    expect(document.querySelector('.field-hint')?.textContent?.trim()).toBe(
+      'We will never share your email.',
+    );
   });
 
   it('hides hint when error is set', async () => {
@@ -42,7 +46,9 @@ describe('FormField', () => {
   });
 
   it('sets data-invalid on host when error is set', async () => {
-    await renderTemplate('<mui-form-field error="Required"></mui-form-field>', { imports: [FormField] });
+    await renderTemplate('<mui-form-field error="Required"></mui-form-field>', {
+      imports: [FormField],
+    });
     expect(document.querySelector('mui-form-field')).toHaveAttribute('data-invalid');
   });
 

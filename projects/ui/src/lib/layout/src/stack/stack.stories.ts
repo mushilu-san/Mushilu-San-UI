@@ -12,10 +12,13 @@ const meta: Meta<Stack> = {
   parameters: { layout: 'centered' },
   argTypes: {
     direction: { control: 'select', options: ['row', 'column', 'row-reverse', 'column-reverse'] },
-    align:     { control: 'select', options: ['start', 'center', 'end', 'stretch', 'baseline'] },
-    justify:   { control: 'select', options: ['start', 'center', 'end', 'between', 'around', 'evenly'] },
-    gap:       { control: 'number' },
-    wrap:      { control: 'boolean' },
+    align: { control: 'select', options: ['start', 'center', 'end', 'stretch', 'baseline'] },
+    justify: {
+      control: 'select',
+      options: ['start', 'center', 'end', 'between', 'around', 'evenly'],
+    },
+    gap: { control: 'number' },
+    wrap: { control: 'boolean' },
   },
 };
 
@@ -65,7 +68,9 @@ export const Alignment: Story = {
     props: {},
     template: `
       <div style="display:flex;flex-direction:column;gap:20px;">
-        ${(['start', 'center', 'end', 'stretch'] as const).map(align => `
+        ${(['start', 'center', 'end', 'stretch'] as const)
+          .map(
+            (align) => `
           <div>
             <p style="margin:0 0 6px;font-size:12px;color:#64748b;">align="${align}"</p>
             <mui-stack direction="row" align="${align}" [gap]="3" style="height:80px;background:#f1f5f9;border-radius:6px;padding:8px;">
@@ -74,7 +79,9 @@ export const Alignment: Story = {
               <div style="background:#6366f1;color:#fff;border-radius:6px;padding:10px 12px;font-size:12px;">md</div>
             </mui-stack>
           </div>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </div>
     `,
     imports: [Stack],
@@ -86,7 +93,9 @@ export const Justify: Story = {
     props: {},
     template: `
       <div style="display:flex;flex-direction:column;gap:16px;width:320px;">
-        ${(['start', 'center', 'end', 'between', 'around', 'evenly'] as const).map(justify => `
+        ${(['start', 'center', 'end', 'between', 'around', 'evenly'] as const)
+          .map(
+            (justify) => `
           <div>
             <p style="margin:0 0 6px;font-size:12px;color:#64748b;">justify="${justify}"</p>
             <mui-stack direction="row" justify="${justify}" style="background:#f1f5f9;border-radius:6px;padding:8px;">
@@ -95,7 +104,9 @@ export const Justify: Story = {
               <div style="background:#6366f1;color:#fff;border-radius:6px;padding:6px 10px;font-size:12px;">C</div>
             </mui-stack>
           </div>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </div>
     `,
     imports: [Stack],
@@ -107,9 +118,22 @@ export const Wrap: Story = {
     props: {},
     template: `
       <mui-stack direction="row" [gap]="2" [wrap]="true" style="width:260px;background:#f1f5f9;border-radius:6px;padding:8px;">
-        ${['Angular', 'TypeScript', 'Storybook', 'Vitest', 'CSS', 'Accessibility', 'Signals', 'Zoneless'].map(t => `
+        ${[
+          'Angular',
+          'TypeScript',
+          'Storybook',
+          'Vitest',
+          'CSS',
+          'Accessibility',
+          'Signals',
+          'Zoneless',
+        ]
+          .map(
+            (t) => `
           <span style="background:#fff;border:1px solid #e2e8f0;border-radius:9999px;padding:4px 12px;font-size:12px;">${t}</span>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </mui-stack>
     `,
     imports: [Stack],

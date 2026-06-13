@@ -12,10 +12,18 @@ import { COMMAND_CONTEXT } from './command';
   standalone: true,
   template: `
     <div class="mui-command-input__wrapper" part="input-wrapper">
-      <svg class="mui-command-input__icon" viewBox="0 0 16 16" width="16" height="16" fill="none"
-           stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <circle cx="6.5" cy="6.5" r="4"/>
-        <path d="M11 11l3 3"/>
+      <svg
+        class="mui-command-input__icon"
+        viewBox="0 0 16 16"
+        width="16"
+        height="16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+      >
+        <circle cx="6.5" cy="6.5" r="4" />
+        <path d="M11 11l3 3" />
       </svg>
       <input
         type="text"

@@ -8,8 +8,11 @@ import { NavigationMenuContent } from './navigation-menu-content';
 import { NavigationMenuLink } from './navigation-menu-link';
 
 const IMPORTS = [
-  NavigationMenu, NavigationMenuItem,
-  NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink,
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
 ];
 
 const BASIC = `

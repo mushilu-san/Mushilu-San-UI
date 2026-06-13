@@ -30,7 +30,9 @@ export const Default: Story = {
     props: {
       actions: rightActions,
       lastAction: '',
-      onAction: (_key: string) => { /* handled in template */ },
+      onAction: (_key: string) => {
+        /* handled in template */
+      },
     },
     template: `
       <div style="width:375px;">

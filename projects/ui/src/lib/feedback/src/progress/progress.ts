@@ -20,16 +20,16 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.role]':          '"progressbar"',
+    '[attr.role]': '"progressbar"',
     '[attr.aria-valuemin]': 'indeterminate() ? null : 0',
     '[attr.aria-valuemax]': 'indeterminate() ? null : max()',
     '[attr.aria-valuenow]': 'indeterminate() ? null : clampedValue()',
-    '[attr.aria-label]':    'label()',
-    '[attr.aria-busy]':     'indeterminate() ? "true" : null',
-    '[attr.data-variant]':  'variant()',
-    '[attr.data-size]':     'size()',
+    '[attr.aria-label]': 'label()',
+    '[attr.aria-busy]': 'indeterminate() ? "true" : null',
+    '[attr.data-variant]': 'variant()',
+    '[attr.data-size]': 'size()',
     '[attr.data-indeterminate]': 'indeterminate() ? "" : null',
-    '[attr.part]':          '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Progress {
@@ -49,12 +49,8 @@ export class Progress {
     return Math.min(Math.max(this.value(), 0), max);
   });
 
-  protected readonly percent = computed(
-    () => (this.clampedValue() / (this.max() || 1)) * 100,
-  );
+  protected readonly percent = computed(() => (this.clampedValue() / (this.max() || 1)) * 100);
 
   /** Stroke offset for the circular indicator (0 = full, circumference = empty). */
-  protected readonly dashOffset = computed(
-    () => CIRCUMFERENCE * (1 - this.percent() / 100),
-  );
+  protected readonly dashOffset = computed(() => CIRCUMFERENCE * (1 - this.percent() / 100));
 }

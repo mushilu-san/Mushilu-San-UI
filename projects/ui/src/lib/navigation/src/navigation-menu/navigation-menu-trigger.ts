@@ -15,15 +15,15 @@ import { NAV_MENU_ITEM_CONTEXT } from './navigation-menu-context';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    'type':                 'button',
+    type: 'button',
     '[attr.aria-expanded]': 'isOpen()',
     '[attr.aria-haspopup]': '"true"',
-    '[attr.data-open]':     'isOpen() ? "" : null',
-    '[attr.part]':          '"trigger"',
-    '(click)':              'ctx.toggle()',
+    '[attr.data-open]': 'isOpen() ? "" : null',
+    '[attr.part]': '"trigger"',
+    '(click)': 'ctx.toggle()',
   },
 })
 export class NavigationMenuTrigger {
-  protected readonly ctx    = inject(NAV_MENU_ITEM_CONTEXT);
+  protected readonly ctx = inject(NAV_MENU_ITEM_CONTEXT);
   protected readonly isOpen = computed(() => this.ctx.isOpen());
 }

@@ -21,18 +21,18 @@
 }
 
 /* ---- Sizes ---- */
-.mui-toggle-group-item__btn[data-size="sm"] {
+.mui-toggle-group-item__btn[data-size='sm'] {
   min-height: 32px;
   min-width: 32px;
   padding: 0 var(--mui-space-2);
   font-size: var(--mui-font-size-sm);
 }
-.mui-toggle-group-item__btn[data-size="md"] {
+.mui-toggle-group-item__btn[data-size='md'] {
   min-height: var(--mui-touch-target);
   min-width: var(--mui-touch-target);
   padding: 0 var(--mui-space-3);
 }
-.mui-toggle-group-item__btn[data-size="lg"] {
+.mui-toggle-group-item__btn[data-size='lg'] {
   min-height: 48px;
   min-width: 48px;
   padding: 0 var(--mui-space-4);
@@ -41,7 +41,10 @@
 
 /* ---- Hover ---- */
 .mui-toggle-group-item__btn:not([aria-disabled]):hover {
-  background-color: var(--mui-color-surface-hover, color-mix(in srgb, var(--mui-color-primary) 8%, transparent));
+  background-color: var(
+    --mui-color-surface-hover,
+    color-mix(in srgb, var(--mui-color-primary) 8%, transparent)
+  );
   color: var(--mui-color-text);
 }
 
@@ -56,7 +59,7 @@
 }
 
 /* ---- Outline variant ---- */
-.mui-toggle-group-item__btn[data-variant="outline"][data-selected] {
+.mui-toggle-group-item__btn[data-variant='outline'][data-selected] {
   background-color: transparent;
   color: var(--mui-color-primary);
   box-shadow: inset 0 0 0 2px var(--mui-color-primary);
@@ -77,5 +80,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-toggle-group-item__btn { transition: none; }
+  .mui-toggle-group-item__btn {
+    transition: none;
+  }
 }

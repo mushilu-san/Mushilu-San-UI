@@ -8,7 +8,14 @@ import { MenubarContent } from './menubar-content';
 import { MenubarItem } from './menubar-item';
 import { MenubarSeparator } from './menubar-separator';
 
-const IMPORTS = [Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator];
+const IMPORTS = [
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarSeparator,
+];
 
 const BASIC = `
   <mui-menubar>
@@ -71,12 +78,12 @@ describe('Menubar', () => {
 
   it('triggers have role=menuitem', async () => {
     await renderTemplate(BASIC, { imports: IMPORTS });
-    getTriggers().forEach(t => expect(t).toHaveAttribute('role', 'menuitem'));
+    getTriggers().forEach((t) => expect(t).toHaveAttribute('role', 'menuitem'));
   });
 
   it('triggers have aria-haspopup=menu', async () => {
     await renderTemplate(BASIC, { imports: IMPORTS });
-    getTriggers().forEach(t => expect(t).toHaveAttribute('aria-haspopup', 'menu'));
+    getTriggers().forEach((t) => expect(t).toHaveAttribute('aria-haspopup', 'menu'));
   });
 
   it('trigger aria-expanded is false by default', async () => {
@@ -110,7 +117,7 @@ describe('Menubar', () => {
 
   it('content has role=menu', async () => {
     await renderTemplate(BASIC, { imports: IMPORTS });
-    getContents().forEach(c => expect(c).toHaveAttribute('role', 'menu'));
+    getContents().forEach((c) => expect(c).toHaveAttribute('role', 'menu'));
   });
 
   it('items have role=menuitem', async () => {
@@ -119,7 +126,7 @@ describe('Menubar', () => {
     const visibleItems = Array.from(
       document.querySelectorAll('mui-menubar-content[data-open] [muiMenubarItem]'),
     );
-    visibleItems.forEach(i => expect(i).toHaveAttribute('role', 'menuitem'));
+    visibleItems.forEach((i) => expect(i).toHaveAttribute('role', 'menuitem'));
   });
 
   it('disabled item has aria-disabled', async () => {

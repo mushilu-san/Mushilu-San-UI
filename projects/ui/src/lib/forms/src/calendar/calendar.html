@@ -1,5 +1,4 @@
 <div class="cal-container">
-
   <!-- Header: navigation + month/year title -->
   <div class="cal-header">
     <button
@@ -12,7 +11,13 @@
       (click)="prevMonth()"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M10 12L6 8L10 4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </button>
 
@@ -22,7 +27,8 @@
       role="heading"
       aria-level="2"
       aria-live="polite"
-    >{{ monthLabel() }}</span>
+      >{{ monthLabel() }}</span
+    >
 
     <button
       class="cal-nav"
@@ -34,7 +40,13 @@
       (click)="nextMonth()"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M6 4L10 8L6 12"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </button>
   </div>
@@ -49,12 +61,9 @@
     <thead>
       <tr role="row">
         @for (name of weekDayNames(); track name.long) {
-          <th
-            role="columnheader"
-            scope="col"
-            class="cal-weekday"
-            [attr.abbr]="name.long"
-          >{{ name.short }}</th>
+          <th role="columnheader" scope="col" class="cal-weekday" [attr.abbr]="name.long">
+            {{ name.short }}
+          </th>
         }
       </tr>
     </thead>
@@ -78,7 +87,9 @@
                 (click)="onDayClick(day)"
                 (keydown)="onDayKeydown($event, day)"
                 (blur)="onBlur()"
-              >{{ day.day }}</button>
+              >
+                {{ day.day }}
+              </button>
             </td>
           }
         </tr>

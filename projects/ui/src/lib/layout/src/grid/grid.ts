@@ -24,11 +24,11 @@ const ALIGN_MAP: Record<GridAlign, string> = {
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[style.grid-template-columns]': 'templateColumns()',
-    '[style.column-gap]':            'columnGapValue()',
-    '[style.row-gap]':               'rowGapValue()',
-    '[style.align-items]':           'alignValue()',
-    '[style.justify-items]':         'justifyValue()',
-    '[attr.part]':                   '"root"',
+    '[style.column-gap]': 'columnGapValue()',
+    '[style.row-gap]': 'rowGapValue()',
+    '[style.align-items]': 'alignValue()',
+    '[style.justify-items]': 'justifyValue()',
+    '[attr.part]': '"root"',
   },
 })
 export class Grid {
@@ -50,9 +50,7 @@ export class Grid {
   /** Inline-axis alignment of grid items (justify-items). */
   justify = input<GridAlign>('stretch');
 
-  protected readonly templateColumns = computed(
-    () => `repeat(${this.columns()}, minmax(0, 1fr))`,
-  );
+  protected readonly templateColumns = computed(() => `repeat(${this.columns()}, minmax(0, 1fr))`);
   protected readonly columnGapValue = computed(
     () => `var(--mui-space-${this.columnGap() ?? this.gap()}, 0px)`,
   );

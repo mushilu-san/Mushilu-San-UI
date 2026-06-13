@@ -42,7 +42,7 @@ import { TOGGLE_GROUP_CONTEXT } from './toggle-group';
   host: { '[attr.part]': '"root"' },
 })
 export class ToggleGroupItem {
-  value    = input.required<string>();
+  value = input.required<string>();
   disabled = input(false, { transform: booleanAttribute });
 
   protected readonly ctx = inject(TOGGLE_GROUP_CONTEXT);

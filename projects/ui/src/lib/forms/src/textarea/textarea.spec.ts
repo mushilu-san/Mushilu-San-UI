@@ -30,7 +30,9 @@ describe('Textarea (muiTextarea directive)', () => {
   });
 
   it('sets data-resize attribute', async () => {
-    await renderTemplate('<textarea muiTextarea resize="none"></textarea>', { imports: [Textarea] });
+    await renderTemplate('<textarea muiTextarea resize="none"></textarea>', {
+      imports: [Textarea],
+    });
     expect(document.querySelector('textarea')).toHaveAttribute('data-resize', 'none');
   });
 
@@ -45,7 +47,9 @@ describe('Textarea (muiTextarea directive)', () => {
   });
 
   it('is accessible via role=textbox', async () => {
-    await renderTemplate('<textarea muiTextarea aria-label="Message"></textarea>', { imports: [Textarea] });
+    await renderTemplate('<textarea muiTextarea aria-label="Message"></textarea>', {
+      imports: [Textarea],
+    });
     expect(screen.getByRole('textbox', { name: 'Message' })).toBeInTheDocument();
   });
 });

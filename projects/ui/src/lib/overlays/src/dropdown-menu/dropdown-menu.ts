@@ -52,7 +52,11 @@ export class DropdownMenu {
   toggle(): void {
     const next = !this.open();
     this.open.set(next);
-    if (next) { this.opened.emit(); } else { this.closed.emit(); }
+    if (next) {
+      this.opened.emit();
+    } else {
+      this.closed.emit();
+    }
   }
 
   close(): void {
@@ -97,7 +101,10 @@ export class DropdownMenu {
         items[items.length - 1].focus();
         break;
       case 'Escape':
-        if (this.closeOnEscape()) { event.preventDefault(); this.close(); }
+        if (this.closeOnEscape()) {
+          event.preventDefault();
+          this.close();
+        }
         break;
       case 'Tab':
         this.close();

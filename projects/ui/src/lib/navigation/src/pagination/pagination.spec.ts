@@ -28,18 +28,28 @@ describe('Pagination', () => {
 
   it('disables prev button on first page', async () => {
     await renderComponent(Pagination, { inputs: { totalPages: 5, page: 1 } });
-    expect(screen.getByRole('button', { name: 'Go to previous page' })).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('button', { name: 'Go to previous page' })).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
   });
 
   it('disables next button on last page', async () => {
     await renderComponent(Pagination, { inputs: { totalPages: 5, page: 5 } });
-    expect(screen.getByRole('button', { name: 'Go to next page' })).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('button', { name: 'Go to next page' })).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
   });
 
   it('enables prev/next buttons on middle page', async () => {
     await renderComponent(Pagination, { inputs: { totalPages: 5, page: 3 } });
-    expect(screen.getByRole('button', { name: 'Go to previous page' })).not.toHaveAttribute('aria-disabled');
-    expect(screen.getByRole('button', { name: 'Go to next page' })).not.toHaveAttribute('aria-disabled');
+    expect(screen.getByRole('button', { name: 'Go to previous page' })).not.toHaveAttribute(
+      'aria-disabled',
+    );
+    expect(screen.getByRole('button', { name: 'Go to next page' })).not.toHaveAttribute(
+      'aria-disabled',
+    );
   });
 
   it('emits pageChange when page button clicked', async () => {
@@ -91,10 +101,9 @@ describe('Pagination', () => {
   });
 
   it('exposes part="pagination"', async () => {
-    await renderTemplate(
-      '<mui-pagination [totalPages]="3"></mui-pagination>',
-      { imports: [Pagination] },
-    );
+    await renderTemplate('<mui-pagination [totalPages]="3"></mui-pagination>', {
+      imports: [Pagination],
+    });
     expect(document.querySelector('mui-pagination')).toHaveAttribute('part', 'pagination');
   });
 });

@@ -76,11 +76,10 @@ describe('InputGroup', () => {
   });
 
   it('standalone input has no data-in-group', async () => {
-    await renderTemplate(
-      `<input muiInput aria-label="standalone" />`,
-      { imports: [Input] },
+    await renderTemplate(`<input muiInput aria-label="standalone" />`, { imports: [Input] });
+    expect(screen.getByRole('textbox', { name: 'standalone' })).not.toHaveAttribute(
+      'data-in-group',
     );
-    expect(screen.getByRole('textbox', { name: 'standalone' })).not.toHaveAttribute('data-in-group');
   });
 
   it('input invalid input still shows invalid when group is not invalid', async () => {

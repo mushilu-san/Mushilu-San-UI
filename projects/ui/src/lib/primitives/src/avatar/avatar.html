@@ -4,7 +4,8 @@
     [src]="src()"
     [alt]="label() || name()"
     aria-hidden="true"
-    (error)="onImgError()" />
+    (error)="onImgError()"
+  />
 }
 @if (showText()) {
   <span class="fallback" aria-hidden="true">{{ initials() }}</span>

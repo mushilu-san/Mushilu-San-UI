@@ -31,14 +31,14 @@
 /* ----------------------------------------------------------------
    Sizes
    ---------------------------------------------------------------- */
-:host([data-size="sm"]) {
+:host([data-size='sm']) {
   font-size: var(--mui-font-size-sm);
   padding: var(--mui-space-1) var(--mui-space-3);
   min-height: var(--mui-touch-target);
   min-width: var(--mui-touch-target);
 }
 
-:host([data-size="md"]),
+:host([data-size='md']),
 :host(:not([data-size])) {
   font-size: var(--mui-font-size-base);
   padding: var(--mui-space-2) var(--mui-space-4);
@@ -46,7 +46,7 @@
   min-width: var(--mui-touch-target);
 }
 
-:host([data-size="lg"]) {
+:host([data-size='lg']) {
   font-size: var(--mui-font-size-lg);
   padding: var(--mui-space-3) var(--mui-space-6);
   min-height: 52px;
@@ -56,74 +56,74 @@
 /* ----------------------------------------------------------------
    Variants
    ---------------------------------------------------------------- */
-:host([data-variant="primary"]),
+:host([data-variant='primary']),
 :host(:not([data-variant])) {
   background-color: var(--mui-color-primary);
   color: var(--mui-color-primary-text);
   border-color: var(--mui-color-primary);
 }
 
-:host([data-variant="primary"]:hover:not([aria-disabled="true"])),
-:host(:not([data-variant]):hover:not([aria-disabled="true"])) {
+:host([data-variant='primary']:hover:not([aria-disabled='true'])),
+:host(:not([data-variant]):hover:not([aria-disabled='true'])) {
   background-color: var(--mui-color-primary-hover);
   border-color: var(--mui-color-primary-hover);
 }
 
-:host([data-variant="primary"]:active:not([aria-disabled="true"])),
-:host(:not([data-variant]):active:not([aria-disabled="true"])) {
+:host([data-variant='primary']:active:not([aria-disabled='true'])),
+:host(:not([data-variant]):active:not([aria-disabled='true'])) {
   background-color: var(--mui-color-primary-active);
   border-color: var(--mui-color-primary-active);
 }
 
-:host([data-variant="secondary"]) {
+:host([data-variant='secondary']) {
   background-color: var(--mui-color-surface);
   color: var(--mui-color-text);
   border-color: var(--mui-color-border);
 }
 
-:host([data-variant="secondary"]:hover:not([aria-disabled="true"])) {
+:host([data-variant='secondary']:hover:not([aria-disabled='true'])) {
   background-color: var(--mui-color-border);
   border-color: var(--mui-color-border-strong);
 }
 
-:host([data-variant="secondary"]:active:not([aria-disabled="true"])) {
+:host([data-variant='secondary']:active:not([aria-disabled='true'])) {
   background-color: var(--mui-color-border-strong);
   border-color: var(--mui-color-border-strong);
 }
 
-:host([data-variant="ghost"]) {
+:host([data-variant='ghost']) {
   background-color: transparent;
   color: var(--mui-color-text);
   border-color: transparent;
 }
 
-:host([data-variant="ghost"]:hover:not([aria-disabled="true"])) {
+:host([data-variant='ghost']:hover:not([aria-disabled='true'])) {
   background-color: var(--mui-color-surface);
 }
 
-:host([data-variant="ghost"]:active:not([aria-disabled="true"])) {
+:host([data-variant='ghost']:active:not([aria-disabled='true'])) {
   background-color: var(--mui-color-border);
 }
 
-:host([data-variant="destructive"]) {
+:host([data-variant='destructive']) {
   background-color: var(--mui-color-danger);
   color: var(--mui-color-danger-text);
   border-color: var(--mui-color-danger);
 }
 
-:host([data-variant="destructive"]:hover:not([aria-disabled="true"])) {
+:host([data-variant='destructive']:hover:not([aria-disabled='true'])) {
   background-color: var(--mui-color-danger-hover);
   border-color: var(--mui-color-danger-hover);
 }
 
-:host([data-variant="destructive"]:active:not([aria-disabled="true"])) {
+:host([data-variant='destructive']:active:not([aria-disabled='true'])) {
   filter: brightness(0.85);
 }
 
 /* ----------------------------------------------------------------
    Disabled state
    ---------------------------------------------------------------- */
-:host([aria-disabled="true"]) {
+:host([aria-disabled='true']) {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
@@ -132,7 +132,7 @@
 /* ----------------------------------------------------------------
    Loading state
    ---------------------------------------------------------------- */
-:host([aria-busy="true"]) .mui-button__label {
+:host([aria-busy='true']) .mui-button__label {
   opacity: 0;
 }
 
@@ -151,7 +151,9 @@
 }
 
 @keyframes mui-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -161,8 +163,13 @@
 }
 
 @keyframes mui-spin-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 /* ----------------------------------------------------------------

@@ -20,20 +20,20 @@ import { RESIZABLE_GROUP_CONTEXT } from './resizable-context';
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[style.flex-basis.%]': 'size()',
-    '[attr.part]':          '"panel"',
+    '[attr.part]': '"panel"',
   },
 })
 export class ResizablePanel implements OnInit {
   defaultSize = input(50, { transform: numberAttribute });
-  minSize     = input(10, { transform: numberAttribute });
-  maxSize     = input(90, { transform: numberAttribute });
+  minSize = input(10, { transform: numberAttribute });
+  maxSize = input(90, { transform: numberAttribute });
 
   private readonly ctx = inject(RESIZABLE_GROUP_CONTEXT);
 
   protected size: Signal<number> = signal(this.defaultSize());
 
   ngOnInit(): void {
-    const reg  = this.ctx.registerPanel(this.defaultSize(), this.minSize(), this.maxSize());
-    this.size  = reg.size;
+    const reg = this.ctx.registerPanel(this.defaultSize(), this.minSize(), this.maxSize());
+    this.size = reg.size;
   }
 }

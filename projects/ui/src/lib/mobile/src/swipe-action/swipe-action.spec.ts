@@ -60,10 +60,9 @@ describe('SwipeAction', () => {
   });
 
   it('renders no action rails when actions is empty', async () => {
-    await renderTemplate(
-      `<mui-swipe-action [actions]="[]"><span>Row</span></mui-swipe-action>`,
-      { imports: [SwipeAction] },
-    );
+    await renderTemplate(`<mui-swipe-action [actions]="[]"><span>Row</span></mui-swipe-action>`, {
+      imports: [SwipeAction],
+    });
     expect(document.querySelector('.mui-swipe-action__rail')).not.toBeInTheDocument();
   });
 

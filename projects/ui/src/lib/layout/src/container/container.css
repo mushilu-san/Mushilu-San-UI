@@ -8,11 +8,21 @@
   margin-inline: auto;
 }
 
-:host([data-size='sm'])   { max-width: 640px; }
-:host([data-size='md'])   { max-width: 768px; }
-:host([data-size='lg'])   { max-width: 1024px; }
-:host([data-size='xl'])   { max-width: 1280px; }
-:host([data-size='full']) { max-width: none; }
+:host([data-size='sm']) {
+  max-width: 640px;
+}
+:host([data-size='md']) {
+  max-width: 768px;
+}
+:host([data-size='lg']) {
+  max-width: 1024px;
+}
+:host([data-size='xl']) {
+  max-width: 1280px;
+}
+:host([data-size='full']) {
+  max-width: none;
+}
 
 :host([data-padded]) {
   padding-inline: var(--mui-space-4);

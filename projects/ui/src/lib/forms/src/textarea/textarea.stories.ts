@@ -7,9 +7,9 @@ const meta: Meta<Textarea> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    size:    { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
     variant: { control: 'select', options: ['outline', 'filled', 'ghost'] },
-    resize:  { control: 'select', options: ['none', 'vertical', 'both'] },
+    resize: { control: 'select', options: ['none', 'vertical', 'both'] },
     invalid: { control: 'boolean' },
   },
 };

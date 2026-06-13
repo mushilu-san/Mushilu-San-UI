@@ -41,7 +41,10 @@ describe('DatePicker', () => {
     const trigger = screen.getByRole('button', { name: /pick a date/i });
     await user.click(trigger);
     // Re-query by name since many buttons now exist after calendar renders
-    expect(screen.getByRole('button', { name: /pick a date/i })).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: /pick a date/i })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
   });
 
   it('closes calendar on second trigger click', async () => {
@@ -58,7 +61,9 @@ describe('DatePicker', () => {
     await renderComponent(DatePicker, { inputs: { value: new Date(2024, 0, 1) } });
     await user.click(screen.getByRole('button'));
     const dayBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day'));
-    const day15 = dayBtns.find(b => b.textContent?.trim() === '15' && !b.hasAttribute('data-outside'));
+    const day15 = dayBtns.find(
+      (b) => b.textContent?.trim() === '15' && !b.hasAttribute('data-outside'),
+    );
     expect(day15).toBeTruthy();
     await user.click(day15!);
     // Panel should close
@@ -82,7 +87,9 @@ describe('DatePicker', () => {
   });
 
   it('sets data-disabled on host when disabled', async () => {
-    await renderTemplate(`<mui-date-picker [disabled]="true"></mui-date-picker>`, { imports: [DatePicker] });
+    await renderTemplate(`<mui-date-picker [disabled]="true"></mui-date-picker>`, {
+      imports: [DatePicker],
+    });
     expect(document.querySelector('mui-date-picker')).toHaveAttribute('data-disabled');
   });
 

@@ -29,7 +29,7 @@
   -webkit-appearance: none;
   transition:
     border-color var(--mui-duration-fast) var(--mui-easing-default),
-    box-shadow   var(--mui-duration-fast) var(--mui-easing-default);
+    box-shadow var(--mui-duration-fast) var(--mui-easing-default);
 }
 
 .otp-slot[data-filled] {
@@ -42,7 +42,8 @@
   border-color: var(--mui-color-focus-ring);
   box-shadow:
     0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 :host([data-disabled]) .otp-slot {
@@ -54,5 +55,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .otp-slot { transition: none; }
+  .otp-slot {
+    transition: none;
+  }
 }

@@ -12,11 +12,11 @@ const meta: Meta<FormField> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    label:     { control: 'text' },
-    hint:      { control: 'text' },
-    error:     { control: 'text' },
-    required:  { control: 'boolean' },
-    disabled:  { control: 'boolean' },
+    label: { control: 'text' },
+    hint: { control: 'text' },
+    error: { control: 'text' },
+    required: { control: 'boolean' },
+    disabled: { control: 'boolean' },
     controlId: { control: 'text' },
   },
 };

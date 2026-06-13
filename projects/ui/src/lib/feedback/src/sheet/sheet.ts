@@ -33,13 +33,13 @@ let sheetUid = 0;
   host: { '[attr.part]': '"root"' },
 })
 export class Sheet {
-  open            = model(false);
-  side            = input<SheetSide>('right');
-  size            = input<SheetSize>('md');
-  heading         = input<string>();
-  closeOnBackdrop = input(true,  { transform: booleanAttribute });
-  closeOnEscape   = input(true,  { transform: booleanAttribute });
-  showClose       = input(true,  { transform: booleanAttribute });
+  open = model(false);
+  side = input<SheetSide>('right');
+  size = input<SheetSize>('md');
+  heading = input<string>();
+  closeOnBackdrop = input(true, { transform: booleanAttribute });
+  closeOnEscape = input(true, { transform: booleanAttribute });
+  showClose = input(true, { transform: booleanAttribute });
 
   readonly opened = output<void>();
   readonly closed = output<void>();
@@ -85,10 +85,18 @@ export class Sheet {
   }
 
   private showNative(el: HTMLDialogElement): void {
-    try { el.showModal(); } catch { el.setAttribute('open', ''); }
+    try {
+      el.showModal();
+    } catch {
+      el.setAttribute('open', '');
+    }
   }
 
   private closeNative(el: HTMLDialogElement): void {
-    try { el.close(); } catch { el.removeAttribute('open'); }
+    try {
+      el.close();
+    } catch {
+      el.removeAttribute('open');
+    }
   }
 }

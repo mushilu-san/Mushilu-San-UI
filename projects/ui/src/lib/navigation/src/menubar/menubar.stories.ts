@@ -6,7 +6,14 @@ import { MenubarContent } from './menubar-content';
 import { MenubarItem } from './menubar-item';
 import { MenubarSeparator } from './menubar-separator';
 
-const IMPORTS = [Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator];
+const IMPORTS = [
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarSeparator,
+];
 
 const meta: Meta = {
   title: 'Navigation/Menubar',

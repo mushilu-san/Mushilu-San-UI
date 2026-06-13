@@ -20,9 +20,7 @@ export interface HoverCardContext {
   cancelClose(): void;
 }
 
-export const HOVER_CARD_CONTEXT = new InjectionToken<HoverCardContext>(
-  'HOVER_CARD_CONTEXT',
-);
+export const HOVER_CARD_CONTEXT = new InjectionToken<HoverCardContext>('HOVER_CARD_CONTEXT');
 
 /**
  * HoverCard — a popover that opens on hover/focus with a configurable delay.
@@ -47,11 +45,11 @@ export const HOVER_CARD_CONTEXT = new InjectionToken<HoverCardContext>(
     {
       provide: HOVER_CARD_CONTEXT,
       useFactory: (self: HoverCard) => ({
-        open:          self.open,
-        placement:     self.placement,
-        scheduleOpen:  () => self.scheduleOpen(),
+        open: self.open,
+        placement: self.placement,
+        scheduleOpen: () => self.scheduleOpen(),
         scheduleClose: () => self.scheduleClose(),
-        cancelClose:   () => self.cancelClose(),
+        cancelClose: () => self.cancelClose(),
       }),
       deps: [HoverCard],
     },
@@ -59,15 +57,15 @@ export const HOVER_CARD_CONTEXT = new InjectionToken<HoverCardContext>(
   host: { '[attr.part]': '"root"' },
 })
 export class HoverCard implements OnDestroy {
-  open       = model(false);
-  placement  = input<PopoverPlacement>('bottom');
-  openDelay  = input(700, { transform: numberAttribute });
+  open = model(false);
+  placement = input<PopoverPlacement>('bottom');
+  openDelay = input(700, { transform: numberAttribute });
   closeDelay = input(300, { transform: numberAttribute });
 
   readonly opened = output<void>();
   readonly closed = output<void>();
 
-  private openTimer:  ReturnType<typeof setTimeout> | null = null;
+  private openTimer: ReturnType<typeof setTimeout> | null = null;
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
 
   scheduleOpen(): void {

@@ -24,24 +24,28 @@
   touch-action: manipulation;
   transition:
     border-color var(--mui-duration-fast) var(--mui-easing-default),
-    box-shadow   var(--mui-duration-fast) var(--mui-easing-default);
+    box-shadow var(--mui-duration-fast) var(--mui-easing-default);
 }
 
-.dp-trigger:hover { border-color: var(--mui-color-border-strong); }
+.dp-trigger:hover {
+  border-color: var(--mui-color-border-strong);
+}
 
 .dp-trigger:focus-visible {
   outline: none;
   border-color: var(--mui-color-focus-ring);
   box-shadow:
     0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 :host([data-open]) .dp-trigger {
   border-color: var(--mui-color-focus-ring);
   box-shadow:
     0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 :host([data-disabled]) .dp-trigger {
@@ -69,11 +73,21 @@
 }
 
 @keyframes dp-open {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dp-trigger { transition: none; }
-  .dp-panel   { animation: none; }
+  .dp-trigger {
+    transition: none;
+  }
+  .dp-panel {
+    animation: none;
+  }
 }

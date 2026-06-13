@@ -4,12 +4,42 @@ import { Icon } from './icon';
 import type { IconName } from './icon.types';
 
 const ALL_ICONS: IconName[] = [
-  'arrow-left', 'arrow-right', 'bell', 'calendar', 'check', 'check-circle',
-  'chevron-down', 'chevron-left', 'chevron-right', 'chevron-up', 'copy',
-  'download', 'edit', 'external-link', 'eye', 'eye-off', 'filter', 'heart',
-  'home', 'info', 'loading', 'mail', 'map-pin', 'menu', 'minus',
-  'more-horizontal', 'more-vertical', 'phone', 'plus', 'search', 'settings',
-  'star', 'trash', 'upload', 'user', 'x',
+  'arrow-left',
+  'arrow-right',
+  'bell',
+  'calendar',
+  'check',
+  'check-circle',
+  'chevron-down',
+  'chevron-left',
+  'chevron-right',
+  'chevron-up',
+  'copy',
+  'download',
+  'edit',
+  'external-link',
+  'eye',
+  'eye-off',
+  'filter',
+  'heart',
+  'home',
+  'info',
+  'loading',
+  'mail',
+  'map-pin',
+  'menu',
+  'minus',
+  'more-horizontal',
+  'more-vertical',
+  'phone',
+  'plus',
+  'search',
+  'settings',
+  'star',
+  'trash',
+  'upload',
+  'user',
+  'x',
 ];
 
 const meta: Meta<Icon> = {
@@ -18,9 +48,12 @@ const meta: Meta<Icon> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    name:  { control: 'select', options: ALL_ICONS },
-    size:  { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
-    color: { control: 'select', options: ['inherit', 'primary', 'muted', 'danger', 'success', 'warning'] },
+    name: { control: 'select', options: ALL_ICONS },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
+    color: {
+      control: 'select',
+      options: ['inherit', 'primary', 'muted', 'danger', 'success', 'warning'],
+    },
     label: { control: 'text' },
   },
 };
@@ -103,12 +136,14 @@ export const AllIcons: Story = {
     props: {},
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:8px;max-width:640px;">
-        ${ALL_ICONS.map(name => `
+        ${ALL_ICONS.map(
+          (name) => `
           <div style="display:flex;flex-direction:column;align-items:center;gap:6px;width:80px;padding:8px;border-radius:6px;">
             <mui-icon name="${name}" size="md" />
             <span style="font-size:10px;color:#64748b;text-align:center;word-break:break-all;">${name}</span>
           </div>
-        `).join('')}
+        `,
+        ).join('')}
       </div>
     `,
     imports: [Icon],

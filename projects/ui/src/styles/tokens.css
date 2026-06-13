@@ -8,7 +8,7 @@
   /* ================================================================
      Color: Raw palette
      ================================================================ */
-  --mui-palette-blue-50:  #eff6ff;
+  --mui-palette-blue-50: #eff6ff;
   --mui-palette-blue-100: #dbeafe;
   --mui-palette-blue-200: #bfdbfe;
   --mui-palette-blue-300: #93c5fd;
@@ -19,23 +19,23 @@
   --mui-palette-blue-800: #1e40af;
   --mui-palette-blue-900: #1e3a8a;
 
-  --mui-palette-red-50:  #fef2f2;
+  --mui-palette-red-50: #fef2f2;
   --mui-palette-red-500: #ef4444;
   --mui-palette-red-600: #dc2626;
   --mui-palette-red-700: #b91c1c;
 
-  --mui-palette-green-50:  #f0fdf4;
+  --mui-palette-green-50: #f0fdf4;
   --mui-palette-green-500: #22c55e;
   --mui-palette-green-600: #16a34a;
   --mui-palette-green-700: #15803d;
 
-  --mui-palette-amber-50:  #fffbeb;
+  --mui-palette-amber-50: #fffbeb;
   --mui-palette-amber-500: #f59e0b;
   --mui-palette-amber-600: #d97706;
   --mui-palette-amber-700: #b45309;
 
-  --mui-palette-slate-0:   #ffffff;
-  --mui-palette-slate-50:  #f8fafc;
+  --mui-palette-slate-0: #ffffff;
+  --mui-palette-slate-50: #f8fafc;
   --mui-palette-slate-100: #f1f5f9;
   --mui-palette-slate-200: #e2e8f0;
   --mui-palette-slate-300: #cbd5e1;
@@ -50,53 +50,53 @@
   /* ================================================================
      Color: Semantic (light theme defaults)
      ================================================================ */
-  --mui-color-bg:             var(--mui-palette-slate-0);
-  --mui-color-surface:        var(--mui-palette-slate-50);
+  --mui-color-bg: var(--mui-palette-slate-0);
+  --mui-color-surface: var(--mui-palette-slate-50);
   --mui-color-surface-raised: var(--mui-palette-slate-0);
-  --mui-color-border:         var(--mui-palette-slate-200);
-  --mui-color-border-strong:  var(--mui-palette-slate-300);
+  --mui-color-border: var(--mui-palette-slate-200);
+  --mui-color-border-strong: var(--mui-palette-slate-300);
 
-  --mui-color-text:           var(--mui-palette-slate-900);
-  --mui-color-text-muted:     var(--mui-palette-slate-500);
-  --mui-color-text-disabled:  var(--mui-palette-slate-400);
-  --mui-color-text-inverse:   var(--mui-palette-slate-0);
+  --mui-color-text: var(--mui-palette-slate-900);
+  --mui-color-text-muted: var(--mui-palette-slate-500);
+  --mui-color-text-disabled: var(--mui-palette-slate-400);
+  --mui-color-text-inverse: var(--mui-palette-slate-0);
 
-  --mui-color-primary:        var(--mui-palette-blue-600);
-  --mui-color-primary-hover:  var(--mui-palette-blue-700);
+  --mui-color-primary: var(--mui-palette-blue-600);
+  --mui-color-primary-hover: var(--mui-palette-blue-700);
   --mui-color-primary-active: var(--mui-palette-blue-800);
   --mui-color-primary-subtle: var(--mui-palette-blue-50);
-  --mui-color-primary-text:   var(--mui-palette-slate-0);
+  --mui-color-primary-text: var(--mui-palette-slate-0);
 
-  --mui-color-danger:         var(--mui-palette-red-600);
-  --mui-color-danger-hover:   var(--mui-palette-red-700);
-  --mui-color-danger-subtle:  var(--mui-palette-red-50);
-  --mui-color-danger-text:    var(--mui-palette-slate-0);
+  --mui-color-danger: var(--mui-palette-red-600);
+  --mui-color-danger-hover: var(--mui-palette-red-700);
+  --mui-color-danger-subtle: var(--mui-palette-red-50);
+  --mui-color-danger-text: var(--mui-palette-slate-0);
 
-  --mui-color-success:        var(--mui-palette-green-600);
+  --mui-color-success: var(--mui-palette-green-600);
   --mui-color-success-subtle: var(--mui-palette-green-50);
-  --mui-color-success-text:   var(--mui-palette-green-700);
+  --mui-color-success-text: var(--mui-palette-green-700);
 
-  --mui-color-warning:        var(--mui-palette-amber-600);
+  --mui-color-warning: var(--mui-palette-amber-600);
   --mui-color-warning-subtle: var(--mui-palette-amber-50);
-  --mui-color-warning-text:   var(--mui-palette-amber-700);
+  --mui-color-warning-text: var(--mui-palette-amber-700);
 
-  --mui-color-focus-ring:     var(--mui-palette-blue-600);
-  --mui-color-overlay:        rgba(15, 23, 42, 0.4);
+  --mui-color-focus-ring: var(--mui-palette-blue-600);
+  --mui-color-overlay: rgba(15, 23, 42, 0.4);
 
   /* Form element borders — slate-500 gives 4.69:1 on white (WCAG 1.4.11 ✓) */
-  --mui-color-input-border:   var(--mui-palette-slate-500);
+  --mui-color-input-border: var(--mui-palette-slate-500);
 
   /* ================================================================
      Spacing (4px base)
      ================================================================ */
-  --mui-space-0:  0px;
-  --mui-space-1:  4px;
-  --mui-space-2:  8px;
-  --mui-space-3:  12px;
-  --mui-space-4:  16px;
-  --mui-space-5:  20px;
-  --mui-space-6:  24px;
-  --mui-space-8:  32px;
+  --mui-space-0: 0px;
+  --mui-space-1: 4px;
+  --mui-space-2: 8px;
+  --mui-space-3: 12px;
+  --mui-space-4: 16px;
+  --mui-space-5: 20px;
+  --mui-space-6: 24px;
+  --mui-space-8: 32px;
   --mui-space-10: 40px;
   --mui-space-12: 48px;
   --mui-space-16: 64px;
@@ -104,41 +104,41 @@
   /* ================================================================
      Typography
      ================================================================ */
-  --mui-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-  --mui-font-mono: ui-monospace, "Cascadia Code", "Fira Code", Consolas, monospace;
+  --mui-font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --mui-font-mono: ui-monospace, 'Cascadia Code', 'Fira Code', Consolas, monospace;
 
-  --mui-font-size-xs:   12px;
-  --mui-font-size-sm:   14px;
+  --mui-font-size-xs: 12px;
+  --mui-font-size-sm: 14px;
   --mui-font-size-base: 16px;
-  --mui-font-size-lg:   18px;
-  --mui-font-size-xl:   20px;
-  --mui-font-size-2xl:  24px;
-  --mui-font-size-3xl:  30px;
-  --mui-font-size-4xl:  36px;
+  --mui-font-size-lg: 18px;
+  --mui-font-size-xl: 20px;
+  --mui-font-size-2xl: 24px;
+  --mui-font-size-3xl: 30px;
+  --mui-font-size-4xl: 36px;
 
-  --mui-line-height-tight:  1.25;
-  --mui-line-height-snug:   1.375;
-  --mui-line-height-base:   1.5;
-  --mui-line-height-relaxed:1.625;
+  --mui-line-height-tight: 1.25;
+  --mui-line-height-snug: 1.375;
+  --mui-line-height-base: 1.5;
+  --mui-line-height-relaxed: 1.625;
 
   --mui-font-weight-regular: 400;
-  --mui-font-weight-medium:  500;
-  --mui-font-weight-semibold:600;
-  --mui-font-weight-bold:    700;
+  --mui-font-weight-medium: 500;
+  --mui-font-weight-semibold: 600;
+  --mui-font-weight-bold: 700;
 
   --mui-letter-spacing-tight: -0.025em;
   --mui-letter-spacing-normal: 0em;
-  --mui-letter-spacing-wide:   0.025em;
+  --mui-letter-spacing-wide: 0.025em;
 
   /* ================================================================
      Border radius
      ================================================================ */
   --mui-radius-none: 0px;
-  --mui-radius-sm:   4px;
-  --mui-radius-md:   8px;
-  --mui-radius-lg:   12px;
-  --mui-radius-xl:   16px;
-  --mui-radius-2xl:  24px;
+  --mui-radius-sm: 4px;
+  --mui-radius-md: 8px;
+  --mui-radius-lg: 12px;
+  --mui-radius-xl: 16px;
+  --mui-radius-2xl: 24px;
   --mui-radius-full: 9999px;
 
   /* ================================================================
@@ -154,12 +154,12 @@
   /* ================================================================
      Z-index layers
      ================================================================ */
-  --mui-z-base:    0;
-  --mui-z-raised:  1;
-  --mui-z-sticky:  100;
-  --mui-z-drawer:  200;
-  --mui-z-modal:   300;
-  --mui-z-toast:   400;
+  --mui-z-base: 0;
+  --mui-z-raised: 1;
+  --mui-z-sticky: 100;
+  --mui-z-drawer: 200;
+  --mui-z-modal: 300;
+  --mui-z-toast: 400;
   --mui-z-tooltip: 500;
 
   /* ================================================================
@@ -172,20 +172,20 @@
   /* ================================================================
      Transitions
      ================================================================ */
-  --mui-duration-fast:   100ms;
-  --mui-duration-base:   200ms;
-  --mui-duration-slow:   300ms;
-  --mui-easing-default:  cubic-bezier(0.4, 0, 0.2, 1);
-  --mui-easing-in:       cubic-bezier(0.4, 0, 1, 1);
-  --mui-easing-out:      cubic-bezier(0, 0, 0.2, 1);
+  --mui-duration-fast: 100ms;
+  --mui-duration-base: 200ms;
+  --mui-duration-slow: 300ms;
+  --mui-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --mui-easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --mui-easing-out: cubic-bezier(0, 0, 0.2, 1);
 
   /* ================================================================
      Breakpoints (reference — use in media queries, not var())
      ================================================================ */
-  --mui-bp-sm:  640px;
-  --mui-bp-md:  768px;
-  --mui-bp-lg:  1024px;
-  --mui-bp-xl:  1280px;
+  --mui-bp-sm: 640px;
+  --mui-bp-md: 768px;
+  --mui-bp-lg: 1024px;
+  --mui-bp-xl: 1280px;
   --mui-bp-2xl: 1536px;
 }
 
@@ -196,41 +196,41 @@
    data-theme="light" → forced light (overrides OS preference)
    ================================================================ */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --mui-color-bg:             var(--mui-palette-slate-950);
-    --mui-color-surface:        var(--mui-palette-slate-900);
+  :root:not([data-theme='light']) {
+    --mui-color-bg: var(--mui-palette-slate-950);
+    --mui-color-surface: var(--mui-palette-slate-900);
     --mui-color-surface-raised: var(--mui-palette-slate-800);
-    --mui-color-border:         var(--mui-palette-slate-700);
-    --mui-color-border-strong:  var(--mui-palette-slate-600);
+    --mui-color-border: var(--mui-palette-slate-700);
+    --mui-color-border-strong: var(--mui-palette-slate-600);
 
-    --mui-color-text:           var(--mui-palette-slate-50);
-    --mui-color-text-muted:     var(--mui-palette-slate-400);
-    --mui-color-text-disabled:  var(--mui-palette-slate-600);
-    --mui-color-text-inverse:   var(--mui-palette-slate-900);
+    --mui-color-text: var(--mui-palette-slate-50);
+    --mui-color-text-muted: var(--mui-palette-slate-400);
+    --mui-color-text-disabled: var(--mui-palette-slate-600);
+    --mui-color-text-inverse: var(--mui-palette-slate-900);
 
-    --mui-color-primary:        var(--mui-palette-blue-400);
-    --mui-color-primary-hover:  var(--mui-palette-blue-300);
+    --mui-color-primary: var(--mui-palette-blue-400);
+    --mui-color-primary-hover: var(--mui-palette-blue-300);
     --mui-color-primary-active: var(--mui-palette-blue-200);
     --mui-color-primary-subtle: rgba(59, 130, 246, 0.15);
-    --mui-color-primary-text:   var(--mui-palette-slate-950);
+    --mui-color-primary-text: var(--mui-palette-slate-950);
 
-    --mui-color-danger:         var(--mui-palette-red-500);
-    --mui-color-danger-hover:   var(--mui-palette-red-600);
-    --mui-color-danger-subtle:  rgba(239, 68, 68, 0.15);
+    --mui-color-danger: var(--mui-palette-red-500);
+    --mui-color-danger-hover: var(--mui-palette-red-600);
+    --mui-color-danger-subtle: rgba(239, 68, 68, 0.15);
 
-    --mui-color-success:        var(--mui-palette-green-500);
+    --mui-color-success: var(--mui-palette-green-500);
     --mui-color-success-subtle: rgba(34, 197, 94, 0.15);
-    --mui-color-success-text:   var(--mui-palette-green-500);
+    --mui-color-success-text: var(--mui-palette-green-500);
 
-    --mui-color-warning:        var(--mui-palette-amber-500);
+    --mui-color-warning: var(--mui-palette-amber-500);
     --mui-color-warning-subtle: rgba(245, 158, 11, 0.15);
-    --mui-color-warning-text:   var(--mui-palette-amber-500);
+    --mui-color-warning-text: var(--mui-palette-amber-500);
 
-    --mui-color-focus-ring:     var(--mui-palette-blue-400);
-    --mui-color-overlay:        rgba(2, 6, 23, 0.6);
+    --mui-color-focus-ring: var(--mui-palette-blue-400);
+    --mui-color-overlay: rgba(2, 6, 23, 0.6);
 
     /* slate-400 gives 5.72:1 on slate-800 input background (WCAG 1.4.11 ✓) */
-    --mui-color-input-border:   var(--mui-palette-slate-400);
+    --mui-color-input-border: var(--mui-palette-slate-400);
 
     --mui-shadow-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     --mui-shadow-2: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
@@ -240,40 +240,40 @@
   }
 }
 
-[data-theme="dark"] {
-  --mui-color-bg:             var(--mui-palette-slate-950);
-  --mui-color-surface:        var(--mui-palette-slate-900);
+[data-theme='dark'] {
+  --mui-color-bg: var(--mui-palette-slate-950);
+  --mui-color-surface: var(--mui-palette-slate-900);
   --mui-color-surface-raised: var(--mui-palette-slate-800);
-  --mui-color-border:         var(--mui-palette-slate-700);
-  --mui-color-border-strong:  var(--mui-palette-slate-600);
+  --mui-color-border: var(--mui-palette-slate-700);
+  --mui-color-border-strong: var(--mui-palette-slate-600);
 
-  --mui-color-text:           var(--mui-palette-slate-50);
-  --mui-color-text-muted:     var(--mui-palette-slate-400);
-  --mui-color-text-disabled:  var(--mui-palette-slate-600);
-  --mui-color-text-inverse:   var(--mui-palette-slate-900);
+  --mui-color-text: var(--mui-palette-slate-50);
+  --mui-color-text-muted: var(--mui-palette-slate-400);
+  --mui-color-text-disabled: var(--mui-palette-slate-600);
+  --mui-color-text-inverse: var(--mui-palette-slate-900);
 
-  --mui-color-primary:        var(--mui-palette-blue-400);
-  --mui-color-primary-hover:  var(--mui-palette-blue-300);
+  --mui-color-primary: var(--mui-palette-blue-400);
+  --mui-color-primary-hover: var(--mui-palette-blue-300);
   --mui-color-primary-active: var(--mui-palette-blue-200);
   --mui-color-primary-subtle: rgba(59, 130, 246, 0.15);
-  --mui-color-primary-text:   var(--mui-palette-slate-950);
+  --mui-color-primary-text: var(--mui-palette-slate-950);
 
-  --mui-color-danger:         var(--mui-palette-red-500);
-  --mui-color-danger-hover:   var(--mui-palette-red-600);
-  --mui-color-danger-subtle:  rgba(239, 68, 68, 0.15);
+  --mui-color-danger: var(--mui-palette-red-500);
+  --mui-color-danger-hover: var(--mui-palette-red-600);
+  --mui-color-danger-subtle: rgba(239, 68, 68, 0.15);
 
-  --mui-color-success:        var(--mui-palette-green-500);
+  --mui-color-success: var(--mui-palette-green-500);
   --mui-color-success-subtle: rgba(34, 197, 94, 0.15);
-  --mui-color-success-text:   var(--mui-palette-green-500);
+  --mui-color-success-text: var(--mui-palette-green-500);
 
-  --mui-color-warning:        var(--mui-palette-amber-500);
+  --mui-color-warning: var(--mui-palette-amber-500);
   --mui-color-warning-subtle: rgba(245, 158, 11, 0.15);
-  --mui-color-warning-text:   var(--mui-palette-amber-500);
+  --mui-color-warning-text: var(--mui-palette-amber-500);
 
-  --mui-color-focus-ring:     var(--mui-palette-blue-400);
-  --mui-color-overlay:        rgba(2, 6, 23, 0.6);
+  --mui-color-focus-ring: var(--mui-palette-blue-400);
+  --mui-color-overlay: rgba(2, 6, 23, 0.6);
 
-  --mui-color-input-border:   var(--mui-palette-slate-400);
+  --mui-color-input-border: var(--mui-palette-slate-400);
 
   --mui-shadow-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --mui-shadow-2: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);

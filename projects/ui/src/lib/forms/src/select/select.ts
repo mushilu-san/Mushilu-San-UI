@@ -15,14 +15,14 @@ import type { SelectSize, SelectVariant } from './select.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.data-size]':    'size()',
+    '[attr.data-size]': 'size()',
     '[attr.data-variant]': 'variant()',
     '[attr.data-invalid]': 'invalid() || null',
-    '[attr.part]':         '"select"',
+    '[attr.part]': '"select"',
   },
 })
 export class Select {
-  size    = input<SelectSize>('md');
+  size = input<SelectSize>('md');
   variant = input<SelectVariant>('outline');
   invalid = input(false, { transform: booleanAttribute });
 }

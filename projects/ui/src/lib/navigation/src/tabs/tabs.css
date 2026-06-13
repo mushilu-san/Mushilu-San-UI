@@ -39,7 +39,9 @@ mui-tabs {
   margin-bottom: -2px;
   cursor: pointer;
   white-space: nowrap;
-  transition: color 150ms ease, border-color 150ms ease;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
   outline: none;
 }
 

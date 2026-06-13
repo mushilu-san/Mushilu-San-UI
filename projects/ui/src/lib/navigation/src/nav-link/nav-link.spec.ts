@@ -10,7 +10,9 @@ describe('NavLink', () => {
   });
 
   it('sets data-variant attribute', async () => {
-    await renderTemplate('<a muiNavLink variant="primary" href="#">Nav</a>', { imports: [NavLink] });
+    await renderTemplate('<a muiNavLink variant="primary" href="#">Nav</a>', {
+      imports: [NavLink],
+    });
     expect(document.querySelector('a[muiNavLink]')).toHaveAttribute('data-variant', 'primary');
   });
 

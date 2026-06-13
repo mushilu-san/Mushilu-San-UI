@@ -13,9 +13,7 @@ export interface InputGroupContext {
   readonly invalid: Signal<boolean>;
 }
 
-export const INPUT_GROUP_CONTEXT = new InjectionToken<InputGroupContext>(
-  'INPUT_GROUP_CONTEXT',
-);
+export const INPUT_GROUP_CONTEXT = new InjectionToken<InputGroupContext>('INPUT_GROUP_CONTEXT');
 
 @Component({
   selector: 'mui-input-group',
@@ -32,12 +30,12 @@ export const INPUT_GROUP_CONTEXT = new InjectionToken<InputGroupContext>(
     },
   ],
   host: {
-    '[attr.data-size]':    'size()',
+    '[attr.data-size]': 'size()',
     '[attr.data-invalid]': 'invalid() || null',
-    '[attr.part]':         '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class InputGroup {
-  size    = input<InputGroupSize>('md');
+  size = input<InputGroupSize>('md');
   invalid = input(false, { transform: booleanAttribute });
 }

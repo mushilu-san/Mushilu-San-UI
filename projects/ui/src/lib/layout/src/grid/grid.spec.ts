@@ -34,7 +34,9 @@ describe('Grid', () => {
   });
 
   it('lets columnGap/rowGap override the shared gap', async () => {
-    await renderTemplate('<mui-grid [gap]="4" [columnGap]="8" [rowGap]="2"></mui-grid>', { imports: [Grid] });
+    await renderTemplate('<mui-grid [gap]="4" [columnGap]="8" [rowGap]="2"></mui-grid>', {
+      imports: [Grid],
+    });
     const host = document.querySelector('mui-grid') as HTMLElement;
     expect(host.style.columnGap).toBe('var(--mui-space-8, 0px)');
     expect(host.style.rowGap).toBe('var(--mui-space-2, 0px)');

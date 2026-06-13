@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 
 /**
  * Empty — empty-state placeholder with an icon area, title, description,
@@ -28,6 +23,6 @@ import {
   },
 })
 export class Empty {
-  title       = input<string>();
+  title = input<string>();
   description = input<string>();
 }

@@ -27,29 +27,29 @@ import { CAROUSEL_CONTEXT, CarouselContext } from './carousel-context';
     },
   ],
   host: {
-    'role':                     'region',
-    '[attr.aria-label]':        'label()',
+    role: 'region',
+    '[attr.aria-label]': 'label()',
     '[attr.aria-roledescription]': '"carousel"',
-    '[attr.part]':              '"root"',
-    '(keydown.arrowLeft)':      'prev()',
-    '(keydown.arrowRight)':     'next()',
+    '[attr.part]': '"root"',
+    '(keydown.arrowLeft)': 'prev()',
+    '(keydown.arrowRight)': 'next()',
   },
 })
 export class Carousel implements CarouselContext, OnInit, OnDestroy {
-  active   = model(0);
-  loop     = input(false, { transform: booleanAttribute });
+  active = model(0);
+  loop = input(false, { transform: booleanAttribute });
   autoPlay = input(0, { transform: numberAttribute });
-  label    = input('Carousel');
+  label = input('Carousel');
 
   private readonly _count = signal(0);
-  readonly count          = this._count.asReadonly();
+  readonly count = this._count.asReadonly();
 
   private _timer: ReturnType<typeof setInterval> | null = null;
 
   /** Called by CarouselItem components to register themselves. */
   registerItem(): number {
     const idx = this._count();
-    this._count.update(n => n + 1);
+    this._count.update((n) => n + 1);
     return idx;
   }
 
@@ -66,7 +66,7 @@ export class Carousel implements CarouselContext, OnInit, OnDestroy {
   next(): void {
     const n = this._count();
     if (n === 0) return;
-    this.active.update(i => {
+    this.active.update((i) => {
       if (i < n - 1) return i + 1;
       return this.loop() ? 0 : i;
     });
@@ -75,7 +75,7 @@ export class Carousel implements CarouselContext, OnInit, OnDestroy {
   prev(): void {
     const n = this._count();
     if (n === 0) return;
-    this.active.update(i => {
+    this.active.update((i) => {
       if (i > 0) return i - 1;
       return this.loop() ? n - 1 : i;
     });

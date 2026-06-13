@@ -28,8 +28,12 @@
   z-index: 0;
 }
 
-.mui-swipe-action__rail--left  { left: 0; }
-.mui-swipe-action__rail--right { right: 0; }
+.mui-swipe-action__rail--left {
+  left: 0;
+}
+.mui-swipe-action__rail--right {
+  right: 0;
+}
 
 .mui-swipe-action__action {
   display: flex;
@@ -48,18 +52,32 @@
   transition: filter var(--mui-duration-fast) var(--mui-easing-default);
 }
 
-.mui-swipe-action__action:hover { filter: brightness(1.1); }
+.mui-swipe-action__action:hover {
+  filter: brightness(1.1);
+}
 .mui-swipe-action__action:focus-visible {
   outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
   outline-offset: -3px;
 }
 
 /* Action color variants */
-.mui-swipe-action__action--primary  { background-color: var(--mui-color-primary); }
-.mui-swipe-action__action--danger   { background-color: var(--mui-color-danger); }
-.mui-swipe-action__action--success  { background-color: var(--mui-color-success); }
-.mui-swipe-action__action--warning  { background-color: var(--mui-color-warning); color: var(--mui-color-text); }
-.mui-swipe-action__action--surface  { background-color: var(--mui-color-surface); color: var(--mui-color-text); }
+.mui-swipe-action__action--primary {
+  background-color: var(--mui-color-primary);
+}
+.mui-swipe-action__action--danger {
+  background-color: var(--mui-color-danger);
+}
+.mui-swipe-action__action--success {
+  background-color: var(--mui-color-success);
+}
+.mui-swipe-action__action--warning {
+  background-color: var(--mui-color-warning);
+  color: var(--mui-color-text);
+}
+.mui-swipe-action__action--surface {
+  background-color: var(--mui-color-surface);
+  color: var(--mui-color-text);
+}
 
 /* ----------------------------------------------------------------
    Swipeable track
@@ -72,7 +90,7 @@
   align-items: center;
   background-color: var(--mui-color-surface-raised);
   will-change: transform;
-  touch-action: pan-y;  /* allow vertical scroll, intercept horizontal */
+  touch-action: pan-y; /* allow vertical scroll, intercept horizontal */
 }
 
 /* ----------------------------------------------------------------

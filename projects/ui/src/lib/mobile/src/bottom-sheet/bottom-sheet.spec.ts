@@ -67,10 +67,9 @@ describe('BottomSheet', () => {
   });
 
   it('projects body content', async () => {
-    await renderTemplate(
-      `<mui-bottom-sheet [open]="true"><p>Body text</p></mui-bottom-sheet>`,
-      { imports: [BottomSheet] },
-    );
+    await renderTemplate(`<mui-bottom-sheet [open]="true"><p>Body text</p></mui-bottom-sheet>`, {
+      imports: [BottomSheet],
+    });
     expect(screen.getByText('Body text')).toBeInTheDocument();
   });
 

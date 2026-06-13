@@ -16,20 +16,20 @@ let _fieldId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.data-invalid]':  'error() ? "" : null',
+    '[attr.data-invalid]': 'error() ? "" : null',
     '[attr.data-disabled]': 'disabled() || null',
-    '[attr.part]':          '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class FormField {
-  label    = input<string>();
-  hint     = input<string>();
-  error    = input<string>();
+  label = input<string>();
+  hint = input<string>();
+  error = input<string>();
   required = input(false, { transform: booleanAttribute });
   disabled = input(false, { transform: booleanAttribute });
   /** Pass the id of the control inside so the label `for` wires correctly. */
   controlId = input<string>('');
 
-  protected readonly hintId  = `mui-field-hint-${++_fieldId}`;
+  protected readonly hintId = `mui-field-hint-${++_fieldId}`;
   protected readonly errorId = `mui-field-error-${_fieldId}`;
 }

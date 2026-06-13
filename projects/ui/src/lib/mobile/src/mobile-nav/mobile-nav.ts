@@ -36,15 +36,13 @@ export const MOBILE_NAV_CONTEXT = new InjectionToken<MobileNavContext>('MOBILE_N
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[attr.part]': '"root"',
-    'role': 'none',
+    role: 'none',
   },
   providers: [
     {
       provide: MOBILE_NAV_CONTEXT,
       useFactory: (self: MobileNav): MobileNavContext => ({
-        activeItem: self.activeItem.asReadonly
-          ? self.activeItem.asReadonly()
-          : self.activeItem,
+        activeItem: self.activeItem.asReadonly ? self.activeItem.asReadonly() : self.activeItem,
         setActive: (v: string) => self.activeItem.set(v),
       }),
       deps: [MobileNav],

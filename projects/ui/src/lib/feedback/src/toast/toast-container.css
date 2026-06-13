@@ -21,15 +21,23 @@
 }
 
 /* Placement */
-:host([data-placement^="top"])    { inset-block-start: 0; }
-:host([data-placement^="bottom"]) {
+:host([data-placement^='top']) {
+  inset-block-start: 0;
+}
+:host([data-placement^='bottom']) {
   inset-block-end: 0;
   flex-direction: column-reverse;
 }
 
-:host([data-placement$="start"])  { inset-inline-start: 0; align-items: flex-start; }
-:host([data-placement$="end"])    { inset-inline-end: 0; align-items: flex-end; }
-:host([data-placement$="center"]) {
+:host([data-placement$='start']) {
+  inset-inline-start: 0;
+  align-items: flex-start;
+}
+:host([data-placement$='end']) {
+  inset-inline-end: 0;
+  align-items: flex-end;
+}
+:host([data-placement$='center']) {
   inset-inline: 0;
   align-items: center;
 }

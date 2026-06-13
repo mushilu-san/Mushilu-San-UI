@@ -19,10 +19,18 @@
 }
 
 @keyframes mui-ctx-in {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-context-menu__panel { animation: none; }
+  .mui-context-menu__panel {
+    animation: none;
+  }
 }

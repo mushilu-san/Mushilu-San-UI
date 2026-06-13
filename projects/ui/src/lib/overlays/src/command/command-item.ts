@@ -40,12 +40,12 @@ import { COMMAND_CONTEXT } from './command';
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[style.display]': 'isHidden() ? "none" : "contents"',
-    '[attr.part]':      '"item-root"',
+    '[attr.part]': '"item-root"',
   },
 })
 export class CommandItem {
   /** The searchable value for this item. Filters against ctx.search(). */
-  value    = input.required<string>();
+  value = input.required<string>();
   disabled = input(false, { transform: booleanAttribute });
   selected = input(false, { transform: booleanAttribute });
   shortcut = input<string>();

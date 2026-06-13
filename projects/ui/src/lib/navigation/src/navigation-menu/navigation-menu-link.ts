@@ -15,8 +15,8 @@ import {
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[attr.aria-current]': 'active() ? "page" : null',
-    '[attr.data-active]':  'active() ? "" : null',
-    '[attr.part]':         '"link"',
+    '[attr.data-active]': 'active() ? "" : null',
+    '[attr.part]': '"link"',
   },
 })
 export class NavigationMenuLink {

@@ -11,16 +11,20 @@ import { COMMAND_CONTEXT } from './command';
       <div class="mui-command-empty" part="empty" role="status"><ng-content /></div>
     }
   `,
-  styles: [`
-    :host { display: contents; }
-    .mui-command-empty {
-      padding: var(--mui-space-6) var(--mui-space-4);
-      text-align: center;
-      font-family: var(--mui-font-sans);
-      font-size: var(--mui-font-size-sm);
-      color: var(--mui-color-text-muted);
-    }
-  `],
+  styles: [
+    `
+      :host {
+        display: contents;
+      }
+      .mui-command-empty {
+        padding: var(--mui-space-6) var(--mui-space-4);
+        text-align: center;
+        font-family: var(--mui-font-sans);
+        font-size: var(--mui-font-size-sm);
+        color: var(--mui-color-text-muted);
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {

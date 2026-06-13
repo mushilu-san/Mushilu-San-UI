@@ -9,15 +9,15 @@
 /* ----------------------------------------------------------------
    Variants
    ---------------------------------------------------------------- */
-:host([data-variant="flat"]) {
+:host([data-variant='flat']) {
   border: 1px solid var(--mui-color-border);
 }
 
-:host([data-variant="elevated"]) {
+:host([data-variant='elevated']) {
   box-shadow: var(--mui-shadow-2);
 }
 
-:host([data-variant="outlined"]) {
+:host([data-variant='outlined']) {
   border: 2px solid var(--mui-color-border);
 }
 

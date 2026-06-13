@@ -15,16 +15,14 @@ import { CAROUSEL_CONTEXT } from './carousel-context';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    'type':                 'button',
-    'aria-label':           'Next slide',
-    '[attr.part]':          '"next"',
+    type: 'button',
+    'aria-label': 'Next slide',
+    '[attr.part]': '"next"',
     '[attr.aria-disabled]': 'isDisabled()',
-    '(click)':              'ctx.next()',
+    '(click)': 'ctx.next()',
   },
 })
 export class CarouselNext {
-  protected readonly ctx        = inject(CAROUSEL_CONTEXT);
-  protected readonly isDisabled = computed(
-    () => this.ctx.active() === this.ctx.count() - 1,
-  );
+  protected readonly ctx = inject(CAROUSEL_CONTEXT);
+  protected readonly isDisabled = computed(() => this.ctx.active() === this.ctx.count() - 1);
 }

@@ -15,10 +15,10 @@ import {
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[attr.aria-hidden]': '"true"',
-    '[style.flex]':       'flexValue()',
-    '[style.width]':      'dimension()',
-    '[style.height]':     'dimension()',
-    '[attr.part]':        '"root"',
+    '[style.flex]': 'flexValue()',
+    '[style.width]': 'dimension()',
+    '[style.height]': 'dimension()',
+    '[attr.part]': '"root"',
   },
 })
 export class Spacer {

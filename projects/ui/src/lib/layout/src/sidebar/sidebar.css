@@ -1,5 +1,5 @@
 :host {
-  --_sidebar-width:          240px;
+  --_sidebar-width: 240px;
   --_sidebar-collapsed-width: 56px;
 
   display: flex;
@@ -18,5 +18,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :host { transition: none; }
+  :host {
+    transition: none;
+  }
 }

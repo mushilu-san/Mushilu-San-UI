@@ -10,7 +10,15 @@ import { CommandItem } from './command-item';
 import { CommandList } from './command-list';
 import { CommandSeparator } from './command-separator';
 
-const IMPORTS = [Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator];
+const IMPORTS = [
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandSeparator,
+];
 
 const BASE = `
   <mui-command>

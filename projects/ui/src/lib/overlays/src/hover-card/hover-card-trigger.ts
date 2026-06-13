@@ -13,8 +13,16 @@ import { HOVER_CARD_CONTEXT } from './hover-card';
 export class HoverCardTrigger {
   private readonly ctx = inject(HOVER_CARD_CONTEXT);
 
-  @HostListener('mouseenter') onMouseEnter(): void { this.ctx.scheduleOpen(); }
-  @HostListener('mouseleave') onMouseLeave(): void { this.ctx.scheduleClose(); }
-  @HostListener('focus')      onFocus(): void      { this.ctx.scheduleOpen(); }
-  @HostListener('blur')       onBlur(): void       { this.ctx.scheduleClose(); }
+  @HostListener('mouseenter') onMouseEnter(): void {
+    this.ctx.scheduleOpen();
+  }
+  @HostListener('mouseleave') onMouseLeave(): void {
+    this.ctx.scheduleClose();
+  }
+  @HostListener('focus') onFocus(): void {
+    this.ctx.scheduleOpen();
+  }
+  @HostListener('blur') onBlur(): void {
+    this.ctx.scheduleClose();
+  }
 }

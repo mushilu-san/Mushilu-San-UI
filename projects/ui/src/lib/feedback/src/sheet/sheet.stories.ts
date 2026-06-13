@@ -9,13 +9,13 @@ const meta: Meta<Sheet> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    open:            { control: 'boolean' },
-    side:            { control: 'select', options: ['left', 'right', 'top', 'bottom'] },
-    size:            { control: 'select', options: ['sm', 'md', 'lg', 'full'] },
-    heading:         { control: 'text' },
+    open: { control: 'boolean' },
+    side: { control: 'select', options: ['left', 'right', 'top', 'bottom'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg', 'full'] },
+    heading: { control: 'text' },
     closeOnBackdrop: { control: 'boolean' },
-    closeOnEscape:   { control: 'boolean' },
-    showClose:       { control: 'boolean' },
+    closeOnEscape: { control: 'boolean' },
+    showClose: { control: 'boolean' },
   },
 };
 export default meta;

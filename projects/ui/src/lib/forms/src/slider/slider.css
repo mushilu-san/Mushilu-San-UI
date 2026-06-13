@@ -6,11 +6,14 @@
   user-select: none;
   cursor: pointer;
 
-  --_thumb-size:  20px;
-  --_track-h:     6px;
+  --_thumb-size: 20px;
+  --_track-h: 6px;
 }
 
-:host([data-disabled]) { cursor: not-allowed; opacity: 0.5; }
+:host([data-disabled]) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
 /* ── Track ──────────────────────────────────────────────── */
 .slider-track {
@@ -46,8 +49,8 @@
   box-shadow: var(--mui-shadow-1);
   transition:
     border-color var(--mui-duration-fast) var(--mui-easing-default),
-    box-shadow   var(--mui-duration-fast) var(--mui-easing-default),
-    transform    var(--mui-duration-fast) var(--mui-easing-default);
+    box-shadow var(--mui-duration-fast) var(--mui-easing-default),
+    transform var(--mui-duration-fast) var(--mui-easing-default);
 }
 
 .slider-thumb:focus-visible {
@@ -55,7 +58,8 @@
   box-shadow:
     var(--mui-shadow-1),
     0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 .slider-thumb:hover:not(:focus-visible) {
@@ -72,5 +76,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .slider-thumb { transition: none; }
+  .slider-thumb {
+    transition: none;
+  }
 }

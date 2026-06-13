@@ -23,20 +23,20 @@ describe('Fab', () => {
   it('emits clicked on user click when enabled', async () => {
     const user = userEvent.setup();
     const handler = vi.fn();
-    await renderTemplate(
-      `<mui-fab label="Add" (clicked)="handler($event)"></mui-fab>`,
-      { imports: [Fab], componentProperties: { handler } },
-    );
+    await renderTemplate(`<mui-fab label="Add" (clicked)="handler($event)"></mui-fab>`, {
+      imports: [Fab],
+      componentProperties: { handler },
+    });
     await user.click(screen.getByRole('button'));
     expect(handler).toHaveBeenCalledOnce();
   });
 
   it('does not emit clicked when disabled', async () => {
     const handler = vi.fn();
-    await renderTemplate(
-      `<mui-fab label="Add" disabled (clicked)="handler($event)"></mui-fab>`,
-      { imports: [Fab], componentProperties: { handler } },
-    );
+    await renderTemplate(`<mui-fab label="Add" disabled (clicked)="handler($event)"></mui-fab>`, {
+      imports: [Fab],
+      componentProperties: { handler },
+    });
     fireEvent.click(screen.getByRole('button'));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -74,17 +74,19 @@ describe('Fab', () => {
   });
 
   it('sets data-extended attribute when extended', async () => {
-    const { container } = await renderComponent(Fab, { inputs: { label: 'Compose', extended: true } });
+    const { container } = await renderComponent(Fab, {
+      inputs: { label: 'Compose', extended: true },
+    });
     expect(container).toHaveAttribute('data-extended');
   });
 
   it('is keyboard activatable via Enter', async () => {
     const user = userEvent.setup();
     const handler = vi.fn();
-    await renderTemplate(
-      `<mui-fab label="Add" (clicked)="handler($event)"></mui-fab>`,
-      { imports: [Fab], componentProperties: { handler } },
-    );
+    await renderTemplate(`<mui-fab label="Add" (clicked)="handler($event)"></mui-fab>`, {
+      imports: [Fab],
+      componentProperties: { handler },
+    });
     screen.getByRole('button').focus();
     await user.keyboard('{Enter}');
     expect(handler).toHaveBeenCalledOnce();
@@ -93,10 +95,10 @@ describe('Fab', () => {
   it('is keyboard activatable via Space', async () => {
     const user = userEvent.setup();
     const handler = vi.fn();
-    await renderTemplate(
-      `<mui-fab label="Add" (clicked)="handler($event)"></mui-fab>`,
-      { imports: [Fab], componentProperties: { handler } },
-    );
+    await renderTemplate(`<mui-fab label="Add" (clicked)="handler($event)"></mui-fab>`, {
+      imports: [Fab],
+      componentProperties: { handler },
+    });
     screen.getByRole('button').focus();
     await user.keyboard(' ');
     expect(handler).toHaveBeenCalledOnce();

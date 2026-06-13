@@ -17,11 +17,11 @@ import type { CardVariant } from './card.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.data-variant]':  'variant()',
+    '[attr.data-variant]': 'variant()',
     '[attr.data-clickable]': 'clickable() ? "" : null',
-    '[attr.part]':           '"root"',
-    '[attr.tabindex]':       'clickable() ? "0" : null',
-    '[attr.role]':           'clickable() ? "button" : null',
+    '[attr.part]': '"root"',
+    '[attr.tabindex]': 'clickable() ? "0" : null',
+    '[attr.role]': 'clickable() ? "button" : null',
   },
 })
 export class Card {

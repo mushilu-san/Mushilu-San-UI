@@ -11,8 +11,10 @@
 }
 
 :host:focus-visible {
-  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 :host([data-disabled]) {
@@ -21,9 +23,24 @@
 }
 
 /* sizes */
-:host([data-size="sm"]) { --toggle-w: 28px; --toggle-h: 16px; --thumb-size: 12px; --thumb-offset: 2px; }
-:host([data-size="md"]) { --toggle-w: 36px; --toggle-h: 20px; --thumb-size: 16px; --thumb-offset: 2px; }
-:host([data-size="lg"]) { --toggle-w: 44px; --toggle-h: 24px; --thumb-size: 20px; --thumb-offset: 2px; }
+:host([data-size='sm']) {
+  --toggle-w: 28px;
+  --toggle-h: 16px;
+  --thumb-size: 12px;
+  --thumb-offset: 2px;
+}
+:host([data-size='md']) {
+  --toggle-w: 36px;
+  --toggle-h: 20px;
+  --thumb-size: 16px;
+  --thumb-offset: 2px;
+}
+:host([data-size='lg']) {
+  --toggle-w: 44px;
+  --toggle-h: 24px;
+  --thumb-size: 20px;
+  --thumb-offset: 2px;
+}
 
 .track {
   position: relative;
@@ -57,5 +74,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .track,
-  .thumb { transition: none; }
+  .thumb {
+    transition: none;
+  }
 }

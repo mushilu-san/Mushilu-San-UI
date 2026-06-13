@@ -30,11 +30,13 @@
   pointer-events: none;
 }
 
-.mui-command-item__btn[aria-selected="true"] {
+.mui-command-item__btn[aria-selected='true'] {
   background-color: color-mix(in srgb, var(--mui-color-primary) 10%, transparent);
 }
 
-.mui-command-item__label { flex: 1; }
+.mui-command-item__label {
+  flex: 1;
+}
 
 .mui-command-item__shortcut {
   margin-left: auto;
@@ -45,5 +47,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-command-item__btn { transition: none; }
+  .mui-command-item__btn {
+    transition: none;
+  }
 }

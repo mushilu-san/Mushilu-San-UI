@@ -9,7 +9,9 @@ export class LiveAnnouncer implements OnDestroy {
     const el = this.getOrCreateElement(politeness);
     el.textContent = '';
     // Force a DOM reflow so screen readers re-announce identical messages.
-    requestAnimationFrame(() => { el.textContent = message; });
+    requestAnimationFrame(() => {
+      el.textContent = message;
+    });
   }
 
   ngOnDestroy(): void {

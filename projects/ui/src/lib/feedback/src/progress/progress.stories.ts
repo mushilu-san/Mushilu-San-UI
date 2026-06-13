@@ -30,7 +30,14 @@ export const Default: Story = {
     `,
     imports: [Progress],
   }),
-  args: { variant: 'linear', size: 'md', value: 45, max: 100, indeterminate: false, label: 'Loading' },
+  args: {
+    variant: 'linear',
+    size: 'md',
+    value: 45,
+    max: 100,
+    indeterminate: false,
+    label: 'Loading',
+  },
 };
 
 export const LinearSizes: Story = {

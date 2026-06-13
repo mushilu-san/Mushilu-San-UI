@@ -8,8 +8,11 @@ const meta: Meta<Spinner> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    size:  { control: 'select', options: ['sm', 'md', 'lg', 'xl'] },
-    color: { control: 'select', options: ['inherit', 'primary', 'muted', 'danger', 'success', 'warning'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg', 'xl'] },
+    color: {
+      control: 'select',
+      options: ['inherit', 'primary', 'muted', 'danger', 'success', 'warning'],
+    },
     label: { control: 'text' },
   },
 };

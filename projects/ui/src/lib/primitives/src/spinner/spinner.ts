@@ -22,15 +22,15 @@ const SIZE_PX: Record<SpinnerSize, number> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.role]':       '"status"',
+    '[attr.role]': '"status"',
     '[attr.aria-label]': 'label()',
-    '[attr.data-size]':  'size()',
+    '[attr.data-size]': 'size()',
     '[attr.data-color]': 'color()',
-    '[attr.part]':       '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Spinner {
-  size  = input<SpinnerSize>('md');
+  size = input<SpinnerSize>('md');
   color = input<SpinnerColor>('inherit');
   label = input<string>('Loading');
 

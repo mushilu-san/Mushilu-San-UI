@@ -7,7 +7,15 @@ import { CommandItem } from './command-item';
 import { CommandList } from './command-list';
 import { CommandSeparator } from './command-separator';
 
-const ALL = [Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator];
+const ALL = [
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandSeparator,
+];
 
 const meta: Meta = {
   title: 'Overlays/Command',

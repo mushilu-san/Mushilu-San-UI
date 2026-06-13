@@ -67,7 +67,7 @@ describe('Carousel', () => {
 
   it('each item has role=group and aria-roledescription=slide', async () => {
     await renderTemplate(BASIC, { imports: IMPORTS });
-    getItems().forEach(item => {
+    getItems().forEach((item) => {
       expect(item).toHaveAttribute('role', 'group');
       expect(item).toHaveAttribute('aria-roledescription', 'slide');
     });

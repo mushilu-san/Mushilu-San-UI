@@ -14,8 +14,8 @@ import {
 } from '@angular/core';
 import type { SwipeActionColor, SwipeActionItem } from './swipe-action.types';
 
-const REVEAL_THRESHOLD = 72;   // px before actions snap fully open
-const MAX_OVERSCROLL  = 16;    // px of rubber-band past the action rail
+const REVEAL_THRESHOLD = 72; // px before actions snap fully open
+const MAX_OVERSCROLL = 16; // px of rubber-band past the action rail
 
 /**
  * SwipeAction — a list-row that reveals contextual action buttons on swipe.
@@ -49,11 +49,11 @@ export class SwipeAction {
   /** Emits the key of the triggered action. */
   readonly actionTriggered = output<string>();
 
-  protected readonly leftActions = computed(() =>
-    this.actions().filter(a => a.side === 'left'));
+  protected readonly leftActions = computed(() => this.actions().filter((a) => a.side === 'left'));
   protected readonly rightActions = computed(() =>
-    this.actions().filter(a => a.side === 'right'));
-  protected readonly hasLeft  = computed(() => this.leftActions().length > 0);
+    this.actions().filter((a) => a.side === 'right'),
+  );
+  protected readonly hasLeft = computed(() => this.leftActions().length > 0);
   protected readonly hasRight = computed(() => this.rightActions().length > 0);
 
   /** Current translate-x offset in pixels. */
@@ -132,7 +132,7 @@ export class SwipeAction {
   }
 
   private _clamp(raw: number): number {
-    const leftMax  = this.hasLeft()  ? this._railWidth('left')  + MAX_OVERSCROLL : 0;
+    const leftMax = this.hasLeft() ? this._railWidth('left') + MAX_OVERSCROLL : 0;
     const rightMax = this.hasRight() ? this._railWidth('right') + MAX_OVERSCROLL : 0;
     return Math.max(-rightMax, Math.min(leftMax, raw));
   }
@@ -140,7 +140,7 @@ export class SwipeAction {
   private _settle(): void {
     const offset = this.offsetX();
     const rightRail = this.hasRight() ? this._railWidth('right') : 0;
-    const leftRail  = this.hasLeft()  ? this._railWidth('left')  : 0;
+    const leftRail = this.hasLeft() ? this._railWidth('left') : 0;
 
     if (offset < -REVEAL_THRESHOLD && rightRail > 0) {
       this.offsetX.set(-rightRail);

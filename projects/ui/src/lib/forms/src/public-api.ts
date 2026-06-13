@@ -22,7 +22,11 @@ export { FormField } from './form-field/form-field';
 
 export { ToggleGroup, TOGGLE_GROUP_CONTEXT } from './toggle-group/toggle-group';
 export { ToggleGroupItem } from './toggle-group/toggle-group-item';
-export type { ToggleGroupType, ToggleGroupSize, ToggleGroupVariant } from './toggle-group/toggle-group.types';
+export type {
+  ToggleGroupType,
+  ToggleGroupSize,
+  ToggleGroupVariant,
+} from './toggle-group/toggle-group.types';
 
 export { InputGroup, INPUT_GROUP_CONTEXT } from './input-group/input-group';
 export { InputGroupAddon } from './input-group/input-group-addon';

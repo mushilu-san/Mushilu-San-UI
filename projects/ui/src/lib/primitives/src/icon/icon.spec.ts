@@ -50,7 +50,9 @@ describe('Icon', () => {
   });
 
   it('adds role="img" and aria-label when label is provided', async () => {
-    await renderTemplate('<mui-icon name="check" label="Confirmed"></mui-icon>', { imports: [Icon] });
+    await renderTemplate('<mui-icon name="check" label="Confirmed"></mui-icon>', {
+      imports: [Icon],
+    });
     const host = document.querySelector('mui-icon')!;
     expect(host).toHaveAttribute('role', 'img');
     expect(host).toHaveAttribute('aria-label', 'Confirmed');
@@ -103,7 +105,9 @@ describe('Icon', () => {
   });
 
   it('shows as accessible landmark when used as standalone icon button label', async () => {
-    await renderTemplate('<mui-icon name="x" label="Close dialog"></mui-icon>', { imports: [Icon] });
+    await renderTemplate('<mui-icon name="x" label="Close dialog"></mui-icon>', {
+      imports: [Icon],
+    });
     expect(screen.getByRole('img', { name: 'Close dialog' })).toBeInTheDocument();
   });
 });

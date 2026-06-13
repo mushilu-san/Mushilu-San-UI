@@ -30,22 +30,22 @@
 /* ----------------------------------------------------------------
    Variants — subtle background, strong accent border
    ---------------------------------------------------------------- */
-:host([data-variant="info"]) {
+:host([data-variant='info']) {
   background-color: var(--mui-color-primary-subtle);
   border-color: var(--mui-color-primary);
 }
 
-:host([data-variant="success"]) {
+:host([data-variant='success']) {
   background-color: var(--mui-color-success-subtle);
   border-color: var(--mui-color-success);
 }
 
-:host([data-variant="warning"]) {
+:host([data-variant='warning']) {
   background-color: var(--mui-color-warning-subtle);
   border-color: var(--mui-color-warning);
 }
 
-:host([data-variant="danger"]) {
+:host([data-variant='danger']) {
   background-color: var(--mui-color-danger-subtle);
   border-color: var(--mui-color-danger);
 }
@@ -60,7 +60,8 @@
   justify-content: center;
   min-width: var(--mui-touch-target);
   min-height: var(--mui-touch-target);
-  margin: calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) 0;
+  margin: calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1)
+    0;
   padding: 0;
   border: none;
   border-radius: var(--mui-radius-sm);

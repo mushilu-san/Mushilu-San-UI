@@ -39,8 +39,7 @@ export class Dialog {
 
   protected readonly headingId = `mui-dialog-title-${dialogUid++}`;
 
-  private readonly dialogRef =
-    viewChild<ElementRef<HTMLDialogElement>>('dialog');
+  private readonly dialogRef = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private wasOpen = false;
 
   constructor() {

@@ -47,11 +47,21 @@ export class Tooltip implements OnDestroy {
   private el: HTMLDivElement | null = null;
   private readonly host = inject(ElementRef<HTMLElement>);
 
-  @HostListener('mouseenter') onMouseEnter(): void { this.show(); }
-  @HostListener('mouseleave') onMouseLeave(): void { this.hide(); }
-  @HostListener('focus')      onFocus(): void      { this.show(); }
-  @HostListener('blur')       onBlur(): void       { this.hide(); }
-  @HostListener('keydown.escape') onEscape(): void { this.hide(); }
+  @HostListener('mouseenter') onMouseEnter(): void {
+    this.show();
+  }
+  @HostListener('mouseleave') onMouseLeave(): void {
+    this.hide();
+  }
+  @HostListener('focus') onFocus(): void {
+    this.show();
+  }
+  @HostListener('blur') onBlur(): void {
+    this.hide();
+  }
+  @HostListener('keydown.escape') onEscape(): void {
+    this.hide();
+  }
 
   show(): void {
     if (!this.el) this.create();
@@ -88,13 +98,13 @@ export class Tooltip implements OnDestroy {
 
     // Measure at off-screen position before setting final coords.
     Object.assign(el.style, {
-      position:   'fixed',
+      position: 'fixed',
       visibility: 'hidden',
-      top:        '0px',
-      left:       '0px',
+      top: '0px',
+      left: '0px',
     });
 
-    const tw = el.offsetWidth  || 0;
+    const tw = el.offsetWidth || 0;
     const th = el.offsetHeight || 0;
     const gap = 8;
 
@@ -102,28 +112,28 @@ export class Tooltip implements OnDestroy {
 
     switch (this.placement()) {
       case 'bottom':
-        top  = rect.bottom + gap;
+        top = rect.bottom + gap;
         left = rect.left + (rect.width - tw) / 2;
         break;
       case 'left':
-        top  = rect.top + (rect.height - th) / 2;
+        top = rect.top + (rect.height - th) / 2;
         left = rect.left - tw - gap;
         break;
       case 'right':
-        top  = rect.top + (rect.height - th) / 2;
+        top = rect.top + (rect.height - th) / 2;
         left = rect.right + gap;
         break;
       case 'top':
       default:
-        top  = rect.top - th - gap;
+        top = rect.top - th - gap;
         left = rect.left + (rect.width - tw) / 2;
         break;
     }
 
     Object.assign(el.style, {
       visibility: '',
-      top:        `${top}px`,
-      left:       `${left}px`,
+      top: `${top}px`,
+      left: `${left}px`,
     });
   }
 }

@@ -7,7 +7,7 @@ const meta: Meta<Empty> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    title:       { control: 'text' },
+    title: { control: 'text' },
     description: { control: 'text' },
   },
 };

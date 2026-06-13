@@ -31,12 +31,12 @@
 }
 
 /* Active state */
-.mui-mobile-nav-item__btn[aria-current="page"] {
+.mui-mobile-nav-item__btn[aria-current='page'] {
   color: var(--mui-color-primary);
 }
 
 /* Active indicator pill (top of item) */
-.mui-mobile-nav-item__btn[aria-current="page"]::before {
+.mui-mobile-nav-item__btn[aria-current='page']::before {
   content: '';
   position: absolute;
   top: 0;
@@ -48,7 +48,7 @@
   border-radius: 0 0 var(--mui-radius-full) var(--mui-radius-full);
 }
 
-.mui-mobile-nav-item__btn:hover:not([aria-current="page"]) {
+.mui-mobile-nav-item__btn:hover:not([aria-current='page']) {
   color: var(--mui-color-text);
   background-color: var(--mui-color-surface);
 }

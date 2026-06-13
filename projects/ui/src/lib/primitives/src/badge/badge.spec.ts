@@ -5,7 +5,7 @@ import { Badge } from './badge';
 
 describe('Badge', () => {
   it('renders with default variant and size', async () => {
-    await renderComponent(Badge, { inputs: { } });
+    await renderComponent(Badge, { inputs: {} });
     expect(document.querySelector('svg')).toBeFalsy();
   });
 
@@ -35,7 +35,9 @@ describe('Badge', () => {
   });
 
   it('sets aria-label on dot badge when label is provided', async () => {
-    await renderTemplate('<mui-badge dot label="3 alerts" variant="danger"></mui-badge>', { imports: [Badge] });
+    await renderTemplate('<mui-badge dot label="3 alerts" variant="danger"></mui-badge>', {
+      imports: [Badge],
+    });
     expect(document.querySelector('mui-badge')).toHaveAttribute('aria-label', '3 alerts');
   });
 
@@ -45,7 +47,9 @@ describe('Badge', () => {
   });
 
   it('does not set aria-hidden when label is provided', async () => {
-    await renderTemplate('<mui-badge dot label="New" variant="primary"></mui-badge>', { imports: [Badge] });
+    await renderTemplate('<mui-badge dot label="New" variant="primary"></mui-badge>', {
+      imports: [Badge],
+    });
     expect(document.querySelector('mui-badge')).not.toHaveAttribute('aria-hidden');
   });
 

@@ -16,8 +16,8 @@ import { NAV_MENU_ITEM_CONTEXT } from './navigation-menu-context';
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[attr.data-open]': 'isOpen() ? "" : null',
-    '[attr.part]':      '"content"',
-    '[attr.hidden]':    '!isOpen() ? "" : null',
+    '[attr.part]': '"content"',
+    '[attr.hidden]': '!isOpen() ? "" : null',
   },
 })
 export class NavigationMenuContent {

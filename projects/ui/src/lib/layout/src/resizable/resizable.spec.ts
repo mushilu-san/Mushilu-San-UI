@@ -26,7 +26,10 @@ function getPanels() {
 describe('Resizable', () => {
   it('renders panel group with data-direction', async () => {
     await renderTemplate(BASIC, { imports: IMPORTS });
-    expect(document.querySelector('mui-resizable-panel-group')).toHaveAttribute('data-direction', 'horizontal');
+    expect(document.querySelector('mui-resizable-panel-group')).toHaveAttribute(
+      'data-direction',
+      'horizontal',
+    );
   });
 
   it('renders two panels', async () => {
@@ -105,7 +108,10 @@ describe('Resizable', () => {
       </mui-resizable-panel-group>`,
       { imports: IMPORTS },
     );
-    expect(document.querySelector('mui-resizable-panel-group')).toHaveAttribute('data-direction', 'vertical');
+    expect(document.querySelector('mui-resizable-panel-group')).toHaveAttribute(
+      'data-direction',
+      'vertical',
+    );
   });
 
   it('unequal default sizes are normalized to 100%', async () => {
@@ -161,14 +167,21 @@ describe('Resizable', () => {
       </mui-resizable-panel-group>`,
       { imports: IMPORTS },
     );
-    const group  = document.querySelector('mui-resizable-panel-group') as HTMLElement;
+    const group = document.querySelector('mui-resizable-panel-group') as HTMLElement;
     const handle = getHandle();
     const [left] = getPanels();
 
     /* jsdom has no layout, so getBoundingClientRect returns zero — fake it */
-    vi.spyOn(group, 'getBoundingClientRect').mockReturnValue(
-      { left: 0, top: 0, width: 600, height: 400, right: 600, bottom: 400, x: 0, y: 0 } as DOMRect,
-    );
+    vi.spyOn(group, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 600,
+      height: 400,
+      right: 600,
+      bottom: 400,
+      x: 0,
+      y: 0,
+    } as DOMRect);
 
     fireEvent.pointerDown(handle, { clientX: 300, clientY: 0, pointerId: 1 });
     fireEvent.pointerMove(document, { clientX: 360, clientY: 0, pointerId: 1 });
@@ -186,13 +199,20 @@ describe('Resizable', () => {
       </mui-resizable-panel-group>`,
       { imports: IMPORTS },
     );
-    const group  = document.querySelector('mui-resizable-panel-group') as HTMLElement;
+    const group = document.querySelector('mui-resizable-panel-group') as HTMLElement;
     const handle = getHandle();
     const [left] = getPanels();
 
-    vi.spyOn(group, 'getBoundingClientRect').mockReturnValue(
-      { left: 0, top: 0, width: 600, height: 400, right: 600, bottom: 400, x: 0, y: 0 } as DOMRect,
-    );
+    vi.spyOn(group, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 600,
+      height: 400,
+      right: 600,
+      bottom: 400,
+      x: 0,
+      y: 0,
+    } as DOMRect);
 
     /* Drag far left — should stop at minSize=40 */
     fireEvent.pointerDown(handle, { clientX: 300, clientY: 0, pointerId: 1 });

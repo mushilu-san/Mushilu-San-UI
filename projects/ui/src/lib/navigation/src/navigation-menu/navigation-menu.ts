@@ -26,15 +26,15 @@ import { NAV_MENU_CONTEXT, NavMenuContext } from './navigation-menu-context';
     },
   ],
   host: {
-    'role':          'navigation',
+    role: 'navigation',
     '[attr.aria-label]': 'label()',
-    '[attr.part]':   '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class NavigationMenu implements NavMenuContext {
   label = input('Main navigation');
 
-  private readonly el      = inject(ElementRef<HTMLElement>);
+  private readonly el = inject(ElementRef<HTMLElement>);
   private readonly _openId = signal<string | null>(null);
   readonly openId: Signal<string | null> = this._openId.asReadonly();
 

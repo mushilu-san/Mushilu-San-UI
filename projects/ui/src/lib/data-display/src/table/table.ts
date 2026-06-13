@@ -19,12 +19,12 @@ let tableUid = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.part]':         '"root"',
-    '[attr.role]':         '"region"',
-    '[attr.tabindex]':     '"0"',
+    '[attr.part]': '"root"',
+    '[attr.role]': '"region"',
+    '[attr.tabindex]': '"0"',
     // Prefer aria-labelledby (visible caption) when present; fall back to label.
     '[attr.aria-labelledby]': 'caption() ? captionId : null',
-    '[attr.aria-label]':      'caption() ? null : "Data table"',
+    '[attr.aria-label]': 'caption() ? null : "Data table"',
   },
 })
 export class Table {

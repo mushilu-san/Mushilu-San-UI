@@ -19,22 +19,32 @@
   overflow: visible;
 
   /* Slide-in animation */
-  animation: mui-sheet-enter var(--mui-duration-normal, 300ms) var(--mui-easing-default, ease) forwards;
+  animation: mui-sheet-enter var(--mui-duration-normal, 300ms) var(--mui-easing-default, ease)
+    forwards;
 }
 
 .mui-bottom-sheet__panel::backdrop {
   background-color: var(--mui-color-overlay);
-  animation: mui-backdrop-enter var(--mui-duration-normal, 300ms) var(--mui-easing-default, ease) forwards;
+  animation: mui-backdrop-enter var(--mui-duration-normal, 300ms) var(--mui-easing-default, ease)
+    forwards;
 }
 
 @keyframes mui-sheet-enter {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0); }
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes mui-backdrop-enter {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -47,10 +57,16 @@
 /* ----------------------------------------------------------------
    Size variants (max-height)
    ---------------------------------------------------------------- */
-.mui-bottom-sheet__panel[data-size="sm"]  .mui-bottom-sheet__surface { max-block-size: 40vh; }
-.mui-bottom-sheet__panel[data-size="md"]  .mui-bottom-sheet__surface { max-block-size: 60vh; }
-.mui-bottom-sheet__panel[data-size="lg"]  .mui-bottom-sheet__surface { max-block-size: 85vh; }
-.mui-bottom-sheet__panel[data-size="full"] .mui-bottom-sheet__surface {
+.mui-bottom-sheet__panel[data-size='sm'] .mui-bottom-sheet__surface {
+  max-block-size: 40vh;
+}
+.mui-bottom-sheet__panel[data-size='md'] .mui-bottom-sheet__surface {
+  max-block-size: 60vh;
+}
+.mui-bottom-sheet__panel[data-size='lg'] .mui-bottom-sheet__surface {
+  max-block-size: 85vh;
+}
+.mui-bottom-sheet__panel[data-size='full'] .mui-bottom-sheet__surface {
   max-block-size: calc(100vh - env(safe-area-inset-top, 0px) - 16px);
   border-radius: var(--mui-radius-lg) var(--mui-radius-lg) 0 0;
 }

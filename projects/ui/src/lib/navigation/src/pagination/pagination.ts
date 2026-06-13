@@ -41,8 +41,12 @@ export class Pagination {
 
   protected pages = computed(() => this.buildPages());
 
-  protected get prevDisabled() { return this.page() <= 1; }
-  protected get nextDisabled() { return this.page() >= this.totalPages(); }
+  protected get prevDisabled() {
+    return this.page() <= 1;
+  }
+  protected get nextDisabled() {
+    return this.page() >= this.totalPages();
+  }
 
   protected goTo(p: number): void {
     if (p < 1 || p > this.totalPages() || p === this.page()) return;

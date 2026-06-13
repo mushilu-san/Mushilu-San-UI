@@ -8,7 +8,9 @@
   <span class="mui-mobile-nav-item__icon" part="icon" aria-hidden="true">
     <ng-content />
     @if (badgeLabel()) {
-      <span class="mui-mobile-nav-item__badge" part="badge" aria-hidden="true">{{ badgeLabel() }}</span>
+      <span class="mui-mobile-nav-item__badge" part="badge" aria-hidden="true">{{
+        badgeLabel()
+      }}</span>
     }
   </span>
   <span class="mui-mobile-nav-item__label" part="label">{{ label() }}</span>

@@ -5,12 +5,12 @@
   flex-shrink: 0;
 }
 
-:host([data-orientation="horizontal"]) {
+:host([data-orientation='horizontal']) {
   width: 100%;
   flex-direction: row;
 }
 
-:host([data-orientation="vertical"]) {
+:host([data-orientation='vertical']) {
   flex-direction: column;
   align-self: stretch;
 }
@@ -21,36 +21,36 @@
   background-color: currentColor;
 }
 
-:host([data-orientation="horizontal"]) .line {
+:host([data-orientation='horizontal']) .line {
   height: 1px;
 }
 
-:host([data-orientation="vertical"]) .line {
+:host([data-orientation='vertical']) .line {
   width: 1px;
 }
 
 /* dashed / dotted — replace solid background with border */
-:host([data-variant="dashed"]) .line,
-:host([data-variant="dotted"]) .line {
+:host([data-variant='dashed']) .line,
+:host([data-variant='dotted']) .line {
   background-color: transparent;
 }
 
-:host([data-orientation="horizontal"][data-variant="dashed"]) .line {
+:host([data-orientation='horizontal'][data-variant='dashed']) .line {
   border-top: 1px dashed currentColor;
   height: 0;
 }
 
-:host([data-orientation="horizontal"][data-variant="dotted"]) .line {
+:host([data-orientation='horizontal'][data-variant='dotted']) .line {
   border-top: 1px dotted currentColor;
   height: 0;
 }
 
-:host([data-orientation="vertical"][data-variant="dashed"]) .line {
+:host([data-orientation='vertical'][data-variant='dashed']) .line {
   border-left: 1px dashed currentColor;
   width: 0;
 }
 
-:host([data-orientation="vertical"][data-variant="dotted"]) .line {
+:host([data-orientation='vertical'][data-variant='dotted']) .line {
   border-left: 1px dotted currentColor;
   width: 0;
 }
@@ -63,7 +63,7 @@
   flex-shrink: 0;
 }
 
-:host([data-orientation="vertical"]) .label {
+:host([data-orientation='vertical']) .label {
   padding: var(--mui-space-2) 0;
   writing-mode: vertical-rl;
 }

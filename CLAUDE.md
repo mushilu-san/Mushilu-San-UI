@@ -92,7 +92,7 @@ projects/ui/
 │   │   ├── feedback/src/     Alert, Progress, Skeleton, Toast (+ ToastService/ToastContainer), Dialog (done)
 │   │   ├── data-display/src/ Card, Table, Accordion, Tooltip (done)
 │   │   ├── mobile/src/       BottomSheet, FAB, SwipeAction, MobileNav (done)
-│   │   └── overlays/src/     (planned) — Popover, Dropdown Menu, Context Menu, Hover Card, Command, Combobox
+│   │   └── overlays/src/     Popover, Dropdown Menu, Context Menu, Hover Card, Command, Combobox (done); Alert Dialog, Sheet, Toggle Group (planned)
 │   └── public-api.ts     PRIMARY entry — exports only provideMushiluUi()
 ├── primitives/ng-package.json   → @mushilu-san/ui/primitives
 ├── forms/ng-package.json        → @mushilu-san/ui/forms
@@ -101,6 +101,7 @@ projects/ui/
 ├── feedback/ng-package.json     → @mushilu-san/ui/feedback
 ├── data-display/ng-package.json → @mushilu-san/ui/data-display
 ├── mobile/ng-package.json       → @mushilu-san/ui/mobile
+├── overlays/ng-package.json     → @mushilu-san/ui/overlays
 ├── .storybook/           main.ts, preview.ts, preview-head.html
 ├── docs/                 MDX group pages
 └── tsconfig.spec.json    types: vitest/globals + @testing-library/jest-dom
@@ -164,7 +165,10 @@ These are non-negotiable — no exceptions.
 9. Stories: Default, variants, Interactive, Accessibility, MobilePreview
 10. MDX: add to group docs file
 11. Export from group `public-api.ts`
-12. Bundle check: < 5KB gzipped per component
+12. Bundle check: `npm run size` (size-limit). Budgets are enforced **per entry-point group**
+    (each group bundles many components), not per individual component, with framework peer deps
+    excluded via `ignore`. Per-group limits live in `package.json` `"size-limit"` (currently
+    7–12 KB depending on group); keep additions within the group's headroom.
 
 ## Known issues & workarounds
 
@@ -276,20 +280,20 @@ fireEvent.click(screen.getByRole('button'));   // not userEvent.click()
 
 Components not yet built, grouped by implementation complexity.
 
-### Group: overlays (new entry point `@mushilu-san/ui/overlays`)
-All share a floating-panel primitive. Build Popover first — the rest compose on top of it.
+### Group: overlays (`@mushilu-san/ui/overlays`)
+Entry point exists and ships. All share a floating-panel primitive (Popover); the rest compose on top of it.
 
-| Component | shadcn equivalent | Notes |
-|-----------|-------------------|-------|
-| Popover | Popover | Floating panel anchored to a trigger; foundation for the group |
-| Dropdown Menu | Dropdown Menu | Popover + keyboard-navigable menu list |
-| Context Menu | Context Menu | Same as Dropdown but opened on right-click / long-press |
-| Hover Card | Hover Card | Popover opened on hover/focus with a delay |
-| Command | Command | Searchable command palette (input + filtered list) |
-| Combobox | Combobox | Input + Dropdown with search/filter (builds on Command) |
-| Alert Dialog | Alert Dialog | Blocking confirmation dialog — variant of Dialog |
-| Sheet (side) | Sheet | Side-sliding panel (left/right) — variant of Dialog |
-| Toggle Group | Toggle Group | Group of Toggle buttons with single/multi-select |
+| Component | shadcn equivalent | Status / Notes |
+|-----------|-------------------|----------------|
+| Popover | Popover | **done** — floating panel anchored to a trigger; foundation for the group |
+| Dropdown Menu | Dropdown Menu | **done** — Popover + keyboard-navigable menu list |
+| Context Menu | Context Menu | **done** — opened on right-click / long-press |
+| Hover Card | Hover Card | **done** — Popover opened on hover/focus with a delay |
+| Command | Command | **done** — searchable command palette (input + filtered list) |
+| Combobox | Combobox | **done** — Input + Dropdown with search/filter (builds on Command) |
+| Alert Dialog | Alert Dialog | planned — blocking confirmation dialog, variant of Dialog |
+| Sheet (side) | Sheet | planned — side-sliding panel (left/right), variant of Dialog |
+| Toggle Group | Toggle Group | planned — group of Toggle buttons with single/multi-select |
 
 ### Group: forms additions (extend `@mushilu-san/ui/forms`)
 

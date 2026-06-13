@@ -104,22 +104,24 @@ describe('InputOtp', () => {
 
   it('sets aria-disabled when disabled', async () => {
     await renderComponent(InputOtp, { inputs: { disabled: true } });
-    getSlots().forEach(s => expect(s).toHaveAttribute('aria-disabled'));
+    getSlots().forEach((s) => expect(s).toHaveAttribute('aria-disabled'));
   });
 
   it('sets data-disabled on host when disabled', async () => {
-    await renderTemplate(`<mui-input-otp [disabled]="true"></mui-input-otp>`, { imports: [InputOtp] });
+    await renderTemplate(`<mui-input-otp [disabled]="true"></mui-input-otp>`, {
+      imports: [InputOtp],
+    });
     expect(document.querySelector('mui-input-otp')).toHaveAttribute('data-disabled');
   });
 
   it('has inputmode="numeric" on every slot', async () => {
     await renderComponent(InputOtp, {});
-    getSlots().forEach(s => expect(s).toHaveAttribute('inputmode', 'numeric'));
+    getSlots().forEach((s) => expect(s).toHaveAttribute('inputmode', 'numeric'));
   });
 
   it('has autocomplete="one-time-code" on every slot', async () => {
     await renderComponent(InputOtp, {});
-    getSlots().forEach(s => expect(s).toHaveAttribute('autocomplete', 'one-time-code'));
+    getSlots().forEach((s) => expect(s).toHaveAttribute('autocomplete', 'one-time-code'));
   });
 
   function fakePaste(slot: HTMLInputElement, text: string): void {
@@ -151,10 +153,10 @@ describe('InputOtp', () => {
 
   it('sets slots via CVA writeValue', async () => {
     const ctrl = new FormControl('654321');
-    await renderTemplate(
-      `<mui-input-otp [formControl]="ctrl" />`,
-      { imports: [InputOtp, ReactiveFormsModule], componentProperties: { ctrl } },
-    );
+    await renderTemplate(`<mui-input-otp [formControl]="ctrl" />`, {
+      imports: [InputOtp, ReactiveFormsModule],
+      componentProperties: { ctrl },
+    });
     const slots = getSlots();
     expect(slots[0].value).toBe('6');
     expect(slots[5].value).toBe('1');
@@ -162,10 +164,10 @@ describe('InputOtp', () => {
 
   it('marks form control as touched on blur', async () => {
     const ctrl = new FormControl('');
-    await renderTemplate(
-      `<mui-input-otp [formControl]="ctrl" />`,
-      { imports: [InputOtp, ReactiveFormsModule], componentProperties: { ctrl } },
-    );
+    await renderTemplate(`<mui-input-otp [formControl]="ctrl" />`, {
+      imports: [InputOtp, ReactiveFormsModule],
+      componentProperties: { ctrl },
+    });
     getSlots()[0].focus();
     getSlots()[0].blur();
     expect(ctrl.touched).toBe(true);
@@ -173,10 +175,10 @@ describe('InputOtp', () => {
 
   it('CVA setDisabledState disables the component', async () => {
     const ctrl = new FormControl({ value: '', disabled: true });
-    await renderTemplate(
-      `<mui-input-otp [formControl]="ctrl" />`,
-      { imports: [InputOtp, ReactiveFormsModule], componentProperties: { ctrl } },
-    );
+    await renderTemplate(`<mui-input-otp [formControl]="ctrl" />`, {
+      imports: [InputOtp, ReactiveFormsModule],
+      componentProperties: { ctrl },
+    });
     expect(document.querySelector('mui-input-otp')).toHaveAttribute('data-disabled');
   });
 });

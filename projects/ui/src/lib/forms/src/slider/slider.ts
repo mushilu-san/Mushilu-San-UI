@@ -30,15 +30,15 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
   ],
   host: {
     '[attr.data-disabled]': 'isDisabled() || null',
-    '[attr.part]':          '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Slider implements ControlValueAccessor {
-  min      = input(0,   { transform: numberAttribute });
-  max      = input(100, { transform: numberAttribute });
-  step     = input(1,   { transform: numberAttribute });
+  min = input(0, { transform: numberAttribute });
+  max = input(100, { transform: numberAttribute });
+  step = input(1, { transform: numberAttribute });
   disabled = input(false, { transform: booleanAttribute });
-  value    = model(0);
+  value = model(0);
 
   @ViewChild('trackRef', { static: true }) private trackRef!: ElementRef<HTMLDivElement>;
 
@@ -56,20 +56,39 @@ export class Slider implements ControlValueAccessor {
 
   protected onKeydown(event: KeyboardEvent): void {
     if (this.isDisabled()) return;
-    const s    = this.step();
-    const big  = (this.max() - this.min()) * 0.1;
-    let   next = this.value();
+    const s = this.step();
+    const big = (this.max() - this.min()) * 0.1;
+    let next = this.value();
 
     switch (event.key) {
       case 'ArrowRight':
-      case 'ArrowUp':    event.preventDefault(); next = Math.min(this.max(), next + s);   break;
+      case 'ArrowUp':
+        event.preventDefault();
+        next = Math.min(this.max(), next + s);
+        break;
       case 'ArrowLeft':
-      case 'ArrowDown':  event.preventDefault(); next = Math.max(this.min(), next - s);   break;
-      case 'Home':       event.preventDefault(); next = this.min();                        break;
-      case 'End':        event.preventDefault(); next = this.max();                        break;
-      case 'PageUp':     event.preventDefault(); next = Math.min(this.max(), next + big); break;
-      case 'PageDown':   event.preventDefault(); next = Math.max(this.min(), next - big); break;
-      default: return;
+      case 'ArrowDown':
+        event.preventDefault();
+        next = Math.max(this.min(), next - s);
+        break;
+      case 'Home':
+        event.preventDefault();
+        next = this.min();
+        break;
+      case 'End':
+        event.preventDefault();
+        next = this.max();
+        break;
+      case 'PageUp':
+        event.preventDefault();
+        next = Math.min(this.max(), next + big);
+        break;
+      case 'PageDown':
+        event.preventDefault();
+        next = Math.max(this.min(), next - big);
+        break;
+      default:
+        return;
     }
     this.commit(next);
   }
@@ -85,12 +104,14 @@ export class Slider implements ControlValueAccessor {
     this.setFromClientX(event.clientX);
   }
 
-  protected onBlur(): void { this._onTouched(); }
+  protected onBlur(): void {
+    this._onTouched();
+  }
 
   private setFromClientX(clientX: number): void {
-    const rect  = this.trackRef.nativeElement.getBoundingClientRect();
+    const rect = this.trackRef.nativeElement.getBoundingClientRect();
     const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    const raw   = this.min() + ratio * (this.max() - this.min());
+    const raw = this.min() + ratio * (this.max() - this.min());
     const snapped = Math.round(raw / this.step()) * this.step();
     this.commit(Math.max(this.min(), Math.min(this.max(), snapped)));
   }
@@ -101,8 +122,16 @@ export class Slider implements ControlValueAccessor {
     this._onChange(rounded);
   }
 
-  writeValue(v: number): void                  { this.value.set(v ?? 0); }
-  registerOnChange(fn: (v: number) => void): void { this._onChange = fn; }
-  registerOnTouched(fn: () => void): void        { this._onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void    { this.cvaDisabled.set(isDisabled); }
+  writeValue(v: number): void {
+    this.value.set(v ?? 0);
+  }
+  registerOnChange(fn: (v: number) => void): void {
+    this._onChange = fn;
+  }
+  registerOnTouched(fn: () => void): void {
+    this._onTouched = fn;
+  }
+  setDisabledState(isDisabled: boolean): void {
+    this.cvaDisabled.set(isDisabled);
+  }
 }

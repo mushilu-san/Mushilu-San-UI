@@ -20,7 +20,9 @@ describe('Toggle', () => {
   });
 
   it('sets aria-checked="true" when checked', async () => {
-    await renderTemplate('<mui-toggle label="X" [checked]="true"></mui-toggle>', { imports: [Toggle] });
+    await renderTemplate('<mui-toggle label="X" [checked]="true"></mui-toggle>', {
+      imports: [Toggle],
+    });
     expect(document.querySelector('mui-toggle')).toHaveAttribute('aria-checked', 'true');
   });
 
@@ -40,7 +42,9 @@ describe('Toggle', () => {
   });
 
   it('toggles checked on click', async () => {
-    const { detectChanges } = await renderTemplate('<mui-toggle label="X"></mui-toggle>', { imports: [Toggle] });
+    const { detectChanges } = await renderTemplate('<mui-toggle label="X"></mui-toggle>', {
+      imports: [Toggle],
+    });
     const el = document.querySelector('mui-toggle')!;
     fireEvent.click(el);
     detectChanges();
@@ -48,7 +52,9 @@ describe('Toggle', () => {
   });
 
   it('does not toggle when disabled', async () => {
-    const { detectChanges } = await renderTemplate('<mui-toggle label="X" disabled></mui-toggle>', { imports: [Toggle] });
+    const { detectChanges } = await renderTemplate('<mui-toggle label="X" disabled></mui-toggle>', {
+      imports: [Toggle],
+    });
     const el = document.querySelector('mui-toggle')!;
     fireEvent.click(el);
     detectChanges();
@@ -56,7 +62,9 @@ describe('Toggle', () => {
   });
 
   it('toggles on Space keydown', async () => {
-    const { detectChanges } = await renderTemplate('<mui-toggle label="X"></mui-toggle>', { imports: [Toggle] });
+    const { detectChanges } = await renderTemplate('<mui-toggle label="X"></mui-toggle>', {
+      imports: [Toggle],
+    });
     const el = document.querySelector('mui-toggle')!;
     fireEvent.keyDown(el, { key: ' ', code: 'Space' });
     detectChanges();
@@ -80,7 +88,9 @@ describe('Toggle', () => {
   });
 
   it('sets data-checked when checked', async () => {
-    await renderTemplate('<mui-toggle label="X" [checked]="true"></mui-toggle>', { imports: [Toggle] });
+    await renderTemplate('<mui-toggle label="X" [checked]="true"></mui-toggle>', {
+      imports: [Toggle],
+    });
     expect(document.querySelector('mui-toggle')).toHaveAttribute('data-checked');
   });
 
@@ -110,9 +120,9 @@ describe('Toggle', () => {
   });
 
   it('setDisabledState disables toggle', async () => {
-    const { fixture, detectChanges } = await renderTemplate(
-      '<mui-toggle label="X"></mui-toggle>', { imports: [Toggle] },
-    );
+    const { fixture, detectChanges } = await renderTemplate('<mui-toggle label="X"></mui-toggle>', {
+      imports: [Toggle],
+    });
     const el = document.querySelector('mui-toggle')!;
     // CVA disabled state — access via component ref
     const compRef = fixture.debugElement.children[0].componentInstance as Toggle;

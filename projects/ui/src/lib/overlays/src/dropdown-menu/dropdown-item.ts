@@ -39,7 +39,9 @@ import type { DropdownItemColor } from './dropdown-menu.types';
         <ng-content />
       </span>
       @if (shortcut()) {
-        <span class="mui-dropdown-item__shortcut" part="shortcut" aria-hidden="true">{{ shortcut() }}</span>
+        <span class="mui-dropdown-item__shortcut" part="shortcut" aria-hidden="true">{{
+          shortcut()
+        }}</span>
       }
     </button>
   `,
@@ -49,10 +51,10 @@ import type { DropdownItemColor } from './dropdown-menu.types';
   host: { '[attr.part]': '"item"' },
 })
 export class DropdownItem {
-  color    = input<DropdownItemColor>('default');
+  color = input<DropdownItemColor>('default');
   disabled = input(false, { transform: booleanAttribute });
   shortcut = input<string>();
-  hasIcon  = input(false, { transform: booleanAttribute });
+  hasIcon = input(false, { transform: booleanAttribute });
 
   readonly itemClick = output<void>();
 

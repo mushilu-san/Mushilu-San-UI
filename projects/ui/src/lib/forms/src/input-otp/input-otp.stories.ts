@@ -7,7 +7,7 @@ const meta: Meta<InputOtp> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    length:   { control: 'number' },
+    length: { control: 'number' },
     disabled: { control: 'boolean' },
   },
 };

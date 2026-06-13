@@ -16,21 +16,26 @@ import { MENUBAR_MENU_CONTEXT } from './menubar-context';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    'role':             'menu',
+    role: 'menu',
     '[attr.data-open]': 'isOpen() ? "" : null',
-    '[attr.part]':      '"content"',
-    '(keydown)':        'onKeydown($event)',
+    '[attr.part]': '"content"',
+    '(keydown)': 'onKeydown($event)',
   },
 })
 export class MenubarContent {
   private readonly ctx = inject(MENUBAR_MENU_CONTEXT);
-  private readonly el  = inject(ElementRef<HTMLElement>);
+  private readonly el = inject(ElementRef<HTMLElement>);
 
   protected readonly isOpen = computed(() => this.ctx.isOpen());
 
   protected onKeydown(event: KeyboardEvent): void {
-    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp' &&
-        event.key !== 'Home' && event.key !== 'End') return;
+    if (
+      event.key !== 'ArrowDown' &&
+      event.key !== 'ArrowUp' &&
+      event.key !== 'Home' &&
+      event.key !== 'End'
+    )
+      return;
     event.preventDefault();
     event.stopPropagation();
 
@@ -40,7 +45,7 @@ export class MenubarContent {
     if (!items.length) return;
 
     const active = document.activeElement as HTMLElement;
-    const idx    = items.indexOf(active);
+    const idx = items.indexOf(active);
 
     let next: number;
     if (event.key === 'ArrowDown') next = idx < items.length - 1 ? idx + 1 : 0;

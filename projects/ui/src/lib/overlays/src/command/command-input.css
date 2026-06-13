@@ -1,4 +1,6 @@
-:host { display: block; }
+:host {
+  display: block;
+}
 
 .mui-command-input__wrapper {
   display: flex;

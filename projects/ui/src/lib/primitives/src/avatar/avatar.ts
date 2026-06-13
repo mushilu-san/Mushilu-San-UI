@@ -22,11 +22,11 @@ function initials(name: string): string {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.role]':       '"img"',
+    '[attr.role]': '"img"',
     '[attr.aria-label]': 'label() || name() || null',
-    '[attr.data-size]':  'size()',
+    '[attr.data-size]': 'size()',
     '[attr.data-shape]': 'shape()',
-    '[attr.part]':       '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Avatar {
@@ -35,16 +35,16 @@ export class Avatar {
    * (e.g. `javascript:` URLs are neutralized). Consumers remain responsible
    * for passing trusted/validated URLs, especially user-generated ones.
    */
-  src   = input<string>();
-  name  = input<string>('');
+  src = input<string>();
+  name = input<string>('');
   label = input<string>('');
-  size  = input<AvatarSize>('md');
+  size = input<AvatarSize>('md');
   shape = input<AvatarShape>('circle');
 
-  protected readonly imgError  = signal(false);
-  protected readonly initials  = computed(() => initials(this.name() || '?'));
+  protected readonly imgError = signal(false);
+  protected readonly initials = computed(() => initials(this.name() || '?'));
   protected readonly showImage = computed(() => !!this.src() && !this.imgError());
-  protected readonly showText  = computed(() => !this.showImage());
+  protected readonly showText = computed(() => !this.showImage());
 
   protected onImgError(): void {
     this.imgError.set(true);

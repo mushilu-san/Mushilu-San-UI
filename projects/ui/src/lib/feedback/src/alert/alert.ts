@@ -19,10 +19,10 @@ import type { AlertVariant } from './alert.types';
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     // danger/warning interrupt (assertive); info/success announce politely.
-    '[attr.role]':      'assertive() ? "alert" : "status"',
+    '[attr.role]': 'assertive() ? "alert" : "status"',
     '[attr.aria-live]': 'assertive() ? "assertive" : "polite"',
     '[attr.data-variant]': 'variant()',
-    '[attr.part]':         '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Alert {

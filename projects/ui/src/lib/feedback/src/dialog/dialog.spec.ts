@@ -67,7 +67,9 @@ describe('Dialog', () => {
   });
 
   it('does not close when content inside the panel is clicked', async () => {
-    await renderTemplate('<mui-dialog [open]="true"><p>Inner</p></mui-dialog>', { imports: [Dialog] });
+    await renderTemplate('<mui-dialog [open]="true"><p>Inner</p></mui-dialog>', {
+      imports: [Dialog],
+    });
     fireEvent.click(screen.getByText('Inner'));
     expect(panel().hasAttribute('open')).toBe(true);
   });
@@ -82,7 +84,9 @@ describe('Dialog', () => {
   });
 
   it('reflects size on the panel', async () => {
-    await renderTemplate('<mui-dialog [open]="true" size="lg">Body</mui-dialog>', { imports: [Dialog] });
+    await renderTemplate('<mui-dialog [open]="true" size="lg">Body</mui-dialog>', {
+      imports: [Dialog],
+    });
     expect(panel()).toHaveAttribute('data-size', 'lg');
   });
 });

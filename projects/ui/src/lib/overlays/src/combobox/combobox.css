@@ -19,8 +19,9 @@
   font-family: var(--mui-font-sans);
   font-size: var(--mui-font-size-base);
   cursor: pointer;
-  transition: border-color var(--mui-duration-fast) var(--mui-easing-default),
-              box-shadow var(--mui-duration-fast) var(--mui-easing-default);
+  transition:
+    border-color var(--mui-duration-fast) var(--mui-easing-default),
+    box-shadow var(--mui-duration-fast) var(--mui-easing-default);
 }
 
 .mui-combobox__trigger:hover:not([aria-disabled]) {
@@ -37,11 +38,14 @@
   pointer-events: none;
 }
 
-.mui-combobox__trigger[data-placeholder="true"] .mui-combobox__value {
+.mui-combobox__trigger[data-placeholder='true'] .mui-combobox__value {
   color: var(--mui-color-text-muted);
 }
 
-.mui-combobox__value { flex: 1; text-align: left; }
+.mui-combobox__value {
+  flex: 1;
+  text-align: left;
+}
 
 .mui-combobox__chevron {
   color: var(--mui-color-text-muted);
@@ -64,8 +68,14 @@
 }
 
 @keyframes mui-combobox-in {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ---- Search bar ---- */
@@ -88,7 +98,9 @@
   font-size: var(--mui-font-size-base);
   outline: none;
 }
-.mui-combobox__search::placeholder { color: var(--mui-color-text-muted); }
+.mui-combobox__search::placeholder {
+  color: var(--mui-color-text-muted);
+}
 
 /* ---- List ---- */
 .mui-combobox__list {
@@ -98,6 +110,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-combobox__panel { animation: none; }
-  .mui-combobox__trigger { transition: none; }
+  .mui-combobox__panel {
+    animation: none;
+  }
+  .mui-combobox__trigger {
+    transition: none;
+  }
 }

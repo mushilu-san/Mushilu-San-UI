@@ -8,50 +8,81 @@
   outline: none;
   transition:
     border-color var(--mui-duration-fast) var(--mui-easing-default),
-    box-shadow   var(--mui-duration-fast) var(--mui-easing-default);
+    box-shadow var(--mui-duration-fast) var(--mui-easing-default);
   appearance: none;
   -webkit-appearance: none;
   touch-action: manipulation;
 }
 
 /* sizes */
-:host([data-size="sm"]) { height: 32px; padding: 0 var(--mui-space-2); font-size: var(--mui-font-size-sm); }
-:host([data-size="md"]) { height: 40px; padding: 0 var(--mui-space-3); font-size: var(--mui-font-size-base); }
-:host([data-size="lg"]) { height: 48px; padding: 0 var(--mui-space-4); font-size: var(--mui-font-size-lg); }
+:host([data-size='sm']) {
+  height: 32px;
+  padding: 0 var(--mui-space-2);
+  font-size: var(--mui-font-size-sm);
+}
+:host([data-size='md']) {
+  height: 40px;
+  padding: 0 var(--mui-space-3);
+  font-size: var(--mui-font-size-base);
+}
+:host([data-size='lg']) {
+  height: 48px;
+  padding: 0 var(--mui-space-4);
+  font-size: var(--mui-font-size-lg);
+}
 
 /* outline */
-:host([data-variant="outline"]) { border: 1px solid var(--mui-color-input-border); }
-:host([data-variant="outline"]:focus-visible) {
+:host([data-variant='outline']) {
+  border: 1px solid var(--mui-color-input-border);
+}
+:host([data-variant='outline']:focus-visible) {
   border-color: var(--mui-color-focus-ring);
-  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 /* filled */
-:host([data-variant="filled"]) { border: 1px solid transparent; background-color: var(--mui-color-surface); }
-:host([data-variant="filled"]:focus-visible) {
+:host([data-variant='filled']) {
+  border: 1px solid transparent;
+  background-color: var(--mui-color-surface);
+}
+:host([data-variant='filled']:focus-visible) {
   border-color: var(--mui-color-focus-ring);
   background-color: var(--mui-color-surface-raised);
-  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 /* ghost */
-:host([data-variant="ghost"]) { border: 1px solid transparent; background-color: transparent; }
-:host([data-variant="ghost"]:focus-visible) {
+:host([data-variant='ghost']) {
+  border: 1px solid transparent;
+  background-color: transparent;
+}
+:host([data-variant='ghost']:focus-visible) {
   border-color: var(--mui-color-focus-ring);
-  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 /* invalid */
-:host([data-invalid]) { border-color: var(--mui-color-danger) !important; }
+:host([data-invalid]) {
+  border-color: var(--mui-color-danger) !important;
+}
 :host([data-invalid]:focus-visible) {
-  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-danger) !important;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-danger) !important;
 }
 
-:host::placeholder { color: var(--mui-color-text-muted); }
+:host::placeholder {
+  color: var(--mui-color-text-muted);
+}
 
 /* Inside InputGroup: the group owns the border/radius/focus-ring */
 :host([data-in-group]) {

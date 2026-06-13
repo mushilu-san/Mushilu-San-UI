@@ -12,7 +12,9 @@ const SLIDE_COLORS = ['#6366f1', '#ec4899', '#14b8a6'];
 const SLIDE_LABELS = ['Indigo', 'Pink', 'Teal'];
 
 function slides(count = 3): string {
-  return Array.from({ length: count }, (_, i) => `
+  return Array.from(
+    { length: count },
+    (_, i) => `
     <mui-carousel-item>
       <div style="height:200px;display:flex;align-items:center;justify-content:center;
         background:${SLIDE_COLORS[i % SLIDE_COLORS.length]};color:#fff;font-size:24px;
@@ -20,7 +22,8 @@ function slides(count = 3): string {
         ${SLIDE_LABELS[i % SLIDE_LABELS.length]} — Slide ${i + 1}
       </div>
     </mui-carousel-item>
-  `).join('');
+  `,
+  ).join('');
 }
 
 const meta: Meta = {

@@ -28,20 +28,20 @@ describe('Button', () => {
   it('emits clicked output on user click when enabled', async () => {
     const user = userEvent.setup();
     const handler = vi.fn();
-    await renderTemplate(
-      `<button muiButton (clicked)="handler($event)">Btn</button>`,
-      { imports, componentProperties: { handler } },
-    );
+    await renderTemplate(`<button muiButton (clicked)="handler($event)">Btn</button>`, {
+      imports,
+      componentProperties: { handler },
+    });
     await user.click(screen.getByRole('button'));
     expect(handler).toHaveBeenCalledOnce();
   });
 
   it('does not emit clicked when disabled', async () => {
     const handler = vi.fn();
-    await renderTemplate(
-      `<button muiButton disabled (clicked)="handler($event)">Btn</button>`,
-      { imports, componentProperties: { handler } },
-    );
+    await renderTemplate(`<button muiButton disabled (clicked)="handler($event)">Btn</button>`, {
+      imports,
+      componentProperties: { handler },
+    });
     // pointer-events: none prevents real clicks; fireEvent bypasses CSS to test the guard
     fireEvent.click(screen.getByRole('button'));
     expect(handler).not.toHaveBeenCalled();
@@ -70,10 +70,10 @@ describe('Button', () => {
   it('is keyboard activatable via Enter', async () => {
     const user = userEvent.setup();
     const handler = vi.fn();
-    await renderTemplate(
-      `<button muiButton (clicked)="handler($event)">Btn</button>`,
-      { imports, componentProperties: { handler } },
-    );
+    await renderTemplate(`<button muiButton (clicked)="handler($event)">Btn</button>`, {
+      imports,
+      componentProperties: { handler },
+    });
     screen.getByRole('button').focus();
     await user.keyboard('{Enter}');
     expect(handler).toHaveBeenCalledOnce();
@@ -82,10 +82,10 @@ describe('Button', () => {
   it('is keyboard activatable via Space', async () => {
     const user = userEvent.setup();
     const handler = vi.fn();
-    await renderTemplate(
-      `<button muiButton (clicked)="handler($event)">Btn</button>`,
-      { imports, componentProperties: { handler } },
-    );
+    await renderTemplate(`<button muiButton (clicked)="handler($event)">Btn</button>`, {
+      imports,
+      componentProperties: { handler },
+    });
     screen.getByRole('button').focus();
     await user.keyboard(' ');
     expect(handler).toHaveBeenCalledOnce();
