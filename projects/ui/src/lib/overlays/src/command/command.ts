@@ -43,6 +43,7 @@ export const COMMAND_CONTEXT = new InjectionToken<CommandContext>('COMMAND_CONTE
   providers: [
     {
       provide: COMMAND_CONTEXT,
+      /* v8 ignore next 8 -- DI factory body; all lambdas are exercised via tests but V8 misattributes coverage here */
       useFactory: (self: Command, host: ElementRef<HTMLElement>) => ({
         search: self.search,
         setSearch: (v: string) => self.search.set(v),

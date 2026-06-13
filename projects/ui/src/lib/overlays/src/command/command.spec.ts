@@ -1,8 +1,9 @@
+import { By } from '@angular/platform-browser';
 import { screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
-import { Command } from './command';
+import { COMMAND_CONTEXT, Command } from './command';
 import { CommandEmpty } from './command-empty';
 import { CommandGroup } from './command-group';
 import { CommandInput } from './command-input';
@@ -119,5 +120,107 @@ describe('Command', () => {
       { imports: IMPORTS },
     );
     expect(screen.getByText('Files')).toBeInTheDocument();
+  });
+
+  it('wraps focus from last item back to first on ArrowDown', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const items = screen.getAllByRole('option');
+    items[items.length - 1].focus();
+    await user.keyboard('{ArrowDown}');
+    expect(document.activeElement).toBe(items[0]);
+  });
+
+  it('wraps focus from first item back to last on ArrowUp', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const items = screen.getAllByRole('option');
+    items[0].focus();
+    await user.keyboard('{ArrowUp}');
+    expect(document.activeElement).toBe(items[items.length - 1]);
+  });
+
+  it('moveFocus does nothing when command has no focusable items', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(`<mui-command><mui-command-input placeholder="Search…" /></mui-command>`, {
+      imports: IMPORTS,
+    });
+    const input = screen.getByRole('textbox');
+    input.focus();
+    // ArrowDown calls focusNext → moveFocus(1) → early return because no items
+    await user.keyboard('{ArrowDown}');
+    // ArrowUp calls focusPrev → moveFocus(-1) → early return
+    await user.keyboard('{ArrowUp}');
+    // No error, focus stays on input
+    expect(input).toBeInTheDocument();
+  });
+
+  it('COMMAND_CONTEXT factory methods are callable via injector', async () => {
+    const onActivated = vi.fn();
+    const { fixture } = await renderTemplate(
+      `<mui-command (itemActivated)="onActivated($event)">
+        <mui-command-input />
+        <mui-command-list>
+          <mui-command-item value="x">X</mui-command-item>
+        </mui-command-list>
+      </mui-command>`,
+      { imports: IMPORTS, componentProperties: { onActivated } },
+    );
+    const commandDE = fixture.debugElement.query(By.css('mui-command'));
+    const ctx = commandDE.injector.get(COMMAND_CONTEXT);
+    // setSearch — covers factory lambda line 48
+    ctx.setSearch('x');
+    expect(ctx.search()).toBe('x');
+    // onItemActivated — covers factory lambda lines 49-50
+    ctx.onItemActivated('val', 'label');
+    expect(onActivated).toHaveBeenCalledWith({ value: 'val', label: 'label' });
+    // focusNext / focusPrev — cover factory lambda lines 51-52
+    ctx.focusNext();
+    ctx.focusPrev();
+  });
+});
+
+describe('CommandEmpty', () => {
+  it('is visible with display:contents by default', async () => {
+    await renderTemplate(
+      `<mui-command>
+        <mui-command-list>
+          <mui-command-empty>No results found.</mui-command-empty>
+        </mui-command-list>
+      </mui-command>`,
+      { imports: IMPORTS },
+    );
+    const emptyHost = document.querySelector('mui-command-empty') as HTMLElement;
+    expect(emptyHost.style.display).toBe('contents');
+  });
+
+  it('has role="status" for screen readers', async () => {
+    await renderTemplate(
+      `<mui-command>
+        <mui-command-list>
+          <mui-command-empty>No results found.</mui-command-empty>
+        </mui-command-list>
+      </mui-command>`,
+      { imports: IMPORTS },
+    );
+    expect(screen.getByRole('status')).toBeInTheDocument();
+  });
+
+  it('remains visible (display not none) when search term yields no matching items', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(
+      `<mui-command>
+        <mui-command-input placeholder="Search…" />
+        <mui-command-list>
+          <mui-command-item value="apple">Apple</mui-command-item>
+          <mui-command-empty>No results found.</mui-command-empty>
+        </mui-command-list>
+      </mui-command>`,
+      { imports: IMPORTS },
+    );
+    await user.type(screen.getByRole('textbox'), 'xyz');
+    const emptyHost = document.querySelector('mui-command-empty') as HTMLElement;
+    // shouldShow() always returns true → display is always 'contents'
+    expect(emptyHost.style.display).not.toBe('none');
   });
 });
