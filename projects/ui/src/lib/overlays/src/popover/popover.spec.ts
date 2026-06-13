@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/angular';
+import { fireEvent, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
@@ -108,5 +108,67 @@ describe('Popover', () => {
       { imports },
     );
     expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('closes on outside click by default', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(basic, { imports });
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    fireEvent.click(document.body);
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('closeOnOutsideClick=false prevents outside click from closing', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(
+      `<mui-popover [closeOnOutsideClick]="false">
+        <button muiPopoverTrigger>Open</button>
+        <p>Content</p>
+      </mui-popover>`,
+      { imports },
+    );
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    fireEvent.click(document.body);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('clicking inside the popover does not close it', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(basic, { imports });
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    const dialog = screen.getByRole('dialog');
+    fireEvent.click(dialog);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('closeOnEscape=false prevents Escape from closing', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(
+      `<mui-popover [closeOnEscape]="false">
+        <button muiPopoverTrigger>Open</button>
+        <p>Content</p>
+      </mui-popover>`,
+      { imports },
+    );
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    await user.keyboard('{Escape}');
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('Escape when popover is closed is a no-op', async () => {
+    const onClosed = vi.fn();
+    await renderTemplate(
+      `<mui-popover (closed)="onClosed()">
+        <button muiPopoverTrigger>Open</button>
+        <p>Content</p>
+      </mui-popover>`,
+      { imports, componentProperties: { onClosed } },
+    );
+    // Popover starts closed — Escape should not emit closed
+    const user = userEvent.setup();
+    await user.keyboard('{Escape}');
+    expect(onClosed).not.toHaveBeenCalled();
   });
 });

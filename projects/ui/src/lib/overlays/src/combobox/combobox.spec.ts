@@ -89,4 +89,63 @@ describe('Combobox', () => {
     fireEvent.click(screen.getByRole('button'));
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
+
+  it('clicking outside the combobox closes the listbox', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(BASE, { imports: IMPORTS, componentProperties: { val: '' } });
+    await user.click(screen.getByRole('button'));
+    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    fireEvent.click(document.body);
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+  });
+
+  it('Escape closes the open listbox', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(BASE, { imports: IMPORTS, componentProperties: { val: '' } });
+    await user.click(screen.getByRole('button'));
+    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+  });
+
+  it('Escape when listbox is already closed is a no-op', async () => {
+    const user = userEvent.setup();
+    const onClosed = vi.fn();
+    await renderTemplate(
+      `<mui-combobox [(value)]="val" (closed)="onClosed()">
+        <mui-combobox-item value="a">A</mui-combobox-item>
+      </mui-combobox>`,
+      { imports: IMPORTS, componentProperties: { val: '', onClosed } },
+    );
+    // Not open — Escape should not emit closed
+    await user.keyboard('{Escape}');
+    expect(onClosed).not.toHaveBeenCalled();
+  });
+
+  it('emits opened when dropdown opens', async () => {
+    const user = userEvent.setup();
+    const onOpened = vi.fn();
+    await renderTemplate(
+      `<mui-combobox [(value)]="val" (opened)="onOpened()">
+        <mui-combobox-item value="a">A</mui-combobox-item>
+      </mui-combobox>`,
+      { imports: IMPORTS, componentProperties: { val: '', onOpened } },
+    );
+    await user.click(screen.getByRole('button'));
+    expect(onOpened).toHaveBeenCalledOnce();
+  });
+
+  it('emits closed when clicking outside', async () => {
+    const user = userEvent.setup();
+    const onClosed = vi.fn();
+    await renderTemplate(
+      `<mui-combobox [(value)]="val" (closed)="onClosed()">
+        <mui-combobox-item value="a">A</mui-combobox-item>
+      </mui-combobox>`,
+      { imports: IMPORTS, componentProperties: { val: '', onClosed } },
+    );
+    await user.click(screen.getByRole('button'));
+    fireEvent.click(document.body);
+    expect(onClosed).toHaveBeenCalledOnce();
+  });
 });

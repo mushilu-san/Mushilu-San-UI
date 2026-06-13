@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { renderComponent } from '../../../../core/testing';
 import { Calendar } from './calendar';
 
@@ -114,5 +114,98 @@ describe('Calendar', () => {
     );
     expect(day5).toBeTruthy();
     expect(day5).toHaveAttribute('aria-disabled');
+  });
+
+  it('clicking prev month button shows previous month', async () => {
+    const user = userEvent.setup();
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 1, 15) } }); // Feb 2024
+    await user.click(screen.getByRole('button', { name: /previous month/i }));
+    // View should now be January 2024
+    expect(screen.getByRole('heading').textContent).toContain('January');
+  });
+
+  it('clicking next month button shows next month', async () => {
+    const user = userEvent.setup();
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 0, 15) } }); // Jan 2024
+    await user.click(screen.getByRole('button', { name: /next month/i }));
+    expect(screen.getByRole('heading').textContent).toContain('February');
+  });
+
+  it('prevMonth wraps December to January and decrements year', async () => {
+    const user = userEvent.setup();
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 0, 15) } }); // Jan 2024
+    await user.click(screen.getByRole('button', { name: /previous month/i }));
+    // Should now show December 2023
+    expect(screen.getByRole('heading').textContent).toContain('2023');
+    expect(screen.getByRole('heading').textContent).toContain('December');
+  });
+
+  it('nextMonth wraps December to January and increments year', async () => {
+    const user = userEvent.setup();
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 11, 15) } }); // Dec 2024
+    await user.click(screen.getByRole('button', { name: /next month/i }));
+    expect(screen.getByRole('heading').textContent).toContain('2025');
+    expect(screen.getByRole('heading').textContent).toContain('January');
+  });
+
+  it('PageUp moves view to previous month', async () => {
+    const user = userEvent.setup();
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 1, 15) } }); // Feb 2024
+    const focused = document.querySelector<HTMLElement>('.cal-day[tabindex="0"]');
+    focused?.focus();
+    await user.keyboard('{PageUp}');
+    // View should now show January
+    expect(screen.getByRole('heading').textContent).toContain('January');
+  });
+
+  it('PageDown moves view to next month', async () => {
+    const user = userEvent.setup();
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 0, 15) } }); // Jan 2024
+    const focused = document.querySelector<HTMLElement>('.cal-day[tabindex="0"]');
+    focused?.focus();
+    await user.keyboard('{PageDown}');
+    expect(screen.getByRole('heading').textContent).toContain('February');
+  });
+
+  it('maxDate disables days after the maximum', async () => {
+    const max = new Date(2024, 0, 20);
+    await renderComponent(Calendar, {
+      inputs: { value: new Date(2024, 0, 15), maxDate: max },
+    });
+    const dayBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day'));
+    const day25 = dayBtns.find(
+      (b) => b.textContent?.trim() === '25' && !b.hasAttribute('data-outside'),
+    );
+    expect(day25).toBeTruthy();
+    expect(day25).toHaveAttribute('aria-disabled');
+  });
+
+  it('registerOnTouched callback fires when a day is selected', async () => {
+    const { fixture } = await renderComponent(Calendar, {
+      inputs: { value: new Date(2024, 0, 15) },
+    });
+    const onTouched = vi.fn();
+    fixture.componentInstance.registerOnTouched(onTouched);
+    const dayBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day'));
+    const day10 = dayBtns.find(
+      (b) => b.textContent?.trim() === '10' && !b.hasAttribute('data-outside'),
+    );
+    fireEvent.click(day10!);
+    expect(onTouched).toHaveBeenCalled();
+  });
+
+  it('setDisabledState(true) prevents key navigation', async () => {
+    const user = userEvent.setup();
+    const { fixture, detectChanges } = await renderComponent(Calendar, {
+      inputs: { value: new Date(2024, 0, 15) },
+    });
+    fixture.componentInstance.setDisabledState(true);
+    detectChanges();
+    const focused = document.querySelector<HTMLElement>('.cal-day[tabindex="0"]');
+    focused?.focus();
+    await user.keyboard('{ArrowRight}');
+    // focusedDate unchanged → tabindex="0" stays on day 15
+    const stillFocused = document.querySelector<HTMLElement>('.cal-day[tabindex="0"]');
+    expect(stillFocused?.textContent?.trim()).toBe('15');
   });
 });
