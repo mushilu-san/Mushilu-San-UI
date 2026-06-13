@@ -13,6 +13,8 @@
     "version-packages": "changeset version",
     "release": "npm run build && changeset publish",
     "lint": "ng lint ui",
+    "format": "prettier --write \"projects/**/*.{ts,html,css,mjs,json}\"",
+    "format:check": "prettier --check \"projects/**/*.{ts,html,css,mjs,json}\"",
     "size": "size-limit",
     "build-storybook": "ng run ui:build-storybook"
   },
@@ -65,32 +67,52 @@
   },
   "size-limit": [
     {
-      "path": "dist/ui/primitives/index.mjs",
-      "limit": "5 KB"
+      "name": "primitives",
+      "path": "dist/ui/fesm2022/mushilu-san-ui-primitives.mjs",
+      "limit": "8 KB",
+      "ignore": ["@angular/common", "@angular/compiler", "@angular/core", "@angular/forms", "@angular/platform-browser", "@angular/router", "chart.js", "rxjs", "tslib"]
     },
     {
-      "path": "dist/ui/forms/index.mjs",
-      "limit": "5 KB"
+      "name": "forms",
+      "path": "dist/ui/fesm2022/mushilu-san-ui-forms.mjs",
+      "limit": "12 KB",
+      "ignore": ["@angular/common", "@angular/compiler", "@angular/core", "@angular/forms", "@angular/platform-browser", "@angular/router", "chart.js", "rxjs", "tslib"]
     },
     {
-      "path": "dist/ui/layout/index.mjs",
-      "limit": "5 KB"
+      "name": "layout",
+      "path": "dist/ui/fesm2022/mushilu-san-ui-layout.mjs",
+      "limit": "7 KB",
+      "ignore": ["@angular/common", "@angular/compiler", "@angular/core", "@angular/forms", "@angular/platform-browser", "@angular/router", "chart.js", "rxjs", "tslib"]
     },
     {
-      "path": "dist/ui/navigation/index.mjs",
-      "limit": "5 KB"
+      "name": "navigation",
+      "path": "dist/ui/fesm2022/mushilu-san-ui-navigation.mjs",
+      "limit": "8 KB",
+      "ignore": ["@angular/common", "@angular/compiler", "@angular/core", "@angular/forms", "@angular/platform-browser", "@angular/router", "chart.js", "rxjs", "tslib"]
     },
     {
-      "path": "dist/ui/feedback/index.mjs",
-      "limit": "5 KB"
+      "name": "feedback",
+      "path": "dist/ui/fesm2022/mushilu-san-ui-feedback.mjs",
+      "limit": "9 KB",
+      "ignore": ["@angular/common", "@angular/compiler", "@angular/core", "@angular/forms", "@angular/platform-browser", "@angular/router", "chart.js", "rxjs", "tslib"]
     },
     {
-      "path": "dist/ui/data-display/index.mjs",
-      "limit": "5 KB"
+      "name": "data-display",
+      "path": "dist/ui/fesm2022/mushilu-san-ui-data-display.mjs",
+      "limit": "10 KB",
+      "ignore": ["@angular/common", "@angular/compiler", "@angular/core", "@angular/forms", "@angular/platform-browser", "@angular/router", "chart.js", "rxjs", "tslib"]
     },
     {
-      "path": "dist/ui/mobile/index.mjs",
-      "limit": "5 KB"
+      "name": "mobile",
+      "path": "dist/ui/fesm2022/mushilu-san-ui-mobile.mjs",
+      "limit": "8 KB",
+      "ignore": ["@angular/common", "@angular/compiler", "@angular/core", "@angular/forms", "@angular/platform-browser", "@angular/router", "chart.js", "rxjs", "tslib"]
+    },
+    {
+      "name": "overlays",
+      "path": "dist/ui/fesm2022/mushilu-san-ui-overlays.mjs",
+      "limit": "10 KB",
+      "ignore": ["@angular/common", "@angular/compiler", "@angular/core", "@angular/forms", "@angular/platform-browser", "@angular/router", "chart.js", "rxjs", "tslib"]
     }
   ],
   "engines": {

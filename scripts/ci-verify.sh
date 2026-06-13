@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: ./scripts/ci-verify.sh [--skip-install]
-# Mirrors .github/workflows/ci.yml exactly: clean install -> lint -> test -> build -> storybook build.
+# Mirrors .github/workflows/ci.yml exactly: clean install -> lint -> format check -> test -> build -> size budget -> storybook build.
 # Run before pushing to catch CI failures locally. Requires the Node version from .nvmrc.
 
 set -euo pipefail
@@ -21,11 +21,17 @@ fi
 echo "==> Lint"
 npm run lint
 
+echo "==> Format check"
+npm run format:check
+
 echo "==> Test"
 npm run test:ci
 
 echo "==> Build library"
 npm run build
+
+echo "==> Bundle size budget"
+npm run size
 
 echo "==> Build Storybook"
 npm run storybook:build

@@ -1,0 +1,26 @@
+version: 2
+updates:
+  # npm dependencies — grouped to keep the Angular and Storybook toolchains in sync.
+  # NOTE: any merged bump here changes package.json, so the lockfile must be
+  # regenerated (npm install) before merging — see CLAUDE.md dependency rules.
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      angular:
+        patterns:
+          - '@angular*'
+          - 'ng-packagr'
+      storybook:
+        patterns:
+          - '@storybook/*'
+          - 'storybook'
+
+  # GitHub Actions — automates the SHA bumps that are pinned by commit in the
+  # workflows (Dependabot updates both the SHA and the `# vX.Y.Z` comment).
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: weekly
