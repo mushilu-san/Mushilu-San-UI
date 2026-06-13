@@ -20,12 +20,16 @@ describe('Divider', () => {
   });
 
   it('sets vertical aria-orientation', async () => {
-    await renderTemplate('<mui-divider orientation="vertical"></mui-divider>', { imports: [Divider] });
+    await renderTemplate('<mui-divider orientation="vertical"></mui-divider>', {
+      imports: [Divider],
+    });
     expect(document.querySelector('mui-divider')).toHaveAttribute('aria-orientation', 'vertical');
   });
 
   it('sets data-orientation attribute', async () => {
-    await renderTemplate('<mui-divider orientation="vertical"></mui-divider>', { imports: [Divider] });
+    await renderTemplate('<mui-divider orientation="vertical"></mui-divider>', {
+      imports: [Divider],
+    });
     expect(document.querySelector('mui-divider')).toHaveAttribute('data-orientation', 'vertical');
   });
 
@@ -68,6 +72,6 @@ describe('Divider', () => {
   it('inner elements are aria-hidden', async () => {
     await renderComponent(Divider, { inputs: { label: 'or' } });
     const children = document.querySelectorAll('mui-divider > *');
-    children.forEach(el => expect(el).toHaveAttribute('aria-hidden', 'true'));
+    children.forEach((el) => expect(el).toHaveAttribute('aria-hidden', 'true'));
   });
 });

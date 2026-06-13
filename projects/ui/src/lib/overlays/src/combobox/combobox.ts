@@ -44,37 +44,37 @@ export const COMBOBOX_CONTEXT = new InjectionToken<ComboboxContext>('COMBOBOX_CO
     {
       provide: COMBOBOX_CONTEXT,
       useFactory: (self: Combobox) => ({
-        open:          self.open,
-        search:        self.search,
+        open: self.open,
+        search: self.search,
         selectedLabel: self.selectedLabel,
-        setSearch:     (v: string) => self.search.set(v),
-        selectItem:    (v: string, label: string) => self.onSelect(v, label),
-        close:         () => self.open.set(false),
+        setSearch: (v: string) => self.search.set(v),
+        selectItem: (v: string, label: string) => self.onSelect(v, label),
+        close: () => self.open.set(false),
       }),
       deps: [Combobox],
     },
   ],
   host: {
     '[attr.part]': '"root"',
-    'style': 'position:relative;display:inline-block;',
+    style: 'position:relative;display:inline-block;',
   },
 })
 export class Combobox {
-  value       = model('');
+  value = model('');
   placeholder = input('Select…');
-  disabled    = input(false, { transform: booleanAttribute });
+  disabled = input(false, { transform: booleanAttribute });
 
   readonly valueChange = output<string>();
-  readonly opened      = output<void>();
-  readonly closed      = output<void>();
+  readonly opened = output<void>();
+  readonly closed = output<void>();
 
-  protected readonly open          = signal(false);
-  protected readonly search        = signal('');
+  protected readonly open = signal(false);
+  protected readonly search = signal('');
   protected readonly selectedLabel = signal('');
 
   protected toggle(): void {
     if (this.disabled()) return;
-    this.open.update(v => !v);
+    this.open.update((v) => !v);
     if (this.open()) {
       this.search.set('');
       this.opened.emit();

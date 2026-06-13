@@ -79,7 +79,8 @@ describe('AlertDialog', () => {
     await renderComponent(AlertDialog, {
       inputs: { open: true, heading: 'Delete?', destructive: true },
     });
-    expect(screen.getByRole('button', { name: 'Confirm' }))
-      .toHaveClass('mui-alert-dialog__btn--destructive');
+    expect(screen.getByRole('button', { name: 'Confirm' })).toHaveClass(
+      'mui-alert-dialog__btn--destructive',
+    );
   });
 });

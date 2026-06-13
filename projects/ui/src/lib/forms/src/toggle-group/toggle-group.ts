@@ -11,17 +11,15 @@ import {
 import type { ToggleGroupSize, ToggleGroupType, ToggleGroupVariant } from './toggle-group.types';
 
 export interface ToggleGroupContext {
-  readonly type:     Signal<ToggleGroupType>;
-  readonly size:     Signal<ToggleGroupSize>;
-  readonly variant:  Signal<ToggleGroupVariant>;
+  readonly type: Signal<ToggleGroupType>;
+  readonly size: Signal<ToggleGroupSize>;
+  readonly variant: Signal<ToggleGroupVariant>;
   readonly disabled: Signal<boolean>;
   isSelected(value: string): boolean;
   select(value: string): void;
 }
 
-export const TOGGLE_GROUP_CONTEXT = new InjectionToken<ToggleGroupContext>(
-  'TOGGLE_GROUP_CONTEXT',
-);
+export const TOGGLE_GROUP_CONTEXT = new InjectionToken<ToggleGroupContext>('TOGGLE_GROUP_CONTEXT');
 
 /**
  * ToggleGroup — a set of toggle buttons with single or multiple selection.
@@ -50,28 +48,28 @@ export const TOGGLE_GROUP_CONTEXT = new InjectionToken<ToggleGroupContext>(
     {
       provide: TOGGLE_GROUP_CONTEXT,
       useFactory: (self: ToggleGroup) => ({
-        type:     self.type,
-        size:     self.size,
-        variant:  self.variant,
+        type: self.type,
+        size: self.size,
+        variant: self.variant,
         disabled: self.disabled,
         isSelected: (v: string) => self.isSelected(v),
-        select:     (v: string) => self.select(v),
+        select: (v: string) => self.select(v),
       }),
       deps: [ToggleGroup],
     },
   ],
   host: {
-    '[attr.role]':         '"group"',
-    '[attr.data-type]':    'type()',
-    '[attr.data-size]':    'size()',
+    '[attr.role]': '"group"',
+    '[attr.data-type]': 'type()',
+    '[attr.data-size]': 'size()',
     '[attr.data-variant]': 'variant()',
-    '[attr.part]':         '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class ToggleGroup {
-  type     = input<ToggleGroupType>('single');
-  size     = input<ToggleGroupSize>('md');
-  variant  = input<ToggleGroupVariant>('default');
+  type = input<ToggleGroupType>('single');
+  size = input<ToggleGroupSize>('md');
+  variant = input<ToggleGroupVariant>('default');
   disabled = input(false, { transform: booleanAttribute });
 
   /** For single mode: the selected value (string). For multiple: comma-joined string of selected values. */

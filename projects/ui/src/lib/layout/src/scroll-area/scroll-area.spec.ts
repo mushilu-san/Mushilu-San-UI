@@ -14,7 +14,9 @@ describe('ScrollArea', () => {
   });
 
   it('sets horizontal orientation', async () => {
-    const { container } = await renderComponent(ScrollArea, { inputs: { orientation: 'horizontal' } });
+    const { container } = await renderComponent(ScrollArea, {
+      inputs: { orientation: 'horizontal' },
+    });
     expect(container).toHaveAttribute('data-orientation', 'horizontal');
   });
 
@@ -24,10 +26,9 @@ describe('ScrollArea', () => {
   });
 
   it('projects content into viewport', async () => {
-    await renderTemplate(
-      `<mui-scroll-area><p>Scrollable content</p></mui-scroll-area>`,
-      { imports: [ScrollArea] },
-    );
+    await renderTemplate(`<mui-scroll-area><p>Scrollable content</p></mui-scroll-area>`, {
+      imports: [ScrollArea],
+    });
     expect(document.querySelector('.mui-scroll-area__viewport p')).toBeInTheDocument();
   });
 });

@@ -9,10 +9,10 @@ const meta: Meta<Avatar> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    size:  { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
     shape: { control: 'select', options: ['circle', 'square'] },
-    src:   { control: 'text' },
-    name:  { control: 'text' },
+    src: { control: 'text' },
+    name: { control: 'text' },
     label: { control: 'text' },
   },
 };
@@ -25,7 +25,13 @@ export const Default: Story = {
 };
 
 export const WithImage: Story = {
-  args: { src: SAMPLE_IMG, name: 'Jane Doe', label: 'Jane Doe avatar', size: 'md', shape: 'circle' },
+  args: {
+    src: SAMPLE_IMG,
+    name: 'Jane Doe',
+    label: 'Jane Doe avatar',
+    size: 'md',
+    shape: 'circle',
+  },
 };
 
 export const Sizes: Story = {

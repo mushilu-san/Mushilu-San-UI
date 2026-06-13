@@ -9,7 +9,7 @@ const meta: Meta<InputGroup> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    size:    { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
     invalid: { control: 'boolean' },
   },
 };

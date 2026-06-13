@@ -41,5 +41,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-combobox-item__btn { transition: none; }
+  .mui-combobox-item__btn {
+    transition: none;
+  }
 }

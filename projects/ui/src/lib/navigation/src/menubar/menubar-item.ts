@@ -16,14 +16,14 @@ import { MENUBAR_CONTEXT } from './menubar-context';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    'role':                 'menuitem',
-    '[attr.tabindex]':      'disabled() ? -1 : 0',
+    role: 'menuitem',
+    '[attr.tabindex]': 'disabled() ? -1 : 0',
     '[attr.aria-disabled]': 'disabled() || null',
     '[attr.data-disabled]': 'disabled() ? "" : null',
-    '[attr.part]':          '"item"',
-    '(click)':              'onClick()',
-    '(keydown.enter)':      'onClick()',
-    '(keydown.space)':      '$event.preventDefault(); onClick()',
+    '[attr.part]': '"item"',
+    '(click)': 'onClick()',
+    '(keydown.enter)': 'onClick()',
+    '(keydown.space)': '$event.preventDefault(); onClick()',
   },
 })
 export class MenubarItem {

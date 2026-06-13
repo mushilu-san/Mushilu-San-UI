@@ -11,5 +11,5 @@ export interface MenubarMenuContext {
   toggle(): void;
 }
 
-export const MENUBAR_CONTEXT      = new InjectionToken<MenubarContext>('MENUBAR_CONTEXT');
+export const MENUBAR_CONTEXT = new InjectionToken<MenubarContext>('MENUBAR_CONTEXT');
 export const MENUBAR_MENU_CONTEXT = new InjectionToken<MenubarMenuContext>('MENUBAR_MENU_CONTEXT');

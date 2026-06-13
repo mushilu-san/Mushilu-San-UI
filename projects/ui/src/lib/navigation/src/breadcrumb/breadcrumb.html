@@ -9,10 +9,13 @@
             class="breadcrumb-current"
             [attr.aria-current]="i === lastIndex() ? 'page' : null"
             part="current"
-          >{{ item.label }}</span>
+            >{{ item.label }}</span
+          >
         }
         @if (i !== lastIndex()) {
-          <span class="breadcrumb-separator" aria-hidden="true" part="separator">{{ separator() }}</span>
+          <span class="breadcrumb-separator" aria-hidden="true" part="separator">{{
+            separator()
+          }}</span>
         }
       </li>
     }

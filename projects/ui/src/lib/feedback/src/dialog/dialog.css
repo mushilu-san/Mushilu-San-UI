@@ -15,9 +15,15 @@
   overflow: hidden;
 }
 
-.mui-dialog__panel[data-size="sm"] { --dialog-width: 24rem; }
-.mui-dialog__panel[data-size="md"] { --dialog-width: 32rem; }
-.mui-dialog__panel[data-size="lg"] { --dialog-width: 48rem; }
+.mui-dialog__panel[data-size='sm'] {
+  --dialog-width: 24rem;
+}
+.mui-dialog__panel[data-size='md'] {
+  --dialog-width: 32rem;
+}
+.mui-dialog__panel[data-size='lg'] {
+  --dialog-width: 48rem;
+}
 
 .mui-dialog__panel::backdrop {
   background-color: var(--mui-color-overlay);
@@ -98,13 +104,23 @@
 }
 
 @keyframes mui-dialog-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes mui-dialog-backdrop-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -24,9 +24,17 @@ import { COMBOBOX_CONTEXT } from './combobox';
       (click)="onSelect()"
     >
       @if (isSelected()) {
-        <svg class="mui-combobox-item__check" viewBox="0 0 16 16" width="14" height="14"
-             fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M2 8l4 4 8-8"/>
+        <svg
+          class="mui-combobox-item__check"
+          viewBox="0 0 16 16"
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M2 8l4 4 8-8" />
         </svg>
       } @else {
         <span class="mui-combobox-item__check-placeholder"></span>
@@ -43,13 +51,15 @@ import { COMBOBOX_CONTEXT } from './combobox';
   },
 })
 export class ComboboxItem {
-  value    = input.required<string>();
+  value = input.required<string>();
   disabled = input(false, { transform: booleanAttribute });
 
   protected readonly ctx = inject(COMBOBOX_CONTEXT);
 
-  protected readonly isSelected = computed(() => this.ctx.selectedLabel() === this.value() || this.ctx.search() === '' && false);
-  protected readonly isHidden   = computed(() => {
+  protected readonly isSelected = computed(
+    () => this.ctx.selectedLabel() === this.value() || (this.ctx.search() === '' && false),
+  );
+  protected readonly isHidden = computed(() => {
     const q = this.ctx.search().toLowerCase().trim();
     if (!q) return false;
     return !this.value().toLowerCase().includes(q);

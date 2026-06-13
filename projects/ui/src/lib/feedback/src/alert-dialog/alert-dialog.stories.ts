@@ -7,11 +7,11 @@ const meta: Meta<AlertDialog> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    open:         { control: 'boolean' },
-    heading:      { control: 'text' },
+    open: { control: 'boolean' },
+    heading: { control: 'text' },
     confirmLabel: { control: 'text' },
-    cancelLabel:  { control: 'text' },
-    destructive:  { control: 'boolean' },
+    cancelLabel: { control: 'text' },
+    destructive: { control: 'boolean' },
   },
 };
 export default meta;

@@ -35,40 +35,40 @@ describe('Card', () => {
 
   it('emits clicked on host click when clickable', async () => {
     const handler = vi.fn();
-    await renderTemplate(
-      '<mui-card [clickable]="true" (clicked)="h()">Content</mui-card>',
-      { imports: [Card], componentProperties: { h: handler } },
-    );
+    await renderTemplate('<mui-card [clickable]="true" (clicked)="h()">Content</mui-card>', {
+      imports: [Card],
+      componentProperties: { h: handler },
+    });
     fireEvent.click(document.querySelector('mui-card')!);
     expect(handler).toHaveBeenCalledTimes(1);
   });
 
   it('does not emit clicked when not clickable', async () => {
     const handler = vi.fn();
-    await renderTemplate(
-      '<mui-card (clicked)="h()">Content</mui-card>',
-      { imports: [Card], componentProperties: { h: handler } },
-    );
+    await renderTemplate('<mui-card (clicked)="h()">Content</mui-card>', {
+      imports: [Card],
+      componentProperties: { h: handler },
+    });
     fireEvent.click(document.querySelector('mui-card')!);
     expect(handler).not.toHaveBeenCalled();
   });
 
   it('emits clicked on Enter key', async () => {
     const handler = vi.fn();
-    await renderTemplate(
-      '<mui-card [clickable]="true" (clicked)="h()">Content</mui-card>',
-      { imports: [Card], componentProperties: { h: handler } },
-    );
+    await renderTemplate('<mui-card [clickable]="true" (clicked)="h()">Content</mui-card>', {
+      imports: [Card],
+      componentProperties: { h: handler },
+    });
     fireEvent.keyDown(document.querySelector('mui-card')!, { key: 'Enter' });
     expect(handler).toHaveBeenCalledTimes(1);
   });
 
   it('emits clicked on Space key', async () => {
     const handler = vi.fn();
-    await renderTemplate(
-      '<mui-card [clickable]="true" (clicked)="h()">Content</mui-card>',
-      { imports: [Card], componentProperties: { h: handler } },
-    );
+    await renderTemplate('<mui-card [clickable]="true" (clicked)="h()">Content</mui-card>', {
+      imports: [Card],
+      componentProperties: { h: handler },
+    });
     fireEvent.keyDown(document.querySelector('mui-card')!, { key: ' ' });
     expect(handler).toHaveBeenCalledTimes(1);
   });

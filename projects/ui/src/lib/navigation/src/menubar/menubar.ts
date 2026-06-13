@@ -19,20 +19,18 @@ import { MENUBAR_CONTEXT, MenubarContext } from './menubar-context';
   styleUrl: './menubar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  providers: [
-    { provide: MENUBAR_CONTEXT, useExisting: forwardRef(() => Menubar) },
-  ],
+  providers: [{ provide: MENUBAR_CONTEXT, useExisting: forwardRef(() => Menubar) }],
   host: {
-    'role':              'menubar',
+    role: 'menubar',
     '[attr.aria-label]': 'label()',
-    '[attr.part]':       '"root"',
-    '(keydown)':         'onKeydown($event)',
+    '[attr.part]': '"root"',
+    '(keydown)': 'onKeydown($event)',
   },
 })
 export class Menubar implements MenubarContext {
   label = input('Menu bar');
 
-  private readonly el      = inject(ElementRef<HTMLElement>);
+  private readonly el = inject(ElementRef<HTMLElement>);
   private readonly _openId = signal<string | null>(null);
   readonly openId: Signal<string | null> = this._openId.asReadonly();
 
@@ -47,11 +45,11 @@ export class Menubar implements MenubarContext {
     if (!triggers.length) return;
 
     const active = document.activeElement as HTMLElement;
-    const idx    = triggers.indexOf(active);
+    const idx = triggers.indexOf(active);
 
     if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
       event.preventDefault();
-      const n    = triggers.length;
+      const n = triggers.length;
       const next = event.key === 'ArrowRight' ? (idx + 1) % n : (idx - 1 + n) % n;
       /* If a menu is open, follow-open the next menu */
       if (this._openId()) {

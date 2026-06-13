@@ -10,7 +10,9 @@ describe('Select (muiSelect directive)', () => {
   });
 
   it('is accessible via role=combobox', async () => {
-    await renderTemplate('<select muiSelect aria-label="Country"><option>US</option></select>', { imports: [Select] });
+    await renderTemplate('<select muiSelect aria-label="Country"><option>US</option></select>', {
+      imports: [Select],
+    });
     expect(screen.getByRole('combobox', { name: 'Country' })).toBeInTheDocument();
   });
 
@@ -20,7 +22,9 @@ describe('Select (muiSelect directive)', () => {
   });
 
   it('sets data-size attribute', async () => {
-    await renderTemplate('<select muiSelect size="lg"><option>A</option></select>', { imports: [Select] });
+    await renderTemplate('<select muiSelect size="lg"><option>A</option></select>', {
+      imports: [Select],
+    });
     expect(document.querySelector('select')).toHaveAttribute('data-size', 'lg');
   });
 
@@ -35,8 +39,9 @@ describe('Select (muiSelect directive)', () => {
   });
 
   it('sets data-invalid when invalid=true', async () => {
-    await renderTemplate('<select muiSelect invalid><option>A</option></select>', { imports: [Select] });
+    await renderTemplate('<select muiSelect invalid><option>A</option></select>', {
+      imports: [Select],
+    });
     expect(document.querySelector('select')).toHaveAttribute('data-invalid');
   });
-
 });

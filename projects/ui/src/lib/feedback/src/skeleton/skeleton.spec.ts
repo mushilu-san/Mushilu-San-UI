@@ -30,9 +30,12 @@ describe('Skeleton', () => {
   });
 
   it('applies custom width and height to the item', async () => {
-    await renderTemplate('<mui-skeleton variant="rect" width="200px" height="80px"></mui-skeleton>', {
-      imports: [Skeleton],
-    });
+    await renderTemplate(
+      '<mui-skeleton variant="rect" width="200px" height="80px"></mui-skeleton>',
+      {
+        imports: [Skeleton],
+      },
+    );
     const item = document.querySelector('.mui-skeleton__item') as HTMLElement;
     expect(item.style.inlineSize).toBe('200px');
     expect(item.style.blockSize).toBe('80px');

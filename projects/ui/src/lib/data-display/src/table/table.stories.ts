@@ -4,17 +4,17 @@ import { Table } from './table';
 import type { TableColumn } from './table.types';
 
 const COLUMNS: TableColumn[] = [
-  { key: 'name',       label: 'Name' },
-  { key: 'email',      label: 'Email' },
-  { key: 'role',       label: 'Role',   sortable: true },
-  { key: 'joined',     label: 'Joined', sortable: true },
+  { key: 'name', label: 'Name' },
+  { key: 'email', label: 'Email' },
+  { key: 'role', label: 'Role', sortable: true },
+  { key: 'joined', label: 'Joined', sortable: true },
 ];
 
 const ROWS = [
-  { name: 'Alice Chen',   email: 'alice@example.com',   role: 'Admin',  joined: '2023-01-10' },
-  { name: 'Bob Martinez', email: 'bob@example.com',     role: 'User',   joined: '2023-03-22' },
-  { name: 'Carol Smith',  email: 'carol@example.com',   role: 'Editor', joined: '2022-11-05' },
-  { name: 'Dan Park',     email: 'dan@example.com',     role: 'User',   joined: '2024-02-18' },
+  { name: 'Alice Chen', email: 'alice@example.com', role: 'Admin', joined: '2023-01-10' },
+  { name: 'Bob Martinez', email: 'bob@example.com', role: 'User', joined: '2023-03-22' },
+  { name: 'Carol Smith', email: 'carol@example.com', role: 'Editor', joined: '2022-11-05' },
+  { name: 'Dan Park', email: 'dan@example.com', role: 'User', joined: '2024-02-18' },
 ];
 
 const meta: Meta<Table> = {
@@ -44,12 +44,12 @@ export const WithCaption: Story = {
 export const SortableOnly: Story = {
   args: {
     columns: [
-      { key: 'name',  label: 'Name',  sortable: true },
+      { key: 'name', label: 'Name', sortable: true },
       { key: 'score', label: 'Score', sortable: true },
     ],
     rows: [
       { name: 'Alice', score: 95 },
-      { name: 'Bob',   score: 82 },
+      { name: 'Bob', score: 82 },
       { name: 'Carol', score: 88 },
     ],
     caption: 'Leaderboard',
@@ -61,9 +61,9 @@ export const StickyHeader: Story = {
     columns: COLUMNS,
     rows: [
       ...ROWS,
-      { name: 'Eve Turner',  email: 'eve@example.com',  role: 'User', joined: '2024-04-01' },
-      { name: 'Frank Lee',   email: 'frank@example.com', role: 'User', joined: '2024-05-15' },
-      { name: 'Grace Kim',   email: 'grace@example.com', role: 'Admin', joined: '2021-09-30' },
+      { name: 'Eve Turner', email: 'eve@example.com', role: 'User', joined: '2024-04-01' },
+      { name: 'Frank Lee', email: 'frank@example.com', role: 'User', joined: '2024-05-15' },
+      { name: 'Grace Kim', email: 'grace@example.com', role: 'Admin', joined: '2021-09-30' },
     ],
     caption: 'Scrollable with sticky header',
     stickyHeader: true,

@@ -25,8 +25,8 @@ let itemUid = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.part]':          '"item"',
-    '[attr.data-open]':     'isOpen() ? "" : null',
+    '[attr.part]': '"item"',
+    '[attr.data-open]': 'isOpen() ? "" : null',
     '[attr.data-disabled]': 'disabled() ? "" : null',
   },
 })
@@ -36,7 +36,7 @@ export class AccordionItem implements OnInit, OnDestroy, AccordionItemRef {
   disabled = input(false, { transform: booleanAttribute });
 
   protected readonly triggerId = `mui-accordion-trigger-${itemUid}`;
-  protected readonly panelId   = `mui-accordion-panel-${itemUid++}`;
+  protected readonly panelId = `mui-accordion-panel-${itemUid++}`;
 
   private readonly group = inject(ACCORDION_CONTEXT, { optional: true });
 
@@ -44,8 +44,12 @@ export class AccordionItem implements OnInit, OnDestroy, AccordionItemRef {
 
   private readonly triggerRef = viewChild<ElementRef<HTMLButtonElement>>('trigger');
 
-  ngOnInit(): void  { this.group?.register(this); }
-  ngOnDestroy(): void { this.group?.unregister(this); }
+  ngOnInit(): void {
+    this.group?.register(this);
+  }
+  ngOnDestroy(): void {
+    this.group?.unregister(this);
+  }
 
   focusTrigger(): void {
     this.triggerRef()?.nativeElement.focus();
@@ -58,10 +62,22 @@ export class AccordionItem implements OnInit, OnDestroy, AccordionItemRef {
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
     switch (event.key) {
-      case 'ArrowDown': event.preventDefault(); this.group?.focusNext(this); break;
-      case 'ArrowUp':   event.preventDefault(); this.group?.focusPrev(this); break;
-      case 'Home':      event.preventDefault(); this.group?.focusFirst();    break;
-      case 'End':       event.preventDefault(); this.group?.focusLast();     break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.group?.focusNext(this);
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.group?.focusPrev(this);
+        break;
+      case 'Home':
+        event.preventDefault();
+        this.group?.focusFirst();
+        break;
+      case 'End':
+        event.preventDefault();
+        this.group?.focusLast();
+        break;
     }
   }
 }

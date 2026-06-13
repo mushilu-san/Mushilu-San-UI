@@ -7,10 +7,10 @@ const meta: Meta<Toggle> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    size:     { control: 'select', options: ['sm', 'md', 'lg'] },
-    checked:  { control: 'boolean' },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    checked: { control: 'boolean' },
     disabled: { control: 'boolean' },
-    label:    { control: 'text' },
+    label: { control: 'text' },
   },
 };
 
@@ -90,11 +90,15 @@ export const SettingsList: Story = {
           ['Push notifications', false],
           ['Weekly digest', true],
           ['Marketing emails', false],
-        ].map(([label, on]) => `
+        ]
+          .map(
+            ([label, on]) => `
           <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e2e8f0;">
             <span style="font-size:14px;">${label}</span>
             <mui-toggle label="${label}" [checked]="${on}"></mui-toggle>
-          </div>`).join('')}
+          </div>`,
+          )
+          .join('')}
       </div>
     `,
     imports: [Toggle],
@@ -137,11 +141,20 @@ export const MobilePreview: Story = {
   render: () => ({
     template: `
       <div style="width:375px;padding:16px;display:flex;flex-direction:column;gap:0;">
-        ${[['Wi-Fi', true], ['Bluetooth', true], ['Airplane Mode', false], ['Do Not Disturb', false]].map(([l, on]) => `
+        ${[
+          ['Wi-Fi', true],
+          ['Bluetooth', true],
+          ['Airplane Mode', false],
+          ['Do Not Disturb', false],
+        ]
+          .map(
+            ([l, on]) => `
           <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid #e2e8f0;min-height:56px;box-sizing:border-box;">
             <span style="font-size:17px;">${l}</span>
             <mui-toggle size="lg" label="${l}" [checked]="${on}"></mui-toggle>
-          </div>`).join('')}
+          </div>`,
+          )
+          .join('')}
       </div>
     `,
     imports: [Toggle],

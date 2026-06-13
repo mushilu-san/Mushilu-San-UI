@@ -15,12 +15,12 @@ import type { CheckboxSize } from './checkbox.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.data-size]':    'size()',
+    '[attr.data-size]': 'size()',
     '[attr.data-invalid]': 'invalid() || null',
-    '[attr.part]':         '"checkbox"',
+    '[attr.part]': '"checkbox"',
   },
 })
 export class Checkbox {
-  size    = input<CheckboxSize>('md');
+  size = input<CheckboxSize>('md');
   invalid = input(false, { transform: booleanAttribute });
 }

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 import type { DividerOrientation, DividerVariant } from './divider.types';
 
 @Component({
@@ -14,16 +9,16 @@ import type { DividerOrientation, DividerVariant } from './divider.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.role]':             '"separator"',
+    '[attr.role]': '"separator"',
     '[attr.aria-orientation]': 'orientation()',
-    '[attr.aria-label]':       'label() || null',
+    '[attr.aria-label]': 'label() || null',
     '[attr.data-orientation]': 'orientation()',
-    '[attr.data-variant]':     'variant()',
-    '[attr.part]':             '"root"',
+    '[attr.data-variant]': 'variant()',
+    '[attr.part]': '"root"',
   },
 })
 export class Divider {
   orientation = input<DividerOrientation>('horizontal');
-  variant     = input<DividerVariant>('solid');
-  label       = input<string>();
+  variant = input<DividerVariant>('solid');
+  label = input<string>();
 }

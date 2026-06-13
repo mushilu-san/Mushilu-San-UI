@@ -10,7 +10,9 @@ describe('Checkbox (muiCheckbox directive)', () => {
   });
 
   it('is accessible via role=checkbox', async () => {
-    await renderTemplate('<input type="checkbox" muiCheckbox aria-label="Accept terms" />', { imports: [Checkbox] });
+    await renderTemplate('<input type="checkbox" muiCheckbox aria-label="Accept terms" />', {
+      imports: [Checkbox],
+    });
     expect(screen.getByRole('checkbox', { name: 'Accept terms' })).toBeInTheDocument();
   });
 
@@ -20,7 +22,9 @@ describe('Checkbox (muiCheckbox directive)', () => {
   });
 
   it('sets data-size attribute', async () => {
-    await renderTemplate('<input type="checkbox" muiCheckbox size="lg" />', { imports: [Checkbox] });
+    await renderTemplate('<input type="checkbox" muiCheckbox size="lg" />', {
+      imports: [Checkbox],
+    });
     expect(document.querySelector('input')).toHaveAttribute('data-size', 'lg');
   });
 
@@ -33,5 +37,4 @@ describe('Checkbox (muiCheckbox directive)', () => {
     await renderTemplate('<input type="checkbox" muiCheckbox invalid />', { imports: [Checkbox] });
     expect(document.querySelector('input')).toHaveAttribute('data-invalid');
   });
-
 });

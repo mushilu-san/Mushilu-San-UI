@@ -1,13 +1,17 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 
 export type TypographyVariant =
-  | 'h1' | 'h2' | 'h3' | 'h4'
-  | 'p' | 'lead' | 'large' | 'small' | 'muted' | 'code' | 'blockquote';
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'p'
+  | 'lead'
+  | 'large'
+  | 'small'
+  | 'muted'
+  | 'code'
+  | 'blockquote';
 
 /**
  * Typography — styled prose text component.

@@ -8,8 +8,8 @@ const meta: Meta<Divider> = {
   parameters: { layout: 'centered' },
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
-    variant:     { control: 'select', options: ['solid', 'dashed', 'dotted'] },
-    label:       { control: 'text' },
+    variant: { control: 'select', options: ['solid', 'dashed', 'dotted'] },
+    label: { control: 'text' },
   },
 };
 

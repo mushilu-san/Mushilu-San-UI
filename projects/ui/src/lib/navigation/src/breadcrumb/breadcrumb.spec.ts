@@ -74,10 +74,10 @@ describe('Breadcrumb', () => {
   });
 
   it('exposes part="breadcrumb"', async () => {
-    await renderTemplate(
-      '<mui-breadcrumb [items]="items"></mui-breadcrumb>',
-      { imports: [Breadcrumb], componentProperties: { items } },
-    );
+    await renderTemplate('<mui-breadcrumb [items]="items"></mui-breadcrumb>', {
+      imports: [Breadcrumb],
+      componentProperties: { items },
+    });
     expect(document.querySelector('mui-breadcrumb')).toHaveAttribute('part', 'breadcrumb');
   });
 });

@@ -94,7 +94,10 @@ describe('DropdownMenu', () => {
       { imports },
     );
     await user.click(screen.getByRole('button', { name: 'Open' }));
-    expect(screen.getByRole('menuitem', { name: 'Locked' })).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('menuitem', { name: 'Locked' })).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
   });
 
   it('disabled item does not emit itemClick', async () => {

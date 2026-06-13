@@ -34,18 +34,18 @@ let alertDialogUid = 0;
   host: { '[attr.part]': '"root"' },
 })
 export class AlertDialog {
-  open        = model(false);
-  heading     = input.required<string>();
+  open = model(false);
+  heading = input.required<string>();
   confirmLabel = input('Confirm');
-  cancelLabel  = input('Cancel');
+  cancelLabel = input('Cancel');
   /** Set to true for destructive actions — styles confirm button in danger color. */
-  destructive  = input(false);
+  destructive = input(false);
 
   readonly confirmed = output<void>();
   readonly cancelled = output<void>();
 
   protected readonly titleId = `mui-alert-title-${alertDialogUid++}`;
-  protected readonly descId  = `mui-alert-desc-${alertDialogUid}`;
+  protected readonly descId = `mui-alert-desc-${alertDialogUid}`;
 
   private readonly dialogRef = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private readonly cancelRef = viewChild<ElementRef<HTMLButtonElement>>('cancelBtn');
@@ -58,11 +58,19 @@ export class AlertDialog {
       if (!el) return;
 
       if (isOpen && !this.wasOpen) {
-        try { el.showModal(); } catch { el.setAttribute('open', ''); }
+        try {
+          el.showModal();
+        } catch {
+          el.setAttribute('open', '');
+        }
         // Focus cancel button (safe default for destructive confirmations)
         setTimeout(() => this.cancelRef()?.nativeElement?.focus(), 0);
       } else if (!isOpen && this.wasOpen) {
-        try { el.close(); } catch { el.removeAttribute('open'); }
+        try {
+          el.close();
+        } catch {
+          el.removeAttribute('open');
+        }
       }
       this.wasOpen = isOpen;
     });

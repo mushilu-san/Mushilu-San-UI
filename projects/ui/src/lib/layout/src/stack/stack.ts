@@ -34,12 +34,12 @@ const JUSTIFY_MAP: Record<StackJustify, string> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[style.flex-direction]':   'direction()',
-    '[style.align-items]':      'alignValue()',
-    '[style.justify-content]':  'justifyValue()',
-    '[style.flex-wrap]':        'wrap() ? "wrap" : "nowrap"',
-    '[style.gap]':              'gapValue()',
-    '[attr.part]':              '"root"',
+    '[style.flex-direction]': 'direction()',
+    '[style.align-items]': 'alignValue()',
+    '[style.justify-content]': 'justifyValue()',
+    '[style.flex-wrap]': 'wrap() ? "wrap" : "nowrap"',
+    '[style.gap]': 'gapValue()',
+    '[attr.part]': '"root"',
   },
 })
 export class Stack {

@@ -7,7 +7,7 @@ const meta: Meta<Select> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    size:    { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
     variant: { control: 'select', options: ['outline', 'filled', 'ghost'] },
     invalid: { control: 'boolean' },
   },

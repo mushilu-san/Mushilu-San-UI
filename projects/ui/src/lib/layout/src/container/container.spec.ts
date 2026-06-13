@@ -29,7 +29,9 @@ describe('Container', () => {
   });
 
   it('removes data-padded when padded is false', async () => {
-    await renderTemplate('<mui-container [padded]="false"></mui-container>', { imports: [Container] });
+    await renderTemplate('<mui-container [padded]="false"></mui-container>', {
+      imports: [Container],
+    });
     expect(document.querySelector('mui-container')).not.toHaveAttribute('data-padded');
   });
 

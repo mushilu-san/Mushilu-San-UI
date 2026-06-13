@@ -23,10 +23,9 @@ describe('AspectRatio', () => {
   });
 
   it('projects content into inner container', async () => {
-    await renderTemplate(
-      `<mui-aspect-ratio><img src="test.png" alt="Test" /></mui-aspect-ratio>`,
-      { imports: [AspectRatio] },
-    );
+    await renderTemplate(`<mui-aspect-ratio><img src="test.png" alt="Test" /></mui-aspect-ratio>`, {
+      imports: [AspectRatio],
+    });
     expect(document.querySelector('img')).toBeInTheDocument();
   });
 });

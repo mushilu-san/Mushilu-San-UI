@@ -16,11 +16,11 @@ import {
   host: {
     '[attr.data-required]': 'required() || null',
     '[attr.data-disabled]': 'disabled() || null',
-    '[attr.part]':          '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Label {
-  for      = input<string>();
+  for = input<string>();
   required = input(false, { transform: booleanAttribute });
   disabled = input(false, { transform: booleanAttribute });
 }

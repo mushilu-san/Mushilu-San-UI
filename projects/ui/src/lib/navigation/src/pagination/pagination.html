@@ -31,7 +31,9 @@
           [attr.tabindex]="p === page() ? '0' : null"
           (click)="goTo(p)"
           (keydown)="onKeydown($event, p)"
-        >{{ p }}</button>
+        >
+          {{ p }}
+        </button>
       }
     </li>
   }

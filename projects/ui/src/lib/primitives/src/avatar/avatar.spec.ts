@@ -5,12 +5,16 @@ import { Avatar } from './avatar';
 
 describe('Avatar', () => {
   it('has role="img"', async () => {
-    await renderTemplate('<mui-avatar name="Jane Doe" label="Jane Doe"></mui-avatar>', { imports: [Avatar] });
+    await renderTemplate('<mui-avatar name="Jane Doe" label="Jane Doe"></mui-avatar>', {
+      imports: [Avatar],
+    });
     expect(document.querySelector('mui-avatar')).toHaveAttribute('role', 'img');
   });
 
   it('is discoverable by role with aria-label', async () => {
-    await renderTemplate('<mui-avatar name="Jane Doe" label="Jane Doe avatar"></mui-avatar>', { imports: [Avatar] });
+    await renderTemplate('<mui-avatar name="Jane Doe" label="Jane Doe avatar"></mui-avatar>', {
+      imports: [Avatar],
+    });
     expect(screen.getByRole('img', { name: 'Jane Doe avatar' })).toBeInTheDocument();
   });
 
@@ -55,7 +59,9 @@ describe('Avatar', () => {
   });
 
   it('reflects shape as data-shape attribute', async () => {
-    await renderTemplate('<mui-avatar shape="square" name="A"></mui-avatar>', { imports: [Avatar] });
+    await renderTemplate('<mui-avatar shape="square" name="A"></mui-avatar>', {
+      imports: [Avatar],
+    });
     expect(document.querySelector('mui-avatar')).toHaveAttribute('data-shape', 'square');
   });
 

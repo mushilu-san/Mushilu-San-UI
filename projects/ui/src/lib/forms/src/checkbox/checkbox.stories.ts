@@ -7,7 +7,7 @@ const meta: Meta<Checkbox> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    size:    { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
     invalid: { control: 'boolean' },
   },
 };
@@ -153,11 +153,15 @@ export const MobilePreview: Story = {
   render: () => ({
     template: `
       <div style="width:375px;padding:16px;display:flex;flex-direction:column;gap:0;">
-        ${['Apples', 'Bananas', 'Cherries', 'Dates'].map(f => `
+        ${['Apples', 'Bananas', 'Cherries', 'Dates']
+          .map(
+            (f) => `
           <label style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #e2e8f0;cursor:pointer;font-size:16px;min-height:44px;box-sizing:border-box;">
             <input type="checkbox" muiCheckbox size="lg" />
             ${f}
-          </label>`).join('')}
+          </label>`,
+          )
+          .join('')}
       </div>
     `,
     imports: [Checkbox],

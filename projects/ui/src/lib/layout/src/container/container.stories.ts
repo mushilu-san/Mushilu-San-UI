@@ -13,7 +13,7 @@ const meta: Meta<Container> = {
   tags: ['autodocs'],
   parameters: { layout: 'fullscreen' },
   argTypes: {
-    size:   { control: 'select', options: ['sm', 'md', 'lg', 'xl', 'full'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg', 'xl', 'full'] },
     padded: { control: 'boolean' },
   },
 };
@@ -41,12 +41,16 @@ export const Sizes: Story = {
     props: {},
     template: `
       <div style="background:#f8fafc;padding:24px 0;display:flex;flex-direction:column;gap:20px;">
-        ${(['sm', 'md', 'lg', 'xl', 'full'] as const).map(size => `
+        ${(['sm', 'md', 'lg', 'xl', 'full'] as const)
+          .map(
+            (size) => `
           <div>
             <p style="margin:0 0 6px;padding:0 16px;font-size:12px;color:#64748b;">size="${size}"</p>
             <mui-container size="${size}">${card(`max-width: ${size}`)}</mui-container>
           </div>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </div>
     `,
     imports: [Container],

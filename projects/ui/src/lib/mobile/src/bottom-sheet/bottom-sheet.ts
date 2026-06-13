@@ -91,10 +91,18 @@ export class BottomSheet {
   }
 
   private showNative(el: HTMLDialogElement): void {
-    try { el.showModal(); } catch { el.setAttribute('open', ''); }
+    try {
+      el.showModal();
+    } catch {
+      el.setAttribute('open', '');
+    }
   }
 
   private closeNative(el: HTMLDialogElement): void {
-    try { el.close(); } catch { el.removeAttribute('open'); }
+    try {
+      el.close();
+    } catch {
+      el.removeAttribute('open');
+    }
   }
 }

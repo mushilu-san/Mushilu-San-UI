@@ -27,10 +27,7 @@ export const Default: Story = {
 
 export const TwoLevels: Story = {
   args: {
-    items: [
-      { label: 'Home', href: '/' },
-      { label: 'Settings' },
-    ],
+    items: [{ label: 'Home', href: '/' }, { label: 'Settings' }],
   },
 };
 

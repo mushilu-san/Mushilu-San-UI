@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 import type { RadioSize } from './radio.types';
 
 @Component({
@@ -15,7 +10,7 @@ import type { RadioSize } from './radio.types';
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[attr.data-size]': 'size()',
-    '[attr.part]':      '"radio"',
+    '[attr.part]': '"radio"',
   },
 })
 export class Radio {

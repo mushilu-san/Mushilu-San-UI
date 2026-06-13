@@ -7,9 +7,9 @@ const meta: Meta<Calendar> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    minDate:  { control: 'date' },
-    maxDate:  { control: 'date' },
-    locale:   { control: 'text' },
+    minDate: { control: 'date' },
+    maxDate: { control: 'date' },
+    locale: { control: 'text' },
     disabled: { control: 'boolean' },
   },
 };

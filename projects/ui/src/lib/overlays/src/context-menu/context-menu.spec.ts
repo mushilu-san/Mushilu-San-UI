@@ -78,7 +78,10 @@ describe('ContextMenu', () => {
   it('danger item has data-color=danger', async () => {
     await renderTemplate(BASE, { imports: IMPORTS });
     fireEvent.contextMenu(screen.getByTestId('trigger'));
-    expect(screen.getByRole('menuitem', { name: 'Delete' })).toHaveAttribute('data-color', 'danger');
+    expect(screen.getByRole('menuitem', { name: 'Delete' })).toHaveAttribute(
+      'data-color',
+      'danger',
+    );
   });
 
   it('panel has role=menu', async () => {

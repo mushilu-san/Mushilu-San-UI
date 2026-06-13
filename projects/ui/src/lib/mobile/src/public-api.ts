@@ -13,4 +13,8 @@ export type { BottomSheetSize } from './bottom-sheet/bottom-sheet.types';
 
 // SwipeAction
 export { SwipeAction } from './swipe-action/swipe-action';
-export type { SwipeActionItem, SwipeActionColor, SwipeSide } from './swipe-action/swipe-action.types';
+export type {
+  SwipeActionItem,
+  SwipeActionColor,
+  SwipeSide,
+} from './swipe-action/swipe-action.types';

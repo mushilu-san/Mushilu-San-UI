@@ -8,10 +8,10 @@ const meta: Meta<DatePicker> = {
   parameters: { layout: 'centered' },
   argTypes: {
     placeholder: { control: 'text' },
-    minDate:     { control: 'date' },
-    maxDate:     { control: 'date' },
-    locale:      { control: 'text' },
-    disabled:    { control: 'boolean' },
+    minDate: { control: 'date' },
+    maxDate: { control: 'date' },
+    locale: { control: 'text' },
+    disabled: { control: 'boolean' },
   },
 };
 export default meta;

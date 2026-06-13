@@ -50,8 +50,8 @@ h6 {
 }
 
 /* Remove default list styles when lists are used as navigation */
-[role="list"],
-[role="listbox"] {
+[role='list'],
+[role='listbox'] {
   list-style: none;
   padding: 0;
 }

@@ -7,7 +7,7 @@ const meta: Meta<Label> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    for:      { control: 'text' },
+    for: { control: 'text' },
     required: { control: 'boolean' },
     disabled: { control: 'boolean' },
   },

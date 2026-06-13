@@ -19,9 +19,7 @@ import { ACCORDION_CONTEXT } from './accordion.types';
   host: {
     '[attr.part]': '"root"',
   },
-  providers: [
-    { provide: ACCORDION_CONTEXT, useExisting: AccordionGroup },
-  ],
+  providers: [{ provide: ACCORDION_CONTEXT, useExisting: AccordionGroup }],
 })
 export class AccordionGroup implements AccordionContext {
   /** Allow multiple panels open simultaneously. Defaults to single-open. */
@@ -43,7 +41,11 @@ export class AccordionGroup implements AccordionContext {
     const curr = this.openIds();
     if (this.multiple()) {
       const next = new Set(curr);
-      if (next.has(id)) { next.delete(id); } else { next.add(id); }
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       this.openIds.set(next);
     } else {
       this.openIds.set(curr.has(id) ? new Set() : new Set([id]));

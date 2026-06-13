@@ -23,21 +23,21 @@ import { SIDEBAR_CONTEXT, SidebarContext } from './sidebar-context';
     },
   ],
   host: {
-    'role':                  'navigation',
-    '[attr.aria-label]':     'label()',
-    '[attr.data-expanded]':  'expanded() ? "" : null',
+    role: 'navigation',
+    '[attr.aria-label]': 'label()',
+    '[attr.data-expanded]': 'expanded() ? "" : null',
     '[attr.data-collapsed]': '!expanded() ? "" : null',
-    '[attr.part]':           '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Sidebar implements SidebarContext {
   expanded = model(true);
-  label    = input('Sidebar navigation');
+  label = input('Sidebar navigation');
   collapsible = input(true, { transform: booleanAttribute });
 
   toggle(): void {
     if (this.collapsible()) {
-      this.expanded.update(v => !v);
+      this.expanded.update((v) => !v);
     }
   }
 }

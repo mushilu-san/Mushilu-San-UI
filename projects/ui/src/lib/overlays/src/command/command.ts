@@ -44,11 +44,12 @@ export const COMMAND_CONTEXT = new InjectionToken<CommandContext>('COMMAND_CONTE
     {
       provide: COMMAND_CONTEXT,
       useFactory: (self: Command, host: ElementRef<HTMLElement>) => ({
-        search:           self.search,
-        setSearch:        (v: string) => self.search.set(v),
-        onItemActivated:  (value: string, label: string) => self.itemActivated.emit({ value, label }),
-        focusNext:        () => self.moveFocus(1, host.nativeElement),
-        focusPrev:        () => self.moveFocus(-1, host.nativeElement),
+        search: self.search,
+        setSearch: (v: string) => self.search.set(v),
+        onItemActivated: (value: string, label: string) =>
+          self.itemActivated.emit({ value, label }),
+        focusNext: () => self.moveFocus(1, host.nativeElement),
+        focusPrev: () => self.moveFocus(-1, host.nativeElement),
       }),
       deps: [Command, ElementRef],
     },

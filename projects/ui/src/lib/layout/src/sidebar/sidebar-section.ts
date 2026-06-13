@@ -20,6 +20,6 @@ import { SIDEBAR_CONTEXT } from './sidebar-context';
 export class SidebarSection {
   label = input('');
 
-  private readonly ctx           = inject(SIDEBAR_CONTEXT);
-  protected readonly showLabel   = computed(() => this.ctx.expanded() && !!this.label());
+  private readonly ctx = inject(SIDEBAR_CONTEXT);
+  protected readonly showLabel = computed(() => this.ctx.expanded() && !!this.label());
 }

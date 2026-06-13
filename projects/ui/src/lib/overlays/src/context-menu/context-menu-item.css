@@ -1,4 +1,6 @@
-:host { display: contents; }
+:host {
+  display: contents;
+}
 
 .mui-context-menu-item__btn {
   display: flex;
@@ -34,10 +36,10 @@
   pointer-events: none;
 }
 
-.mui-context-menu-item__btn[data-color="danger"] {
+.mui-context-menu-item__btn[data-color='danger'] {
   color: var(--mui-color-danger);
 }
-.mui-context-menu-item__btn[data-color="danger"]:hover:not([aria-disabled]) {
+.mui-context-menu-item__btn[data-color='danger']:hover:not([aria-disabled]) {
   background-color: color-mix(in srgb, var(--mui-color-danger) 8%, transparent);
 }
 
@@ -53,5 +55,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-context-menu-item__btn { transition: none; }
+  .mui-context-menu-item__btn {
+    transition: none;
+  }
 }

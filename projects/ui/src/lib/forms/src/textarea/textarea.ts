@@ -15,16 +15,16 @@ import type { TextareaResize, TextareaSize, TextareaVariant } from './textarea.t
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.data-size]':    'size()',
+    '[attr.data-size]': 'size()',
     '[attr.data-variant]': 'variant()',
     '[attr.data-invalid]': 'invalid() || null',
-    '[attr.data-resize]':  'resize()',
-    '[attr.part]':         '"textarea"',
+    '[attr.data-resize]': 'resize()',
+    '[attr.part]': '"textarea"',
   },
 })
 export class Textarea {
-  size    = input<TextareaSize>('md');
+  size = input<TextareaSize>('md');
   variant = input<TextareaVariant>('outline');
-  resize  = input<TextareaResize>('vertical');
+  resize = input<TextareaResize>('vertical');
   invalid = input(false, { transform: booleanAttribute });
 }

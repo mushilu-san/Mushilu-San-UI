@@ -17,50 +17,58 @@
 }
 
 /* ---- Placement ---- */
-.mui-hover-card-content__panel[data-placement^="bottom"] {
+.mui-hover-card-content__panel[data-placement^='bottom'] {
   top: calc(100% + var(--mui-space-2));
   left: 50%;
   transform: translateX(-50%);
 }
-.mui-hover-card-content__panel[data-placement="bottom-start"] {
+.mui-hover-card-content__panel[data-placement='bottom-start'] {
   left: 0;
   transform: none;
 }
-.mui-hover-card-content__panel[data-placement="bottom-end"] {
+.mui-hover-card-content__panel[data-placement='bottom-end'] {
   left: auto;
   right: 0;
   transform: none;
 }
-.mui-hover-card-content__panel[data-placement^="top"] {
+.mui-hover-card-content__panel[data-placement^='top'] {
   bottom: calc(100% + var(--mui-space-2));
   left: 50%;
   transform: translateX(-50%);
 }
-.mui-hover-card-content__panel[data-placement="top-start"] {
+.mui-hover-card-content__panel[data-placement='top-start'] {
   left: 0;
   transform: none;
 }
-.mui-hover-card-content__panel[data-placement="top-end"] {
+.mui-hover-card-content__panel[data-placement='top-end'] {
   left: auto;
   right: 0;
   transform: none;
 }
-.mui-hover-card-content__panel[data-placement^="left"] {
+.mui-hover-card-content__panel[data-placement^='left'] {
   right: calc(100% + var(--mui-space-2));
   top: 50%;
   transform: translateY(-50%);
 }
-.mui-hover-card-content__panel[data-placement^="right"] {
+.mui-hover-card-content__panel[data-placement^='right'] {
   left: calc(100% + var(--mui-space-2));
   top: 50%;
   transform: translateY(-50%);
 }
 
 @keyframes mui-hover-card-in {
-  from { opacity: 0; transform: scale(0.97) translateX(var(--_tx, 0)) translateY(var(--_ty, 0)); }
-  to   { opacity: 1; transform: scale(1)    translateX(var(--_tx, 0)) translateY(var(--_ty, 0)); }
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateX(var(--_tx, 0)) translateY(var(--_ty, 0));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(var(--_tx, 0)) translateY(var(--_ty, 0));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-hover-card-content__panel { animation: none; }
+  .mui-hover-card-content__panel {
+    animation: none;
+  }
 }

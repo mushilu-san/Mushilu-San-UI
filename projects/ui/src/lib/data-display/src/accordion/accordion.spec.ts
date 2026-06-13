@@ -48,7 +48,7 @@ describe('Accordion', () => {
 
   it('single mode: closes previous item when a new one opens', async () => {
     await renderTemplate(THREE_ITEMS, { imports: IMPORTS });
-    const first  = screen.getByRole('button', { name: 'First' });
+    const first = screen.getByRole('button', { name: 'First' });
     const second = screen.getByRole('button', { name: 'Second' });
     await userEvent.click(first);
     await userEvent.click(second);
@@ -85,7 +85,7 @@ describe('Accordion', () => {
   it('panel has aria-labelledby pointing to its trigger', async () => {
     await renderTemplate(THREE_ITEMS, { imports: IMPORTS });
     const trigger = screen.getByRole('button', { name: 'First' });
-    const panel   = document.getElementById(trigger.getAttribute('aria-controls')!);
+    const panel = document.getElementById(trigger.getAttribute('aria-controls')!);
     expect(panel?.getAttribute('aria-labelledby')).toBe(trigger.id);
   });
 

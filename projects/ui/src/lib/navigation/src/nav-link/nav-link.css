@@ -10,7 +10,9 @@
   border-radius: var(--mui-radius-sm);
   min-height: var(--mui-touch-target);
   min-width: var(--mui-touch-target);
-  transition: color 150ms ease, background-color 150ms ease;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
   outline: none;
   cursor: pointer;
   touch-action: manipulation;

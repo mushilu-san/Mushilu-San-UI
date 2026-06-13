@@ -18,7 +18,7 @@
   outline: none;
   transition:
     background-color var(--mui-duration-fast) var(--mui-easing-default),
-    transform        var(--mui-duration-fast) var(--mui-easing-default);
+    transform var(--mui-duration-fast) var(--mui-easing-default);
   /* Touch target: surround with extra hit area */
   position: relative;
 }
@@ -38,9 +38,12 @@
   outline: none;
   box-shadow:
     0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dot { transition: none; }
+  .dot {
+    transition: none;
+  }
 }

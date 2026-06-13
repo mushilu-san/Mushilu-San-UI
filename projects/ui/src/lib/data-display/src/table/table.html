@@ -1,28 +1,18 @@
 <div class="mui-table__scroll" part="scroll">
   <table class="mui-table__table" part="table">
     @if (caption()) {
-      <caption class="mui-table__caption" part="caption" [id]="captionId">{{ caption() }}</caption>
+      <caption class="mui-table__caption" part="caption" [id]="captionId">
+        {{
+          caption()
+        }}
+      </caption>
     }
-    <thead
-      class="mui-table__thead"
-      part="thead"
-      [class.mui-table__thead--sticky]="stickyHeader()"
-    >
+    <thead class="mui-table__thead" part="thead" [class.mui-table__thead--sticky]="stickyHeader()">
       <tr>
         @for (col of columns(); track col.key) {
-          <th
-            class="mui-table__th"
-            part="th"
-            scope="col"
-            [attr.aria-sort]="ariaSortAttr(col.key)"
-          >
+          <th class="mui-table__th" part="th" scope="col" [attr.aria-sort]="ariaSortAttr(col.key)">
             @if (col.sortable) {
-              <button
-                type="button"
-                class="mui-table__sort-btn"
-                part="sort-btn"
-                (click)="sort(col)"
-              >
+              <button type="button" class="mui-table__sort-btn" part="sort-btn" (click)="sort(col)">
                 <span>{{ col.label }}</span>
                 <svg
                   class="mui-table__sort-icon"

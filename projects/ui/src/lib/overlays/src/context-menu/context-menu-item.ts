@@ -39,7 +39,7 @@ import type { ContextMenuItemColor } from './context-menu.types';
 })
 export class ContextMenuItem {
   disabled = input(false, { transform: booleanAttribute });
-  color    = input<ContextMenuItemColor>('default');
+  color = input<ContextMenuItemColor>('default');
   shortcut = input<string>();
 
   readonly selected = output<void>();

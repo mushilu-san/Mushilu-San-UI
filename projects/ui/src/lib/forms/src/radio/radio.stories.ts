@@ -127,14 +127,22 @@ export const MobilePreview: Story = {
       <div style="width:375px;padding:16px;">
         <fieldset style="border:none;padding:0;margin:0;">
           <legend style="font-size:16px;font-weight:600;margin-bottom:12px;">Shipping speed</legend>
-          ${[['standard', 'Standard — 5-7 days', 'Free'], ['express', 'Express — 2-3 days', '$9.99'], ['overnight', 'Overnight', '$24.99']].map(([v, l, p]) => `
+          ${[
+            ['standard', 'Standard — 5-7 days', 'Free'],
+            ['express', 'Express — 2-3 days', '$9.99'],
+            ['overnight', 'Overnight', '$24.99'],
+          ]
+            .map(
+              ([v, l, p]) => `
             <label style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #e2e8f0;cursor:pointer;min-height:44px;">
               <input type="radio" muiRadio size="lg" name="ship" value="${v}" ${v === 'standard' ? 'checked' : ''} />
               <div>
                 <div style="font-size:15px;">${l}</div>
                 <div style="font-size:13px;color:#64748b;">${p}</div>
               </div>
-            </label>`).join('')}
+            </label>`,
+            )
+            .join('')}
         </fieldset>
       </div>
     `,

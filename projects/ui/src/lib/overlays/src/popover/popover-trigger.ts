@@ -1,9 +1,4 @@
-import {
-  Directive,
-  HostListener,
-  computed,
-  inject,
-} from '@angular/core';
+import { Directive, HostListener, computed, inject } from '@angular/core';
 import { POPOVER_CONTEXT } from './popover';
 
 /**

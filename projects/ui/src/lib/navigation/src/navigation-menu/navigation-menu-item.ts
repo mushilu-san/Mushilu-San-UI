@@ -7,7 +7,11 @@ import {
   forwardRef,
   inject,
 } from '@angular/core';
-import { NAV_MENU_CONTEXT, NAV_MENU_ITEM_CONTEXT, NavMenuItemContext } from './navigation-menu-context';
+import {
+  NAV_MENU_CONTEXT,
+  NAV_MENU_ITEM_CONTEXT,
+  NavMenuItemContext,
+} from './navigation-menu-context';
 
 let _uid = 0;
 

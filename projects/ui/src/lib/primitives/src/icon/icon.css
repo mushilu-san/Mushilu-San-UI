@@ -6,27 +6,44 @@
   color: inherit;
 }
 
-:host([data-color="primary"]) { color: var(--mui-color-primary); }
-:host([data-color="muted"])   { color: var(--mui-color-text-muted); }
-:host([data-color="danger"])  { color: var(--mui-color-danger); }
-:host([data-color="success"]) { color: var(--mui-color-success); }
-:host([data-color="warning"]) { color: var(--mui-color-warning); }
+:host([data-color='primary']) {
+  color: var(--mui-color-primary);
+}
+:host([data-color='muted']) {
+  color: var(--mui-color-text-muted);
+}
+:host([data-color='danger']) {
+  color: var(--mui-color-danger);
+}
+:host([data-color='success']) {
+  color: var(--mui-color-success);
+}
+:host([data-color='warning']) {
+  color: var(--mui-color-warning);
+}
 
-:host([data-name="loading"]) svg {
+:host([data-name='loading']) svg {
   animation: mui-icon-spin 0.8s linear infinite;
 }
 
 @keyframes mui-icon-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes mui-icon-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :host([data-name="loading"]) svg {
+  :host([data-name='loading']) svg {
     animation: mui-icon-pulse 1.5s ease-in-out infinite;
   }
 }

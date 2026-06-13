@@ -12,17 +12,17 @@
 }
 
 /* ---- Orientation ---- */
-:host([data-orientation="vertical"]) .mui-scroll-area__viewport {
+:host([data-orientation='vertical']) .mui-scroll-area__viewport {
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-:host([data-orientation="horizontal"]) .mui-scroll-area__viewport {
+:host([data-orientation='horizontal']) .mui-scroll-area__viewport {
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-:host([data-orientation="both"]) .mui-scroll-area__viewport {
+:host([data-orientation='both']) .mui-scroll-area__viewport {
   overflow: auto;
 }
 

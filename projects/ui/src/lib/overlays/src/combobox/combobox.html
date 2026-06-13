@@ -11,21 +11,39 @@
   <span class="mui-combobox__value">
     {{ selectedLabel() || placeholder() }}
   </span>
-  <svg class="mui-combobox__chevron" viewBox="0 0 16 16" width="14" height="14"
-       fill="currentColor" aria-hidden="true">
-    <path d="M8 11L3 6h10z"/>
+  <svg
+    class="mui-combobox__chevron"
+    viewBox="0 0 16 16"
+    width="14"
+    height="14"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path d="M8 11L3 6h10z" />
   </svg>
 </button>
 
 @if (open()) {
-  <div class="mui-combobox__panel" part="panel" tabindex="-1"
-    (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+  <div
+    class="mui-combobox__panel"
+    part="panel"
+    tabindex="-1"
+    (click)="$event.stopPropagation()"
+    (keydown)="$event.stopPropagation()"
+  >
     <!-- search input -->
     <div class="mui-combobox__search-wrapper" part="search-wrapper">
-      <svg viewBox="0 0 16 16" width="14" height="14" fill="none"
-           stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <circle cx="6.5" cy="6.5" r="4"/>
-        <path d="M11 11l3 3"/>
+      <svg
+        viewBox="0 0 16 16"
+        width="14"
+        height="14"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+      >
+        <circle cx="6.5" cy="6.5" r="4" />
+        <path d="M11 11l3 3" />
       </svg>
       <input
         type="search"

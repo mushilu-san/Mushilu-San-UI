@@ -14,19 +14,30 @@
   -webkit-tap-highlight-color: transparent;
   transition:
     background-color var(--mui-duration-fast) var(--mui-easing-default),
-    border-color     var(--mui-duration-fast) var(--mui-easing-default),
-    box-shadow       var(--mui-duration-fast) var(--mui-easing-default);
+    border-color var(--mui-duration-fast) var(--mui-easing-default),
+    box-shadow var(--mui-duration-fast) var(--mui-easing-default);
   background-repeat: no-repeat;
   background-position: center;
 }
 
-:host([data-size="sm"]) { width: 14px; height: 14px; }
-:host([data-size="md"]) { width: 16px; height: 16px; }
-:host([data-size="lg"]) { width: 20px; height: 20px; }
+:host([data-size='sm']) {
+  width: 14px;
+  height: 14px;
+}
+:host([data-size='md']) {
+  width: 16px;
+  height: 16px;
+}
+:host([data-size='lg']) {
+  width: 20px;
+  height: 20px;
+}
 
 :host(:focus-visible) {
-  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-focus-ring);
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
 }
 
 :host(:checked) {
@@ -41,10 +52,16 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 8h8' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
-:host([data-invalid]) { border-color: var(--mui-color-danger); }
+:host([data-invalid]) {
+  border-color: var(--mui-color-danger);
+}
 :host([data-invalid]:focus-visible) {
-  box-shadow: 0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
-              0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-danger);
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset)) var(--mui-color-danger);
 }
 
-:host(:disabled) { opacity: 0.5; cursor: not-allowed; }
+:host(:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

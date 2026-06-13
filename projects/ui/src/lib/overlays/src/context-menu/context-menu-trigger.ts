@@ -15,7 +15,7 @@ const LONG_PRESS_MS = 600;
   },
 })
 export class ContextMenuTrigger implements OnDestroy {
-  private readonly ctx  = inject(CONTEXT_MENU_CONTEXT);
+  private readonly ctx = inject(CONTEXT_MENU_CONTEXT);
   private readonly zone = inject(NgZone);
 
   private longPressTimer: ReturnType<typeof setTimeout> | null = null;

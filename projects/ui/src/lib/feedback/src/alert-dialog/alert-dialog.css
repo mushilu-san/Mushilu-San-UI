@@ -1,4 +1,6 @@
-:host { display: contents; }
+:host {
+  display: contents;
+}
 
 .mui-alert-dialog__panel {
   z-index: var(--mui-z-modal);
@@ -18,12 +20,20 @@
 }
 
 @keyframes mui-alert-in {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-alert-dialog__panel { animation: none; }
+  .mui-alert-dialog__panel {
+    animation: none;
+  }
 }
 
 .mui-alert-dialog__surface {
@@ -69,8 +79,9 @@
   font-size: var(--mui-font-size-base);
   font-weight: var(--mui-font-weight-medium);
   cursor: pointer;
-  transition: background-color var(--mui-duration-fast) var(--mui-easing-default),
-              border-color var(--mui-duration-fast) var(--mui-easing-default);
+  transition:
+    background-color var(--mui-duration-fast) var(--mui-easing-default),
+    border-color var(--mui-duration-fast) var(--mui-easing-default);
 }
 
 .mui-alert-dialog__btn:focus-visible {
@@ -106,5 +117,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mui-alert-dialog__btn { transition: none; }
+  .mui-alert-dialog__btn {
+    transition: none;
+  }
 }

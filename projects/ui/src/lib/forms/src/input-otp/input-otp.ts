@@ -32,14 +32,14 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
   ],
   host: {
     '[attr.data-disabled]': 'isDisabled() || null',
-    '[attr.part]':          '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class InputOtp implements OnInit, ControlValueAccessor {
-  length      = input(6, { transform: numberAttribute });
-  disabled    = input(false, { transform: booleanAttribute });
+  length = input(6, { transform: numberAttribute });
+  disabled = input(false, { transform: booleanAttribute });
   /** Initial / externally controlled value. Use [(value)] for two-way binding. */
-  value       = input('');
+  value = input('');
   valueChange = output<string>();
 
   private readonly el = inject(ElementRef<HTMLElement>);
@@ -55,24 +55,28 @@ export class InputOtp implements OnInit, ControlValueAccessor {
     this._slotsData.set(Array.from({ length: this.length() }, (_, i) => v[i] ?? ''));
   }
 
-  protected readonly indices = computed(() =>
-    Array.from({ length: this.length() }, (_, i) => i),
-  );
+  protected readonly indices = computed(() => Array.from({ length: this.length() }, (_, i) => i));
 
   protected readonly slots = this._slotsData.asReadonly();
 
   private getInput(idx: number): HTMLInputElement | null {
-    return (this.el.nativeElement as HTMLElement)
-      .querySelectorAll<HTMLInputElement>('.otp-slot')[idx] ?? null;
+    return (
+      (this.el.nativeElement as HTMLElement).querySelectorAll<HTMLInputElement>('.otp-slot')[idx] ??
+      null
+    );
   }
 
   protected onInput(event: Event, idx: number): void {
     if (this.isDisabled()) return;
-    const inp  = event.target as HTMLInputElement;
-    const raw  = inp.value.replace(/\D/g, '');
+    const inp = event.target as HTMLInputElement;
+    const raw = inp.value.replace(/\D/g, '');
     const char = raw ? raw[raw.length - 1] : '';
 
-    this._slotsData.update(s => { const n = [...s]; n[idx] = char; return n; });
+    this._slotsData.update((s) => {
+      const n = [...s];
+      n[idx] = char;
+      return n;
+    });
     inp.value = char;
     this.emit();
 
@@ -87,16 +91,28 @@ export class InputOtp implements OnInit, ControlValueAccessor {
     if (event.key === 'Backspace') {
       event.preventDefault();
       if (this._slotsData()[idx]) {
-        this._slotsData.update(s => { const n = [...s]; n[idx] = ''; return n; });
+        this._slotsData.update((s) => {
+          const n = [...s];
+          n[idx] = '';
+          return n;
+        });
         this.emit();
       } else if (idx > 0) {
-        this._slotsData.update(s => { const n = [...s]; n[idx - 1] = ''; return n; });
+        this._slotsData.update((s) => {
+          const n = [...s];
+          n[idx - 1] = '';
+          return n;
+        });
         this.emit();
         this.getInput(idx - 1)?.focus();
       }
     } else if (event.key === 'Delete') {
       event.preventDefault();
-      this._slotsData.update(s => { const n = [...s]; n[idx] = ''; return n; });
+      this._slotsData.update((s) => {
+        const n = [...s];
+        n[idx] = '';
+        return n;
+      });
       this.emit();
     } else if (event.key === 'ArrowLeft' && idx > 0) {
       event.preventDefault();
@@ -118,7 +134,7 @@ export class InputOtp implements OnInit, ControlValueAccessor {
       .slice(0, this.length() - idx);
     if (!pasted) return;
 
-    this._slotsData.update(s => {
+    this._slotsData.update((s) => {
       const n = [...s];
       for (let i = 0; i < pasted.length; i++) n[idx + i] = pasted[i];
       return n;
@@ -136,16 +152,22 @@ export class InputOtp implements OnInit, ControlValueAccessor {
   private _onChange: (v: string) => void = () => undefined;
   private _onTouched: () => void = () => undefined;
 
-  protected onBlur(): void { this._onTouched(); }
+  protected onBlur(): void {
+    this._onTouched();
+  }
 
   writeValue(v: string): void {
     const str = v ?? '';
-    this._slotsData.set(
-      Array.from({ length: this.length() }, (_, i) => str[i] ?? ''),
-    );
+    this._slotsData.set(Array.from({ length: this.length() }, (_, i) => str[i] ?? ''));
   }
 
-  registerOnChange(fn: (v: string) => void): void { this._onChange = fn; }
-  registerOnTouched(fn: () => void): void         { this._onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void     { this.cvaDisabled.set(isDisabled); }
+  registerOnChange(fn: (v: string) => void): void {
+    this._onChange = fn;
+  }
+  registerOnTouched(fn: () => void): void {
+    this._onTouched = fn;
+  }
+  setDisabledState(isDisabled: boolean): void {
+    this.cvaDisabled.set(isDisabled);
+  }
 }

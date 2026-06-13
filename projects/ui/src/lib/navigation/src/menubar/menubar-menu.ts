@@ -18,14 +18,12 @@ let _uid = 0;
   styleUrl: './menubar-menu.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  providers: [
-    { provide: MENUBAR_MENU_CONTEXT, useExisting: forwardRef(() => MenubarMenu) },
-  ],
+  providers: [{ provide: MENUBAR_MENU_CONTEXT, useExisting: forwardRef(() => MenubarMenu) }],
   host: {
-    '[attr.data-open]':         'isOpen() ? "" : null',
+    '[attr.data-open]': 'isOpen() ? "" : null',
     '[attr.data-menubar-menu]': '""',
     '[attr.data-menubar-menu-id]': 'id',
-    '[attr.part]':              '"menu"',
+    '[attr.part]': '"menu"',
   },
 })
 export class MenubarMenu implements MenubarMenuContext {

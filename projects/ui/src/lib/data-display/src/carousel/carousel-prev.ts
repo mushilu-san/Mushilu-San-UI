@@ -15,16 +15,14 @@ import { CAROUSEL_CONTEXT } from './carousel-context';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    'type':                'button',
-    'aria-label':          'Previous slide',
-    '[attr.part]':         '"prev"',
+    type: 'button',
+    'aria-label': 'Previous slide',
+    '[attr.part]': '"prev"',
     '[attr.aria-disabled]': 'isDisabled()',
-    '(click)':             'ctx.prev()',
+    '(click)': 'ctx.prev()',
   },
 })
 export class CarouselPrev {
-  protected readonly ctx        = inject(CAROUSEL_CONTEXT);
-  protected readonly isDisabled = computed(
-    () => this.ctx.active() === 0,
-  );
+  protected readonly ctx = inject(CAROUSEL_CONTEXT);
+  protected readonly isDisabled = computed(() => this.ctx.active() === 0);
 }

@@ -19,7 +19,9 @@ describe('Progress', () => {
   });
 
   it('respects a custom max', async () => {
-    await renderTemplate('<mui-progress value="5" max="10"></mui-progress>', { imports: [Progress] });
+    await renderTemplate('<mui-progress value="5" max="10"></mui-progress>', {
+      imports: [Progress],
+    });
     expect(host()).toHaveAttribute('aria-valuemax', '10');
     expect(host()).toHaveAttribute('aria-valuenow', '5');
   });
@@ -53,7 +55,9 @@ describe('Progress', () => {
   });
 
   it('reflects size as data-size', async () => {
-    await renderTemplate('<mui-progress size="lg" value="20"></mui-progress>', { imports: [Progress] });
+    await renderTemplate('<mui-progress size="lg" value="20"></mui-progress>', {
+      imports: [Progress],
+    });
     expect(host()).toHaveAttribute('data-size', 'lg');
   });
 });

@@ -15,9 +15,9 @@ import type { ContainerSize } from './container.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    '[attr.data-size]':   'size()',
+    '[attr.data-size]': 'size()',
     '[attr.data-padded]': 'padded() || null',
-    '[attr.part]':        '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Container {

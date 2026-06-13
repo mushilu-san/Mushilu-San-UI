@@ -7,10 +7,13 @@ const meta: Meta<Badge> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    variant: { control: 'select', options: ['default', 'primary', 'success', 'warning', 'danger', 'info'] },
-    size:    { control: 'select', options: ['sm', 'md', 'lg'] },
-    dot:     { control: 'boolean' },
-    label:   { control: 'text' },
+    variant: {
+      control: 'select',
+      options: ['default', 'primary', 'success', 'warning', 'danger', 'info'],
+    },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    dot: { control: 'boolean' },
+    label: { control: 'text' },
   },
 };
 

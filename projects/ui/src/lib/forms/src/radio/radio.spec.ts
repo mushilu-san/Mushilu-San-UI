@@ -10,7 +10,9 @@ describe('Radio (muiRadio directive)', () => {
   });
 
   it('is accessible via role=radio', async () => {
-    await renderTemplate('<input type="radio" muiRadio aria-label="Option A" />', { imports: [Radio] });
+    await renderTemplate('<input type="radio" muiRadio aria-label="Option A" />', {
+      imports: [Radio],
+    });
     expect(screen.getByRole('radio', { name: 'Option A' })).toBeInTheDocument();
   });
 
@@ -23,5 +25,4 @@ describe('Radio (muiRadio directive)', () => {
     await renderTemplate('<input type="radio" muiRadio size="sm" />', { imports: [Radio] });
     expect(document.querySelector('input')).toHaveAttribute('data-size', 'sm');
   });
-
 });

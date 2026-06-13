@@ -18,9 +18,7 @@ export interface ContextMenuContext {
   onItemSelected(): void;
 }
 
-export const CONTEXT_MENU_CONTEXT = new InjectionToken<ContextMenuContext>(
-  'CONTEXT_MENU_CONTEXT',
-);
+export const CONTEXT_MENU_CONTEXT = new InjectionToken<ContextMenuContext>('CONTEXT_MENU_CONTEXT');
 
 /**
  * ContextMenu — opens at the cursor position on right-click or long-press.
@@ -44,9 +42,9 @@ export const CONTEXT_MENU_CONTEXT = new InjectionToken<ContextMenuContext>(
     {
       provide: CONTEXT_MENU_CONTEXT,
       useFactory: (self: ContextMenu) => ({
-        open:           self.open,
-        openAt:         (x: number, y: number) => self.openAt(x, y),
-        close:          () => self.close(),
+        open: self.open,
+        openAt: (x: number, y: number) => self.openAt(x, y),
+        close: () => self.close(),
         onItemSelected: () => self.close(),
       }),
       deps: [ContextMenu],
@@ -59,7 +57,7 @@ export const CONTEXT_MENU_CONTEXT = new InjectionToken<ContextMenuContext>(
   },
 })
 export class ContextMenu {
-  open    = model(false);
+  open = model(false);
   closeOnSelect = input(true);
 
   readonly opened = output<void>();

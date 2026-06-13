@@ -48,11 +48,11 @@ interface CalDay {
   host: { '[attr.part]': '"root"' },
 })
 export class Calendar implements ControlValueAccessor {
-  minDate  = input<Date | null>(null);
-  maxDate  = input<Date | null>(null);
-  locale   = input('en-US');
+  minDate = input<Date | null>(null);
+  maxDate = input<Date | null>(null);
+  locale = input('en-US');
   disabled = input(false, { transform: booleanAttribute });
-  value    = model<Date | null>(null);
+  value = model<Date | null>(null);
 
   protected readonly uid = `cal-${++nextId}`;
 
@@ -94,16 +94,24 @@ export class Calendar implements ControlValueAccessor {
   );
 
   protected readonly prevMonthLabel = computed(() => {
-    let m = this.viewMonth() - 1, y = this.viewYear();
-    if (m < 0) { m = 11; y--; }
+    let m = this.viewMonth() - 1,
+      y = this.viewYear();
+    if (m < 0) {
+      m = 11;
+      y--;
+    }
     return new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }).format(
       new Date(y, m, 1),
     );
   });
 
   protected readonly nextMonthLabel = computed(() => {
-    let m = this.viewMonth() + 1, y = this.viewYear();
-    if (m > 11) { m = 0; y++; }
+    let m = this.viewMonth() + 1,
+      y = this.viewYear();
+    if (m > 11) {
+      m = 0;
+      y++;
+    }
     return new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }).format(
       new Date(y, m, 1),
     );
@@ -113,17 +121,19 @@ export class Calendar implements ControlValueAccessor {
     Array.from({ length: 7 }, (_, i) => {
       const date = new Date(2024, 0, 7 + i); // Jan 7, 2024 is a Sunday
       return {
-        short: new Intl.DateTimeFormat(this.locale(), { weekday: 'short' }).format(date).slice(0, 2),
-        long:  new Intl.DateTimeFormat(this.locale(), { weekday: 'long' }).format(date),
+        short: new Intl.DateTimeFormat(this.locale(), { weekday: 'short' })
+          .format(date)
+          .slice(0, 2),
+        long: new Intl.DateTimeFormat(this.locale(), { weekday: 'long' }).format(date),
       };
     }),
   );
 
   protected readonly weeks = computed((): CalDay[][] => {
     const month = this.viewMonth();
-    const year  = this.viewYear();
-    const min   = this.minDate() ? norm(this.minDate()!) : null;
-    const max   = this.maxDate() ? norm(this.maxDate()!) : null;
+    const year = this.viewYear();
+    const min = this.minDate() ? norm(this.minDate()!) : null;
+    const max = this.maxDate() ? norm(this.maxDate()!) : null;
     const todayTime = this._today.getTime();
 
     const firstOfMonth = new Date(year, month, 1);
@@ -161,15 +171,23 @@ export class Calendar implements ControlValueAccessor {
   /* ── Navigation ─────────────────────────────────────────── */
 
   protected prevMonth(): void {
-    let m = this.viewMonth() - 1, y = this.viewYear();
-    if (m < 0) { m = 11; y--; }
+    let m = this.viewMonth() - 1,
+      y = this.viewYear();
+    if (m < 0) {
+      m = 11;
+      y--;
+    }
     this.viewMonth.set(m);
     this.viewYear.set(y);
   }
 
   protected nextMonth(): void {
-    let m = this.viewMonth() + 1, y = this.viewYear();
-    if (m > 11) { m = 0; y++; }
+    let m = this.viewMonth() + 1,
+      y = this.viewYear();
+    if (m > 11) {
+      m = 0;
+      y++;
+    }
     this.viewMonth.set(m);
     this.viewYear.set(y);
   }
@@ -186,20 +204,37 @@ export class Calendar implements ControlValueAccessor {
     let next = new Date(this.focusedDate());
 
     switch (event.key) {
-      case 'ArrowRight': next.setDate(next.getDate() + 1); break;
-      case 'ArrowLeft':  next.setDate(next.getDate() - 1); break;
-      case 'ArrowDown':  next.setDate(next.getDate() + 7); break;
-      case 'ArrowUp':    next.setDate(next.getDate() - 7); break;
-      case 'Home':       next.setDate(next.getDate() - next.getDay()); break;
-      case 'End':        next.setDate(next.getDate() + (6 - next.getDay())); break;
-      case 'PageUp':     next.setMonth(next.getMonth() - 1); break;
-      case 'PageDown':   next.setMonth(next.getMonth() + 1); break;
+      case 'ArrowRight':
+        next.setDate(next.getDate() + 1);
+        break;
+      case 'ArrowLeft':
+        next.setDate(next.getDate() - 1);
+        break;
+      case 'ArrowDown':
+        next.setDate(next.getDate() + 7);
+        break;
+      case 'ArrowUp':
+        next.setDate(next.getDate() - 7);
+        break;
+      case 'Home':
+        next.setDate(next.getDate() - next.getDay());
+        break;
+      case 'End':
+        next.setDate(next.getDate() + (6 - next.getDay()));
+        break;
+      case 'PageUp':
+        next.setMonth(next.getMonth() - 1);
+        break;
+      case 'PageDown':
+        next.setMonth(next.getMonth() + 1);
+        break;
       case 'Enter':
       case ' ':
         event.preventDefault();
         if (!day.isDisabled) this.onDayClick(day);
         return;
-      default: return;
+      default:
+        return;
     }
 
     event.preventDefault();
@@ -231,7 +266,9 @@ export class Calendar implements ControlValueAccessor {
   private _onChange: (v: Date | null) => void = () => undefined;
   private _onTouched: () => void = () => undefined;
 
-  protected onBlur(): void { this._onTouched(); }
+  protected onBlur(): void {
+    this._onTouched();
+  }
 
   private commit(date: Date): void {
     const n = norm(date);
@@ -240,8 +277,16 @@ export class Calendar implements ControlValueAccessor {
     this._onTouched();
   }
 
-  writeValue(v: Date | null): void                    { this.value.set(v ? norm(v) : null); }
-  registerOnChange(fn: (v: Date | null) => void): void { this._onChange = fn; }
-  registerOnTouched(fn: () => void): void              { this._onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void          { this.cvaDisabled.set(isDisabled); }
+  writeValue(v: Date | null): void {
+    this.value.set(v ? norm(v) : null);
+  }
+  registerOnChange(fn: (v: Date | null) => void): void {
+    this._onChange = fn;
+  }
+  registerOnTouched(fn: () => void): void {
+    this._onTouched = fn;
+  }
+  setDisabledState(isDisabled: boolean): void {
+    this.cvaDisabled.set(isDisabled);
+  }
 }

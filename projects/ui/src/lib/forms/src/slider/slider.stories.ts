@@ -7,10 +7,10 @@ const meta: Meta<Slider> = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    min:      { control: 'number' },
-    max:      { control: 'number' },
-    step:     { control: 'number' },
-    value:    { control: 'number' },
+    min: { control: 'number' },
+    max: { control: 'number' },
+    step: { control: 'number' },
+    value: { control: 'number' },
     disabled: { control: 'boolean' },
   },
 };

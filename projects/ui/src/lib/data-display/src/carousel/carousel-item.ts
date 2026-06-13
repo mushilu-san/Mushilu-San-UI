@@ -17,12 +17,12 @@ import { CAROUSEL_CONTEXT } from './carousel-context';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    'role':                       'group',
+    role: 'group',
     '[attr.aria-roledescription]': '"slide"',
-    '[attr.aria-label]':           'ariaLabel()',
-    '[attr.data-active]':          'isActive() ? "" : null',
-    '[attr.aria-hidden]':          '!isActive()',
-    '[attr.part]':                 '"item"',
+    '[attr.aria-label]': 'ariaLabel()',
+    '[attr.data-active]': 'isActive() ? "" : null',
+    '[attr.aria-hidden]': '!isActive()',
+    '[attr.part]': '"item"',
   },
 })
 export class CarouselItem implements OnInit {
@@ -30,9 +30,7 @@ export class CarouselItem implements OnInit {
   private readonly _idx = signal(-1);
 
   protected readonly isActive = computed(() => this.ctx.active() === this._idx());
-  protected readonly ariaLabel = computed(
-    () => `Slide ${this._idx() + 1} of ${this.ctx.count()}`,
-  );
+  protected readonly ariaLabel = computed(() => `Slide ${this._idx() + 1} of ${this.ctx.count()}`);
 
   ngOnInit(): void {
     this._idx.set(this.ctx.registerItem());

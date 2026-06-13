@@ -7,13 +7,13 @@ import type { TableColumn } from './table.types';
 
 const COLUMNS: TableColumn[] = [
   { key: 'name', label: 'Name' },
-  { key: 'age',  label: 'Age',  sortable: true },
+  { key: 'age', label: 'Age', sortable: true },
   { key: 'role', label: 'Role', sortable: true },
 ];
 
 const ROWS = [
   { name: 'Alice', age: 30, role: 'Admin' },
-  { name: 'Bob',   age: 25, role: 'User' },
+  { name: 'Bob', age: 25, role: 'User' },
 ];
 
 describe('Table', () => {
@@ -32,26 +32,28 @@ describe('Table', () => {
   });
 
   it('renders caption when provided', async () => {
-    await renderComponent(Table, { inputs: { columns: COLUMNS, rows: ROWS, caption: 'Team members' } });
+    await renderComponent(Table, {
+      inputs: { columns: COLUMNS, rows: ROWS, caption: 'Team members' },
+    });
     expect(screen.getByText('Team members')).toBeInTheDocument();
   });
 
   it('uses aria-labelledby=captionId when caption is set', async () => {
-    await renderTemplate(
-      '<mui-table [columns]="cols" [rows]="rows" caption="Users"></mui-table>',
-      { imports: [Table], componentProperties: { cols: COLUMNS, rows: ROWS } },
-    );
-    const host    = document.querySelector('mui-table')!;
+    await renderTemplate('<mui-table [columns]="cols" [rows]="rows" caption="Users"></mui-table>', {
+      imports: [Table],
+      componentProperties: { cols: COLUMNS, rows: ROWS },
+    });
+    const host = document.querySelector('mui-table')!;
     const caption = document.querySelector('caption')!;
     expect(host.getAttribute('aria-labelledby')).toBe(caption.id);
     expect(host).not.toHaveAttribute('aria-label');
   });
 
   it('uses aria-label="Data table" when no caption', async () => {
-    await renderTemplate(
-      '<mui-table [columns]="cols" [rows]="rows"></mui-table>',
-      { imports: [Table], componentProperties: { cols: COLUMNS, rows: ROWS } },
-    );
+    await renderTemplate('<mui-table [columns]="cols" [rows]="rows"></mui-table>', {
+      imports: [Table],
+      componentProperties: { cols: COLUMNS, rows: ROWS },
+    });
     expect(document.querySelector('mui-table')).toHaveAttribute('aria-label', 'Data table');
   });
 
@@ -103,14 +105,16 @@ describe('Table', () => {
     await userEvent.click(screen.getByRole('button', { name: /Age/ }));
     await userEvent.click(screen.getByRole('button', { name: /Role/ }));
     expect(handler).toHaveBeenLastCalledWith({ key: 'role', direction: 'asc' });
-    expect(screen.getByRole('button', { name: /Age/ }).closest('th')).not.toHaveAttribute('aria-sort');
+    expect(screen.getByRole('button', { name: /Age/ }).closest('th')).not.toHaveAttribute(
+      'aria-sort',
+    );
   });
 
   it('host has role=region and tabindex=0', async () => {
-    await renderTemplate(
-      '<mui-table [columns]="cols" [rows]="rows"></mui-table>',
-      { imports: [Table], componentProperties: { cols: COLUMNS, rows: ROWS } },
-    );
+    await renderTemplate('<mui-table [columns]="cols" [rows]="rows"></mui-table>', {
+      imports: [Table],
+      componentProperties: { cols: COLUMNS, rows: ROWS },
+    });
     const host = document.querySelector('mui-table')!;
     expect(host).toHaveAttribute('role', 'region');
     expect(host).toHaveAttribute('tabindex', '0');

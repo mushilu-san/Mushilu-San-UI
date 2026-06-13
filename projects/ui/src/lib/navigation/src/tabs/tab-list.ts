@@ -35,7 +35,7 @@ export class TabList {
     if (e.key !== prev && e.key !== next && e.key !== 'Home' && e.key !== 'End') return;
 
     const tabs = Array.from(
-      this.el.nativeElement.querySelectorAll('[role="tab"]:not([aria-disabled="true"])')
+      this.el.nativeElement.querySelectorAll('[role="tab"]:not([aria-disabled="true"])'),
     ) as HTMLElement[];
     if (!tabs.length) return;
 

@@ -39,16 +39,16 @@ interface PanelEntry {
   ],
   host: {
     '[attr.data-direction]': 'direction()',
-    '[attr.part]':           '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   direction = input<'horizontal' | 'vertical'>('horizontal');
 
-  private readonly el     = inject(ElementRef<HTMLElement>);
+  private readonly el = inject(ElementRef<HTMLElement>);
   private readonly ngZone = inject(NgZone);
 
-  private readonly _registry: PanelEntry[]       = [];
+  private readonly _registry: PanelEntry[] = [];
   private readonly _sizes: ReturnType<typeof signal<number[]>> = signal([]);
   private readonly _sizeSignals: Signal<number>[] = [];
 
@@ -60,7 +60,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   } | null = null;
 
   private _moveListener = (e: PointerEvent) => this._onPointerMove(e);
-  private _upListener   = (e: PointerEvent) => this._onPointerUp(e);
+  private _upListener = (e: PointerEvent) => this._onPointerUp(e);
 
   registerPanel(defaultSize: number, minSize: number, maxSize: number): ResizablePanelRegistration {
     const idx = this._registry.length;
@@ -68,7 +68,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
 
     const sizes = this._registry;
     const total = sizes.reduce((s, p) => s + p.defaultSize, 0) || 100;
-    const normalized = sizes.map(p => (p.defaultSize / total) * 100);
+    const normalized = sizes.map((p) => (p.defaultSize / total) * 100);
     this._sizes.set(normalized);
 
     const sizeSignal = computed(() => this._sizes()[idx] ?? defaultSize);
@@ -86,9 +86,8 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
     if (panelAIdx < 0 || panelBIdx >= this._registry.length) return;
 
     const containerRect = this.el.nativeElement.getBoundingClientRect();
-    const containerSize = this.direction() === 'horizontal'
-      ? containerRect.width
-      : containerRect.height;
+    const containerSize =
+      this.direction() === 'horizontal' ? containerRect.width : containerRect.height;
 
     handleEl.setPointerCapture?.(event.pointerId);
 
@@ -109,7 +108,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
     if (!this._dragState) return;
     const { panelAIdx, panelBIdx, containerSize, startPos } = this._dragState;
 
-    const pos     = this.direction() === 'horizontal' ? event.clientX : event.clientY;
+    const pos = this.direction() === 'horizontal' ? event.clientX : event.clientY;
     const deltaAbs = pos - startPos;
     if (containerSize === 0) return;
     const deltaPct = (deltaAbs / containerSize) * 100;
@@ -121,7 +120,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   }
 
   resizeByPercent(handleEl: HTMLElement, deltaPct: number): void {
-    const siblings  = Array.from(handleEl.parentElement!.children);
+    const siblings = Array.from(handleEl.parentElement!.children);
     const handlePos = siblings.indexOf(handleEl);
     const panelAIdx = Math.floor((handlePos - 1) / 2);
     const panelBIdx = panelAIdx + 1;
@@ -130,12 +129,18 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   }
 
   private _applyDelta(panelAIdx: number, panelBIdx: number, deltaPct: number): void {
-    this._sizes.update(sizes => {
-      const s    = [...sizes];
-      const reg  = this._registry;
-      const newA = Math.max(reg[panelAIdx].minSize, Math.min(reg[panelAIdx].maxSize, s[panelAIdx] + deltaPct));
-      const act  = newA - s[panelAIdx];
-      const newB = Math.max(reg[panelBIdx].minSize, Math.min(reg[panelBIdx].maxSize, s[panelBIdx] - act));
+    this._sizes.update((sizes) => {
+      const s = [...sizes];
+      const reg = this._registry;
+      const newA = Math.max(
+        reg[panelAIdx].minSize,
+        Math.min(reg[panelAIdx].maxSize, s[panelAIdx] + deltaPct),
+      );
+      const act = newA - s[panelAIdx];
+      const newB = Math.max(
+        reg[panelBIdx].minSize,
+        Math.min(reg[panelBIdx].maxSize, s[panelBIdx] - act),
+      );
       s[panelAIdx] = newA;
       s[panelBIdx] = newB;
       return s;

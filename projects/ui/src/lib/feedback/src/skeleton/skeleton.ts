@@ -18,9 +18,9 @@ import type { SkeletonVariant } from './skeleton.types';
   host: {
     // Purely presentational placeholder — hidden from assistive tech.
     // The surrounding region should carry aria-busy="true".
-    '[attr.aria-hidden]':  '"true"',
+    '[attr.aria-hidden]': '"true"',
     '[attr.data-variant]': 'variant()',
-    '[attr.part]':         '"root"',
+    '[attr.part]': '"root"',
   },
 })
 export class Skeleton {

@@ -47,13 +47,15 @@ describe('Calendar', () => {
     await renderComponent(Calendar, { inputs: { value: new Date(2024, 0, 15) } });
     const outsideDays = document.querySelectorAll('[data-outside]');
     expect(outsideDays.length).toBeGreaterThan(0);
-    outsideDays.forEach(d => expect(d).toHaveAttribute('aria-disabled'));
+    outsideDays.forEach((d) => expect(d).toHaveAttribute('aria-disabled'));
   });
 
   it('clicking a day selects it', async () => {
     await renderComponent(Calendar, { inputs: { value: new Date(2024, 0, 1) } });
     const dayBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day'));
-    const day15 = dayBtns.find(b => b.textContent?.trim() === '15' && !b.hasAttribute('data-outside'));
+    const day15 = dayBtns.find(
+      (b) => b.textContent?.trim() === '15' && !b.hasAttribute('data-outside'),
+    );
     expect(day15).toBeTruthy();
     fireEvent.click(day15!);
     expect(day15).toHaveAttribute('aria-selected', 'true');
@@ -107,7 +109,9 @@ describe('Calendar', () => {
     });
     // Day 5 should be disabled
     const dayBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day'));
-    const day5 = dayBtns.find(b => b.textContent?.trim() === '5' && !b.hasAttribute('data-outside'));
+    const day5 = dayBtns.find(
+      (b) => b.textContent?.trim() === '5' && !b.hasAttribute('data-outside'),
+    );
     expect(day5).toBeTruthy();
     expect(day5).toHaveAttribute('aria-disabled');
   });

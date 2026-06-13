@@ -11,5 +11,7 @@ export interface NavMenuItemContext {
   toggle(): void;
 }
 
-export const NAV_MENU_CONTEXT      = new InjectionToken<NavMenuContext>('NAV_MENU_CONTEXT');
-export const NAV_MENU_ITEM_CONTEXT = new InjectionToken<NavMenuItemContext>('NAV_MENU_ITEM_CONTEXT');
+export const NAV_MENU_CONTEXT = new InjectionToken<NavMenuContext>('NAV_MENU_CONTEXT');
+export const NAV_MENU_ITEM_CONTEXT = new InjectionToken<NavMenuItemContext>(
+  'NAV_MENU_ITEM_CONTEXT',
+);
