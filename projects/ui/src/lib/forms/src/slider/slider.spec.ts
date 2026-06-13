@@ -175,7 +175,14 @@ describe('Slider', () => {
     });
     const track = fixture.nativeElement.querySelector('.slider-track') as HTMLElement;
     vi.spyOn(track, 'getBoundingClientRect').mockReturnValue({
-      left: 0, right: 200, width: 200, top: 0, bottom: 20, height: 20, x: 0, y: 0,
+      left: 0,
+      right: 200,
+      width: 200,
+      top: 0,
+      bottom: 20,
+      height: 20,
+      x: 0,
+      y: 0,
       toJSON: () => ({}),
     } as DOMRect);
     track.setPointerCapture = vi.fn();
@@ -193,7 +200,14 @@ describe('Slider', () => {
     });
     const track = fixture.nativeElement.querySelector('.slider-track') as HTMLElement;
     vi.spyOn(track, 'getBoundingClientRect').mockReturnValue({
-      left: 0, right: 100, width: 100, top: 0, bottom: 20, height: 20, x: 0, y: 0,
+      left: 0,
+      right: 100,
+      width: 100,
+      top: 0,
+      bottom: 20,
+      height: 20,
+      x: 0,
+      y: 0,
       toJSON: () => ({}),
     } as DOMRect);
     track.setPointerCapture = vi.fn();
@@ -212,7 +226,14 @@ describe('Slider', () => {
     });
     const track = fixture.nativeElement.querySelector('.slider-track') as HTMLElement;
     vi.spyOn(track, 'getBoundingClientRect').mockReturnValue({
-      left: 0, right: 100, width: 100, top: 0, bottom: 20, height: 20, x: 0, y: 0,
+      left: 0,
+      right: 100,
+      width: 100,
+      top: 0,
+      bottom: 20,
+      height: 20,
+      x: 0,
+      y: 0,
       toJSON: () => ({}),
     } as DOMRect);
 

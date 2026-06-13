@@ -142,10 +142,9 @@ describe('Command', () => {
 
   it('moveFocus does nothing when command has no focusable items', async () => {
     const user = userEvent.setup();
-    await renderTemplate(
-      `<mui-command><mui-command-input placeholder="Search…" /></mui-command>`,
-      { imports: IMPORTS },
-    );
+    await renderTemplate(`<mui-command><mui-command-input placeholder="Search…" /></mui-command>`, {
+      imports: IMPORTS,
+    });
     const input = screen.getByRole('textbox');
     input.focus();
     // ArrowDown calls focusNext → moveFocus(1) → early return because no items

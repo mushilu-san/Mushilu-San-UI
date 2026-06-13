@@ -181,7 +181,9 @@ describe('Calendar', () => {
   });
 
   it('registerOnTouched callback fires when a day is selected', async () => {
-    const { fixture } = await renderComponent(Calendar, { inputs: { value: new Date(2024, 0, 15) } });
+    const { fixture } = await renderComponent(Calendar, {
+      inputs: { value: new Date(2024, 0, 15) },
+    });
     const onTouched = vi.fn();
     fixture.componentInstance.registerOnTouched(onTouched);
     const dayBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day'));
