@@ -118,4 +118,41 @@ describe('Chart', () => {
     fixture.destroy();
     expect(mockDestroy).toHaveBeenCalledOnce();
   });
+
+  it('updates chart data without recreating when type stays the same', async () => {
+    const { fixture, detectChanges } = await renderComponent(Chart, {
+      inputs: { data: SAMPLE_DATA },
+    });
+    const newData = { labels: ['Apr'], datasets: [{ label: 'X', data: [99] }] };
+    fixture.componentRef.setInput('data', newData);
+    detectChanges();
+    await fixture.whenStable();
+    // update() should be called; destroy() should NOT be called again
+    expect(mockUpdate).toHaveBeenCalled();
+    expect(mockDestroy).not.toHaveBeenCalled();
+  });
+
+  it('destroys and recreates chart when type changes', async () => {
+    const { fixture, detectChanges } = await renderComponent(Chart, {
+      inputs: { data: SAMPLE_DATA, type: 'bar' as const },
+    });
+    // The mock chart starts with config.type = 'bar' (from the class definition)
+    // Changing to 'line' triggers the destroy + new ChartJs path
+    fixture.componentRef.setInput('type', 'line');
+    detectChanges();
+    await fixture.whenStable();
+    expect(mockDestroy).toHaveBeenCalled();
+    // A second Chart.js instance should have been created
+    expect(ctorCalls.length).toBeGreaterThan(1);
+  });
+
+  it('updates chart when options input changes', async () => {
+    const { fixture, detectChanges } = await renderComponent(Chart, {
+      inputs: { data: SAMPLE_DATA },
+    });
+    fixture.componentRef.setInput('options', { responsive: true });
+    detectChanges();
+    await fixture.whenStable();
+    expect(mockUpdate).toHaveBeenCalled();
+  });
 });

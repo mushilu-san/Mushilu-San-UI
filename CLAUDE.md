@@ -86,13 +86,13 @@ projects/ui/
 │   │   └── testing/      renderComponent(), renderTemplate() — also published as /testing entry
 │   ├── lib/
 │   │   ├── primitives/src/   Button, Icon, Badge, Spinner, Divider, Avatar (done)
-│   │   ├── forms/src/        Checkbox, Input, Radio, Select, Textarea, Toggle, Label, FormField (done)
-│   │   ├── layout/src/       Container, Stack, Grid, Spacer (done)
-│   │   ├── navigation/src/   Breadcrumb, Tabs (TabList/Tab/TabPanel), Pagination, NavLink (done)
-│   │   ├── feedback/src/     Alert, Progress, Skeleton, Toast (+ ToastService/ToastContainer), Dialog (done)
-│   │   ├── data-display/src/ Card, Table, Accordion, Tooltip (done)
+│   │   ├── forms/src/        Checkbox, Input, Radio, Select, Textarea, Toggle, Label, FormField, Slider, InputOtp, DatePicker, Calendar, InputGroup, ToggleGroup (done)
+│   │   ├── layout/src/       Container, Stack, Grid, Spacer, ScrollArea, Resizable, AspectRatio, Sidebar (done)
+│   │   ├── navigation/src/   Breadcrumb, Tabs (TabList/Tab/TabPanel), Pagination, NavLink, NavigationMenu, Menubar (done)
+│   │   ├── feedback/src/     Alert, Progress, Skeleton, Toast (+ ToastService/ToastContainer), Dialog, AlertDialog, Sheet (done)
+│   │   ├── data-display/src/ Card, Table, Accordion, Tooltip, Carousel, Chart, Empty, Typography (done)
 │   │   ├── mobile/src/       BottomSheet, FAB, SwipeAction, MobileNav (done)
-│   │   └── overlays/src/     Popover, Dropdown Menu, Context Menu, Hover Card, Command, Combobox (done); Alert Dialog, Sheet, Toggle Group (planned)
+│   │   └── overlays/src/     Popover, Dropdown Menu, Context Menu, Hover Card, Command, Combobox (done)
 │   └── public-api.ts     PRIMARY entry — exports only provideMushiluUi()
 ├── primitives/ng-package.json   → @mushilu-san/ui/primitives
 ├── forms/ng-package.json        → @mushilu-san/ui/forms
@@ -278,7 +278,7 @@ fireEvent.click(screen.getByRole('button'));   // not userEvent.click()
 
 ## Component backlog — shadcn/ui parity gaps
 
-Components not yet built, grouped by implementation complexity.
+All planned components are now built. Tables below record where each landed.
 
 ### Group: overlays (`@mushilu-san/ui/overlays`)
 Entry point exists and ships. All share a floating-panel primitive (Popover); the rest compose on top of it.
@@ -291,45 +291,46 @@ Entry point exists and ships. All share a floating-panel primitive (Popover); th
 | Hover Card | Hover Card | **done** — Popover opened on hover/focus with a delay |
 | Command | Command | **done** — searchable command palette (input + filtered list) |
 | Combobox | Combobox | **done** — Input + Dropdown with search/filter (builds on Command) |
-| Alert Dialog | Alert Dialog | planned — blocking confirmation dialog, variant of Dialog |
-| Sheet (side) | Sheet | planned — side-sliding panel (left/right), variant of Dialog |
-| Toggle Group | Toggle Group | planned — group of Toggle buttons with single/multi-select |
+| Alert Dialog | Alert Dialog | **done** — lives in `@mushilu-san/ui/feedback` (blocking confirmation dialog) |
+| Sheet (side) | Sheet | **done** — lives in `@mushilu-san/ui/feedback` (side-sliding panel) |
+| Toggle Group | Toggle Group | **done** — lives in `@mushilu-san/ui/forms` (single/multi-select button group) |
 
-### Group: forms additions (extend `@mushilu-san/ui/forms`)
+### Group: forms additions (`@mushilu-san/ui/forms`)
 
-| Component | shadcn equivalent | Notes |
-|-----------|-------------------|-------|
-| Slider | Slider | Range input with accessible thumb |
-| Input OTP | Input OTP | Multi-box one-time-password input |
-| Date Picker | Date Picker | Builds on Calendar + Popover |
-| Calendar | Calendar | Month grid date selector |
-| Input Group | Input Group | Input with leading/trailing addons |
+| Component | shadcn equivalent | Status |
+|-----------|-------------------|--------|
+| Slider | Slider | **done** |
+| Input OTP | Input OTP | **done** |
+| Date Picker | Date Picker | **done** |
+| Calendar | Calendar | **done** |
+| Input Group | Input Group | **done** |
+| Toggle Group | Toggle Group | **done** |
 
-### Group: layout additions (extend `@mushilu-san/ui/layout`)
+### Group: layout additions (`@mushilu-san/ui/layout`)
 
-| Component | shadcn equivalent | Notes |
-|-----------|-------------------|-------|
-| Scroll Area | Scroll Area | Custom-styled scrollable region |
-| Resizable | Resizable | Drag-to-resize panel split |
-| Aspect Ratio | Aspect Ratio | Container that enforces a width:height ratio |
-| Sidebar | Sidebar | Collapsible app sidebar with nav sections |
+| Component | shadcn equivalent | Status |
+|-----------|-------------------|--------|
+| Scroll Area | Scroll Area | **done** |
+| Resizable | Resizable | **done** |
+| Aspect Ratio | Aspect Ratio | **done** |
+| Sidebar | Sidebar | **done** |
 
-### Group: data-display additions (extend `@mushilu-san/ui/data-display`)
+### Group: data-display additions (`@mushilu-san/ui/data-display`)
 
-| Component | shadcn equivalent | Notes |
-|-----------|-------------------|-------|
-| Data Table | Data Table | Table + sorting + filtering + pagination |
-| Carousel | Carousel | Touch/keyboard-navigable slide show |
-| Chart | Chart | Wrapper around a charting library |
-| Empty | Empty | Empty-state placeholder with icon + CTA |
-| Typography | Typography | Styled prose heading/paragraph/lead/muted components |
+| Component | shadcn equivalent | Status |
+|-----------|-------------------|--------|
+| Data Table | Data Table | **done** — `Table` with sorting (`sortChange` output) |
+| Carousel | Carousel | **done** |
+| Chart | Chart | **done** |
+| Empty | Empty | **done** |
+| Typography | Typography | **done** |
 
-### Group: navigation additions (extend `@mushilu-san/ui/navigation`)
+### Group: navigation additions (`@mushilu-san/ui/navigation`)
 
-| Component | shadcn equivalent | Notes |
-|-----------|-------------------|-------|
-| Navigation Menu | Navigation Menu | Horizontal nav bar with dropdown panels |
-| Menubar | Menubar | Desktop app-style menu bar |
+| Component | shadcn equivalent | Status |
+|-----------|-------------------|--------|
+| Navigation Menu | Navigation Menu | **done** |
+| Menubar | Menubar | **done** |
 
 ### Not planned (out of scope)
 

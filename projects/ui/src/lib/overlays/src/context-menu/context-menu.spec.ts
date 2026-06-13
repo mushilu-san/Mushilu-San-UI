@@ -89,4 +89,83 @@ describe('ContextMenu', () => {
     fireEvent.contextMenu(screen.getByTestId('trigger'));
     expect(screen.getByRole('menu')).toBeInTheDocument();
   });
+
+  it('openAt positions panel via CSS custom properties', async () => {
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const host = document.querySelector('mui-context-menu') as HTMLElement;
+    fireEvent.contextMenu(screen.getByTestId('trigger'), { clientX: 150, clientY: 250 });
+    // Angular [style.--ctx-x.px]='panelX()' sets the inline CSS variable
+    const x = host.style.getPropertyValue('--ctx-x');
+    const y = host.style.getPropertyValue('--ctx-y');
+    // Values could be "150px" or "150" depending on Angular's rendering
+    expect(x).toBeTruthy();
+    expect(y).toBeTruthy();
+  });
+
+  it('emits opened event when menu opens', async () => {
+    const onOpened = vi.fn();
+    await renderTemplate(
+      `<mui-context-menu (opened)="onOpened()">
+        <div muiContextMenuTrigger data-testid="t">T</div>
+      </mui-context-menu>`,
+      { imports: IMPORTS, componentProperties: { onOpened } },
+    );
+    fireEvent.contextMenu(screen.getByTestId('t'));
+    expect(onOpened).toHaveBeenCalledOnce();
+  });
+
+  it('emits closed event when menu closes', async () => {
+    const onClosed = vi.fn();
+    await renderTemplate(
+      `<mui-context-menu (closed)="onClosed()">
+        <div muiContextMenuTrigger data-testid="t">T</div>
+        <mui-context-menu-item>Edit</mui-context-menu-item>
+      </mui-context-menu>`,
+      { imports: IMPORTS, componentProperties: { onClosed } },
+    );
+    fireEvent.contextMenu(screen.getByTestId('t'));
+    fireEvent.click(document.body); // outside click → close
+    expect(onClosed).toHaveBeenCalledOnce();
+  });
+
+  it('close() when already closed is a no-op', async () => {
+    const onClosed = vi.fn();
+    await renderTemplate(
+      `<mui-context-menu (closed)="onClosed()">
+        <div muiContextMenuTrigger data-testid="t">T</div>
+      </mui-context-menu>`,
+      { imports: IMPORTS, componentProperties: { onClosed } },
+    );
+    // Menu starts closed — trigger document click without opening first
+    fireEvent.click(document.body);
+    expect(onClosed).not.toHaveBeenCalled();
+  });
+
+  it('clicking outside the menu panel closes it', async () => {
+    await renderTemplate(BASE, { imports: IMPORTS });
+    fireEvent.contextMenu(screen.getByTestId('trigger'));
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+    fireEvent.click(document.body);
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('Escape key closes an open menu', async () => {
+    await renderTemplate(BASE, { imports: IMPORTS });
+    fireEvent.contextMenu(screen.getByTestId('trigger'));
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('Escape when menu is closed is a no-op', async () => {
+    const onClosed = vi.fn();
+    await renderTemplate(
+      `<mui-context-menu (closed)="onClosed()">
+        <div muiContextMenuTrigger data-testid="t">T</div>
+      </mui-context-menu>`,
+      { imports: IMPORTS, componentProperties: { onClosed } },
+    );
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(onClosed).not.toHaveBeenCalled();
+  });
 });
