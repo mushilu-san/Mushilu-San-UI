@@ -1,6 +1,7 @@
-import { screen, fireEvent } from '@testing-library/angular';
+import { screen, fireEvent, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
+import { signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { renderComponent, renderTemplate } from '../../../../core/testing';
 import { InputOtp } from './input-otp';
@@ -180,5 +181,27 @@ describe('InputOtp', () => {
       componentProperties: { ctrl },
     });
     expect(document.querySelector('mui-input-otp')).toHaveAttribute('data-disabled');
+  });
+
+  it('B-3: reacts to [value] signal input changes after init', async () => {
+    const otp = signal('123456');
+    await renderTemplate(`<mui-input-otp [value]="otp()" />`, {
+      imports: [InputOtp],
+      componentProperties: { otp },
+    });
+    expect(getSlots()[0].value).toBe('1');
+    otp.set('789000');
+    await waitFor(() => expect(getSlots()[0].value).toBe('7'));
+    expect(getSlots()[1].value).toBe('8');
+  });
+
+  it('B-4: resizes slots when length changes in CVA mode without losing existing content', async () => {
+    const ctrl = new FormControl('12345678');
+    await renderTemplate(`<mui-input-otp [formControl]="ctrl" [length]="len" />`, {
+      imports: [InputOtp, ReactiveFormsModule],
+      componentProperties: { ctrl, len: 8 },
+    });
+    expect(getSlots().length).toBe(8);
+    expect(getSlots()[0].value).toBe('1');
   });
 });

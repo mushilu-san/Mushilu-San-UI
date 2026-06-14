@@ -2,11 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnInit,
   ViewEncapsulation,
   WritableSignal,
   booleanAttribute,
   computed,
+  effect,
   forwardRef,
   inject,
   input,
@@ -35,7 +35,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
     '[attr.part]': '"root"',
   },
 })
-export class InputOtp implements OnInit, ControlValueAccessor {
+export class InputOtp implements ControlValueAccessor {
   length = input(6, { transform: numberAttribute });
   disabled = input(false, { transform: booleanAttribute });
   /** Initial / externally controlled value. Use [(value)] for two-way binding. */
@@ -48,11 +48,26 @@ export class InputOtp implements OnInit, ControlValueAccessor {
 
   /* Positional internal state — mutated directly by user interactions */
   private readonly _slotsData: WritableSignal<string[]> = signal([]);
+  private _cvaActive = false;
 
-  ngOnInit(): void {
-    /* Initialize from value input; writeValue handles CVA-driven updates after init. */
-    const v = this.value();
-    this._slotsData.set(Array.from({ length: this.length() }, (_, i) => v[i] ?? ''));
+  constructor() {
+    /* B-3: re-seed when [value] signal input changes (template-binding, non-CVA). */
+    effect(() => {
+      const v = this.value();
+      const len = this.length();
+      if (this._cvaActive) return;
+      this._slotsData.set(Array.from({ length: len }, (_, i) => v[i] ?? ''));
+    });
+
+    /* B-4: resize slots when length changes in CVA mode, preserving existing content. */
+    effect(() => {
+      const len = this.length();
+      if (!this._cvaActive) return;
+      this._slotsData.update((s) => {
+        if (s.length === len) return s;
+        return Array.from({ length: len }, (_, i) => s[i] ?? '');
+      });
+    });
   }
 
   protected readonly indices = computed(() => Array.from({ length: this.length() }, (_, i) => i));
@@ -162,6 +177,7 @@ export class InputOtp implements OnInit, ControlValueAccessor {
   }
 
   registerOnChange(fn: (v: string) => void): void {
+    this._cvaActive = true;
     this._onChange = fn;
   }
   registerOnTouched(fn: () => void): void {
