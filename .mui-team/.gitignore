@@ -1,0 +1,3 @@
+# Transient hook markers — never commit these.
+freeze
+.node-guard-ack

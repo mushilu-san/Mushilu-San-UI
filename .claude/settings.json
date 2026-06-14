@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/team-hooks/careful.mjs\"" },
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/team-hooks/node-guard.mjs\"" },
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/team-hooks/lockfile-guard.mjs\"" }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/team-hooks/ci-shape-guard.mjs\"" },
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/team-hooks/freeze.mjs\"" }
+        ]
+      }
+    ]
+  }
+}
