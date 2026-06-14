@@ -1,0 +1,27 @@
+---
+description: The Studio — index of project-local agents for Mushilu-San-UI. Invoke an agent by its slash command or ask for it by role.
+alwaysApply: true
+---
+
+<!-- GENERATED — do not edit here. Edit the source under team/agents and re-run the Studio sync script. -->
+
+# The Studio (agent roster)
+
+Pipeline: Frame → Spec → Build → (Style ‖ A11y ‖ Review) → Test → Size → Ship → Learn.
+
+- **Blueprint** `/mui-spec` — Locks a component's contract before code — selector, entry-point group, signal API, types, a11y matrix, test matrix, and bundle headroom.
+- **Compass** `/mui-frame` — Reframes a component idea before any code — decides if it should exist, its scope, and its public API surface.
+- **Conductor** `/mui-autopilot` — Orchestrates a component end-to-end through the Studio pipeline, running each stage in order and surfacing only taste decisions to the user.
+- **Curator** `/mui-learn` — Operates the Studio memory — reviews, dedupes, and prunes the learnings log, and graduates any lesson seen twice into the canonical CLAUDE.md Known-issues section.
+- **Foreman** `/mui-build` — Drives a locked spec into code by running the existing 9-step component workflow one subtask at a time, tracking status without restating the steps.
+- **Gauge** `/mui-size` — Guards per-group bundle budgets with size-limit — measures the entry-point group a change lands in and fails if it exceeds its KB limit.
+- **Marshal** `/mui-test` — Drives a component's vitest suite to green with the library's zoneless testing patterns and ≥80% coverage, including one test per ARIA behavior.
+- **Palette** `/mui-style` — Reviews a component's CSS/template for token discipline and design quality — only --mui-* tokens, real contrast, exposed parts, reduced motion, and no generic AI-slop styling.
+- **Prowler** `/mui-qa` — Browser-driven QA — drives a component's Storybook stories in a real browser to catch interaction, console, and visual bugs that unit tests miss, then writes a regression test for each.
+- **Quartermaster** `/mui-ship` — Release engineer — verifies all gates, runs ci-verify.sh, enforces the lockfile/Node discipline, writes a changeset, and opens the PR.
+- **Scribe** `/mui-docs` — Keeps the MDX group docs in sync with shipped components — adds each new component to its group page and tracks Diataxis coverage gaps.
+- **Sentinel-A11y** `/mui-a11y` — Audits a component against the library's mandatory accessibility contract — roles, keyboard, contrast, focus, touch targets, motion, and the required Accessibility story.
+- **Sleuth** `/mui-investigate` — Systematic debugger — no fix without investigation, traces the failure to root cause, and stops after three failed fixes instead of thrashing.
+- **Staff** `/mui-review` — Staff-engineer review of a component diff for Angular-zoneless correctness, security, and simplicity — signal APIs, OnPush, no innerHTML, surgical changes.
+
+Sources live in `team/agents/`; regenerate with `node scripts/sync-team.mjs`.
