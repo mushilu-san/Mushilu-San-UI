@@ -199,6 +199,70 @@ describe('Resizable', () => {
     expect(() => group.resizeByPercent(detached, 10)).not.toThrow();
   });
 
+  it('pointer drag respects maxSize', async () => {
+    await renderTemplate(
+      `<mui-resizable-panel-group style="width:600px;height:400px;">
+        <mui-resizable-panel [defaultSize]="50" [minSize]="10" [maxSize]="60">L</mui-resizable-panel>
+        <mui-resizable-handle />
+        <mui-resizable-panel [defaultSize]="50" [minSize]="10" [maxSize]="90">R</mui-resizable-panel>
+      </mui-resizable-panel-group>`,
+      { imports: IMPORTS },
+    );
+    const group = document.querySelector('mui-resizable-panel-group') as HTMLElement;
+    const handle = getHandle();
+    const [left] = getPanels();
+
+    vi.spyOn(group, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 600,
+      height: 400,
+      right: 600,
+      bottom: 400,
+      x: 0,
+      y: 0,
+    } as DOMRect);
+
+    /* Drag far right — should stop at maxSize=60 */
+    fireEvent.pointerDown(handle, { clientX: 300, clientY: 0, pointerId: 1 });
+    fireEvent.pointerMove(document, { clientX: 600, clientY: 0, pointerId: 1 });
+    fireEvent.pointerUp(document, { pointerId: 1 });
+
+    expect(parseFloat(left.style.flexBasis)).toBeLessThanOrEqual(60);
+  });
+
+  it('drag conserves total panel size', async () => {
+    await renderTemplate(
+      `<mui-resizable-panel-group style="width:600px;height:400px;">
+        <mui-resizable-panel [defaultSize]="50" [minSize]="10" [maxSize]="90">L</mui-resizable-panel>
+        <mui-resizable-handle />
+        <mui-resizable-panel [defaultSize]="50" [minSize]="10" [maxSize]="90">R</mui-resizable-panel>
+      </mui-resizable-panel-group>`,
+      { imports: IMPORTS },
+    );
+    const group = document.querySelector('mui-resizable-panel-group') as HTMLElement;
+    const handle = getHandle();
+    const panels = getPanels();
+
+    vi.spyOn(group, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 600,
+      height: 400,
+      right: 600,
+      bottom: 400,
+      x: 0,
+      y: 0,
+    } as DOMRect);
+
+    fireEvent.pointerDown(handle, { clientX: 300, clientY: 0, pointerId: 1 });
+    fireEvent.pointerMove(document, { clientX: 360, clientY: 0, pointerId: 1 });
+    fireEvent.pointerUp(document, { pointerId: 1 });
+
+    const total = panels.reduce((s, p) => s + parseFloat(p.style.flexBasis), 0);
+    expect(total).toBeCloseTo(100, 0);
+  });
+
   it('pointer drag respects minSize', async () => {
     await renderTemplate(
       `<mui-resizable-panel-group style="width:600px;height:400px;">

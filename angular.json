@@ -42,7 +42,6 @@
           "options": {
             "configDir": "projects/ui/.storybook",
             "browserTarget": "ui:build",
-            "compodoc": false,
             "port": 6006,
             "styles": ["projects/ui/src/styles/tokens.css"]
           }
@@ -52,7 +51,6 @@
           "options": {
             "configDir": "projects/ui/.storybook",
             "browserTarget": "ui:build",
-            "compodoc": false,
             "outputDir": "storybook-static",
             "styles": ["projects/ui/src/styles/tokens.css"]
           }
