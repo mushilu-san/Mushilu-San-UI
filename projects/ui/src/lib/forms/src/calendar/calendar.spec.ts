@@ -169,7 +169,11 @@ describe('Calendar', () => {
 
   it('in-month day within min/max range is not disabled (B-1)', async () => {
     await renderComponent(Calendar, {
-      inputs: { value: new Date(2024, 0, 15), minDate: new Date(2024, 0, 10), maxDate: new Date(2024, 0, 20) },
+      inputs: {
+        value: new Date(2024, 0, 15),
+        minDate: new Date(2024, 0, 10),
+        maxDate: new Date(2024, 0, 20),
+      },
     });
     const dayBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day'));
     const day15 = dayBtns.find(
