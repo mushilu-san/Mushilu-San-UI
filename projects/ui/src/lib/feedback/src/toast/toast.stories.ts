@@ -81,7 +81,7 @@ export const Accessibility: Story = {
     docs: {
       description: {
         story:
-          'Toasts are announced through an internal `LiveAnnouncer` (assertive for danger/warning, polite otherwise). The container is a labelled `role="region"`. Each toast pauses its auto-dismiss timer on hover/focus and can be closed with the dismiss button or Escape.',
+          'Toasts are announced through two persistent live regions in the container — `aria-live="assertive"` for danger/warning and `aria-live="polite"` for the rest. Each toast pauses its auto-dismiss timer on hover/focus and can be closed with the dismiss button or Escape.',
       },
     },
   },

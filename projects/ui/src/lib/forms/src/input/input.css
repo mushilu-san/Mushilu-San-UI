@@ -106,3 +106,9 @@
   border-color: var(--mui-color-border);
   cursor: not-allowed;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}

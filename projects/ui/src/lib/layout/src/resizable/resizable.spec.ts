@@ -1,3 +1,4 @@
+import { By } from '@angular/platform-browser';
 import { screen, fireEvent } from '@testing-library/angular';
 import { describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
@@ -188,6 +189,14 @@ describe('Resizable', () => {
     fireEvent.pointerUp(document, { pointerId: 1 });
 
     expect(parseFloat(left.style.flexBasis)).toBeGreaterThan(50);
+  });
+
+  it('resizeByPercent on a detached handle returns without throwing (B-5)', async () => {
+    const { fixture } = await renderTemplate(BASIC, { imports: IMPORTS });
+    const group = fixture.debugElement.query(By.directive(ResizablePanelGroup))
+      .componentInstance as ResizablePanelGroup;
+    const detached = document.createElement('div'); // no parentElement
+    expect(() => group.resizeByPercent(detached, 10)).not.toThrow();
   });
 
   it('pointer drag respects minSize', async () => {

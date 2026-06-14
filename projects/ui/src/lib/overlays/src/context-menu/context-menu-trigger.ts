@@ -1,4 +1,4 @@
-import { Directive, HostListener, NgZone, OnDestroy, inject } from '@angular/core';
+import { Directive, HostListener, OnDestroy, inject } from '@angular/core';
 import { CONTEXT_MENU_CONTEXT } from './context-menu';
 
 const LONG_PRESS_MS = 600;
@@ -16,7 +16,6 @@ const LONG_PRESS_MS = 600;
 })
 export class ContextMenuTrigger implements OnDestroy {
   private readonly ctx = inject(CONTEXT_MENU_CONTEXT);
-  private readonly zone = inject(NgZone);
 
   private longPressTimer: ReturnType<typeof setTimeout> | null = null;
   private touchStartX = 0;
@@ -32,10 +31,11 @@ export class ContextMenuTrigger implements OnDestroy {
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent): void {
     const touch = event.touches[0];
+    if (!touch) return;
     this.touchStartX = touch.clientX;
     this.touchStartY = touch.clientY;
     this.longPressTimer = setTimeout(() => {
-      this.zone.run(() => this.ctx.openAt(this.touchStartX, this.touchStartY));
+      this.ctx.openAt(this.touchStartX, this.touchStartY);
     }, LONG_PRESS_MS);
   }
 

@@ -30,25 +30,18 @@ export class CarouselContent implements OnDestroy {
 
   private _startX = 0;
   private _dragging = false;
-  private _moveListener = (e: PointerEvent) => this._onMove(e);
   private _upListener = (e: PointerEvent) => this._onUp(e);
 
   protected onPointerDown(event: PointerEvent): void {
     this._startX = event.clientX;
     this._dragging = true;
     this.el.nativeElement.setPointerCapture?.(event.pointerId);
-    document.addEventListener('pointermove', this._moveListener);
     document.addEventListener('pointerup', this._upListener);
-  }
-
-  private _onMove(_event: PointerEvent): void {
-    /* no-op — handled on up */
   }
 
   private _onUp(event: PointerEvent): void {
     if (!this._dragging) return;
     this._dragging = false;
-    document.removeEventListener('pointermove', this._moveListener);
     document.removeEventListener('pointerup', this._upListener);
 
     const deltaX = event.clientX - this._startX;
@@ -59,7 +52,6 @@ export class CarouselContent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    document.removeEventListener('pointermove', this._moveListener);
     document.removeEventListener('pointerup', this._upListener);
   }
 }

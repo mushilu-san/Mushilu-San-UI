@@ -81,7 +81,6 @@ projects/ui/
 ├── src/
 │   ├── styles/           tokens.css + reset.css (shipped in dist/ui/styles/)
 │   ├── core/
-│   │   ├── a11y/         IdGenerator, LiveAnnouncer (internal)
 │   │   ├── tokens/       provideMushiluUi(), MUSHILU_UI_CONFIG token
 │   │   └── testing/      renderComponent(), renderTemplate() — also published as /testing entry
 │   ├── lib/

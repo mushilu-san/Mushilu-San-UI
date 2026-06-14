@@ -91,3 +91,9 @@
   cursor: not-allowed;
   resize: none;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}

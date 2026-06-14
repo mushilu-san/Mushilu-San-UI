@@ -168,4 +168,12 @@ describe('ContextMenu', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onClosed).not.toHaveBeenCalled();
   });
+
+  it('touchstart with empty touches does not throw (B-2)', async () => {
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const trigger = screen.getByTestId('trigger');
+    // Synthetic/assistive touchstart can arrive with an empty touches list.
+    expect(() => fireEvent.touchStart(trigger, { touches: [] })).not.toThrow();
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
 });
