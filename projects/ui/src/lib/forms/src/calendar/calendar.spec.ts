@@ -167,6 +167,22 @@ describe('Calendar', () => {
     expect(screen.getByRole('heading').textContent).toContain('February');
   });
 
+  it('in-month day within min/max range is not disabled (B-1)', async () => {
+    await renderComponent(Calendar, {
+      inputs: {
+        value: new Date(2024, 0, 15),
+        minDate: new Date(2024, 0, 10),
+        maxDate: new Date(2024, 0, 20),
+      },
+    });
+    const dayBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day'));
+    const day15 = dayBtns.find(
+      (b) => b.textContent?.trim() === '15' && !b.hasAttribute('data-outside'),
+    );
+    expect(day15).toBeTruthy();
+    expect(day15).not.toHaveAttribute('aria-disabled');
+  });
+
   it('maxDate disables days after the maximum', async () => {
     const max = new Date(2024, 0, 20);
     await renderComponent(Calendar, {

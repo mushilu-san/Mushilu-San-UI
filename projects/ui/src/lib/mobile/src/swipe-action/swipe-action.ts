@@ -3,10 +3,8 @@ import {
   Component,
   ElementRef,
   HostListener,
-  NgZone,
   ViewEncapsulation,
   computed,
-  inject,
   input,
   output,
   signal,
@@ -67,14 +65,13 @@ export class SwipeAction {
   }));
 
   private readonly trackRef = viewChild<ElementRef<HTMLElement>>('track');
-  private readonly zone = inject(NgZone);
 
   private _dragging = false;
   private _startX = 0;
   private _startOffset = 0;
 
   /* ----------------------------------------------------------------
-     Touch handlers (run outside zone for perf, re-enter for signals)
+     Touch handlers — zoneless; signal writes drive change detection
      ---------------------------------------------------------------- */
   @HostListener('touchstart', ['$event'])
   protected onTouchStart(e: TouchEvent): void {
@@ -90,7 +87,7 @@ export class SwipeAction {
     const t = e.touches[0];
     const delta = t.clientX - this._startX;
     const raw = this._startOffset + delta;
-    this.zone.run(() => this.offsetX.set(this._clamp(raw)));
+    this.offsetX.set(this._clamp(raw));
   }
 
   @HostListener('touchend')

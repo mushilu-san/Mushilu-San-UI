@@ -81,3 +81,9 @@
   outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
   outline-offset: calc(var(--mui-focus-ring-offset) * -1);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .mui-alert__dismiss {
+    transition: none;
+  }
+}

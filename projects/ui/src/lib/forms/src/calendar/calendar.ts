@@ -148,8 +148,6 @@ export class Calendar implements ControlValueAccessor {
       for (let d = 0; d < 7; d++) {
         const date = norm(cursor);
         const isDisabled =
-          !date.getMonth().toString || // guard
-          !new Date(date.getFullYear(), date.getMonth(), date.getDate()).getMonth().toString || // guard
           (min != null && date.getTime() < min.getTime()) ||
           (max != null && date.getTime() > max.getTime()) ||
           date.getMonth() !== month; // outside month — not interactive

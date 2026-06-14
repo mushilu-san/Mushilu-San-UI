@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  NgZone,
   OnDestroy,
   Signal,
   ViewEncapsulation,
@@ -46,7 +45,6 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   direction = input<'horizontal' | 'vertical'>('horizontal');
 
   private readonly el = inject(ElementRef<HTMLElement>);
-  private readonly ngZone = inject(NgZone);
 
   private readonly _registry: PanelEntry[] = [];
   private readonly _sizes: ReturnType<typeof signal<number[]>> = signal([]);
@@ -78,7 +76,9 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   }
 
   startResize(event: PointerEvent, handleEl: HTMLElement): void {
-    const siblings = Array.from(handleEl.parentElement!.children);
+    const parent = handleEl.parentElement;
+    if (!parent) return;
+    const siblings = Array.from(parent.children);
     const handlePos = siblings.indexOf(handleEl);
     const panelAIdx = Math.floor((handlePos - 1) / 2);
     const panelBIdx = panelAIdx + 1;
@@ -98,10 +98,8 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
       startPos: this.direction() === 'horizontal' ? event.clientX : event.clientY,
     };
 
-    this.ngZone.runOutsideAngular(() => {
-      document.addEventListener('pointermove', this._moveListener);
-      document.addEventListener('pointerup', this._upListener);
-    });
+    document.addEventListener('pointermove', this._moveListener);
+    document.addEventListener('pointerup', this._upListener);
   }
 
   private _onPointerMove(event: PointerEvent): void {
@@ -113,14 +111,14 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
     if (containerSize === 0) return;
     const deltaPct = (deltaAbs / containerSize) * 100;
 
-    this.ngZone.run(() => {
-      this._applyDelta(panelAIdx, panelBIdx, deltaPct);
-      this._dragState!.startPos = pos;
-    });
+    this._applyDelta(panelAIdx, panelBIdx, deltaPct);
+    this._dragState!.startPos = pos;
   }
 
   resizeByPercent(handleEl: HTMLElement, deltaPct: number): void {
-    const siblings = Array.from(handleEl.parentElement!.children);
+    const parent = handleEl.parentElement;
+    if (!parent) return;
+    const siblings = Array.from(parent.children);
     const handlePos = siblings.indexOf(handleEl);
     const panelAIdx = Math.floor((handlePos - 1) / 2);
     const panelBIdx = panelAIdx + 1;
