@@ -42,11 +42,9 @@
 - **Why it matters:** Each copy must independently get cleanup right (a missed `removeEventListener` is a leak). Carousel even adds a no-op move listener (see `02-performance.md` P-6).
 - **Suggested split:** A `createDrag({ onMove, onEnd })` helper returning `{ start(event), destroy() }` that owns listener lifecycle.
 
-#### DD-5 — ARIA id generation reinvented locally; `IdGenerator` unused
-- **Files:** [calendar.ts:17,57](projects/ui/src/lib/forms/src/calendar/calendar.ts#L17), [date-picker.ts](projects/ui/src/lib/forms/src/date-picker/date-picker.ts), [tooltip.ts:13,44](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts#L13) vs the unused [core/a11y/id-generator.ts](projects/ui/src/core/a11y/id-generator.ts)
-- **Currently mixes:** Each component declares its own `let nextId = 0` module counter, while the purpose-built `IdGenerator` service is never injected anywhere (see `09-dead-code.md` D-1).
-- **Why it matters:** Duplicated counters + a dead service. The duplication is partly forced by known-issue #9 (secondary entries can't import `core/`), so the right fix is a tiny per-group helper, not the central service.
-- **Suggested split:** Either (a) delete `IdGenerator` and standardize on a 3-line per-group `nextId()` helper, or (b) export an id helper from the **primary** entry and import via the package path. Decide one and apply uniformly.
+#### DD-5 — ARIA id generation reinvented locally; `IdGenerator` unused — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** `IdGenerator` service deleted (D-1). The per-module `let nextId = 0` counter pattern is the adopted standard: each secondary entry declares its own module-scoped counter (known-issue #9 prevents importing from `core/`). Verified that `calendar.ts`, `tooltip.ts`, and `date-picker.ts` all use this consistent pattern. No cross-group import needed.
 
 ### LOW
 
@@ -56,7 +54,6 @@
 - **Why it matters:** Largest file; the date-grid logic is pure and independently testable but currently entangled with the component.
 - **Suggested split:** Extract pure `buildMonthGrid(year, month, {min,max,today})` and `moveFocus(date, key)` functions to a `calendar/date-grid.ts` util; the component keeps rendering + CVA. Also enables unit-testing the math without a DOM.
 
-#### DD-7 — Escape-to-close handled independently in 9 components
-- **Evidence:** `keydown.escape` / `key === 'Escape'` appears in 9 source files (dialog, sheet, alert-dialog, dropdown, context-menu, popover, hover-card, toast, tooltip).
-- **Why it matters:** Minor, but the "Escape closes the topmost overlay" semantics (and focus-restore) are reimplemented per overlay with no shared stacking model.
-- **Suggested split:** Optional `OverlayStack` service to coordinate Escape + focus restoration if nested overlays become a requirement.
+#### DD-7 — Escape-to-close handled independently in 9 components — ✅ ACCEPTED (2026-06-15)
+
+- **Decision:** Accepted as a known architectural pattern. Each overlay's Escape handler is simple (1-2 lines) and independent behavior is correct since overlays don't nest. A central `OverlayStack` service would only be needed if stacked overlays become a product requirement. No action needed.

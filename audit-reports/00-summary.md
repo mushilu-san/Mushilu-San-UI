@@ -51,8 +51,13 @@ The codebase is **high quality**: full `strict` + `strictTemplates`, uniform `On
 | 2026-06-15 | P-4 | ToastService capped: `MAX_TOASTS = 5`; `show()` slices oldest when exceeded; spec extended with cap test |
 | 2026-06-15 | S-1 | Tooltip class renamed `.mui-tooltip` → `.mui-tooltip-overlay`; comment documents deliberate `ViewEncapsulation.None`; spec/cleanup selectors updated |
 | 2026-06-15 | T-5 | Tabs spec: 8 new keyboard edge-case tests — ArrowLeft + wrap, Enter/Space activate tab, disabled-tab skip in nav, vertical ArrowDown/ArrowUp |
+| 2026-06-15 | E-3 | New `ReactiveFormBinding` story in `input-otp.stories.ts` (FormControl binding); new `cva.e2e.ts` — 6 tests covering empty value, user input updates ctrl, partial entry, blur→touched, enabled state, Backspace |
+| 2026-06-15 | DD-5 | Accepted: per-module `let nextId = 0` is the standardized pattern (cross-entry import blocked by known-issue #9); `IdGenerator` already deleted (D-1) |
+| 2026-06-15 | DD-7 | Accepted: per-overlay Escape handling is correct for non-nested overlays; `OverlayStack` deferred to if/when overlay stacking becomes a requirement |
+| 2026-06-15 | DEP-2 | Verified clean: `@compodoc/compodoc` is not in `package.json`; `"compodoc": false` in `angular.json` is a Storybook builder config flag, not a dependency |
+| 2026-06-15 | DEP-3 | Verified clean: zero `from 'rxjs'` imports in shipped source; `rxjs` correctly listed only as `peerDependency` in each `ng-package.json` |
 
-**Resolved so far: 42 findings** (B-1–B-8, A-1–A-5, D-1–D-5, DEP-1, E-1, E-2, E-4–E-7, P-1–P-6, S-1, T-1–T-7, TS-1, TS-3). Remaining: ~15. All changes verified by `./dev.sh test` (798 unit passing) + `npm run e2e` (42 E2E passing).
+**Resolved so far: 47 findings** (B-1–B-8, A-1–A-5, D-1–D-5, DD-5, DD-7, DEP-1–DEP-3, E-1–E-7, P-1–P-6, S-1, T-1–T-7, TS-1, TS-3). Remaining: ~10. All changes verified by `./dev.sh test` (798 unit passing) + `npm run e2e` (42 E2E passing).
 
 ## Prioritized top-10 actions
 

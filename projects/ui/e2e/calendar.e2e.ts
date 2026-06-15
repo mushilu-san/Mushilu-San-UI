@@ -40,10 +40,11 @@ test.describe('Calendar — E-7 keyboard navigation & selection', () => {
   test('clicking Previous Month goes back', async ({ page }) => {
     const frame = await gotoStory(page, 'forms-calendar--default');
     const heading = frame.getByRole('heading');
+    const initial = await heading.textContent();
     await frame.getByRole('button', { name: /next month/i }).click();
-    const afterNext = await heading.textContent();
+    await expect(heading).not.toHaveText(initial ?? ''); // wait for Next to render
     await frame.getByRole('button', { name: /previous month/i }).click();
-    await expect(heading).not.toHaveText(afterNext ?? '');
+    await expect(heading).toHaveText(initial ?? ''); // back to starting month
   });
 
   test('clicking a day marks it aria-selected="true"', async ({ page }) => {

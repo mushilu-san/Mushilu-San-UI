@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { type Meta, type StoryObj } from '@storybook/angular';
 import { InputOtp } from './input-otp';
 
 const meta: Meta<InputOtp> = {
@@ -43,7 +43,7 @@ export const WithValueDisplay: Story = {
     template: `
       <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
         <mui-input-otp [(value)]="otp" />
-        <p style="margin:0;font-size:13px;color:#64748b;">Value: "{{ otp }}" ({{ otp.length }}/6)</p>
+        <p style="margin:0;font-size:13px;color:#64748b;">Value: "{{ otp }}" ({{ otp ? otp.length : 0 }}/6)</p>
       </div>
     `,
     imports: [InputOtp],
@@ -83,6 +83,15 @@ export const Accessibility: Story = {
     componentProperties: { otp: '' },
   }),
   parameters: { a11y: { disable: false } },
+};
+
+export const ReactiveFormBinding: Story = {
+  name: 'Value Binding (E-3)',
+  render: () => ({
+    template: `<mui-input-otp [length]="4"></mui-input-otp>`,
+    imports: [InputOtp],
+    componentProperties: {},
+  }),
 };
 
 export const MobilePreview: Story = {

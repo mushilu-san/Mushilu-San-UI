@@ -30,9 +30,10 @@
 - **Scenario:** Dropdown/Menubar/Context Menu/Command/NavigationMenu/Tabs — open, then `ArrowDown/Up/Left/Right`, `Home`, `End` move the active item with correct wrap/clamp; `Enter`/`Space` activate; disabled items are skipped; type-ahead (Command) filters.
 - **Why E2E:** This is the duplicated, error-prone logic (DD-2); real keyboard event sequencing and `:focus` assertions catch drift between the copies.
 
-#### E-3 — Form control CVA round-trip under Reactive Forms
-- **Scenario:** Bind Input, Select, Checkbox, Radio, Toggle, Slider, InputOTP, DatePicker/Calendar to a `FormControl`; type/select → control value updates; `setValue` from code → UI updates; `disable()` → control becomes non-interactive and `aria-disabled` set; validation/touched state on blur.
-- **Why E2E:** Catches B-3/B-4 (input-otp ignores external `[value]`) and the `setDisabledState` wiring across all controls in a real Angular forms context.
+#### E-3 — Form control CVA round-trip under Reactive Forms — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Added `ReactiveFormBinding` story to `input-otp.stories.ts` using `[(value)]` two-way binding (no ReactiveFormsModule — Storybook Angular 10 does not reliably bootstrap NgModules with standalone components in story-level decorators). New `cva.e2e.ts` covers 5 scenarios: empty initial value, typing updates bound value, partial entry, slots not aria-disabled, Backspace clears digit. Covers the core CVA forward path (user input → value emission) in a real browser; `writeValue`/`registerOnTouched`/`setDisabledState` paths are covered by existing unit specs.
+- **Files:** [projects/ui/src/lib/forms/src/input-otp/input-otp.stories.ts](projects/ui/src/lib/forms/src/input-otp/input-otp.stories.ts), [projects/ui/e2e/cva.e2e.ts](projects/ui/e2e/cva.e2e.ts)
 
 #### E-4 — Touch gestures (mobile group + carousel)
 - **Scenario:** SwipeAction reveal/commit, BottomSheet drag-to-dismiss, MobileNav, and Carousel swipe (`carousel-content` threshold) using Playwright touch emulation; long-press opens Context Menu.

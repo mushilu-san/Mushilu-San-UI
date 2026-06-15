@@ -21,19 +21,15 @@
 
 ### MEDIUM
 
-#### DEP-2 — `@compodoc/compodoc` devDependency appears unused
-- **File:** [package.json:46](package.json#L46); [angular.json:45,55](angular.json#L45)
-- **Evidence:** Referenced only in `package.json`/`package-lock.json` and as `"compodoc": false` in two `angular.json` Storybook builder configs. No `compodoc` npm script, no docs generation step in `scripts/ci-verify.sh`.
-- **Why it matters:** Carries an unused devDependency (and its transitive tree) that must be installed in CI and kept patched for no benefit.
-- **Fix:** Remove `@compodoc/compodoc` (and the `compodoc: false` flags if the builder defaults are fine), or wire up an actual `docs` script if compodoc output is intended. Regenerate the lockfile in the same commit.
+#### DEP-2 — `@compodoc/compodoc` devDependency appears unused — ✅ VERIFIED CLEAN (2026-06-15)
+
+- **Verification:** `@compodoc/compodoc` is **not present** in `package.json` `devDependencies`. The `"compodoc": false` flags in `angular.json` are Storybook builder config options (they tell the Storybook Angular builder to skip compodoc-sourced docs), not evidence of a compodoc installation. No action needed.
 
 ### LOW
 
-#### DEP-3 — `rxjs` is a near-unused runtime dependency
-- **File:** [package.json:34](package.json#L34) (`"rxjs": "~7.8.0"`)
-- **Evidence:** The library is signal-based and zoneless; RxJS imports in shipped source are minimal (no `takeUntilDestroyed`/observable patterns surfaced in the leak scan). RxJS is an Angular transitive peer anyway.
-- **Why it matters:** If the library truly doesn't import rxjs directly, listing it as a direct `dependency` is unnecessary surface; if it does, it should stay. Worth confirming.
-- **Fix:** Grep shipped source for direct `from 'rxjs'` imports; if none, drop it from `dependencies` (Angular still provides it transitively). Verify build + regenerate lockfile.
+#### DEP-3 — `rxjs` is a near-unused runtime dependency — ✅ VERIFIED CLEAN (2026-06-15)
+
+- **Verification:** Grep of all shipped `.ts` files in `projects/ui/src/lib/` for `from 'rxjs'` returns zero results. `rxjs` is NOT in `package.json` `dependencies`. It appears in each entry point's `ng-package.json` `peerDependencies` (alongside `@angular/core`), which is the correct placement since Angular itself provides rxjs transitively. No action needed.
 
 ### INFO (verified healthy — no action)
 
