@@ -13,11 +13,10 @@
 
 ### MEDIUM
 
-#### P-1 — `Intl.DateTimeFormat` reconstructed on every Calendar recompute
-- **File:** [projects/ui/src/lib/forms/src/calendar/calendar.ts:90-130](projects/ui/src/lib/forms/src/calendar/calendar.ts#L90-L130)
-- **Evidence:** `monthLabel`, `prevMonthLabel`, `nextMonthLabel`, and `weekDayNames` each call `new Intl.DateTimeFormat(this.locale(), …)` inside a `computed`, and `weekDayNames` constructs **two formatters per weekday (14 total)** every time it recomputes.
-- **Why it matters:** `Intl.DateTimeFormat` construction is one of the more expensive standard-library calls (locale-data resolution). Recreating ~16+ formatters on every month navigation (and on any `locale()`/value change) is wasteful, especially on low-end mobile — the library's target.
-- **Fix:** Memoize formatters per `locale()` (e.g. a `computed` that returns `{ monthYear, weekdayShort, weekdayLong }` formatter instances, then reuse them). `weekDayNames` should build its two formatters once and loop.
+#### P-1 — `Intl.DateTimeFormat` reconstructed on every Calendar recompute — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Added `private readonly _fmt = computed(() => ({ monthYear, weekdayShort, weekdayLong }))` that creates all 3 formatters once per `locale()` change. `monthLabel`, `prevMonthLabel`, `nextMonthLabel`, and `weekDayNames` now call `this._fmt()` and reuse the cached instances. Down from 16+ constructors per recompute to 3, rebuilt only on locale change.
+- **File:** [projects/ui/src/lib/forms/src/calendar/calendar.ts](projects/ui/src/lib/forms/src/calendar/calendar.ts)
 
 #### P-2 — Redundant `NgZone` orchestration in a zoneless library — ✅ RESOLVED (2026-06-14)
 - **Resolution:** Removed the `runOutsideAngular`/`run` wrappers; the `addEventListener` calls and `_applyDelta`/`startPos` writes now run directly (signal writes already drive CD). `NgZone` injection and import dropped.
@@ -42,11 +41,10 @@
 
 ### LOW
 
-#### P-4 — `ToastService` toast list is unbounded
-- **File:** [projects/ui/src/lib/feedback/src/toast/toast.service.ts:22](projects/ui/src/lib/feedback/src/toast/toast.service.ts#L22)
-- **Evidence:** `this._toasts.update((list) => [...list, ref]);` with no cap.
-- **Why it matters:** A misbehaving consumer (or a tight loop) can push unbounded toasts; the container renders them all. Each push also clones the array (`[...list]`), so N pushes is O(N²) total work.
-- **Fix:** Add an optional `maxVisible` cap that drops/queues the oldest, and document it.
+#### P-4 — `ToastService` toast list is unbounded — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Added `MAX_TOASTS = 5` constant; `show()` now slices to the last 5 entries after each push, dropping the oldest. Spec extended with a cap-verification test.
+- **File:** [projects/ui/src/lib/feedback/src/toast/toast.service.ts](projects/ui/src/lib/feedback/src/toast/toast.service.ts)
 
 #### P-5 — `context-menu-trigger` uses `NgZone.run` in zoneless context — ✅ RESOLVED (2026-06-14)
 - **Resolution:** Unwrapped `zone.run(() => this.ctx.openAt(…))` to a direct call; `NgZone` injection/import removed. Same cleanup applied to `swipe-action` (`offsetX.set`).

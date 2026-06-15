@@ -20,8 +20,10 @@ export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
  * Usage:
  *   <button [muiTooltip]="'Save file'" placement="top">Save</button>
  *
- * The component uses ViewEncapsulation.None so its `.mui-tooltip` CSS class is
+ * The component uses ViewEncapsulation.None so its `.mui-tooltip-overlay` CSS class is
  * injected into <head> globally (standard Angular pattern for global overlay styles).
+ * The class is deliberately namespaced as `mui-tooltip-overlay` (not bare `mui-tooltip`)
+ * to avoid colliding with consumer stylesheets.
  * The template `<ng-content />` projects the host element's original inner content.
  */
 @Component({
@@ -92,7 +94,7 @@ export class Tooltip implements OnDestroy {
     const div = document.createElement('div');
     div.id = this.tooltipId;
     div.setAttribute('role', 'tooltip');
-    div.className = 'mui-tooltip';
+    div.className = 'mui-tooltip-overlay';
     div.setAttribute('data-placement', this.placement());
     div.textContent = this.muiTooltip();
     document.body.appendChild(div);

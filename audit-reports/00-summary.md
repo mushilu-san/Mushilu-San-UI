@@ -47,8 +47,12 @@ The codebase is **high quality**: full `strict` + `strictTemplates`, uniform `On
 | 2026-06-15 | E-5 | New `toast.e2e.ts`: 6 tests — Info/Warning shows toast in correct live region, dismiss button works, multiple toasts stack, sticky danger persists |
 | 2026-06-15 | E-6 | New `tooltip.e2e.ts`: 7 tests — hover/focus show, mouseleave/blur hide, Escape (document-level), aria-describedby wired; also added `moduleMetadata` decorator to tooltip.stories.ts (same bootstrapping fix as batch 1) |
 | 2026-06-15 | E-7 | New `calendar.e2e.ts`: 7 tests — grid renders, ArrowRight/Down move focus, Prev/Next month buttons, day selection (aria-selected), min/max disabled days, PageDown month nav |
+| 2026-06-15 | P-1 | Calendar `Intl.DateTimeFormat` memoized: `_fmt = computed(...)` creates 3 formatters once per locale; `monthLabel`, `prevMonthLabel`, `nextMonthLabel`, `weekDayNames` reuse them (16+ → 3 constructors/recompute) |
+| 2026-06-15 | P-4 | ToastService capped: `MAX_TOASTS = 5`; `show()` slices oldest when exceeded; spec extended with cap test |
+| 2026-06-15 | S-1 | Tooltip class renamed `.mui-tooltip` → `.mui-tooltip-overlay`; comment documents deliberate `ViewEncapsulation.None`; spec/cleanup selectors updated |
+| 2026-06-15 | T-5 | Tabs spec: 8 new keyboard edge-case tests — ArrowLeft + wrap, Enter/Space activate tab, disabled-tab skip in nav, vertical ArrowDown/ArrowUp |
 
-**Resolved so far: 37 findings** (B-1–B-8, A-1–A-5, D-1–D-5, DEP-1, E-1, E-2, E-4–E-7, P-2, P-3, P-5, P-6, T-1–T-4, T-6, T-7, TS-1, TS-3). Remaining: ~20. All changes verified by `./dev.sh test` (790 unit passing) + `npm run e2e` (42 E2E passing).
+**Resolved so far: 42 findings** (B-1–B-8, A-1–A-5, D-1–D-5, DEP-1, E-1, E-2, E-4–E-7, P-1–P-6, S-1, T-1–T-7, TS-1, TS-3). Remaining: ~15. All changes verified by `./dev.sh test` (798 unit passing) + `npm run e2e` (42 E2E passing).
 
 ## Prioritized top-10 actions
 

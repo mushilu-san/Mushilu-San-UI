@@ -2,6 +2,8 @@ import { Injectable, signal } from '@angular/core';
 import type { ToastOptions, ToastRef } from './toast.types';
 
 const DEFAULT_DURATION = 5000;
+/** Maximum number of toasts rendered at once; oldest are dropped when exceeded. */
+const MAX_TOASTS = 5;
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
@@ -19,7 +21,10 @@ export class ToastService {
       duration: options.duration ?? DEFAULT_DURATION,
       title: options.title,
     };
-    this._toasts.update((list) => [...list, ref]);
+    this._toasts.update((list) => {
+      const next = [...list, ref];
+      return next.length > MAX_TOASTS ? next.slice(-MAX_TOASTS) : next;
+    });
     return ref;
   }
 

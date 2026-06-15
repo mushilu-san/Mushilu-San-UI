@@ -97,4 +97,11 @@ describe('ToastService', () => {
   it('toasts signal is read-only (no .set on the public signal)', () => {
     expect(typeof (service.toasts as unknown as { set?: unknown }).set).toBe('undefined');
   });
+
+  it('caps list at 5 toasts, dropping the oldest', () => {
+    for (let i = 0; i < 6; i++) service.show(`Toast ${i}`);
+    expect(service.toasts().length).toBe(5);
+    expect(service.toasts()[0].message).toBe('Toast 1');
+    expect(service.toasts()[4].message).toBe('Toast 5');
+  });
 });

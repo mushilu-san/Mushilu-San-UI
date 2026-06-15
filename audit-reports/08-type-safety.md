@@ -13,25 +13,22 @@
 
 ### MEDIUM
 
-#### TS-1 — `event.target as HTMLInputElement` can narrow to the wrong element
-- **File:** [projects/ui/src/lib/forms/src/input-otp/input-otp.ts:71](projects/ui/src/lib/forms/src/input-otp/input-otp.ts#L71)
-- **Evidence:** `const inp = event.target as HTMLInputElement;`
-- **Why it matters:** `event.target` is the element that originated the event, which on a bubbled/delegated handler may not be the `<input>` the code assumes; the `as` cast hides this. Here the handler is bound per-input so it's currently safe, but the pattern is fragile and used in several controls.
-- **Fix:** Use `event.currentTarget as HTMLInputElement` (the element the listener is attached to) or guard: `if (!(event.target instanceof HTMLInputElement)) return;`. Apply the same to other `event.target as …` sites.
+#### TS-1 — `event.target as HTMLInputElement` can narrow to the wrong element — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Changed `event.target as HTMLInputElement` → `event.currentTarget as HTMLInputElement` in `input-otp.ts` `onInput()`. `currentTarget` is always the element the listener is bound to, eliminating the bubbled-event risk.
+- **File:** [projects/ui/src/lib/forms/src/input-otp/input-otp.ts](projects/ui/src/lib/forms/src/input-otp/input-otp.ts)
 
 ### LOW
 
-#### TS-2 — Unguarded non-null assertion on `parentElement`
-- **File:** [projects/ui/src/lib/layout/src/resizable/resizable-panel-group.ts:81,123](projects/ui/src/lib/layout/src/resizable/resizable-panel-group.ts#L81)
-- **Evidence:** `handleEl.parentElement!.children`
-- **Why it matters:** `!` defeats `strictNullChecks` exactly where a null is plausible (detached element/teardown), turning a compile-time guarantee into a runtime `TypeError`. (Also tracked as bug B-5.)
-- **Fix:** Narrow with an explicit guard instead of `!`.
+#### TS-2 — Unguarded non-null assertion on `parentElement` — ✅ RESOLVED (2026-06-14)
 
-#### TS-3 — `_dragState!` mutation after a guard
-- **File:** [projects/ui/src/lib/layout/src/resizable/resizable-panel-group.ts:118](projects/ui/src/lib/layout/src/resizable/resizable-panel-group.ts#L118)
-- **Evidence:** `this._dragState!.startPos = pos;` inside `ngZone.run(...)`
-- **Why it matters:** The earlier `if (!this._dragState) return;` makes this safe *today*, but the `!` re-asserts non-null across an async/callback boundary where `_onPointerUp` could have nulled it. Low risk, but the `!` masks the reasoning.
-- **Fix:** Capture `const state = this._dragState; if (!state) return;` once and use `state` throughout the handler.
+- **Resolution:** Resolved as part of B-5. Both `startResize` and `resizeByPercent` now use `const parent = handleEl.parentElement; if (!parent) return;` before accessing `.children`.
+- **File:** [projects/ui/src/lib/layout/src/resizable/resizable-panel-group.ts](projects/ui/src/lib/layout/src/resizable/resizable-panel-group.ts)
+
+#### TS-3 — `_dragState!` mutation after a guard — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Captured `const state = this._dragState; if (!state) return;` at the top of `_onPointerMove`, then used `state` throughout. Removed the `!` re-assertion. `state.startPos = pos` updates the same object safely.
+- **File:** [projects/ui/src/lib/layout/src/resizable/resizable-panel-group.ts](projects/ui/src/lib/layout/src/resizable/resizable-panel-group.ts)
 
 ### INFO
 
