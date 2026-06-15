@@ -350,3 +350,25 @@ Entry point exists and ships. All share a floating-panel primitive (Popover); th
 3. `npm run changeset` — describe changes
 4. Push PR → merge → Changesets bot opens "Version Packages" PR
 5. Merge version PR → `changesets/action` publishes to npm automatically
+
+## Audit issue tracking
+
+Every finding — discovered in a PR review, code read, or ad-hoc investigation —
+**must have a GitHub issue opened immediately** before any fix work begins.
+
+```bash
+# Open one new finding issue (also appends to scripts/audit-findings.json):
+./scripts/open-audit-issues.sh --new <ID> <SEVERITY> <CATEGORY> "<TITLE>" "<ONE-LINE DESC>"
+
+# Close a resolved issue + mark resolved in the JSON:
+./scripts/open-audit-issues.sh --resolve <ID>
+
+# Re-create missing issues for all findings (idempotent):
+./scripts/open-audit-issues.sh
+```
+
+Severity values: `critical` | `high` | `medium` | `low` | `info`
+
+Category values: `security` | `performance` | `decomposition` | `bugs` | `tests` | `e2e` | `accessibility` | `types` | `dead-code` | `dependency`
+
+All finding data lives in `scripts/audit-findings.json`. The script is idempotent — safe to run multiple times without creating duplicates.
