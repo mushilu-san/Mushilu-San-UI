@@ -34,8 +34,12 @@ The codebase is **high quality**: full `strict` + `strictTemplates`, uniform `On
 | 2026-06-14 | B-6, P-2, P-5 | Remove all inert `NgZone.run`/`runOutsideAngular` wrappers (resizable, context-menu-trigger, swipe-action); `NgZone` no longer injected/imported in shipped source |
 | 2026-06-14 | D-1, D-2, A-2, D-5 | Delete orphaned `IdGenerator` + `LiveAnnouncer` (and empty `core/a11y/`); correct toast story prose to match the real dual-region implementation (A-2 moot); remove stray `debug-storybook.log` |
 | 2026-06-14 | D-4, P-6 | Remove Carousel's no-op `pointermove` listener (`_onMove`/`_moveListener` + registrations); swipe still computed on `pointerup` |
+| 2026-06-14–15 | E-1, E-2, E-4 | Playwright E2E layer (21 tests): Dialog focus-trap/Escape/backdrop, Tabs keyboard nav, DropdownMenu keyboard nav, Carousel swipe — all passing via `/?path=/story/{id}` + frameLocator; `http-server` replaces `serve` to avoid query-string stripping; story fixes (moduleMetadata) for Tabs/Carousel/Dropdown |
+| 2026-06-15 | T-1, T-2, T-3, B-3, B-4, DEP-1 | Confirmed already resolved in codebase (ToastService/ResizablePanelGroup/ContextMenuTrigger specs complete; InputOtp effects already in place; chart.js already optional peerDep) |
+| 2026-06-15 | T-4 | Add CarouselContent swipe-gesture tests (threshold left/right/below) to `carousel.spec.ts` — 3 new cases |
+| 2026-06-15 | T-6 | New `toast-container.spec.ts`: 10 tests covering empty state, polite/assertive live regions, dismiss wiring, aria-label, placement |
 
-**Resolved so far: 15 findings** (B-1, B-2, B-5, B-6, A-1, A-2, D-1, D-2, D-3, D-4, D-5, P-2, P-3, P-5, P-6). Remaining: 42. All changes verified by `./dev.sh test` (749 passing) + `./dev.sh build` (clean).
+**Resolved so far: 26 findings** (B-1, B-2, B-3, B-4, B-5, B-6, A-1, A-2, D-1, D-2, D-3, D-4, D-5, DEP-1, E-1, E-2, E-4, P-2, P-3, P-5, P-6, T-1, T-2, T-3, T-4, T-6). Remaining: ~31. All changes verified by `./dev.sh test` (785 passing) + `./dev.sh build` (clean).
 
 ## Prioritized top-10 actions
 
