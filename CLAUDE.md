@@ -351,6 +351,81 @@ Entry point exists and ships. All share a floating-panel primitive (Popover); th
 4. Push PR → merge → Changesets bot opens "Version Packages" PR
 5. Merge version PR → `changesets/action` publishes to npm automatically
 
+## Code standards — mandatory rules for every new component
+
+These rules exist because every violation below was found in the June 2026 audit.
+Violating any of them will create a new audit issue. Read before writing code.
+
+### Angular / Zoneless (audit: B-6, P-2, P-5)
+
+- **Never import or inject `NgZone`** in shipped component code. The library is fully zoneless (`provideExperimentalZonelessChangeDetection()`); `NgZone.run()` and `runOutsideAngular()` are no-ops under `NoopNgZone` and create false impressions of CD control.
+- Signal writes drive change detection — that is the only mechanism that works.
+
+### Signals & reactivity (audit: B-3, B-4)
+
+- **Every `input()` that feeds internal state needs an `effect()`** — never read it only once in the constructor. Example: `[value]` and `[length]` inputs to a form control must both have effects that update internal signals when the input changes.
+- Use `model()` for two-way-bindable state. Use `computed()` for derived values, not manual methods that re-derive on every call.
+
+### Null safety (audit: B-5, TS-2, TS-3)
+
+- **Never use `!` non-null assertions** — always guard: `const x = this.ref; if (!x) return;`
+- After a null guard, **capture to `const`** before any subsequent code. Do not re-assert `this.ref!` after the guard — the assertion is invalid across any async boundary.
+
+### Event handling (audit: B-2, TS-1)
+
+- **Guard `event.touches` before indexing**: `const touch = event.touches[0]; if (!touch) return;`
+- **Use `event.currentTarget`**, not `event.target`, in all `@HostListener` and `addEventListener` handlers. `event.target` is the element that originated the event (can be a bubbled child); `currentTarget` is always the element the listener is bound to.
+
+### DOM & browser APIs (audit: S-4, A-5, B-7)
+
+- **Inject `DOCUMENT`** (Angular's `@Inject(DOCUMENT)`) instead of referencing the global `document`. Prevents breakage in SSR and sandboxed environments.
+- **Use `afterNextRender()`** for any DOM operation (e.g. `el.focus()`) that must run after Angular has rendered. Never use `setTimeout(() => el.focus())` — it silently swallows errors and is untestable.
+- **Overlays must reposition on scroll and resize** while visible. Add passive `scroll` and `resize` listeners on show; remove them on hide. Position output must be clamped within the viewport (at minimum 4px margins on all sides).
+
+### Lifecycle & cleanup (audit: B-8, D-4)
+
+- **Every `register*(item)` must have a matching `unregister*(item)`** callable from `ngOnDestroy` of the registered child. Omitting cleanup causes stale counts and index-out-of-range bugs when items are dynamically removed.
+- **Never attach listeners that do nothing.** If a handler body is empty or has only a comment, delete the `addEventListener` call entirely.
+
+### Logic guards (audit: B-1, D-3)
+
+- **Verify conditions are actually possible** before writing a guard. A guard like `if (!obj.toString)` is always false (`.toString` is on `Object.prototype`). Dead guards rot and mislead future readers — delete them.
+
+### Security (audit: S-1, S-4)
+
+- **No `[innerHTML]`, no `bypassSecurityTrust*`** — already in the component checklist.
+- For components that append to the DOM programmatically (overlays, toasts), use `DOCUMENT` token and `textContent` / `createElement` — never string concatenation into HTML.
+- `ViewEncapsulation.None` is allowed only for overlay components that must pierce shadow DOM. **Document the reason with a comment** and use a namespaced class (`.mui-*-overlay`, not `.mui-tooltip`).
+
+### Testing (audit: T-1 through T-8)
+
+- **Every root-level singleton service must have its own spec** before shipping. High blast radius means silent regressions reach all consumers.
+- **Every component with timer, pointer, or touch logic needs its own spec.** Mobile is the library's primary target — test `touchstart`/`touchend`/`pointermove` paths.
+- **≥ 80% coverage per component** is the floor, not the target. Aim for 100% on state-machine paths (enabled/disabled, loading, error).
+- **Test sub-components in isolation.** A `TabList` spec that only renders a full `<mui-tabs>` parent doesn't verify `<mui-tab>` keyboard nav directly — add a focused sub-component spec.
+- For E2E-only behaviors (focus order, real keyboard sequences, scroll positioning), write a Playwright story-driven spec — don't skip because unit tests can't assert it.
+
+### E2E (audit: E-0 through E-7)
+
+- **Every new interactive component needs at minimum one Storybook story suitable for E2E** — exported as `Default` and usable by `gotoStory()`. Prefer stories without `moduleMetadata` (standalone components don't need it).
+- **Every overlay must have E2E coverage for**: focus moves inside on open, `Escape` closes, focus returns to trigger after close.
+- **Every touch-gesture component must have E2E coverage** using Playwright's `page.mouse` (pointer simulation) for the primary gesture (swipe, drag, long-press).
+
+### Performance (audit: P-1, P-6, P-2)
+
+- **Memoize expensive object construction** with `computed()`. `Intl.DateTimeFormat`, `Intl.NumberFormat`, and similar platform objects are expensive — create them once per locale/options change, not on every render.
+- **Never attach document-level listeners that do no work.** CPU cost is proportional to event frequency (pointermove fires dozens of times per second during drag).
+- Signal writes are the CD mechanism — do not add redundant `markForCheck()` or `detectChanges()` calls alongside them.
+
+### Shared utilities — use these, don't re-implement (as they become available)
+
+- **Overlay positioning** → use the shared `computePosition()` util (`overlays/src/positioning/`) once DD-1 is resolved. Do not re-implement getBoundingClientRect anchoring per component.
+- **Roving tabindex** → use the `RovingFocus` directive once DD-2 is resolved. Do not re-implement Arrow/Home/End/Enter key handling per menu/tab widget.
+- **CVA boilerplate** → use the `useCva<T>()` helper once DD-3 is resolved. Do not re-declare `_onChange`, `_onTouched`, `cvaDisabled` per form control.
+- **Pointer drag** → use `createDrag({ onMove, onEnd })` once DD-4 is resolved. Do not re-implement pointerdown→pointermove→pointerup listener lifecycle per component.
+
+---
+
 ## Audit issue tracking
 
 Every finding — discovered in a PR review, code read, or ad-hoc investigation —
