@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Tabs } from './tabs';
 import { TabList } from './tab-list';
 import { Tab } from './tab';
@@ -9,6 +9,7 @@ const ALL = [Tabs, TabList, Tab, TabPanel];
 const meta: Meta<Tabs> = {
   title: 'Navigation/Tabs',
   component: Tabs,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
   argTypes: {
@@ -41,7 +42,6 @@ export const Default: Story = {
         </mui-tab-panel>
       </mui-tabs>
     `,
-    imports: ALL,
   }),
 };
 
@@ -60,7 +60,6 @@ export const WithDisabledTab: Story = {
         <mui-tab-panel value="tab3">Tab 3 content</mui-tab-panel>
       </mui-tabs>
     `,
-    imports: ALL,
   }),
 };
 
@@ -81,7 +80,6 @@ export const Vertical: Story = {
         </div>
       </mui-tabs>
     `,
-    imports: ALL,
   }),
 };
 
@@ -101,6 +99,5 @@ export const Accessibility: Story = {
         <mui-tab-panel value="tab-c">Content for disabled tab</mui-tab-panel>
       </mui-tabs>
     `,
-    imports: ALL,
   }),
 };

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Carousel } from './carousel';
 import { CarouselContent } from './carousel-content';
 import { CarouselItem } from './carousel-item';
@@ -28,6 +28,7 @@ function slides(count = 3): string {
 
 const meta: Meta = {
   title: 'Data Display/Carousel',
+  decorators: [moduleMetadata({ imports: IMPORTS })],
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
 };
@@ -48,7 +49,6 @@ export const Default: Story = {
         </mui-carousel>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -66,7 +66,6 @@ export const WithLoop: Story = {
         </mui-carousel>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -84,7 +83,6 @@ export const FiveSlides: Story = {
         </mui-carousel>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -100,7 +98,6 @@ export const DotsOnly: Story = {
         </mui-carousel>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 

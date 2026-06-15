@@ -1,14 +1,17 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { DropdownItem } from './dropdown-item';
 import { DropdownMenu } from './dropdown-menu';
 import { DropdownSeparator } from './dropdown-separator';
 import { DropdownTrigger } from './dropdown-trigger';
+
+const ALL = [DropdownMenu, DropdownTrigger, DropdownItem, DropdownSeparator];
 
 const triggerStyle = `padding:8px 14px;border:1px solid var(--mui-color-border);border-radius:8px;background:var(--mui-color-surface-raised);cursor:pointer;color:var(--mui-color-text);font-family:var(--mui-font-sans);display:inline-flex;align-items:center;gap:6px;`;
 
 const meta: Meta = {
   title: 'Overlays/DropdownMenu',
   component: DropdownMenu,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
 };
@@ -17,7 +20,6 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    imports: [DropdownMenu, DropdownTrigger, DropdownItem, DropdownSeparator],
     template: `
       <mui-dropdown-menu>
         <button muiDropdownTrigger style="${triggerStyle}">
@@ -36,7 +38,6 @@ export const Default: Story = {
 
 export const WithIcons: Story = {
   render: () => ({
-    imports: [DropdownMenu, DropdownTrigger, DropdownItem, DropdownSeparator],
     template: `
       <mui-dropdown-menu>
         <button muiDropdownTrigger style="${triggerStyle}">Actions</button>
@@ -60,7 +61,6 @@ export const WithIcons: Story = {
 
 export const WithDisabledItem: Story = {
   render: () => ({
-    imports: [DropdownMenu, DropdownTrigger, DropdownItem, DropdownSeparator],
     template: `
       <mui-dropdown-menu>
         <button muiDropdownTrigger style="${triggerStyle}">File</button>
@@ -75,7 +75,6 @@ export const WithDisabledItem: Story = {
 
 export const Accessibility: Story = {
   render: () => ({
-    imports: [DropdownMenu, DropdownTrigger, DropdownItem, DropdownSeparator],
     props: { isOpen: true },
     template: `
       <mui-dropdown-menu [(open)]="isOpen">
@@ -95,7 +94,6 @@ export const Accessibility: Story = {
 
 export const MobilePreview: Story = {
   render: () => ({
-    imports: [DropdownMenu, DropdownTrigger, DropdownItem, DropdownSeparator],
     template: `
       <div style="width:375px;padding:40px;display:flex;justify-content:flex-start;">
         <mui-dropdown-menu>
