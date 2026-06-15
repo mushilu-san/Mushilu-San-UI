@@ -7,6 +7,7 @@ const meta: Meta<InputOtp> = {
   component: InputOtp,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
+  decorators: [moduleMetadata({ imports: [ReactiveFormsModule] })],
   argTypes: {
     length: { control: 'number' },
     disabled: { control: 'boolean' },
@@ -88,7 +89,6 @@ export const Accessibility: Story = {
 
 export const ReactiveFormBinding: Story = {
   name: 'Reactive Form Binding (E-3)',
-  decorators: [moduleMetadata({ imports: [ReactiveFormsModule] })],
   render: () => {
     const ctrl = new FormControl('');
     return {
@@ -106,7 +106,8 @@ export const ReactiveFormBinding: Story = {
           </p>
         </div>
       `,
-      props: { ctrl },
+      imports: [InputOtp],
+      componentProperties: { ctrl },
     };
   },
 };
