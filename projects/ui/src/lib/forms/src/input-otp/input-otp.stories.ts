@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { InputOtp } from './input-otp';
 
 const meta: Meta<InputOtp> = {
@@ -83,6 +84,31 @@ export const Accessibility: Story = {
     componentProperties: { otp: '' },
   }),
   parameters: { a11y: { disable: false } },
+};
+
+export const ReactiveFormBinding: Story = {
+  name: 'Reactive Form Binding (E-3)',
+  decorators: [moduleMetadata({ imports: [ReactiveFormsModule] })],
+  render: () => {
+    const ctrl = new FormControl('');
+    return {
+      template: `
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:24px;">
+          <mui-input-otp [formControl]="ctrl" [length]="4"></mui-input-otp>
+          <p id="ctrl-value" style="margin:0;font-size:13px;font-family:monospace;">
+            FormControl.value: "{{ ctrl.value }}"
+          </p>
+          <p id="ctrl-touched" style="margin:0;font-size:13px;">
+            Touched: {{ ctrl.touched }}
+          </p>
+          <p id="ctrl-disabled" style="margin:0;font-size:13px;">
+            Disabled: {{ ctrl.disabled }}
+          </p>
+        </div>
+      `,
+      props: { ctrl },
+    };
+  },
 };
 
 export const MobilePreview: Story = {
