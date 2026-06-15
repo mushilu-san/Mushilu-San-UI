@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
   booleanAttribute,
+  effect,
   forwardRef,
   input,
   model,
@@ -46,11 +47,26 @@ export class Carousel implements CarouselContext, OnInit, OnDestroy {
 
   private _timer: ReturnType<typeof setInterval> | null = null;
 
-  /** Called by CarouselItem components to register themselves. */
+  constructor() {
+    // Clamp active index whenever item count decreases (B-8).
+    effect(() => {
+      const n = this._count();
+      if (n > 0 && this.active() >= n) {
+        this.active.set(n - 1);
+      }
+    });
+  }
+
+  /** Called by CarouselItem on ngOnInit. */
   registerItem(): number {
     const idx = this._count();
     this._count.update((n) => n + 1);
     return idx;
+  }
+
+  /** Called by CarouselItem on ngOnDestroy. */
+  unregisterItem(): void {
+    this._count.update((n) => Math.max(0, n - 1));
   }
 
   ngOnInit(): void {

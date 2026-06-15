@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
   computed,
@@ -25,7 +26,7 @@ import { CAROUSEL_CONTEXT } from './carousel-context';
     '[attr.part]': '"item"',
   },
 })
-export class CarouselItem implements OnInit {
+export class CarouselItem implements OnInit, OnDestroy {
   private readonly ctx = inject(CAROUSEL_CONTEXT);
   private readonly _idx = signal(-1);
 
@@ -34,5 +35,9 @@ export class CarouselItem implements OnInit {
 
   ngOnInit(): void {
     this._idx.set(this.ctx.registerItem());
+  }
+
+  ngOnDestroy(): void {
+    this.ctx.unregisterItem();
   }
 }

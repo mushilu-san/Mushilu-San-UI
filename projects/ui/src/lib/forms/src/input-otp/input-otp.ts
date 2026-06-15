@@ -83,7 +83,7 @@ export class InputOtp implements ControlValueAccessor {
 
   protected onInput(event: Event, idx: number): void {
     if (this.isDisabled()) return;
-    const inp = event.target as HTMLInputElement;
+    const inp = event.currentTarget as HTMLInputElement;
     const raw = inp.value.replace(/\D/g, '');
     const char = raw ? raw[raw.length - 1] : '';
 

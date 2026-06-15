@@ -224,4 +224,62 @@ describe('Calendar', () => {
     const stillFocused = document.querySelector<HTMLElement>('.cal-day[tabindex="0"]');
     expect(stillFocused?.textContent?.trim()).toBe('15');
   });
+
+  // T-7 — Calendar date-grid edge cases
+  it('Feb 2024 (leap year) shows 29 days in-month', async () => {
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 1, 1) } });
+    const inMonth = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('button.cal-day:not([data-outside])'),
+    );
+    expect(inMonth.length).toBe(29);
+  });
+
+  it('Feb 2023 (non-leap year) shows 28 days in-month', async () => {
+    await renderComponent(Calendar, { inputs: { value: new Date(2023, 1, 1) } });
+    const inMonth = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('button.cal-day:not([data-outside])'),
+    );
+    expect(inMonth.length).toBe(28);
+  });
+
+  it('ArrowDown crosses month boundary and updates heading', async () => {
+    const user = userEvent.setup();
+    // Jan 2024: day 29 is in last week; ArrowDown → Feb 5
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 0, 29) } });
+    const focused = document.querySelector<HTMLElement>('.cal-day[tabindex="0"]');
+    focused?.focus();
+    await user.keyboard('{ArrowDown}');
+    expect(screen.getByRole('heading').textContent).toContain('February');
+  });
+
+  it('all days before minDate are disabled', async () => {
+    const min = new Date(2024, 0, 15);
+    await renderComponent(Calendar, {
+      inputs: { value: new Date(2024, 0, 20), minDate: min },
+    });
+    const dayBtns = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('button.cal-day:not([data-outside])'),
+    );
+    const day10 = dayBtns.find((b) => b.textContent?.trim() === '10');
+    expect(day10).toHaveAttribute('aria-disabled');
+    const day20 = dayBtns.find((b) => b.textContent?.trim() === '20');
+    expect(day20).not.toHaveAttribute('aria-disabled');
+  });
+
+  it('selecting a day normalizes to midnight', async () => {
+    const { fixture } = await renderComponent(Calendar, {
+      inputs: { value: new Date(2024, 0, 10, 14, 30, 0) },
+    });
+    const onChange = vi.fn();
+    fixture.componentInstance.registerOnChange(onChange);
+    const dayBtns = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('button.cal-day:not([data-outside])'),
+    );
+    const day20 = dayBtns.find((b) => b.textContent?.trim() === '20')!;
+    fireEvent.click(day20);
+    const selected: Date = onChange.mock.calls[0][0];
+    expect(selected.getHours()).toBe(0);
+    expect(selected.getMinutes()).toBe(0);
+    expect(selected.getSeconds()).toBe(0);
+  });
 });

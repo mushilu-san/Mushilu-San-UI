@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Injector,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   computed,
   forwardRef,
@@ -10,6 +12,7 @@ import {
   input,
   linkedSignal,
   model,
+  runInInjectionContext,
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
@@ -57,6 +60,7 @@ export class Calendar implements ControlValueAccessor {
   protected readonly uid = `cal-${++nextId}`;
 
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly injector = inject(Injector);
   private readonly _today = norm(new Date());
 
   private readonly cvaDisabled = signal(false);
@@ -243,10 +247,12 @@ export class Calendar implements ControlValueAccessor {
     }
     this.focusedDate.set(next);
 
-    setTimeout(() => {
-      (this.el.nativeElement as HTMLElement)
-        .querySelector<HTMLElement>('button[tabindex="0"]')
-        ?.focus();
+    runInInjectionContext(this.injector, () => {
+      afterNextRender(() => {
+        (this.el.nativeElement as HTMLElement)
+          .querySelector<HTMLElement>('button[tabindex="0"]')
+          ?.focus();
+      });
     });
   }
 

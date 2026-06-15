@@ -103,8 +103,9 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   }
 
   private _onPointerMove(event: PointerEvent): void {
-    if (!this._dragState) return;
-    const { panelAIdx, panelBIdx, containerSize, startPos } = this._dragState;
+    const state = this._dragState;
+    if (!state) return;
+    const { panelAIdx, panelBIdx, containerSize, startPos } = state;
 
     const pos = this.direction() === 'horizontal' ? event.clientX : event.clientY;
     const deltaAbs = pos - startPos;
@@ -112,7 +113,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
     const deltaPct = (deltaAbs / containerSize) * 100;
 
     this._applyDelta(panelAIdx, panelBIdx, deltaPct);
-    this._dragState!.startPos = pos;
+    state.startPos = pos;
   }
 
   resizeByPercent(handleEl: HTMLElement, deltaPct: number): void {
