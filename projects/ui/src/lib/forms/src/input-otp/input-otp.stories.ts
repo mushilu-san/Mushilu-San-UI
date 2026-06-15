@@ -43,7 +43,7 @@ export const WithValueDisplay: Story = {
     template: `
       <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
         <mui-input-otp [(value)]="otp" />
-        <p style="margin:0;font-size:13px;color:#64748b;">Value: "{{ otp }}" ({{ otp.length }}/6)</p>
+        <p style="margin:0;font-size:13px;color:#64748b;">Value: "{{ otp }}" ({{ otp ? otp.length : 0 }}/6)</p>
       </div>
     `,
     imports: [InputOtp],
@@ -88,19 +88,9 @@ export const Accessibility: Story = {
 export const ReactiveFormBinding: Story = {
   name: 'Value Binding (E-3)',
   render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:24px;">
-        <mui-input-otp [(value)]="otp" [length]="4"></mui-input-otp>
-        <p id="ctrl-value" style="margin:0;font-size:13px;font-family:monospace;">
-          Value: "{{ otp }}"
-        </p>
-        <p id="ctrl-length" style="margin:0;font-size:13px;">
-          Length: {{ otp.length }}
-        </p>
-      </div>
-    `,
+    template: `<mui-input-otp [length]="4"></mui-input-otp>`,
     imports: [InputOtp],
-    componentProperties: { otp: '' },
+    componentProperties: {},
   }),
 };
 
