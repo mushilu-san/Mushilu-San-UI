@@ -84,6 +84,13 @@ export class Calendar implements ControlValueAccessor {
 
   /* ── Display computations ───────────────────────────────── */
 
+  /** P-1: formatters memoized per locale — recomputed only when locale() changes. */
+  private readonly _fmt = computed(() => ({
+    monthYear: new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }),
+    weekdayShort: new Intl.DateTimeFormat(this.locale(), { weekday: 'short' }),
+    weekdayLong: new Intl.DateTimeFormat(this.locale(), { weekday: 'long' }),
+  }));
+
   protected readonly selectedTime = computed(() => {
     const v = this.value();
     return v ? norm(v).getTime() : -1;
@@ -92,9 +99,7 @@ export class Calendar implements ControlValueAccessor {
   protected readonly focusedTime = computed(() => this.focusedDate().getTime());
 
   protected readonly monthLabel = computed(() =>
-    new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }).format(
-      new Date(this.viewYear(), this.viewMonth(), 1),
-    ),
+    this._fmt().monthYear.format(new Date(this.viewYear(), this.viewMonth(), 1)),
   );
 
   protected readonly prevMonthLabel = computed(() => {
@@ -104,9 +109,7 @@ export class Calendar implements ControlValueAccessor {
       m = 11;
       y--;
     }
-    return new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }).format(
-      new Date(y, m, 1),
-    );
+    return this._fmt().monthYear.format(new Date(y, m, 1));
   });
 
   protected readonly nextMonthLabel = computed(() => {
@@ -116,22 +119,19 @@ export class Calendar implements ControlValueAccessor {
       m = 0;
       y++;
     }
-    return new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }).format(
-      new Date(y, m, 1),
-    );
+    return this._fmt().monthYear.format(new Date(y, m, 1));
   });
 
-  protected readonly weekDayNames = computed(() =>
-    Array.from({ length: 7 }, (_, i) => {
+  protected readonly weekDayNames = computed(() => {
+    const { weekdayShort, weekdayLong } = this._fmt();
+    return Array.from({ length: 7 }, (_, i) => {
       const date = new Date(2024, 0, 7 + i); // Jan 7, 2024 is a Sunday
       return {
-        short: new Intl.DateTimeFormat(this.locale(), { weekday: 'short' })
-          .format(date)
-          .slice(0, 2),
-        long: new Intl.DateTimeFormat(this.locale(), { weekday: 'long' }).format(date),
+        short: weekdayShort.format(date).slice(0, 2),
+        long: weekdayLong.format(date),
       };
-    }),
-  );
+    });
+  });
 
   protected readonly weeks = computed((): CalDay[][] => {
     const month = this.viewMonth();

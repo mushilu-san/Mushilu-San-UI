@@ -13,17 +13,10 @@
 
 ### MEDIUM
 
-#### S-1 — Global CSS injection via `ViewEncapsulation.None` in Tooltip
-- **File:** [projects/ui/src/lib/data-display/src/tooltip/tooltip.ts:32](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts#L32)
-- **Evidence:**
-  ```ts
-  encapsulation: ViewEncapsulation.None,
-  ...
-  div.className = 'mui-tooltip';
-  document.body.appendChild(div);
-  ```
-- **Why it matters:** `ViewEncapsulation.None` injects the component's CSS globally into `<head>` and the tooltip node is appended to `document.body` with a fixed class name `.mui-tooltip`. This is not an injection vuln (text is set via `textContent`, which is safe), but global, un-scoped class names in a published library can collide with or be overridden by consumer styles, and the global style is a supply-chain style-tampering vector if a consumer's CSS targets `.mui-tooltip`. It also breaks the library's own `:host`-scoped token discipline.
-- **Fix:** Keep `textContent` (good). Namespace the class harder (e.g. `mui-ui-tooltip-overlay`) and document the global-style behavior, or render the tooltip inside a scoped portal with emulated encapsulation. Add a CI check that `ViewEncapsulation.None` is allow-listed only where deliberately required.
+#### S-1 — Global CSS injection via `ViewEncapsulation.None` in Tooltip — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Renamed the global class from `.mui-tooltip` → `.mui-tooltip-overlay` in both `tooltip.css` and `tooltip.ts`. The class comment was updated to document the deliberate `ViewEncapsulation.None` pattern and note the collision-avoidance namespace. `tooltip.spec.ts` and cleanup selectors updated to match.
+- **File:** [projects/ui/src/lib/data-display/src/tooltip/tooltip.ts](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts), [tooltip.css](projects/ui/src/lib/data-display/src/tooltip/tooltip.css)
 
 ### LOW
 

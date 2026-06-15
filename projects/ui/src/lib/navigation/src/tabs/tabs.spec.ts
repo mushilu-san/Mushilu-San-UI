@@ -134,4 +134,99 @@ describe('Tabs', () => {
     await userEvent.keyboard('{End}');
     expect(tabC).toHaveFocus();
   });
+
+  it('ArrowLeft moves focus to previous tab', async () => {
+    await renderTemplate(BASIC, { imports: ALL });
+    const tabA = screen.getByRole('tab', { name: 'Tab A' });
+    const tabB = screen.getByRole('tab', { name: 'Tab B' });
+    tabB.focus();
+    await userEvent.keyboard('{ArrowLeft}');
+    expect(tabA).toHaveFocus();
+  });
+
+  it('ArrowLeft wraps from first tab to last', async () => {
+    await renderTemplate(BASIC, { imports: ALL });
+    const tabA = screen.getByRole('tab', { name: 'Tab A' });
+    const tabC = screen.getByRole('tab', { name: 'Tab C' });
+    tabA.focus();
+    await userEvent.keyboard('{ArrowLeft}');
+    expect(tabC).toHaveFocus();
+  });
+
+  it('Enter key activates a non-active tab', async () => {
+    await renderTemplate(BASIC, { imports: ALL });
+    const tabB = screen.getByRole('tab', { name: 'Tab B' });
+    tabB.focus();
+    await userEvent.keyboard('{Enter}');
+    expect(tabB).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByText('Panel B')).toBeInTheDocument();
+  });
+
+  it('Space key activates a non-active tab', async () => {
+    await renderTemplate(BASIC, { imports: ALL });
+    const tabB = screen.getByRole('tab', { name: 'Tab B' });
+    tabB.focus();
+    await userEvent.keyboard(' ');
+    expect(tabB).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByText('Panel B')).toBeInTheDocument();
+  });
+
+  it('keyboard navigation skips disabled tabs', async () => {
+    await renderTemplate(
+      `<mui-tabs activeTab="a">
+        <mui-tab-list>
+          <mui-tab value="a">A</mui-tab>
+          <mui-tab value="b" disabled>B</mui-tab>
+          <mui-tab value="c">C</mui-tab>
+        </mui-tab-list>
+        <mui-tab-panel value="a">Panel A</mui-tab-panel>
+        <mui-tab-panel value="b">Panel B</mui-tab-panel>
+        <mui-tab-panel value="c">Panel C</mui-tab-panel>
+      </mui-tabs>`,
+      { imports: ALL },
+    );
+    const tabA = screen.getByRole('tab', { name: 'A' });
+    const tabC = screen.getByRole('tab', { name: 'C' });
+    tabA.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(tabC).toHaveFocus();
+  });
+
+  it('vertical orientation: ArrowDown moves focus to next tab', async () => {
+    await renderTemplate(
+      `<mui-tabs activeTab="a" orientation="vertical">
+        <mui-tab-list>
+          <mui-tab value="a">A</mui-tab>
+          <mui-tab value="b">B</mui-tab>
+        </mui-tab-list>
+        <mui-tab-panel value="a">Panel A</mui-tab-panel>
+        <mui-tab-panel value="b">Panel B</mui-tab-panel>
+      </mui-tabs>`,
+      { imports: ALL },
+    );
+    const tabA = screen.getByRole('tab', { name: 'A' });
+    const tabB = screen.getByRole('tab', { name: 'B' });
+    tabA.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(tabB).toHaveFocus();
+  });
+
+  it('vertical orientation: ArrowUp moves focus to previous tab', async () => {
+    await renderTemplate(
+      `<mui-tabs activeTab="b" orientation="vertical">
+        <mui-tab-list>
+          <mui-tab value="a">A</mui-tab>
+          <mui-tab value="b">B</mui-tab>
+        </mui-tab-list>
+        <mui-tab-panel value="a">Panel A</mui-tab-panel>
+        <mui-tab-panel value="b">Panel B</mui-tab-panel>
+      </mui-tabs>`,
+      { imports: ALL },
+    );
+    const tabA = screen.getByRole('tab', { name: 'A' });
+    const tabB = screen.getByRole('tab', { name: 'B' });
+    tabB.focus();
+    await userEvent.keyboard('{ArrowUp}');
+    expect(tabA).toHaveFocus();
+  });
 });

@@ -39,17 +39,15 @@
 - **Why it matters:** `TouchEvent.touches` can be empty (e.g. synthetic events, certain assistive tech, or `touchstart` fired with all touches already ended). `touch.clientX` then throws `TypeError: Cannot read properties of undefined`, breaking the trigger.
 - **Fix:** `const touch = event.touches[0]; if (!touch) return;` before dereferencing.
 
-#### B-3 — `input-otp` ignores `[value]` changes after init
-- **File:** [projects/ui/src/lib/forms/src/input-otp/input-otp.ts:41-56](projects/ui/src/lib/forms/src/input-otp/input-otp.ts#L41-L56)
-- **Evidence:** `value = input('')` is documented as "Initial / externally controlled value … Use [(value)]", but it is read **only** in `ngOnInit` to seed `_slotsData`. There is no `effect`/`computed` reacting to it.
-- **Why it matters:** A consumer binding `[value]="otp()"` and later changing `otp` will see the UI **not update** — contradicting the "externally controlled" doc. Only `writeValue` (CVA path) updates after init. This is a silent state-desync bug for template-driven/non-forms usage.
-- **Fix:** React to the input with an `effect(() => this._slotsData.set(seed(this.value(), this.length())))`, or document clearly that `value` is init-only and external control requires `formControl`/`ngModel`.
+#### B-3 — `input-otp` ignores `[value]` changes after init — ✅ RESOLVED (2026-06-15)
 
-#### B-4 — Calendar `value`/`length`-style desync mirrors B-3 for `length` changes
-- **File:** [projects/ui/src/lib/forms/src/input-otp/input-otp.ts:52-56,159-162](projects/ui/src/lib/forms/src/input-otp/input-otp.ts#L52-L56)
-- **Evidence:** `_slotsData` is sized from `this.length()` in `ngOnInit`/`writeValue`, but `indices`/`slots` are recomputed from `length()` reactively while `_slotsData` is not. If `length` changes at runtime, `indices` grows but `_slotsData` may be shorter, so `slots()[idx]` is `undefined` for new slots and `emit()` joins a sparse/short array.
-- **Why it matters:** Runtime `length` change yields a UI with more inputs than backing data → `undefined` reads and incorrect emitted value.
-- **Fix:** Derive slot data length from `length()` reactively (resize `_slotsData` in an `effect` keyed on `length()`), or document `length` as fixed-at-init.
+- **Resolution:** Added two `effect`s in the constructor: (1) reacts to `value()` signal changes and re-seeds `_slotsData` (non-CVA path only); (2) reacts to `length()` changes in CVA mode to resize slots while preserving existing content. A `_cvaActive` flag gates which effect applies.
+- **File:** [projects/ui/src/lib/forms/src/input-otp/input-otp.ts](projects/ui/src/lib/forms/src/input-otp/input-otp.ts)
+
+#### B-4 — Calendar `value`/`length`-style desync mirrors B-3 for `length` changes — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Resolved together with B-3. The constructor's second effect resizes `_slotsData` when `length()` changes (in CVA mode), so the slot count always matches `indices`.
+- **File:** [projects/ui/src/lib/forms/src/input-otp/input-otp.ts](projects/ui/src/lib/forms/src/input-otp/input-otp.ts)
 
 ### LOW
 
@@ -67,17 +65,15 @@
 - **Why it matters:** The library is zoneless; `NgZone` is `NoopNgZone` and `run()` does not schedule CD. Today it happens to work because the wrapped code writes **signals** (which drive CD). But anyone who later puts non-signal state inside `run()` expecting a refresh will get a silent no-update bug.
 - **Fix:** Remove the `run`/`runOutsideAngular` wrappers and rely exclusively on signal writes (also a perf win, P-2/P-5).
 
-#### B-7 — Overlays don't reposition on scroll/resize; tooltip text frozen at create
-- **File:** [projects/ui/src/lib/data-display/src/tooltip/tooltip.ts:66-91](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts#L66-L91)
-- **Evidence:** `position()` runs once on `show()`; `textContent` is set once in `create()` and never refreshed; no `scroll`/`resize` listener; no viewport flip/clamp.
-- **Why it matters:** While a tooltip is open, scrolling leaves it at a stale coordinate; if `muiTooltip` input changes while visible the text is stale; near a viewport edge it can render partially off-screen (also a11y, report 07).
-- **Fix:** Reposition on `scroll`/`resize` while visible, refresh `textContent` from `muiTooltip()` on show, and clamp/flip within the viewport.
+#### B-7 — Overlays don't reposition on scroll/resize; tooltip text frozen at create — ✅ RESOLVED (2026-06-15)
 
-#### B-8 — Carousel item count never decrements; `active` not clamped on shrink
-- **File:** [projects/ui/src/lib/data-display/src/carousel/carousel.ts:50-54,84-87](projects/ui/src/lib/data-display/src/carousel/carousel.ts#L50-L54)
-- **Evidence:** `registerItem()` only ever increments `_count`; there is no unregister path, and `active` (a `model`) is clamped only inside `goTo`, not when `_count` would shrink.
-- **Why it matters:** In a dynamic `@for` of carousel items, removing items leaves `_count` too high and `active` can point past the last item → blank slide / transform past the end.
-- **Fix:** Have `CarouselItem` unregister in `ngOnDestroy` (decrement `_count`), and clamp `active` whenever `_count` changes (`effect`).
+- **Resolution:** Tooltip now adds `scroll`/`resize` listeners (captured/passive) on `show()` and removes them on `hide()`; `textContent` is refreshed from `muiTooltip()` on re-show; `position()` clamps `top`/`left` within the viewport (4px margins).
+- **File:** [projects/ui/src/lib/data-display/src/tooltip/tooltip.ts](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts)
+
+#### B-8 — Carousel item count never decrements; `active` not clamped on shrink — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Added `unregisterItem()` to `CarouselContext` interface; `CarouselItem.ngOnDestroy` calls it; `Carousel` constructor adds an `effect` that clamps `active` to `_count - 1` whenever the count shrinks.
+- **File:** [projects/ui/src/lib/data-display/src/carousel/carousel.ts](projects/ui/src/lib/data-display/src/carousel/carousel.ts), [carousel-item.ts](projects/ui/src/lib/data-display/src/carousel/carousel-item.ts)
 
 ---
 

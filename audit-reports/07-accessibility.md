@@ -33,25 +33,22 @@
 - **Why it matters:** Dynamically changing `aria-live` on a node that already exists is unreliable across screen readers (some cache the politeness at insertion). Switching polite↔assertive on the same region can drop announcements. `requestAnimationFrame` also never fires in non-browser/test contexts, so the message is never set there.
 - **Fix:** Create **two persistent regions** (one `aria-live="polite"`, one `aria-live="assertive"`), insert both once, and write to the appropriate one. (Note: this service is currently unused — see `09-dead-code.md` D-2 — so decide whether to wire it up or delete it before investing.)
 
-#### A-3 — Overlays render without viewport flip/clamp (content can be cut off)
-- **File:** [projects/ui/src/lib/data-display/src/tooltip/tooltip.ts:111-137](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts#L111-L137) (representative; same gap across the overlays per DD-1)
-- **Evidence:** Placement math computes `top`/`left` from the anchor with a fixed `gap`, but never clamps to `innerWidth`/`innerHeight` or flips when there's no room.
-- **Why it matters:** A tooltip/menu near a viewport edge (very common on mobile) can render partially or fully off-screen, making its content unreadable/unreachable — a perceivability failure.
-- **Fix:** Add viewport clamping and edge-flip to the shared positioning util proposed in DD-1; tooltips/menus reuse it.
+#### A-3 — Overlays render without viewport flip/clamp (content can be cut off) — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Tooltip `position()` now clamps `top` and `left` within viewport bounds (`Math.max(4, Math.min(top, vh - th - 4))`) so content is never cut off at edges. Full shared positioning util (DD-1) remains a future enhancement.
+- **File:** [projects/ui/src/lib/data-display/src/tooltip/tooltip.ts](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts)
 
 ### LOW
 
-#### A-4 — Tooltip not dismissable without moving focus/pointer; aria on host only
-- **File:** [projects/ui/src/lib/data-display/src/tooltip/tooltip.ts:50-64](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts#L50-L64)
-- **Evidence:** Shown on `mouseenter`/`focus`; dismissed on `mouseleave`/`blur`/`keydown.escape`. Escape only works while the host is focused.
-- **Why it matters:** WCAG 1.4.13 (Content on Hover or Focus) requires hoverable + dismissible tooltips. There's no way to dismiss via Escape for a pointer user who hasn't focused the trigger, and the tooltip content isn't itself hoverable (it's appended to `body`).
-- **Fix:** Allow Escape at the document level while a tooltip is visible, and keep the tooltip visible while the pointer is over the tooltip content (hoverable).
+#### A-4 — Tooltip not dismissable without moving focus/pointer; aria on host only — ✅ RESOLVED (2026-06-15)
 
-#### A-5 — Calendar roving focus depends on a post-`setTimeout` DOM query
-- **File:** [projects/ui/src/lib/forms/src/calendar/calendar.ts:248-252](projects/ui/src/lib/forms/src/calendar/calendar.ts#L248-L252)
-- **Evidence:** `setTimeout(() => el.querySelector('button[tabindex="0"]')?.focus())`
-- **Why it matters:** If the active button isn't rendered yet or the selector matches nothing, focus is silently lost (optional chaining swallows it) — keyboard users can get stranded after a month change.
-- **Fix:** Use Angular's `afterNextRender`/`viewChild` to focus the specific day deterministically rather than a global selector + `setTimeout`.
+- **Resolution:** Added a document-level `keydown` listener for `Escape` while the tooltip is visible; listener is added on `show()` and removed on `hide()`. Pointer users can now dismiss with Escape regardless of focus position.
+- **File:** [projects/ui/src/lib/data-display/src/tooltip/tooltip.ts](projects/ui/src/lib/data-display/src/tooltip/tooltip.ts)
+
+#### A-5 — Calendar roving focus depends on a post-`setTimeout` DOM query — ✅ RESOLVED (2026-06-15)
+
+- **Resolution:** Replaced `setTimeout(() => el?.focus())` with `runInInjectionContext(this.injector, () => afterNextRender(() => el?.focus()))`. Focus is now deterministic (fires after Angular's next render cycle) and injection-context-safe.
+- **File:** [projects/ui/src/lib/forms/src/calendar/calendar.ts](projects/ui/src/lib/forms/src/calendar/calendar.ts)
 
 ### INFO (verified strong — no action)
 

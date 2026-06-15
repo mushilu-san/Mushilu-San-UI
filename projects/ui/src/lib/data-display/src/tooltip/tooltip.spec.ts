@@ -5,7 +5,7 @@ import { Tooltip } from './tooltip';
 
 afterEach(() => {
   // Ensure any leaked tooltip elements are cleaned up between tests.
-  document.querySelectorAll('.mui-tooltip').forEach((el) => el.remove());
+  document.querySelectorAll('.mui-tooltip-overlay').forEach((el) => el.remove());
 });
 
 describe('Tooltip', () => {
@@ -84,7 +84,7 @@ describe('Tooltip', () => {
       imports: [Tooltip],
     });
     fireEvent.mouseEnter(screen.getByRole('button', { name: 'Save' }));
-    expect(document.querySelector('.mui-tooltip')).toHaveAttribute('role', 'tooltip');
+    expect(document.querySelector('.mui-tooltip-overlay')).toHaveAttribute('role', 'tooltip');
   });
 
   it('does not show when already visible (idempotent show)', async () => {
