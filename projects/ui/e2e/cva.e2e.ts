@@ -5,12 +5,12 @@ import { gotoStory } from './helpers/story';
 // FormControl writeValue/registerOnTouched/setDisabledState are covered by unit tests.
 test.describe('CVA round-trip — InputOtp value binding (E-3)', () => {
   test('value starts empty', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
+    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
     await expect(frame.locator('#ctrl-value')).toContainText('""');
   });
 
   test('typing into slots updates the bound value', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
+    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
     const firstSlot = frame.locator('.otp-slot').first();
     await firstSlot.click();
     await page.keyboard.type('1234');
@@ -18,7 +18,7 @@ test.describe('CVA round-trip — InputOtp value binding (E-3)', () => {
   });
 
   test('partial entry reflects in the bound value', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
+    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
     const firstSlot = frame.locator('.otp-slot').first();
     await firstSlot.click();
     await page.keyboard.type('42');
@@ -26,13 +26,13 @@ test.describe('CVA round-trip — InputOtp value binding (E-3)', () => {
   });
 
   test('otp slots are not aria-disabled by default', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
+    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
     const firstSlot = frame.locator('.otp-slot').first();
     await expect(firstSlot).not.toHaveAttribute('aria-disabled');
   });
 
   test('Backspace clears the last entered digit', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
+    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
     const firstSlot = frame.locator('.otp-slot').first();
     await firstSlot.click();
     await page.keyboard.type('12');
