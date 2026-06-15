@@ -59,20 +59,29 @@ export class Tooltip implements OnDestroy {
   @HostListener('blur') onBlur(): void {
     this.hide();
   }
-  @HostListener('keydown.escape') onEscape(): void {
-    this.hide();
-  }
+
+  private readonly _reposition = (): void => this.position();
+  private readonly _docEscape = (e: KeyboardEvent): void => {
+    if (e.key === 'Escape') this.hide();
+  };
 
   show(): void {
     if (!this.el) this.create();
+    else this.el.textContent = this.muiTooltip();
     this.position();
     this.visible.set(true);
+    window.addEventListener('scroll', this._reposition, { capture: true, passive: true });
+    window.addEventListener('resize', this._reposition, { passive: true });
+    document.addEventListener('keydown', this._docEscape);
   }
 
   hide(): void {
     this.visible.set(false);
     this.el?.remove();
     this.el = null;
+    window.removeEventListener('scroll', this._reposition, { capture: true });
+    window.removeEventListener('resize', this._reposition);
+    document.removeEventListener('keydown', this._docEscape);
   }
 
   ngOnDestroy(): void {
@@ -96,7 +105,6 @@ export class Tooltip implements OnDestroy {
 
     const rect = this.host.nativeElement.getBoundingClientRect();
 
-    // Measure at off-screen position before setting final coords.
     Object.assign(el.style, {
       position: 'fixed',
       visibility: 'hidden',
@@ -107,6 +115,8 @@ export class Tooltip implements OnDestroy {
     const tw = el.offsetWidth || 0;
     const th = el.offsetHeight || 0;
     const gap = 8;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
     let top: number, left: number;
 
@@ -129,6 +139,10 @@ export class Tooltip implements OnDestroy {
         left = rect.left + (rect.width - tw) / 2;
         break;
     }
+
+    // Clamp within viewport so content is never cut off at edges.
+    top = Math.max(4, Math.min(top, vh - th - 4));
+    left = Math.max(4, Math.min(left, vw - tw - 4));
 
     Object.assign(el.style, {
       visibility: '',

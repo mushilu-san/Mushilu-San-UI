@@ -4,6 +4,7 @@ export interface CarouselContext {
   readonly active: Signal<number>;
   readonly count: Signal<number>;
   registerItem(): number;
+  unregisterItem(): void;
   next(): void;
   prev(): void;
   goTo(idx: number): void;

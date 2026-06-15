@@ -38,8 +38,17 @@ The codebase is **high quality**: full `strict` + `strictTemplates`, uniform `On
 | 2026-06-15 | T-1, T-2, T-3, B-3, B-4, DEP-1 | Confirmed already resolved in codebase (ToastService/ResizablePanelGroup/ContextMenuTrigger specs complete; InputOtp effects already in place; chart.js already optional peerDep) |
 | 2026-06-15 | T-4 | Add CarouselContent swipe-gesture tests (threshold left/right/below) to `carousel.spec.ts` — 3 new cases |
 | 2026-06-15 | T-6 | New `toast-container.spec.ts`: 10 tests covering empty state, polite/assertive live regions, dismiss wiring, aria-label, placement |
+| 2026-06-15 | B-7, A-3, A-4 | Tooltip: add scroll/resize reposition listeners while visible; refresh text on show; viewport clamp (top/left clamped to viewport); document-level Escape listener (fixes A-4 — Escape now works for pointer-only users); remove now-unnecessary `@HostListener('keydown.escape')` |
+| 2026-06-15 | B-8 | Carousel: add `unregisterItem()` to `CarouselContext` interface; `CarouselItem.ngOnDestroy` calls it; `Carousel` constructor adds `effect` to clamp `active` when count shrinks |
+| 2026-06-15 | TS-1 | InputOtp `onInput`: use `event.currentTarget` (the element the listener is bound to) instead of `event.target as HTMLInputElement` (unsafe on bubbled events) |
+| 2026-06-15 | TS-3 | ResizablePanelGroup `_onPointerMove`: capture `const state = this._dragState` once after the null guard; removes `!` re-assertion across an async boundary |
+| 2026-06-15 | A-5 | Calendar focus-after-month-change: replace `setTimeout(() => el.focus())` with `afterNextRender(() => el.focus())` — deterministic, test-friendly, no silent swallow via optional chaining |
+| 2026-06-15 | T-7 | Calendar spec: 5 new edge-case tests — Feb leap/non-leap day count, ArrowDown cross-month heading update, minDate disables earlier days, day selection normalizes to midnight |
+| 2026-06-15 | E-5 | New `toast.e2e.ts`: 6 tests — Info/Warning shows toast in correct live region, dismiss button works, multiple toasts stack, sticky danger persists |
+| 2026-06-15 | E-6 | New `tooltip.e2e.ts`: 7 tests — hover/focus show, mouseleave/blur hide, Escape (document-level), aria-describedby wired; also added `moduleMetadata` decorator to tooltip.stories.ts (same bootstrapping fix as batch 1) |
+| 2026-06-15 | E-7 | New `calendar.e2e.ts`: 7 tests — grid renders, ArrowRight/Down move focus, Prev/Next month buttons, day selection (aria-selected), min/max disabled days, PageDown month nav |
 
-**Resolved so far: 26 findings** (B-1, B-2, B-3, B-4, B-5, B-6, A-1, A-2, D-1, D-2, D-3, D-4, D-5, DEP-1, E-1, E-2, E-4, P-2, P-3, P-5, P-6, T-1, T-2, T-3, T-4, T-6). Remaining: ~31. All changes verified by `./dev.sh test` (785 passing) + `./dev.sh build` (clean).
+**Resolved so far: 37 findings** (B-1–B-8, A-1–A-5, D-1–D-5, DEP-1, E-1, E-2, E-4–E-7, P-2, P-3, P-5, P-6, T-1–T-4, T-6, T-7, TS-1, TS-3). Remaining: ~20. All changes verified by `./dev.sh test` (790 unit passing) + `npm run e2e` (42 E2E passing).
 
 ## Prioritized top-10 actions
 

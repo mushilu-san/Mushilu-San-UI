@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Tooltip } from './tooltip';
 
 const meta: Meta = {
   title: 'Data Display/Tooltip',
   tags: ['autodocs'],
+  decorators: [moduleMetadata({ imports: [Tooltip] })],
 };
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    imports: [Tooltip],
     template: `
       <div style="padding: 4rem; display: flex; justify-content: center;">
         <button
@@ -27,7 +27,6 @@ export const Default: Story = {
 
 export const Placements: Story = {
   render: () => ({
-    imports: [Tooltip],
     template: `
       <div style="padding: 5rem; display: grid; grid-template-columns: repeat(3, auto); gap: 1.5rem; place-items: center; max-width: 400px; margin: 0 auto;">
         <div></div>
@@ -46,7 +45,6 @@ export const Placements: Story = {
 
 export const OnIcon: Story = {
   render: () => ({
-    imports: [Tooltip],
     template: `
       <div style="padding: 4rem; display: flex; justify-content: center; gap: 1rem; align-items: center;">
         <span style="font-size: var(--mui-font-size-sm); color: var(--mui-color-text);">Required field</span>
@@ -65,7 +63,6 @@ export const OnIcon: Story = {
 export const Accessibility: Story = {
   parameters: { a11y: { disable: false } },
   render: () => ({
-    imports: [Tooltip],
     template: `
       <div style="padding: 4rem; display: flex; gap: 1rem; justify-content: center;">
         <!-- aria-describedby is set automatically when tooltip is visible -->
@@ -90,7 +87,6 @@ export const Accessibility: Story = {
 export const MobilePreview: Story = {
   parameters: { viewport: { defaultViewport: 'mobile1' } },
   render: () => ({
-    imports: [Tooltip],
     template: `
       <div style="padding: 3rem 1rem; display: flex; justify-content: center;">
         <button

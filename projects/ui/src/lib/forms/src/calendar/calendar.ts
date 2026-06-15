@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   computed,
   forwardRef,
@@ -243,7 +244,7 @@ export class Calendar implements ControlValueAccessor {
     }
     this.focusedDate.set(next);
 
-    setTimeout(() => {
+    afterNextRender(() => {
       (this.el.nativeElement as HTMLElement)
         .querySelector<HTMLElement>('button[tabindex="0"]')
         ?.focus();
