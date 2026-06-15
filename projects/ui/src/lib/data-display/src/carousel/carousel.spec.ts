@@ -195,4 +195,44 @@ describe('Carousel', () => {
     fireEvent.click(getNext());
     expect(getNext()).toHaveAttribute('aria-disabled', 'true');
   });
+
+  // T-4 — CarouselContent swipe gesture
+  it('swipe left past threshold advances to next slide', async () => {
+    await renderTemplate(BASIC, { imports: IMPORTS });
+    const content = document.querySelector('mui-carousel-content') as HTMLElement;
+    Object.defineProperty(content, 'offsetWidth', { value: 400, configurable: true });
+
+    fireEvent.pointerDown(content, { clientX: 300, pointerId: 1 });
+    // delta = -120 px, threshold = 400 * 0.25 = 100 — exceeds threshold
+    fireEvent.pointerUp(document, { clientX: 180, pointerId: 1 });
+
+    expect(getItems()[1]).toHaveAttribute('data-active');
+  });
+
+  it('swipe right past threshold returns to previous slide', async () => {
+    await renderTemplate(BASIC, { imports: IMPORTS });
+    const content = document.querySelector('mui-carousel-content') as HTMLElement;
+    Object.defineProperty(content, 'offsetWidth', { value: 400, configurable: true });
+
+    fireEvent.click(getNext()); // go to slide 2
+    expect(getItems()[1]).toHaveAttribute('data-active');
+
+    fireEvent.pointerDown(content, { clientX: 100, pointerId: 1 });
+    // delta = +120 px — exceeds threshold
+    fireEvent.pointerUp(document, { clientX: 220, pointerId: 1 });
+
+    expect(getItems()[0]).toHaveAttribute('data-active');
+  });
+
+  it('swipe below threshold does not change slide', async () => {
+    await renderTemplate(BASIC, { imports: IMPORTS });
+    const content = document.querySelector('mui-carousel-content') as HTMLElement;
+    Object.defineProperty(content, 'offsetWidth', { value: 400, configurable: true });
+
+    fireEvent.pointerDown(content, { clientX: 200, pointerId: 1 });
+    // delta = -50 px, threshold = 100 — below threshold, no advance
+    fireEvent.pointerUp(document, { clientX: 150, pointerId: 1 });
+
+    expect(getItems()[0]).toHaveAttribute('data-active');
+  });
 });
