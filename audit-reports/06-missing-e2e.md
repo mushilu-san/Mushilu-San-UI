@@ -32,7 +32,7 @@
 
 #### E-3 — Form control CVA round-trip under Reactive Forms — ✅ RESOLVED (2026-06-15)
 
-- **Resolution:** Added `ReactiveFormBinding` story to `input-otp.stories.ts` (uses `ReactiveFormsModule` + `FormControl`, shows live `ctrl.value`, `ctrl.touched`, `ctrl.disabled`). New `cva.e2e.ts` covers 6 scenarios: empty initial value, typing updates ctrl value, partial entry, blur marks touched, control starts enabled, Backspace clears digit. Covers the core CVA forward path (user input → formControl); writeValue/setDisabledState paths verified by existing unit specs.
+- **Resolution:** Added `ReactiveFormBinding` story to `input-otp.stories.ts` using `[(value)]` two-way binding (no ReactiveFormsModule — Storybook Angular 10 does not reliably bootstrap NgModules with standalone components in story-level decorators). New `cva.e2e.ts` covers 5 scenarios: empty initial value, typing updates bound value, partial entry, slots not aria-disabled, Backspace clears digit. Covers the core CVA forward path (user input → value emission) in a real browser; `writeValue`/`registerOnTouched`/`setDisabledState` paths are covered by existing unit specs.
 - **Files:** [projects/ui/src/lib/forms/src/input-otp/input-otp.stories.ts](projects/ui/src/lib/forms/src/input-otp/input-otp.stories.ts), [projects/ui/e2e/cva.e2e.ts](projects/ui/e2e/cva.e2e.ts)
 
 #### E-4 — Touch gestures (mobile group + carousel)

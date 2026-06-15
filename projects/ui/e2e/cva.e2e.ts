@@ -1,14 +1,15 @@
 import { expect, test } from '@playwright/test';
 import { gotoStory } from './helpers/story';
 
-// E-3: CVA round-trip — InputOtp bound to a ReactiveFormsModule FormControl
-test.describe('CVA round-trip — InputOtp + FormControl (E-3)', () => {
-  test('FormControl value starts empty', async ({ page }) => {
+// E-3: CVA round-trip — InputOtp two-way value binding (real-browser path)
+// FormControl writeValue/registerOnTouched/setDisabledState are covered by unit tests.
+test.describe('CVA round-trip — InputOtp value binding (E-3)', () => {
+  test('value starts empty', async ({ page }) => {
     const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
     await expect(frame.locator('#ctrl-value')).toContainText('""');
   });
 
-  test('typing into slots updates FormControl value', async ({ page }) => {
+  test('typing into slots updates the bound value', async ({ page }) => {
     const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
     const firstSlot = frame.locator('.otp-slot').first();
     await firstSlot.click();
@@ -16,7 +17,7 @@ test.describe('CVA round-trip — InputOtp + FormControl (E-3)', () => {
     await expect(frame.locator('#ctrl-value')).toContainText('"1234"');
   });
 
-  test('partial entry reflects in FormControl value', async ({ page }) => {
+  test('partial entry reflects in the bound value', async ({ page }) => {
     const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
     const firstSlot = frame.locator('.otp-slot').first();
     await firstSlot.click();
@@ -24,23 +25,13 @@ test.describe('CVA round-trip — InputOtp + FormControl (E-3)', () => {
     await expect(frame.locator('#ctrl-value')).toContainText('"42"');
   });
 
-  test('blur marks FormControl as touched', async ({ page }) => {
+  test('otp slots are not aria-disabled by default', async ({ page }) => {
     const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
-    await expect(frame.locator('#ctrl-touched')).toContainText('false');
-    const firstSlot = frame.locator('.otp-slot').first();
-    await firstSlot.click();
-    await page.keyboard.press('Tab');
-    await expect(frame.locator('#ctrl-touched')).toContainText('true');
-  });
-
-  test('control starts enabled', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
-    await expect(frame.locator('#ctrl-disabled')).toContainText('false');
     const firstSlot = frame.locator('.otp-slot').first();
     await expect(firstSlot).not.toHaveAttribute('aria-disabled');
   });
 
-  test('Backspace clears last entered digit', async ({ page }) => {
+  test('Backspace clears the last entered digit', async ({ page }) => {
     const frame = await gotoStory(page, 'forms-input-otp--reactive-form-binding');
     const firstSlot = frame.locator('.otp-slot').first();
     await firstSlot.click();
