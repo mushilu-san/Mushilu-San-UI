@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: ./scripts/ci-verify.sh [--skip-install]
-# Mirrors .github/workflows/ci.yml exactly: clean install -> lint -> format check -> test -> build -> size budget -> storybook build.
+# Mirrors .github/workflows/ci.yml exactly: clean install -> lint -> format check -> test -> build -> size budget -> storybook build -> e2e.
 # Run before pushing to catch CI failures locally. Requires the Node version from .nvmrc.
 
 set -euo pipefail
@@ -35,5 +35,11 @@ npm run size
 
 echo "==> Build Storybook"
 npm run storybook:build
+
+echo "==> Install Playwright browsers (chromium)"
+npx playwright install chromium --with-deps
+
+echo "==> E2E tests"
+npm run e2e
 
 echo "✅ All CI steps passed locally."
