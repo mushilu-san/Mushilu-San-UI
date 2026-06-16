@@ -1006,7 +1006,7 @@
     "file": "—",
     "title": "Sheet missing focus/Escape/return-focus E2E coverage",
     "description": "No Playwright spec for Sheet. Required: focus trap on open, Escape closes, focus returns to trigger. Fix: add projects/ui/e2e/sheet.e2e.ts.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
