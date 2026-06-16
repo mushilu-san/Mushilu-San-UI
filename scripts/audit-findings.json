@@ -1026,7 +1026,7 @@
     "file": "—",
     "title": "BottomSheet missing E2E coverage",
     "description": "No Playwright spec for BottomSheet. Required: focus trap on open, Escape closes, focus returns to trigger. Fix: add projects/ui/e2e/bottom-sheet.e2e.ts.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
