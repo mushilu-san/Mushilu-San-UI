@@ -1046,7 +1046,7 @@
     "file": "—",
     "title": "Slider missing pointer-drag E2E",
     "description": "No Playwright spec for Slider handle dragging. Required: page.mouse.down on handle, move to new position, assert value updated. Fix: add projects/ui/e2e/slider.e2e.ts.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
