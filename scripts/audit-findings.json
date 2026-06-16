@@ -1056,7 +1056,7 @@
     "file": "—",
     "title": "FAB missing E2E coverage",
     "description": "No Playwright spec for FAB. Required: click triggers action, loading state disables interaction, disabled state blocks click. Fix: add projects/ui/e2e/fab.e2e.ts.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1097,6 +1097,16 @@
     "title": "@babel/core Arbitrary File Read via sourceMappingURL comment",
     "description": "npm audit reports a low-severity vulnerability in @babel/core (Arbitrary File Read via sourceMappingURL comment) pulled in through @angular/build. Dev-only, no production surface. Fix: upgrade @angular/build to pick up a patched babel version, or accept the risk as dev-only.",
     "resolved": true,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-A-fab001",
+    "severity": "high",
+    "category": "accessibility",
+    "file": "—",
+    "title": "FAB: disabled=true sets tabindex=-1, removing keyboard access",
+    "description": "mui-fab button gets tabindex=-1 when disabled input is true, violating WCAG 2.1 SC 2.1.1: keyboard users cannot reach the button. Fix: keep tabindex=0 and use aria-disabled=true only.",
+    "resolved": false,
     "resolvedNote": ""
   }
 ]
