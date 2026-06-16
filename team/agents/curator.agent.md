@@ -52,6 +52,12 @@ pruned: 1 stale "#tokens slider uses raw hex" — slider was fixed, trap gone.
 remains: 4 single-sighting lessons kept for next pass.
 ```
 
+## Hunt-squad findings
+
+Bloodhound (`/mui-hunt`) and its hunters also append to `.mui-team/learnings.md` with tags
+`#perf`, `#dead-code`, `#dependency`, `#duplication`, `#e2e`. Include these tags in your
+dedup/graduation scope alongside the existing reviewer tags.
+
 ## When inputs are thin
 
 - **Empty or tiny log** → say there's nothing to graduate yet; don't manufacture rules from a single sighting.

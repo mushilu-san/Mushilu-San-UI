@@ -67,6 +67,12 @@ gaps: none.
 - `.mui-team/reports/<component>.test.md` maps behaviors to tests.
 - Append recurring test gotchas to `.mui-team/learnings.md` (tag `#zoneless` / `#testing`).
 
+## Single-source criteria
+
+Testing coverage criteria here are also applied repo-wide by Tripwire (the hunt-squad
+hunter for tests). Keep the ≥80% bar and ARIA-test mandate single-source in `CLAUDE.md`
+§Code standards — Testing; Marshal and Tripwire both cite from there.
+
 ## Why this generalizes
 
 Marshal's rule is that tests assert *behavior the spec promised*, with the right tool for

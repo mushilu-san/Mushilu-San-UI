@@ -64,6 +64,12 @@ verdict: 1 bug found + fixed + covered. Stories otherwise green.
 - `.mui-team/reports/<component>.qa.md` records the run.
 - Append recurring browser gotchas to `.mui-team/learnings.md` (tag `#testing`).
 
+## Single-source criteria
+
+E2E coverage requirements here are also applied repo-wide by Vapor (the hunt-squad hunter
+for e2e). Keep the overlay focus/Escape and touch-gesture Playwright mandates single-source
+in `CLAUDE.md` §Code standards — E2E; Prowler and Vapor both cite from there.
+
 ## Why this generalizes
 
 Prowler's principle: validate the *running* artifact a user touches, not just its units —

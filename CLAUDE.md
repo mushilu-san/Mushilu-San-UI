@@ -447,3 +447,25 @@ Severity values: `critical` | `high` | `medium` | `low` | `info`
 Category values: `security` | `performance` | `decomposition` | `bugs` | `tests` | `e2e` | `accessibility` | `types` | `dead-code` | `dependency`
 
 All finding data lives in `scripts/audit-findings.json`. The script is idempotent — safe to run multiple times without creating duplicates.
+
+### Automated hunt sweep IDs
+
+The Bloodhound hunt squad (`/mui-hunt`) files issues through the **same script** using
+`H-<cat-letter>-<hash6>` IDs. These are stable fingerprints computed as:
+
+```text
+H-<cat-letter>-<first-6-hex-of-sha1("<category>:<relative-file>:<EnclosingClassName>")>
+```
+
+Cat-letters: `B`=bugs, `P`=performance, `S`=security, `A`=accessibility, `T`=types,
+`D`=dead-code, `C`=decomposition, `U`=tests, `E`=e2e, `L`=dependency.
+
+`H-` hunt IDs never collide with manual audit IDs (`B-`, `P-`, `S-`, etc.). The script's
+title-search idempotency (`[AUDIT] H-...:` prefix) ensures re-running the sweep never
+double-files. See `.mui-team/reports/bug-hunt.md` for the consolidated report.
+
+## Bug-hunt sweep
+
+Run `/mui-hunt` to fan out all ten read-only hunters in parallel across the full repo.
+Pass `--file-issues` to open GitHub issues for every new finding. The sweep writes
+`.mui-team/reports/bug-hunt.md` as proof nothing was dropped between discovery and filing.

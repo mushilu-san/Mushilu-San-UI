@@ -31,6 +31,19 @@ bodies cite the logical key, not the raw heading.
 | `testing-patterns` | §Testing patterns                                           |
 | `backlog`          | §Component backlog — shadcn/ui parity gaps                  |
 | `publishing`       | §Publishing checklist                                       |
+| `std-zoneless`     | §Code standards — Angular / Zoneless                        |
+| `std-signals`      | §Code standards — Signals & reactivity                      |
+| `std-null`         | §Code standards — Null safety                               |
+| `std-events`       | §Code standards — Event handling                            |
+| `std-dom`          | §Code standards — DOM & browser APIs                        |
+| `std-lifecycle`    | §Code standards — Lifecycle & cleanup                       |
+| `std-guards`       | §Code standards — Logic guards                              |
+| `std-performance`  | §Code standards — Performance                               |
+| `std-security`     | §Code standards — Security                                  |
+| `std-testing`      | §Code standards — Testing                                   |
+| `std-e2e`          | §Code standards — E2E                                       |
+| `std-shared-utils` | §Code standards — Shared utilities                          |
+| `audit-tracking`   | §Audit issue tracking                                       |
 
 ## Global `~/.claude/CLAUDE.md`
 

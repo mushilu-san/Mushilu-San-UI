@@ -77,6 +77,12 @@ Surfaced to user: 1 (API shape). Auto-handled: stage ordering, the a11y re-run.
 - Only taste decisions reached the user; mechanics were auto-run.
 - `.mui-team/reports/<component>.pipeline.md` is the single status dashboard.
 
+## Cross-cutting bug sweep
+
+After a batch of components ship, trigger `/mui-hunt` (Bloodhound) as a standalone
+cross-cutting sweep — separate from this per-component pipeline. It catches regressions
+that accumulate across PRs and patterns too diffuse for a single-component review.
+
 ## Why this generalizes
 
 Conductor is the orchestrator pattern: encode the stage order and hand-off artifacts once,
