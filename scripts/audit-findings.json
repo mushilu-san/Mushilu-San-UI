@@ -1036,7 +1036,7 @@
     "file": "—",
     "title": "SwipeAction missing pointer-simulation E2E",
     "description": "No Playwright spec for SwipeAction swipe gesture. Required: page.mouse.move() drag simulation revealing the action, and drag-back to reset. Fix: add projects/ui/e2e/swipe-action.e2e.ts.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
