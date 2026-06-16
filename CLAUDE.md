@@ -151,7 +151,7 @@ These are non-negotiable — no exceptions.
 
 ---
 
-## Per-component checklist (§4 of the plan)
+## Per-component checklist
 
 1. Scaffold: `mui-` selector, `OnPush`, standalone, `.ts/.html/.css/.types.ts`
 2. Signal inputs via `input()` / `input.required()` with `booleanAttribute`/`numberAttribute` transforms
@@ -274,74 +274,6 @@ await renderTemplate('<button muiButton (clicked)="handler($event)">Btn</button>
 // Blocked-click testing (pointer-events: none elements)
 fireEvent.click(screen.getByRole('button'));   // not userEvent.click()
 ```
-
-## Component backlog — shadcn/ui parity gaps
-
-All planned components are now built. Tables below record where each landed.
-
-### Group: overlays (`@mushilu-san/ui/overlays`)
-Entry point exists and ships. All share a floating-panel primitive (Popover); the rest compose on top of it.
-
-| Component | shadcn equivalent | Status / Notes |
-|-----------|-------------------|----------------|
-| Popover | Popover | **done** — floating panel anchored to a trigger; foundation for the group |
-| Dropdown Menu | Dropdown Menu | **done** — Popover + keyboard-navigable menu list |
-| Context Menu | Context Menu | **done** — opened on right-click / long-press |
-| Hover Card | Hover Card | **done** — Popover opened on hover/focus with a delay |
-| Command | Command | **done** — searchable command palette (input + filtered list) |
-| Combobox | Combobox | **done** — Input + Dropdown with search/filter (builds on Command) |
-| Alert Dialog | Alert Dialog | **done** — lives in `@mushilu-san/ui/feedback` (blocking confirmation dialog) |
-| Sheet (side) | Sheet | **done** — lives in `@mushilu-san/ui/feedback` (side-sliding panel) |
-| Toggle Group | Toggle Group | **done** — lives in `@mushilu-san/ui/forms` (single/multi-select button group) |
-
-### Group: forms additions (`@mushilu-san/ui/forms`)
-
-| Component | shadcn equivalent | Status |
-|-----------|-------------------|--------|
-| Slider | Slider | **done** |
-| Input OTP | Input OTP | **done** |
-| Date Picker | Date Picker | **done** |
-| Calendar | Calendar | **done** |
-| Input Group | Input Group | **done** |
-| Toggle Group | Toggle Group | **done** |
-
-### Group: layout additions (`@mushilu-san/ui/layout`)
-
-| Component | shadcn equivalent | Status |
-|-----------|-------------------|--------|
-| Scroll Area | Scroll Area | **done** |
-| Resizable | Resizable | **done** |
-| Aspect Ratio | Aspect Ratio | **done** |
-| Sidebar | Sidebar | **done** |
-
-### Group: data-display additions (`@mushilu-san/ui/data-display`)
-
-| Component | shadcn equivalent | Status |
-|-----------|-------------------|--------|
-| Data Table | Data Table | **done** — `Table` with sorting (`sortChange` output) |
-| Carousel | Carousel | **done** |
-| Chart | Chart | **done** |
-| Empty | Empty | **done** |
-| Typography | Typography | **done** |
-
-### Group: navigation additions (`@mushilu-san/ui/navigation`)
-
-| Component | shadcn equivalent | Status |
-|-----------|-------------------|--------|
-| Navigation Menu | Navigation Menu | **done** |
-| Menubar | Menubar | **done** |
-
-### Not planned (out of scope)
-
-| Component | Reason |
-|-----------|--------|
-| Direction | RTL utility — not a component |
-| Item | Unstyled primitive — too generic |
-| Kbd | Simple `<kbd>` wrapper — trivial, add inline if needed |
-| Sonner | Covered by Toast + ToastService |
-| Native Select | Covered by Select |
-
----
 
 ## Publishing checklist
 

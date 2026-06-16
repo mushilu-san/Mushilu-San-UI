@@ -628,5 +628,475 @@
     "description": "npm audit --omit=dev → 0 vulnerabilities. Angular 22, TypeScript 6, ng-packagr 22, Storybook 10.4 — consistent major versions. size-limit budgets per entry (7–12 KB) configured. GitHub Actions SHA-pinned. Dependency health is strong.",
     "resolved": true,
     "resolvedNote": "Informational — verified clean, no action needed."
+  },
+  {
+    "id": "H-B-3ea4ec",
+    "severity": "high",
+    "category": "bugs",
+    "file": "—",
+    "title": "Unguarded touches[0] in SwipeAction onTouchStart and onTouchMove",
+    "description": "e.touches[0] is assigned to const t then t.clientX is accessed with no null check in both onTouchStart (line 78) and onTouchMove (line 87). If the touchlist is empty the component throws. Fix: add if (!t) return; after each const t = e.touches[0];",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-P-b5f602",
+    "severity": "high",
+    "category": "performance",
+    "file": "—",
+    "title": "Un-memoized toLocaleDateString in Calendar.formatDayLabel()",
+    "description": "formatDayLabel() calls date.toLocaleDateString(this.locale(), {...}) on every invocation, creating an Intl formatter each time. The method is called ~42 times per calendar render. The existing _fmt computed() pattern already handles this for other formatters. Fix: add a computed dayLabelFmt = computed(() => new Intl.DateTimeFormat(this.locale(), {weekday:'long',month:'long',day:'numeric',year:'numeric'})) and use it inside formatDayLabel().",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-S-f9b566",
+    "severity": "medium",
+    "category": "security",
+    "file": "—",
+    "title": "Raw document.activeElement in DropdownMenu — use DOCUMENT token",
+    "description": "dropdown-menu.ts:84 references the global document directly instead of the injected DOCUMENT token. This breaks SSR and sandboxed environments. Fix: inject DOCUMENT and replace document.activeElement with this.doc.activeElement.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-S-91139d",
+    "severity": "medium",
+    "category": "security",
+    "file": "—",
+    "title": "Raw document.addEventListener in ResizablePanelGroup — use DOCUMENT token",
+    "description": "resizable-panel-group.ts:101-157 attaches and removes pointermove/pointerup listeners on the global document directly instead of via an injected DOCUMENT token. Breaks SSR. Fix: inject DOCUMENT; use this.doc.addEventListener/removeEventListener.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-S-d03039",
+    "severity": "medium",
+    "category": "security",
+    "file": "—",
+    "title": "Raw document.addEventListener in CarouselContent — use DOCUMENT token",
+    "description": "carousel-content.ts:39-55 attaches and removes a pointerup listener on the global document directly. Breaks SSR. Fix: inject DOCUMENT; use this.doc.addEventListener/removeEventListener.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-S-e4dea9",
+    "severity": "medium",
+    "category": "security",
+    "file": "—",
+    "title": "Raw document.activeElement in TabList — use DOCUMENT token",
+    "description": "tab-list.ts:42 reads document.activeElement directly for keyboard focus tracking. Breaks SSR. Fix: inject DOCUMENT; use this.doc.activeElement.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-S-2c1475",
+    "severity": "medium",
+    "category": "security",
+    "file": "—",
+    "title": "Raw document.activeElement in Menubar — use DOCUMENT token",
+    "description": "menubar.ts:47 reads document.activeElement directly. Breaks SSR. Fix: inject DOCUMENT; use this.doc.activeElement.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-S-fda747",
+    "severity": "medium",
+    "category": "security",
+    "file": "—",
+    "title": "Raw document.body fallback in SwipeAction — use DOCUMENT token",
+    "description": "swipe-action.ts:124 falls back to document.body as a host element. Breaks SSR. Fix: inject DOCUMENT; use this.doc.body as fallback.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-S-c1e3d1",
+    "severity": "medium",
+    "category": "security",
+    "file": "—",
+    "title": "Raw document.activeElement in Command — use DOCUMENT token",
+    "description": "command.ts:73 reads document.activeElement directly for focus management. Breaks SSR. Fix: inject DOCUMENT; use this.doc.activeElement.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-S-a3a0cd",
+    "severity": "low",
+    "category": "security",
+    "file": "—",
+    "title": "Raw document.* throughout Tooltip overlay lifecycle — use DOCUMENT token",
+    "description": "tooltip.ts:77-100 uses document.addEventListener, document.createElement, and document.body.appendChild directly for overlay creation and escape-key handling. Breaks SSR. Fix: inject DOCUMENT and replace all document.* references with this.doc.*",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-A-56a77f",
+    "severity": "low",
+    "category": "accessibility",
+    "file": "—",
+    "title": "tooltip.css lacks :focus-visible rule",
+    "description": "tooltip.css has :hover-triggered display rules but no :focus-visible counterpart. Keyboard users who focus a tooltip trigger via Tab will not see the tooltip appear. Fix: add a :focus-visible selector mirroring the :hover tooltip display rule.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-A-2f3ca2",
+    "severity": "low",
+    "category": "accessibility",
+    "file": "—",
+    "title": "label.css lacks :focus-visible rule",
+    "description": "label.css has hover/cursor selectors but no :focus-visible. Verify if Label is interactive; if so, add :focus-visible styles.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-A-16f995",
+    "severity": "low",
+    "category": "accessibility",
+    "file": "—",
+    "title": "scroll-area.css lacks :focus-visible rule",
+    "description": "scroll-area.css has :hover rules but no :focus-visible. Verify keyboard focusability of the scroll area; add :focus-visible if it receives focus.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-A-849c67",
+    "severity": "low",
+    "category": "accessibility",
+    "file": "—",
+    "title": "toast-container.css lacks :focus-visible rule",
+    "description": "toast-container.css has interactive button patterns but no :focus-visible rule for dismiss buttons. Keyboard users cannot see focus on toast dismiss targets. Fix: add :focus-visible to dismiss button selectors.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-9f3e42",
+    "severity": "high",
+    "category": "types",
+    "file": "—",
+    "title": "Property name mismatch in InputOtp.setDisabledState: cvaDisabled vs _cvaDisabled",
+    "description": "input-otp.ts:187 calls this.cvaDisabled.set(isDisabled) but the actual private field is _cvaDisabled. This is a runtime error: calling .set() on undefined. Fix: use this._cvaDisabled.set(isDisabled).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-d4a7c1",
+    "severity": "high",
+    "category": "types",
+    "file": "—",
+    "title": "Non-null assertion on ViewChild trackRef in Slider",
+    "description": "slider.ts:43 declares @ViewChild trackRef!: ElementRef<HTMLDivElement>. The ! assertion bypasses the null check; if accessed before the view initialises it throws. Fix: migrate to viewChild() signal: private readonly trackRef = viewChild<ElementRef<HTMLDivElement>>('trackRef'); guard with if (!trackRef()) return; before use.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-7b2f5e",
+    "severity": "high",
+    "category": "types",
+    "file": "—",
+    "title": "Non-null assertion on value() signal in Calendar linkedSignal",
+    "description": "calendar.ts:82 uses this.value()! inside linkedSignal without a null guard. value() is typed as nullable; the assertion is invalid. Fix: capture to const v = this.value(); return v ?? null.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-3c8f1d",
+    "severity": "high",
+    "category": "types",
+    "file": "—",
+    "title": "Non-null assertion on minDate() signal in Calendar weeks computed",
+    "description": "calendar.ts:139 calls norm(this.minDate()!) without a prior null guard. Fix: const md = this.minDate(); const min = md ? norm(md) : null.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-8c4d2a",
+    "severity": "high",
+    "category": "types",
+    "file": "—",
+    "title": "Non-null assertion on ViewChild canvasRef in Chart",
+    "description": "chart.ts:44 uses @ViewChild('canvasRef') canvasRef!: ElementRef<HTMLCanvasElement>. Accessed in an effect without a null guard. Fix: migrate to viewChild() signal and guard with if (!this.canvasRef()) return;",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-6d1f7c",
+    "severity": "high",
+    "category": "types",
+    "file": "—",
+    "title": "Missing booleanAttribute transform on closeOnSelect input in ContextMenu",
+    "description": "context-menu.ts:61 declares closeOnSelect = input(true) without { transform: booleanAttribute }. String values like 'false' from HTML templates will be coerced to truthy. Fix: input(true, { transform: booleanAttribute }).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-5b3e8f",
+    "severity": "high",
+    "category": "types",
+    "file": "—",
+    "title": "Missing booleanAttribute transform on destructive input in AlertDialog",
+    "description": "alert-dialog.ts:42 declares destructive = input(false) without { transform: booleanAttribute }. String values from HTML will not be coerced correctly. Fix: input(false, { transform: booleanAttribute }).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-a9e2b5",
+    "severity": "medium",
+    "category": "types",
+    "file": "—",
+    "title": "Unsafe cast to Element before optional chaining in Combobox",
+    "description": "combobox.ts:94 writes (event.target as Element)?.closest('mui-combobox'). The cast bypasses TypeScript narrowing: if event.target is null the cast hides it. Fix: const t = event.target; if (t instanceof Element) t.closest('mui-combobox');",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-7e6a4b",
+    "severity": "medium",
+    "category": "types",
+    "file": "—",
+    "title": "Dead check testing if asReadonly method exists in MobileNav",
+    "description": "mobile-nav.ts:45 checks self.activeItem.asReadonly ? self.activeItem.asReadonly() : self.activeItem. asReadonly() is always on the Signal prototype; the ternary is dead code and misleads readers. Fix: use self.activeItem.asReadonly() directly.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-9a5f1e",
+    "severity": "medium",
+    "category": "types",
+    "file": "—",
+    "title": "Optional chaining before bracket dataset access in Menubar",
+    "description": "menubar.ts:57 uses menuEl?.dataset['menubarMenuId'] ?? null. Bracket notation on dataset works but is less readable and harder to rename-refactor. Fix: use menuEl?.dataset.menubarMenuId ?? null.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-T-c2f9d3",
+    "severity": "low",
+    "category": "types",
+    "file": "—",
+    "title": "Missing return type annotation on Toggle.isDisabled arrow field",
+    "description": "toggle.ts:52 declares protected readonly isDisabled = () => this.disabled() || this._cvaDisabled() without an explicit return type. Fix: add (): boolean => to the arrow signature.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-C-03529b",
+    "severity": "medium",
+    "category": "decomposition",
+    "file": "—",
+    "title": "CVA boilerplate duplicated across 5 form controls",
+    "description": "calendar.ts, date-picker.ts, input-otp.ts, slider.ts, and toggle.ts each independently declare _onChange, _onTouched, cvaDisabled fields and a full ControlValueAccessor implementation. This is 5× duplicated logic (15+ lines per component). Tracked as DD-3. Fix: extract a useCva<T>() composition helper and inject via class mixin or factory.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-C-f726a7",
+    "severity": "low",
+    "category": "decomposition",
+    "file": "—",
+    "title": "getBoundingClientRect positioning logic duplicated in 3 components",
+    "description": "tooltip.ts, slider.ts, and resizable-panel-group.ts each implement independent getBoundingClientRect-based positioning calculations. Tracked as DD-1. Fix: unify into a shared computePosition() utility once DD-1 is resolved.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-U-6b7fde",
+    "severity": "high",
+    "category": "tests",
+    "file": "—",
+    "title": "CarouselContent has pointer-drag logic but no spec file",
+    "description": "carousel-content.ts implements document.addEventListener('pointerup') lifecycle for drag-to-scroll but has no .spec.ts. Mobile is the library's primary target and pointer paths must be tested. Fix: add carousel-content.spec.ts covering pointerdown/pointermove/pointerup drag gesture and cleanup-on-destroy.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-U-2d807a",
+    "severity": "high",
+    "category": "tests",
+    "file": "—",
+    "title": "ResizablePanelGroup has pointer-drag logic but no spec file",
+    "description": "resizable-panel-group.ts attaches document-level pointermove/pointerup listeners for drag-resize but has no .spec.ts. Fix: add resizable-panel-group.spec.ts covering drag resize, min/max clamping, and listener cleanup in ngOnDestroy.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-U-30ca68",
+    "severity": "high",
+    "category": "tests",
+    "file": "—",
+    "title": "TabList keyboard-navigation compound widget has no isolated spec",
+    "description": "tab-list.ts implements roving-tabindex Arrow/Home/End key handling but no tab-list.spec.ts exists; the parent tabs.spec.ts does not verify TabList keyboard nav directly. Fix: add tab-list.spec.ts asserting ArrowRight/ArrowLeft/Home/End navigation between tabs.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-U-490cdd",
+    "severity": "medium",
+    "category": "tests",
+    "file": "—",
+    "title": "Command sub-components (6 files) have no individual spec files",
+    "description": "command-input.ts, command-item.ts, command-list.ts, command-group.ts, command-empty.ts, command-separator.ts all lack spec files. Search filtering and item activation logic lives here. Fix: add command-input.spec.ts verifying search filtering; command-item.spec.ts verifying selection and keyboard activation.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-U-e21f28",
+    "severity": "medium",
+    "category": "tests",
+    "file": "—",
+    "title": "Dropdown sub-components (3 files) have no individual spec files",
+    "description": "dropdown-trigger.ts, dropdown-item.ts, dropdown-separator.ts each lack spec files. Fix: add specs for item keyboard activation (Enter/Space), aria-role assertions, and separator role.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-a8d9f2",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "Popover missing focus/Escape/return-focus E2E coverage",
+    "description": "No Playwright spec exists for Popover. Required: (1) focus moves into popover on open, (2) Escape closes it, (3) focus returns to trigger after close. Fix: add projects/ui/e2e/popover.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-7b2c1f",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "HoverCard missing E2E coverage",
+    "description": "No Playwright spec for HoverCard. Required: hover/focus trigger opens card, Escape closes, focus returns. Fix: add projects/ui/e2e/hover-card.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-9f4e3a",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "ContextMenu missing E2E coverage",
+    "description": "No Playwright spec for ContextMenu. Required: right-click opens menu, Escape closes, focus management. Fix: add projects/ui/e2e/context-menu.e2e.ts with page.mouse.click({button:'right'}).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-5d1a6c",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "Command palette missing E2E coverage",
+    "description": "No Playwright spec for Command. Required: type to filter, ArrowDown/Up navigate items, Enter selects, Escape closes. Fix: add projects/ui/e2e/command.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-2c8f57",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "Combobox missing E2E coverage",
+    "description": "No Playwright spec for Combobox. Required: click opens dropdown, type to filter, select item, Escape closes. Fix: add projects/ui/e2e/combobox.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-f6a3d1",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "Sheet missing focus/Escape/return-focus E2E coverage",
+    "description": "No Playwright spec for Sheet. Required: focus trap on open, Escape closes, focus returns to trigger. Fix: add projects/ui/e2e/sheet.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-4b7e9f",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "AlertDialog missing focus-trap and no-Escape E2E coverage",
+    "description": "No Playwright spec for AlertDialog. AlertDialog must NOT close on Escape (unlike Dialog). Required: verify focus trap, verify Escape does not dismiss. Fix: add projects/ui/e2e/alert-dialog.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-c3f2a8",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "BottomSheet missing E2E coverage",
+    "description": "No Playwright spec for BottomSheet. Required: focus trap on open, Escape closes, focus returns to trigger. Fix: add projects/ui/e2e/bottom-sheet.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-8d5f7b",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "SwipeAction missing pointer-simulation E2E",
+    "description": "No Playwright spec for SwipeAction swipe gesture. Required: page.mouse.move() drag simulation revealing the action, and drag-back to reset. Fix: add projects/ui/e2e/swipe-action.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-e1a9c5",
+    "severity": "high",
+    "category": "e2e",
+    "file": "—",
+    "title": "Slider missing pointer-drag E2E",
+    "description": "No Playwright spec for Slider handle dragging. Required: page.mouse.down on handle, move to new position, assert value updated. Fix: add projects/ui/e2e/slider.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-6f4d2e",
+    "severity": "medium",
+    "category": "e2e",
+    "file": "—",
+    "title": "FAB missing E2E coverage",
+    "description": "No Playwright spec for FAB. Required: click triggers action, loading state disables interaction, disabled state blocks click. Fix: add projects/ui/e2e/fab.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-E-3a7c1d",
+    "severity": "medium",
+    "category": "e2e",
+    "file": "—",
+    "title": "MobileNav missing E2E coverage",
+    "description": "No Playwright spec for MobileNav. Required: click nav item sets active state, aria-current updates, value emitted. Fix: add projects/ui/e2e/mobile-nav.e2e.ts.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-L-8b51ae",
+    "severity": "high",
+    "category": "dependency",
+    "file": "—",
+    "title": "vite high-severity NTLMv2 hash disclosure vulnerability",
+    "description": "npm audit reports a high-severity vulnerability in vite via launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows. Affects dev and CI environments. Fix: upgrade vite to a patched version or add an npm override for launch-editor to >=2.7.0.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-L-de1fa3",
+    "severity": "medium",
+    "category": "dependency",
+    "file": "—",
+    "title": "js-yaml Quadratic DoS in @changesets toolchain",
+    "description": "npm audit reports a moderate vulnerability in js-yaml (Quadratic-complexity DoS via repeated merge key aliases) pulled in through the @changesets/cli → read-yaml-file → js-yaml chain. Fix: add npm override in package.json: \"js-yaml\": \">=4.1.0\".",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-L-a4b2c1",
+    "severity": "low",
+    "category": "dependency",
+    "file": "—",
+    "title": "@babel/core Arbitrary File Read via sourceMappingURL comment",
+    "description": "npm audit reports a low-severity vulnerability in @babel/core (Arbitrary File Read via sourceMappingURL comment) pulled in through @angular/build. Dev-only, no production surface. Fix: upgrade @angular/build to pick up a patched babel version, or accept the risk as dev-only.",
+    "resolved": false,
+    "resolvedNote": ""
   }
 ]
