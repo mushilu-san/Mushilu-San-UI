@@ -1066,7 +1066,7 @@
     "file": "—",
     "title": "MobileNav missing E2E coverage",
     "description": "No Playwright spec for MobileNav. Required: click nav item sets active state, aria-current updates, value emitted. Fix: add projects/ui/e2e/mobile-nav.e2e.ts.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
