@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { MobileNav } from './mobile-nav';
 import { MobileNavItem } from './mobile-nav-item';
 
@@ -8,19 +8,19 @@ const HeartIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const BellIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`;
 const UserIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
 
-const meta: Meta = {
+const meta: Meta<MobileNav> = {
   title: 'Mobile/MobileNav',
   component: MobileNav,
+  decorators: [moduleMetadata({ imports: [MobileNav, MobileNavItem] })],
   tags: ['autodocs'],
   parameters: { layout: 'fullscreen' },
 };
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<MobileNav>;
 
 export const Default: Story = {
   render: () => ({
-    imports: [MobileNav, MobileNavItem],
     props: { active: 'home' },
     template: `
       <div style="width:375px;position:relative;">
@@ -37,7 +37,6 @@ export const Default: Story = {
 
 export const WithBadges: Story = {
   render: () => ({
-    imports: [MobileNav, MobileNavItem],
     props: { active: 'home' },
     template: `
       <div style="width:375px;">
@@ -54,7 +53,6 @@ export const WithBadges: Story = {
 
 export const Accessibility: Story = {
   render: () => ({
-    imports: [MobileNav, MobileNavItem],
     props: { active: 'home' },
     template: `
       <div style="width:375px;">
@@ -72,7 +70,6 @@ export const Accessibility: Story = {
 
 export const MobilePreview: Story = {
   render: () => ({
-    imports: [MobileNav, MobileNavItem],
     props: { active: 'home' },
     template: `
       <div style="width:375px;height:667px;display:flex;flex-direction:column;background:var(--mui-color-bg);">
