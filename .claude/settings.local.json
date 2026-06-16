@@ -54,7 +54,17 @@
       "Skill(commit-commands:commit-push-pr:*)",
       "Bash(gh issue *)",
       "Bash(gh label *)",
-      "Bash(./scripts/open-audit-issues.sh *)"
+      "Bash(./scripts/open-audit-issues.sh *)",
+      "Bash(grep -rn \"![^=!]\" projects/ui/src/lib --include=\"*.ts\" ! -name \"*.spec.ts\")",
+      "Bash(shasum)",
+      "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" status)",
+      "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" diff)",
+      "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" add CLAUDE.md scripts/audit-findings.json .claude/settings.local.json)",
+      "Bash(git -C '/Users/mzakay/Desktop/code project/Mushilu-San-UI' commit -m ' *)",
+      "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" add .claude/settings.local.json)",
+      "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" stash pop)",
+      "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" push)",
+      "Bash(git *)"
     ]
   }
 }
