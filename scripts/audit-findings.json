@@ -1016,7 +1016,7 @@
     "file": "—",
     "title": "AlertDialog missing focus-trap and no-Escape E2E coverage",
     "description": "No Playwright spec for AlertDialog. AlertDialog must NOT close on Escape (unlike Dialog). Required: verify focus trap, verify Escape does not dismiss. Fix: add projects/ui/e2e/alert-dialog.e2e.ts.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
