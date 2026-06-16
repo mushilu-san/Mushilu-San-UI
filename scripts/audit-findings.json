@@ -1076,7 +1076,7 @@
     "file": "—",
     "title": "vite high-severity NTLMv2 hash disclosure vulnerability",
     "description": "npm audit reports a high-severity vulnerability in vite via launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows. Affects dev and CI environments. Fix: upgrade vite to a patched version or add an npm override for launch-editor to >=2.7.0.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1086,7 +1086,7 @@
     "file": "—",
     "title": "js-yaml Quadratic DoS in @changesets toolchain",
     "description": "npm audit reports a moderate vulnerability in js-yaml (Quadratic-complexity DoS via repeated merge key aliases) pulled in through the @changesets/cli → read-yaml-file → js-yaml chain. Fix: add npm override in package.json: \"js-yaml\": \">=4.1.0\".",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1096,7 +1096,7 @@
     "file": "—",
     "title": "@babel/core Arbitrary File Read via sourceMappingURL comment",
     "description": "npm audit reports a low-severity vulnerability in @babel/core (Arbitrary File Read via sourceMappingURL comment) pulled in through @angular/build. Dev-only, no production surface. Fix: upgrade @angular/build to pick up a patched babel version, or accept the risk as dev-only.",
-    "resolved": false,
+    "resolved": true,
     "resolvedNote": ""
   }
 ]

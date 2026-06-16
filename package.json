@@ -214,6 +214,10 @@
     "uuid": ">=9.0.1",
     "picomatch": ">=4.0.2",
     "webpack-dev-server": ">=5.2.4",
-    "esbuild": ">=0.28.1"
+    "esbuild": ">=0.28.1",
+    "vite": ">=7.3.4",
+    "launch-editor": ">=2.7.0",
+    "js-yaml": ">=4.1.0",
+    "@babel/core": ">=7.29.1"
   }
 }
