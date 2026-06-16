@@ -53,13 +53,9 @@ test.describe('Slider — E2E pointer drag', () => {
     if (!box) throw new Error('Slider track not found');
     // Click at 50% to set a known mid-range value, then press ArrowRight
     await page.mouse.click(box.x + box.width * 0.5, box.y + box.height / 2);
-    const before = Number(
-      await frame.locator('[role="slider"]').getAttribute('aria-valuenow'),
-    );
+    const before = Number(await frame.locator('[role="slider"]').getAttribute('aria-valuenow'));
     await frame.locator('[role="slider"]').press('ArrowRight');
-    const after = Number(
-      await frame.locator('[role="slider"]').getAttribute('aria-valuenow'),
-    );
+    const after = Number(await frame.locator('[role="slider"]').getAttribute('aria-valuenow'));
     expect(after).toBeGreaterThan(before);
   });
 });
