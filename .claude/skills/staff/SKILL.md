@@ -59,6 +59,12 @@ Matches spec? API drifted from specs/rating.spec.md (max should be a signal). Re
 - Security and zoneless idioms are explicitly checked, not skipped.
 - Append recurring findings to `.mui-team/learnings.md` (tag `#zoneless` / `#security`).
 
+## Single-source criteria
+
+The zoneless, security, and simplicity criteria here are also applied repo-wide by the
+hunt squad (Specter, Drift, Cipher, Prism). Keep the rules single-source in `CLAUDE.md`
+§Code standards; Staff and the hunters both cite from there.
+
 ## Why this generalizes
 
 Staff review is principle-driven, not checklist-bound: match the codebase's idioms,

@@ -68,6 +68,12 @@ two of three "obvious" fixes (adding roles, switching to userEvent) would have b
 - The original repro is verified gone and no neighbor regressed.
 - `.mui-team/reports/<component>.investigation.md` documents the trail; a learning is logged.
 
+## Hunt-squad integration
+
+When Bloodhound (`/mui-hunt`) surfaces a finding that needs deeper root-cause analysis
+before filing, it can hand the finding to Sleuth before calling `open-audit-issues.sh`.
+That way the issue body contains a traced root cause, not just a grep hit.
+
 ## Why this generalizes
 
 The Iron Law is the whole transferable idea: investigate before editing, test one

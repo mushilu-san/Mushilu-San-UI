@@ -31,8 +31,13 @@ function parseSource(raw, file) {
     if (i === -1) throw new Error(`${file}: bad frontmatter line: ${line}`);
     fm[line.slice(0, i).trim()] = line.slice(i + 1).trim();
   }
-  for (const key of ['name', 'codename', 'slash', 'role', 'use_when']) {
+  for (const key of ['name', 'role']) {
     if (!fm[key]) throw new Error(`${file}: frontmatter missing required key "${key}"`);
+  }
+  if (fm.kind !== 'hunter') {
+    for (const key of ['codename', 'slash', 'use_when']) {
+      if (!fm[key]) throw new Error(`${file}: frontmatter missing required key "${key}"`);
+    }
   }
   if (!/^[a-z0-9-]+$/.test(fm.name)) throw new Error(`${file}: name must be kebab-case`);
   return { fm, body: m[2].trim() };
@@ -60,6 +65,22 @@ function renderRule({ fm, body }) {
   if (fm.globs) lines.push(`globs: ${fm.globs}`);
   lines.push('alwaysApply: false', '---', '', GENERATED_BANNER, '', `# ${fm.codename} — \`/${fm.slash}\``, '', body, '');
   return lines.join('\n');
+}
+
+/** Claude Code sub-agent (.claude/agents/<name>.md): read-only hunter with isolated context. */
+function renderAgent({ fm, body }) {
+  const description = fm.use_when ? `${fm.role} ${fm.use_when}` : fm.role;
+  return `---
+name: ${fm.name}
+description: ${description}
+tools: Read, Grep, Glob, Bash
+model: haiku
+---
+
+${GENERATED_BANNER}
+
+${body}
+`;
 }
 
 /** Tiny always-on index so Cursor knows the team exists. */
@@ -90,17 +111,22 @@ function collectOutputs() {
   const parsed = files.map((f) => parseSource(readFileSync(join(AGENTS_DIR, f), 'utf8'), f));
   const out = new Map();
   for (const p of parsed) {
+    if (p.fm.kind === 'hunter') {
+      out.set(join(ROOT, '.claude', 'agents', `${p.fm.name}.md`), renderAgent(p));
+      continue;
+    }
     out.set(join(SKILLS_DIR, p.fm.name, 'SKILL.md'), renderSkill(p));
     // targets: "skill" → Claude-only (e.g. hook controls); default "both" also emits a Cursor rule.
     if ((p.fm.targets ?? 'both') !== 'skill') out.set(join(RULES_DIR, `${p.fm.name}.mdc`), renderRule(p));
   }
-  // The Cursor index lists only agents that actually have a Cursor rule.
-  out.set(join(RULES_DIR, '00-studio-index.mdc'), renderIndex(parsed.filter((p) => (p.fm.targets ?? 'both') !== 'skill')));
-  return out;
+  // The Cursor index lists only agents that actually have a Cursor rule (hunters excluded).
+  const indexCandidates = parsed.filter((p) => p.fm.kind !== 'hunter' && (p.fm.targets ?? 'both') !== 'skill');
+  out.set(join(RULES_DIR, '00-studio-index.mdc'), renderIndex(indexCandidates));
+  return { out, parsed };
 }
 
 const check = process.argv.includes('--check');
-const outputs = collectOutputs();
+const { out: outputs, parsed } = collectOutputs();
 let drift = 0;
 
 for (const [path, content] of outputs) {
@@ -123,5 +149,7 @@ if (check) {
   }
   console.log('✅ Studio skills/rules in sync with team/agents/.');
 } else {
-  console.log(`\n✅ Generated/verified ${outputs.size} file(s) (${(outputs.size - 1) / 2} agents + index).`);
+  const hunters = parsed.filter((p) => p.fm.kind === 'hunter').length;
+  const skills = parsed.length - hunters;
+  console.log(`\n✅ Generated/verified ${outputs.size} file(s) (${skills} skill-agents + ${hunters} hunters + index).`);
 }

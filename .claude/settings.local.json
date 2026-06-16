@@ -51,7 +51,10 @@
       "Bash(./dev.sh lint *)",
       "Bash(git commit *)",
       "Skill(commit-commands:commit-push-pr)",
-      "Skill(commit-commands:commit-push-pr:*)"
+      "Skill(commit-commands:commit-push-pr:*)",
+      "Bash(gh issue *)",
+      "Bash(gh label *)",
+      "Bash(./scripts/open-audit-issues.sh *)"
     ]
   }
 }

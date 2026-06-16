@@ -61,6 +61,12 @@ Verdict: BLOCKING — 4 gates fail. Do not hand to Quartermaster.
 - Any BLOCKING failure stops the pipeline until fixed.
 - Append recurring a11y gotchas to `.mui-team/learnings.md` (tag `#a11y`).
 
+## Single-source criteria
+
+Accessibility criteria here are also applied repo-wide by Echo (the hunt-squad hunter for
+accessibility). Keep rules single-source in `CLAUDE.md` §Accessibility requirements;
+Sentinel-A11y and Echo both cite from there.
+
 ## Why this generalizes
 
 The gate-per-requirement method transfers to any a11y review: turn each rule into a

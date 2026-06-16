@@ -10,10 +10,16 @@ dependency, no global installs** — everything lives in this repo.
 team/agents/*.agent.md   ← single source of truth (edit here)
         │  node scripts/sync-team.mjs
         ▼
-.claude/skills/<name>/SKILL.md   (Claude Code slash skills)
+.claude/skills/<name>/SKILL.md   (Claude Code slash skills — non-hunter agents)
 .cursor/rules/<name>.mdc         (Cursor rules — glob-scoped / agent-requested)
 .cursor/rules/00-studio-index.mdc (tiny always-on roster index)
+.claude/agents/<name>.md         (Claude Code sub-agents — kind: hunter only,
+                                   model: haiku, tools: Read/Grep/Glob/Bash)
 ```
+
+Hunter agents are **read-only parallel sub-agents** spawned by Bloodhound (`/mui-hunt`).
+They never appear in the Cursor index (no user-facing slash command) and are not listed
+under skill-agents in the sync summary.
 
 Edit only `team/agents/*` (and `team/shared/claude-md-map.md`). Regenerate with
 `node scripts/sync-team.mjs`; verify no drift with `node scripts/sync-team.mjs --check`.
@@ -42,6 +48,24 @@ an orchestrator and a debugger off to the side.
 | Scribe | `/mui-docs` | MDX/Diataxis docs sync (after ship) |
 | Curator | `/mui-learn` | compounds learnings.md → CLAUDE.md (periodic) |
 | Warden | `/mui-guard` | freeze/unfreeze/guard (Claude-only hook controls) |
+| Bloodhound | `/mui-hunt` | whole-repo bug sweep — orchestrates all hunters |
+
+### Bug-hunt squad (sub-agents, spawned by Bloodhound)
+
+These run in parallel inside Claude Code; they have no slash command of their own.
+
+| Hunter | Category | Cat-letter | What it scans |
+| --- | --- | --- | --- |
+| Specter | bugs | B | null assertions, event.target, unguarded touches, register/unregister asymmetry |
+| Drift | performance | P | un-memoized Intl, NgZone, markForCheck, no-op listeners |
+| Cipher | security | S | innerHTML, bypassSecurityTrust, raw document global |
+| Echo | accessibility | A | focus-visible, touch targets, reduced-motion, ARIA, a11y stories |
+| Prism | types | T | as any, non-null !, legacy @Input/@Output, missing transforms |
+| Hollow | dead-code | D | unused exports, no-op listeners, orphan files |
+| Lattice | decomposition | C | duplicate positioning/roving-tabindex/CVA/drag logic (DD-1..4) |
+| Tripwire | tests | U | components below 80% coverage, missing gesture/ARIA specs |
+| Vapor | e2e | E | overlays missing focus/Escape E2E, touch-gesture without pointer sim |
+| Ledger | dependency | L | npm audit advisories, lockfile drift, duplicate packages |
 
 Each agent reads upstream artifacts and writes its own under `.mui-team/`; that artifact
 chain is the hand-off contract. QA scores are in `.mui-team/reports/skill-scores.md`.
