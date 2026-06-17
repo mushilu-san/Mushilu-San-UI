@@ -2,13 +2,13 @@
 
 ## Project overview
 
-Angular 21 component library published to npm as `@mushilu-san/ui`.  
+Angular 22 component library published to npm as `@mushilu-san/ui`.  
 Mobile-first, token-themed, zero runtime dependencies beyond Angular itself.
 
 ## Key facts Claude must know
 
 - **Node version required:** 22.x (≥22.12). Node 20.16 ships on this machine — always activate nvm first.
-- **Angular CLI:** not installed globally at v21; use `npx @angular/cli@21` or the local `node_modules/.bin/ng`.
+- **Angular CLI:** v22; use `npx ng` or the local `node_modules/.bin/ng`.
 - **Package manager:** npm (not pnpm, despite plan references to `pnpm changeset` — use `npm run changeset`).
 - **Component prefix:** `mui-` — all selectors start with `mui-` or use `[muiX]` attribute form.
 - **No zone.js** — library is fully zoneless. Never import `fakeAsync`/`tick` in tests.
@@ -30,8 +30,8 @@ CI failed for days in June 2026 because `package-lock.json` drifted out of sync 
    (`node-version-file: '.nvmrc'`), scripts, or docs. To upgrade Node: change `.nvmrc`,
    regenerate the lockfile under that version, test, commit all together.
 3. **Never run `npm install` with the wrong Node.** `.npmrc` has `engine-strict=true` and
-   `package.json` has an `engines` field — if install errors with EBADENGINE, run `nvm use`,
-   do NOT bypass with `--force` / removing the engines field.
+   `legacy-peer-deps=true`. `package.json` engines require `^22.12.0 || >=24.0.0` — if install
+   errors with EBADENGINE, run `nvm use`, do NOT bypass with `--force` / removing the engines field.
 4. **Never replace `npm ci` with `npm install` in workflows.** `npm ci` failing with EUSAGE
    means the lockfile is stale — fix it locally per rule 1, never paper over it in CI.
 5. **Before every push:** run `./scripts/ci-verify.sh` — it mirrors `.github/workflows/ci.yml`
@@ -76,13 +76,13 @@ Or use the `./dev.sh` helper — it does this automatically.
 
 ## Directory map
 
-```
+```text
 projects/ui/
 ├── src/
 │   ├── styles/           tokens.css + reset.css (shipped in dist/ui/styles/)
 │   ├── core/
 │   │   ├── tokens/       provideMushiluUi(), MUSHILU_UI_CONFIG token
-│   │   └── testing/      renderComponent(), renderTemplate() — also published as /testing entry
+│   │   └── testing/      renderComponent(), renderTemplate() — internal only (spec files import via relative path)
 │   ├── lib/
 │   │   ├── primitives/src/   Button, Icon, Badge, Spinner, Divider, Avatar (done)
 │   │   ├── forms/src/        Checkbox, Input, Radio, Select, Textarea, Toggle, Label, FormField, Slider, InputOtp, DatePicker, Calendar, InputGroup, ToggleGroup (done)
@@ -101,7 +101,7 @@ projects/ui/
 ├── data-display/ng-package.json → @mushilu-san/ui/data-display
 ├── mobile/ng-package.json       → @mushilu-san/ui/mobile
 ├── overlays/ng-package.json     → @mushilu-san/ui/overlays
-├── .storybook/           main.ts, preview.ts, preview-head.html
+├── .storybook/           main.ts, preview.ts, preview-head.html, tsconfig.json, typings.d.ts
 ├── docs/                 MDX group pages
 └── tsconfig.spec.json    types: vitest/globals + @testing-library/jest-dom
 ```
@@ -112,6 +112,7 @@ Every component MUST satisfy all of the following before it can be considered do
 These are non-negotiable — no exceptions.
 
 ### ARIA & roles
+
 - Use the correct ARIA role (prefer native HTML elements that carry implicit roles).
 - Interactive elements: set `aria-disabled` (not the HTML `disabled` attribute, which removes keyboard access).
 - Loading / busy states: set `aria-busy="true"` on the host.
@@ -120,6 +121,7 @@ These are non-negotiable — no exceptions.
 - Dynamic status updates: use `role="status"` or `aria-live="polite"` where appropriate.
 
 ### Keyboard
+
 - All interactive components must be fully operable by keyboard alone.
 - `Tab` / `Shift+Tab` — navigates to/from the component.
 - `Enter` / `Space` — activates buttons and button-like controls.
@@ -128,6 +130,7 @@ These are non-negotiable — no exceptions.
 - Never remove focus from a disabled element without setting `tabindex="-1"`.
 
 ### Color contrast (WCAG AA — non-negotiable)
+
 - Normal text (< 18pt / < 14pt bold): **4.5:1 minimum** against its background.
 - Large text (≥ 18pt / ≥ 14pt bold): **3:1 minimum**.
 - UI component boundaries (focus rings, input borders): **3:1 minimum**.
@@ -136,17 +139,21 @@ These are non-negotiable — no exceptions.
 - Do NOT rely on `opacity` alone to communicate disabled state (opacity degrades contrast).
 
 ### Focus visibility
+
 - Visible focus ring on every interactive element via `:focus-visible`.
 - Focus ring must meet 3:1 contrast against adjacent colors.
 - Never use `outline: none` or `outline: 0` without a custom replacement focus indicator.
 
 ### Touch targets
+
 - Every interactive element: `min-height: 44px` AND `min-width: 44px` (WCAG 2.5.5).
 
 ### Motion
+
 - Every component that animates MUST include `@media (prefers-reduced-motion: reduce)` to stop or minimise motion.
 
 ### Stories requirement
+
 - Every component **must** have an `Accessibility` story that demonstrates correct ARIA usage, and the story must have `parameters: { a11y: { disable: false } }`.
 
 ---
@@ -172,42 +179,52 @@ These are non-negotiable — no exceptions.
 ## Known issues & workarounds
 
 ### 1. `@HostListener` `$event` type narrowing (TS strict mode)
+
 Angular types `$event` from `@HostListener` as `Event`, not the more specific subtype.
 **Fix:** accept `Event` as parameter, cast inside: `event as MouseEvent`.
 
 ### 2. Attribute-selector components in tests (e.g. `button[muiButton]`)
+
 `renderComponent(Button)` wraps the component in a generic `<div>` host, losing the native
 `button` role. `screen.getByRole('button')` will find nothing.
 **Fix:** always use `renderTemplate('<button muiButton>…</button>', { imports: [Button] })` for
 attribute-selector components.
 
 ### 3. `disabled` / `loading` buttons have `pointer-events: none`
+
 `userEvent.click()` throws `pointer-events: none` error when clicking disabled/loading buttons.
 **Fix:** use `fireEvent.click(element)` for tests asserting that a click is blocked — `fireEvent`
 bypasses CSS; `userEvent` respects it.
 
 ### 4. Secondary entry point `ng-package.json` location
+
 `ng-packagr` discovers secondary entries from direct subdirectories of `projects/ui/`.
 DO NOT put `ng-package.json` inside `src/lib/<group>/` — it produces the wrong entry name.
 Correct locations: `projects/ui/<group>/ng-package.json` with entryFile pointing back into `src/lib/`.
 
 ### 5. Empty stub entry points
+
 Each group's `public-api.ts` must contain at least `export {};` — a comment-only file causes
 ng-packagr to fail with `Internal error: failed to get symbol for entrypoint`.
 
 ### 6. `thresholds` is not a valid `@angular/build:unit-test` option
+
 Coverage thresholds go in a separate `vitest.config.ts` or are enforced externally. Putting
 `thresholds` in `angular.json` causes schema validation failure.
 
 ### 7. `test-setup.ts` TypeScript warning
+
 Include `src/test-setup.ts` in `tsconfig.spec.json`'s `include` array to suppress the
 `File not found in TypeScript compilation` warning.
 
 ### 8. Node version
-Angular 21 requires Node ≥ 20.19 or ≥ 22.12. The machine has Node 20.16 as default.
-nvm must be sourced and `nvm use 22` called before any Angular command.
+
+`package.json` engines require Node `^22.12.0 || >=24.0.0` — Node 20.x is **not** supported.
+The machine defaults to Node 20.16; nvm must be sourced and `nvm use 22` called before any
+Angular/npm command.
 
 ### 9. Secondary entry points cannot relative-import `core/*`
+
 Shipped code in a secondary entry (e.g. `lib/feedback/`) must NOT reach into the shared
 `src/core/` tree with a relative path like `../../../../core/a11y/live-announcer`. `core/` belongs
 to the PRIMARY entry point, so ng-packagr fails with the cryptic
