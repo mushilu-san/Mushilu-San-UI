@@ -169,6 +169,20 @@ describe('ContextMenu', () => {
     expect(onClosed).not.toHaveBeenCalled();
   });
 
+  it('H-T-6d1f7c: closeOnSelect works as HTML attribute without binding', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(
+      `<mui-context-menu closeOnSelect>
+        <div muiContextMenuTrigger data-testid="t">T</div>
+        <mui-context-menu-item>Edit</mui-context-menu-item>
+      </mui-context-menu>`,
+      { imports: IMPORTS },
+    );
+    fireEvent.contextMenu(screen.getByTestId('t'));
+    await user.click(screen.getByRole('menuitem', { name: 'Edit' }));
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
   it('touchstart with empty touches does not throw (B-2)', async () => {
     await renderTemplate(BASE, { imports: IMPORTS });
     const trigger = screen.getByTestId('trigger');

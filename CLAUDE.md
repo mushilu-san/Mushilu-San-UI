@@ -12,7 +12,7 @@ Mobile-first, token-themed, zero runtime dependencies beyond Angular itself.
 - **Package manager:** npm (not pnpm, despite plan references to `pnpm changeset` — use `npm run changeset`).
 - **Component prefix:** `mui-` — all selectors start with `mui-` or use `[muiX]` attribute form.
 - **No zone.js** — library is fully zoneless. Never import `fakeAsync`/`tick` in tests.
-- **Storybook version:** 10.4.2 (at `projects/ui/.storybook/`). Config is NOT at workspace root.
+- **Storybook version:** 10.4.4 (at `projects/ui/.storybook/`). Config is NOT at workspace root.
 
 ## Dependency & lockfile rules (MANDATORY — CI broke repeatedly because of this)
 
@@ -89,10 +89,10 @@ projects/ui/
 │   │   ├── layout/src/       Container, Stack, Grid, Spacer, ScrollArea, Resizable, AspectRatio, Sidebar (done)
 │   │   ├── navigation/src/   Breadcrumb, Tabs (TabList/Tab/TabPanel), Pagination, NavLink, NavigationMenu, Menubar (done)
 │   │   ├── feedback/src/     Alert, Progress, Skeleton, Toast (+ ToastService/ToastContainer), Dialog, AlertDialog, Sheet (done)
-│   │   ├── data-display/src/ Card, Table, Accordion, Tooltip, Carousel, Chart, Empty, Typography (done)
+│   │   ├── data-display/src/ Accordion, Card, Carousel, Chart, Empty, Table, Tooltip, Typography (done)
 │   │   ├── mobile/src/       BottomSheet, FAB, SwipeAction, MobileNav (done)
 │   │   └── overlays/src/     Popover, Dropdown Menu, Context Menu, Hover Card, Command, Combobox (done)
-│   └── public-api.ts     PRIMARY entry — exports only provideMushiluUi()
+│   └── public-api.ts     PRIMARY entry — exports provideMushiluUi() + MushiluUiConfig type
 ├── primitives/ng-package.json   → @mushilu-san/ui/primitives
 ├── forms/ng-package.json        → @mushilu-san/ui/forms
 ├── layout/ng-package.json       → @mushilu-san/ui/layout
@@ -358,6 +358,7 @@ Violating any of them will create a new audit issue. Read before writing code.
 
 ### Testing (audit: T-1 through T-8)
 
+- **Every bug fix must include at least one test** that would have caught the original bug. Existing tests passing is not proof the fix works — add a targeted test that exercises the specific code path changed by the fix. Tag the test with the audit issue ID (e.g. `it('H-T-9f3e42: ...')`).
 - **Every root-level singleton service must have its own spec** before shipping. High blast radius means silent regressions reach all consumers.
 - **Every component with timer, pointer, or touch logic needs its own spec.** Mobile is the library's primary target — test `touchstart`/`touchend`/`pointermove` paths.
 - **≥ 80% coverage per component** is the floor, not the target. Aim for 100% on state-machine paths (enabled/disabled, loading, error).
@@ -380,7 +381,7 @@ Violating any of them will create a new audit issue. Read before writing code.
 
 - **Overlay positioning** → use the shared `computePosition()` util (`overlays/src/positioning/`) once DD-1 is resolved. Do not re-implement getBoundingClientRect anchoring per component.
 - **Roving tabindex** → use the `RovingFocus` directive once DD-2 is resolved. Do not re-implement Arrow/Home/End/Enter key handling per menu/tab widget.
-- **CVA boilerplate** → use the `useCva<T>()` helper once DD-3 is resolved. Do not re-declare `_onChange`, `_onTouched`, `cvaDisabled` per form control.
+- **CVA boilerplate** → use the `useCva<T>()` helper once DD-3 is resolved. Do not re-declare `_onChange`, `_onTouched`, `_cvaDisabled` per form control.
 - **Pointer drag** → use `createDrag({ onMove, onEnd })` once DD-4 is resolved. Do not re-implement pointerdown→pointermove→pointerup listener lifecycle per component.
 
 ---

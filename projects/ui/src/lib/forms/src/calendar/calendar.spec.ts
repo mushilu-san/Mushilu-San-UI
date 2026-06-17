@@ -10,6 +10,13 @@ describe('Calendar', () => {
     expect(screen.getByRole('grid')).toBeInTheDocument();
   });
 
+  it('H-T-7b2f5e: renders without crash when value is null', async () => {
+    await renderComponent(Calendar, { inputs: { value: null } });
+    expect(screen.getByRole('grid')).toBeInTheDocument();
+    const focused = document.querySelector<HTMLElement>('.cal-day[tabindex="0"]');
+    expect(focused).toBeTruthy();
+  });
+
   it('shows 7 column headers', async () => {
     await renderComponent(Calendar, {});
     expect(document.querySelectorAll('[role="columnheader"]').length).toBe(7);

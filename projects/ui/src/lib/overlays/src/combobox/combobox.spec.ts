@@ -135,6 +135,16 @@ describe('Combobox', () => {
     expect(onOpened).toHaveBeenCalledOnce();
   });
 
+  it('H-T-a9e2b5: document click with non-Element target does not crash', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(BASE, { imports: IMPORTS, componentProperties: { val: '' } });
+    await user.click(screen.getByRole('button'));
+    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    const event = new MouseEvent('click', { bubbles: true });
+    Object.defineProperty(event, 'target', { value: document, writable: false });
+    expect(() => document.dispatchEvent(event)).not.toThrow();
+  });
+
   it('emits closed when clicking outside', async () => {
     const user = userEvent.setup();
     const onClosed = vi.fn();
