@@ -40,28 +40,27 @@ export class Menubar implements MenubarContext {
 
   protected onKeydown(event: KeyboardEvent): void {
     const triggers = Array.from(
-      this.el.nativeElement.querySelectorAll('[muiMenubarTrigger]'),
-    ) as HTMLElement[];
+      (this.el.nativeElement as HTMLElement).querySelectorAll<HTMLElement>('[muiMenubarTrigger]'),
+    );
     if (!triggers.length) return;
 
-    const active = document.activeElement as HTMLElement;
+    const active = document.activeElement;
+    if (!(active instanceof HTMLElement)) return;
     const idx = triggers.indexOf(active);
 
     if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
       event.preventDefault();
       const n = triggers.length;
       const next = event.key === 'ArrowRight' ? (idx + 1) % n : (idx - 1 + n) % n;
-      /* If a menu is open, follow-open the next menu */
       if (this._openId()) {
         const nextTrigger = triggers[next];
-        const menuEl = nextTrigger.closest('[data-menubar-menu]') as HTMLElement | null;
+        const menuEl = nextTrigger.closest<HTMLElement>('[data-menubar-menu]');
         this._openId.set(menuEl?.dataset['menubarMenuId'] ?? null);
       }
-      (triggers[next] as HTMLElement).focus();
+      triggers[next].focus();
     } else if (event.key === 'Escape') {
       this._openId.set(null);
-      /* Return focus to the active trigger */
-      if (idx >= 0) (triggers[idx] as HTMLElement).focus();
+      if (idx >= 0) triggers[idx].focus();
     }
   }
 

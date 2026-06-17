@@ -218,6 +218,33 @@ module counter), make the host component the live region instead of injecting `L
 the `@mushilu-san/ui` package path. Relative `../../../../core/testing` is fine in `*.spec.ts` only
 (specs aren't part of the published build).
 
+### 10. CVA `_cvaDisabled` naming convention
+
+All CVA components must name their disabled signal `_cvaDisabled` (with underscore prefix).
+InputOtp and other early components used `cvaDisabled` (no underscore), causing inconsistency.
+Standardized in the June 2026 type-safety audit.
+
+### 11. Boolean inputs must use `booleanAttribute` transform
+
+Every `input()` that accepts a boolean MUST include `{ transform: booleanAttribute }`.
+Without it, template attribute usage (`<mui-x destructive>`) passes the string `""` instead
+of `true`. AlertDialog `destructive` and ContextMenu `closeOnSelect` were missing this.
+
+### 12. Never use `!` non-null assertions on `ViewChild` / `viewChild`
+
+Use `viewChild.required<T>('ref')` (signal-based) instead of `@ViewChild('ref') ref!: T`.
+The `!` hides null-safety violations. Slider `trackRef` and Chart `canvasRef` were fixed.
+
+### 13. Capture signal values to `const` before narrowing
+
+`this.value()` called twice in the same expression can return different types across calls.
+Always capture to a local `const` before null-checking:
+
+```typescript
+// BAD:  this.value() ? norm(this.value()!) : fallback
+// GOOD: const v = this.value(); return v ? norm(v) : fallback;
+```
+
 ## Adding a new component — quick recipe
 
 ```bash

@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
+  booleanAttribute,
   effect,
   input,
   model,
@@ -39,7 +40,7 @@ export class AlertDialog {
   confirmLabel = input('Confirm');
   cancelLabel = input('Cancel');
   /** Set to true for destructive actions — styles confirm button in danger color. */
-  destructive = input(false);
+  destructive = input(false, { transform: booleanAttribute });
 
   readonly confirmed = output<void>();
   readonly cancelled = output<void>();
