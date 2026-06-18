@@ -1,12 +1,15 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { ContextMenu } from './context-menu';
 import { ContextMenuItem } from './context-menu-item';
 import { ContextMenuSeparator } from './context-menu-separator';
 import { ContextMenuTrigger } from './context-menu-trigger';
 
+const ALL = [ContextMenu, ContextMenuTrigger, ContextMenuItem, ContextMenuSeparator];
+
 const meta: Meta = {
   title: 'Overlays/ContextMenu',
   component: ContextMenu,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
 };
@@ -17,7 +20,6 @@ const areaStyle = `display:flex;align-items:center;justify-content:center;width:
 
 export const Default: Story = {
   render: () => ({
-    imports: [ContextMenu, ContextMenuTrigger, ContextMenuItem, ContextMenuSeparator],
     template: `
       <mui-context-menu>
         <div muiContextMenuTrigger style="${areaStyle}">Right-click here</div>
@@ -33,7 +35,6 @@ export const Default: Story = {
 
 export const WithIcons: Story = {
   render: () => ({
-    imports: [ContextMenu, ContextMenuTrigger, ContextMenuItem, ContextMenuSeparator],
     template: `
       <mui-context-menu>
         <div muiContextMenuTrigger style="${areaStyle}">Right-click here</div>
@@ -57,7 +58,6 @@ export const WithIcons: Story = {
 
 export const WithDisabledItem: Story = {
   render: () => ({
-    imports: [ContextMenu, ContextMenuTrigger, ContextMenuItem, ContextMenuSeparator],
     template: `
       <mui-context-menu>
         <div muiContextMenuTrigger style="${areaStyle}">Right-click here</div>
@@ -72,7 +72,6 @@ export const WithDisabledItem: Story = {
 
 export const Accessibility: Story = {
   render: () => ({
-    imports: [ContextMenu, ContextMenuTrigger, ContextMenuItem, ContextMenuSeparator],
     props: { isOpen: true },
     template: `
       <mui-context-menu [(open)]="isOpen">
@@ -92,7 +91,6 @@ export const Accessibility: Story = {
 
 export const MobilePreview: Story = {
   render: () => ({
-    imports: [ContextMenu, ContextMenuTrigger, ContextMenuItem, ContextMenuSeparator],
     template: `
       <div style="width:375px;padding:24px;">
         <p style="font-family:var(--mui-font-sans);font-size:13px;color:var(--mui-color-text-muted);margin:0 0 12px;">Long-press on mobile to open</p>

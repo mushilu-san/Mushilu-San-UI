@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Command } from './command';
 import { CommandEmpty } from './command-empty';
 import { CommandGroup } from './command-group';
@@ -20,6 +20,7 @@ const ALL = [
 const meta: Meta = {
   title: 'Overlays/Command',
   component: Command,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
 };
@@ -28,7 +29,6 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    imports: ALL,
     template: `
       <div style="width:400px;">
         <mui-command>
@@ -57,7 +57,6 @@ export const Default: Story = {
 
 export const WithIcons: Story = {
   render: () => ({
-    imports: ALL,
     template: `
       <div style="width:400px;">
         <mui-command>
@@ -84,7 +83,6 @@ export const WithIcons: Story = {
 
 export const WithDisabled: Story = {
   render: () => ({
-    imports: ALL,
     template: `
       <div style="width:400px;">
         <mui-command>
@@ -102,7 +100,6 @@ export const WithDisabled: Story = {
 
 export const Accessibility: Story = {
   render: () => ({
-    imports: ALL,
     template: `
       <div style="width:400px;">
         <p style="margin:0 0 12px;font-family:var(--mui-font-sans);font-size:13px;color:var(--mui-color-text-muted);">
@@ -125,7 +122,6 @@ export const Accessibility: Story = {
 
 export const MobilePreview: Story = {
   render: () => ({
-    imports: ALL,
     template: `
       <div style="width:375px;padding:16px;">
         <mui-command>

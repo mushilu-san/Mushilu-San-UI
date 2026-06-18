@@ -1,10 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Popover } from './popover';
 import { PopoverTrigger } from './popover-trigger';
+
+const ALL = [Popover, PopoverTrigger];
 
 const meta: Meta = {
   title: 'Overlays/Popover',
   component: Popover,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
 };
@@ -13,7 +16,6 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    imports: [Popover, PopoverTrigger],
     template: `
       <mui-popover placement="bottom-start">
         <button muiPopoverTrigger style="padding:8px 16px;border:1px solid var(--mui-color-border);border-radius:8px;background:var(--mui-color-surface);cursor:pointer;color:var(--mui-color-text)">
@@ -30,7 +32,6 @@ export const Default: Story = {
 
 export const WithHeading: Story = {
   render: () => ({
-    imports: [Popover, PopoverTrigger],
     template: `
       <mui-popover placement="bottom-start" heading="Quick settings">
         <button muiPopoverTrigger style="padding:8px 16px;border:1px solid var(--mui-color-border);border-radius:8px;background:var(--mui-color-surface);cursor:pointer;color:var(--mui-color-text)">
@@ -44,7 +45,6 @@ export const WithHeading: Story = {
 
 export const Placements: Story = {
   render: () => ({
-    imports: [Popover, PopoverTrigger],
     template: `
       <div style="display:grid;grid-template-columns:repeat(3,auto);gap:12px;padding:80px;">
         <div></div>
@@ -77,7 +77,6 @@ export const Placements: Story = {
 
 export const Accessibility: Story = {
   render: () => ({
-    imports: [Popover, PopoverTrigger],
     template: `
       <mui-popover placement="bottom-start" heading="More info" [open]="true">
         <button muiPopoverTrigger style="padding:8px 16px;border:1px solid var(--mui-color-border);border-radius:8px;background:var(--mui-color-surface);cursor:pointer;color:var(--mui-color-text)">
@@ -94,7 +93,6 @@ export const Accessibility: Story = {
 
 export const MobilePreview: Story = {
   render: () => ({
-    imports: [Popover, PopoverTrigger],
     template: `
       <div style="width:375px;padding:40px;display:flex;justify-content:center;">
         <mui-popover placement="bottom">
