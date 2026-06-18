@@ -76,6 +76,7 @@ export class SwipeAction {
   @HostListener('touchstart', ['$event'])
   protected onTouchStart(e: TouchEvent): void {
     const t = e.touches[0];
+    if (!t) return;
     this._startX = t.clientX;
     this._startOffset = this.offsetX();
     this._dragging = true;
@@ -85,6 +86,7 @@ export class SwipeAction {
   protected onTouchMove(e: TouchEvent): void {
     if (!this._dragging) return;
     const t = e.touches[0];
+    if (!t) return;
     const delta = t.clientX - this._startX;
     const raw = this._startOffset + delta;
     this.offsetX.set(this._clamp(raw));

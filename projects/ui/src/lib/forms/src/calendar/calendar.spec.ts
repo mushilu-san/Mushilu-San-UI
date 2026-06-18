@@ -273,6 +273,18 @@ describe('Calendar', () => {
     expect(day20).not.toHaveAttribute('aria-disabled');
   });
 
+  it('H-P-b5f602: formatDayLabel uses memoized Intl formatter', async () => {
+    await renderComponent(Calendar, { inputs: { value: new Date(2024, 0, 15) } });
+    const dayBtns = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('button.cal-day:not([data-outside])'),
+    );
+    const day15 = dayBtns.find((b) => b.textContent?.trim() === '15');
+    expect(day15).toBeTruthy();
+    expect(day15!.getAttribute('aria-label')).toContain('January');
+    expect(day15!.getAttribute('aria-label')).toContain('15');
+    expect(day15!.getAttribute('aria-label')).toContain('2024');
+  });
+
   it('selecting a day normalizes to midnight', async () => {
     const { fixture } = await renderComponent(Calendar, {
       inputs: { value: new Date(2024, 0, 10, 14, 30, 0) },

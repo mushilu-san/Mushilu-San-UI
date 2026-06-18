@@ -90,6 +90,12 @@ export class Calendar implements ControlValueAccessor {
     monthYear: new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }),
     weekdayShort: new Intl.DateTimeFormat(this.locale(), { weekday: 'short' }),
     weekdayLong: new Intl.DateTimeFormat(this.locale(), { weekday: 'long' }),
+    dayLabel: new Intl.DateTimeFormat(this.locale(), {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }),
   }));
 
   protected readonly selectedTime = computed(() => {
@@ -260,12 +266,7 @@ export class Calendar implements ControlValueAccessor {
   }
 
   protected formatDayLabel(date: Date): string {
-    return date.toLocaleDateString(this.locale(), {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    });
+    return this._fmt().dayLabel.format(date);
   }
 
   /* ── CVA ────────────────────────────────────────────────── */
