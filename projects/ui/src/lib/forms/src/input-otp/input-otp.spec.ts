@@ -183,6 +183,19 @@ describe('InputOtp', () => {
     expect(document.querySelector('mui-input-otp')).toHaveAttribute('data-disabled');
   });
 
+  it('H-T-9f3e42: CVA disabled combines with input disabled', async () => {
+    const ctrl = new FormControl({ value: '', disabled: false });
+    await renderTemplate(`<mui-input-otp [formControl]="ctrl" [disabled]="true" />`, {
+      imports: [InputOtp, ReactiveFormsModule],
+      componentProperties: { ctrl },
+    });
+    expect(document.querySelector('mui-input-otp')).toHaveAttribute('data-disabled');
+    ctrl.enable();
+    await waitFor(() =>
+      expect(document.querySelector('mui-input-otp')).toHaveAttribute('data-disabled'),
+    );
+  });
+
   it('B-3: reacts to [value] signal input changes after init', async () => {
     const otp = signal('123456');
     await renderTemplate(`<mui-input-otp [value]="otp()" />`, {

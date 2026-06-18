@@ -83,4 +83,14 @@ describe('AlertDialog', () => {
       'mui-alert-dialog__btn--destructive',
     );
   });
+
+  it('H-T-5b3e8f: destructive works as HTML attribute without binding', async () => {
+    await renderTemplate(
+      `<mui-alert-dialog [open]="true" heading="Delete?" destructive>Body</mui-alert-dialog>`,
+      { imports: [AlertDialog] },
+    );
+    expect(screen.getByRole('button', { name: 'Confirm' })).toHaveClass(
+      'mui-alert-dialog__btn--destructive',
+    );
+  });
 });

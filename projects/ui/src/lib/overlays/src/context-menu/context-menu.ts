@@ -5,6 +5,7 @@ import {
   InjectionToken,
   Signal,
   ViewEncapsulation,
+  booleanAttribute,
   input,
   model,
   output,
@@ -58,7 +59,7 @@ export const CONTEXT_MENU_CONTEXT = new InjectionToken<ContextMenuContext>('CONT
 })
 export class ContextMenu {
   open = model(false);
-  closeOnSelect = input(true);
+  closeOnSelect = input(true, { transform: booleanAttribute });
 
   readonly opened = output<void>();
   readonly closed = output<void>();

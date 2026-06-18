@@ -4,10 +4,10 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   ViewEncapsulation,
   effect,
   input,
+  viewChild,
 } from '@angular/core';
 import { Chart as ChartJs, registerables } from 'chart.js';
 import type { ChartData, ChartOptions, ChartType } from 'chart.js';
@@ -41,7 +41,7 @@ export class Chart implements AfterViewInit, OnDestroy {
   options = input<PortableChartOptions>({});
   label = input<string>('Chart');
 
-  @ViewChild('canvasRef') private canvasRef!: ElementRef<HTMLCanvasElement>;
+  private readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvasRef');
   private chartInstance?: ChartJs;
   protected readonly canvasId = `mui-chart-canvas-${chartUid++}`;
 
@@ -55,7 +55,7 @@ export class Chart implements AfterViewInit, OnDestroy {
       const config = this.chartInstance.config as { type: ChartType };
       if (config.type !== type) {
         this.chartInstance.destroy();
-        this.chartInstance = new ChartJs(this.canvasRef.nativeElement, {
+        this.chartInstance = new ChartJs(this.canvasRef().nativeElement, {
           type,
           data,
           options: opts as ChartOptions,
@@ -73,7 +73,7 @@ export class Chart implements AfterViewInit, OnDestroy {
       ? { animation: false, animations: {} }
       : {};
 
-    this.chartInstance = new ChartJs(this.canvasRef.nativeElement, {
+    this.chartInstance = new ChartJs(this.canvasRef().nativeElement, {
       type: this.type(),
       data: this.data(),
       options: { ...baseOptions, ...this.options() } as ChartOptions,

@@ -78,9 +78,10 @@ export class Calendar implements ControlValueAccessor {
     return v ? norm(v).getFullYear() : this._today.getFullYear();
   });
 
-  protected readonly focusedDate = linkedSignal<Date>(() =>
-    this.value() ? norm(this.value()!) : this._today,
-  );
+  protected readonly focusedDate = linkedSignal<Date>(() => {
+    const v = this.value();
+    return v ? norm(v) : this._today;
+  });
 
   /* ── Display computations ───────────────────────────────── */
 
@@ -136,8 +137,10 @@ export class Calendar implements ControlValueAccessor {
   protected readonly weeks = computed((): CalDay[][] => {
     const month = this.viewMonth();
     const year = this.viewYear();
-    const min = this.minDate() ? norm(this.minDate()!) : null;
-    const max = this.maxDate() ? norm(this.maxDate()!) : null;
+    const minRaw = this.minDate();
+    const maxRaw = this.maxDate();
+    const min = minRaw ? norm(minRaw) : null;
+    const max = maxRaw ? norm(maxRaw) : null;
     const todayTime = this._today.getTime();
 
     const firstOfMonth = new Date(year, month, 1);

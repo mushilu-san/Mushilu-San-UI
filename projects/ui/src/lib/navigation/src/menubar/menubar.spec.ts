@@ -244,6 +244,12 @@ describe('Menubar', () => {
     expect(document.activeElement).toBe(last);
   });
 
+  it('H-T-9a5f1e: keyboard nav does not crash when no trigger has focus', async () => {
+    await renderTemplate(BASIC, { imports: IMPORTS });
+    document.body.focus();
+    expect(() => fireEvent.keyDown(getMenubar(), { key: 'ArrowRight' })).not.toThrow();
+  });
+
   it('ArrowDown wraps from last to first item', async () => {
     await renderTemplate(BASIC, { imports: IMPORTS });
     fireEvent.click(getTriggers()[0]);

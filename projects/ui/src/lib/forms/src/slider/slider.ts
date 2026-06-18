@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
   ViewEncapsulation,
   booleanAttribute,
   computed,
@@ -11,6 +10,7 @@ import {
   model,
   numberAttribute,
   signal,
+  viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
@@ -40,7 +40,7 @@ export class Slider implements ControlValueAccessor {
   disabled = input(false, { transform: booleanAttribute });
   value = model(0);
 
-  @ViewChild('trackRef', { static: true }) private trackRef!: ElementRef<HTMLDivElement>;
+  private readonly trackRef = viewChild.required<ElementRef<HTMLDivElement>>('trackRef');
 
   private readonly cvaDisabled = signal(false);
   protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());
@@ -109,7 +109,8 @@ export class Slider implements ControlValueAccessor {
   }
 
   private setFromClientX(clientX: number): void {
-    const rect = this.trackRef.nativeElement.getBoundingClientRect();
+    const track = this.trackRef();
+    const rect = track.nativeElement.getBoundingClientRect();
     const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     const raw = this.min() + ratio * (this.max() - this.min());
     const snapped = Math.round(raw / this.step()) * this.step();

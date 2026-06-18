@@ -90,8 +90,9 @@ export class Combobox {
 
   @HostListener('document:click', ['$event'])
   protected onDocumentClick(event: MouseEvent): void {
-    // Close when clicking outside this host element
-    if (this.open() && !(event.target as Element)?.closest('mui-combobox')) {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    if (this.open() && !target.closest('mui-combobox')) {
       this.open.set(false);
       this.closed.emit();
     }

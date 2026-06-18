@@ -43,8 +43,8 @@ export class InputOtp implements ControlValueAccessor {
   valueChange = output<string>();
 
   private readonly el = inject(ElementRef<HTMLElement>);
-  private readonly cvaDisabled = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());
+  private readonly _cvaDisabled = signal(false);
+  protected readonly isDisabled = computed(() => this.disabled() || this._cvaDisabled());
 
   /* Positional internal state — mutated directly by user interactions */
   private readonly _slotsData: WritableSignal<string[]> = signal([]);
@@ -184,6 +184,6 @@ export class InputOtp implements ControlValueAccessor {
     this._onTouched = fn;
   }
   setDisabledState(isDisabled: boolean): void {
-    this.cvaDisabled.set(isDisabled);
+    this._cvaDisabled.set(isDisabled);
   }
 }
