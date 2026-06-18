@@ -5,7 +5,6 @@
   [attr.aria-label]="extended() ? null : label()"
   [attr.aria-disabled]="disabled() || loading() ? 'true' : null"
   [attr.aria-busy]="loading() ? 'true' : null"
-  [attr.tabindex]="disabled() ? '-1' : null"
   (click)="handleClick($event)"
 >
   <span class="mui-fab__icon" part="icon" aria-hidden="true">

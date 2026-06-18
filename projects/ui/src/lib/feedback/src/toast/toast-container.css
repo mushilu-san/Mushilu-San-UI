@@ -20,6 +20,15 @@
   pointer-events: auto;
 }
 
+:host ::ng-deep mui-toast:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
+  border-radius: var(--mui-radius-md);
+}
+
 /* Placement */
 :host([data-placement^='top']) {
   inset-block-start: 0;

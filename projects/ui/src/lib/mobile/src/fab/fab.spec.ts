@@ -80,6 +80,13 @@ describe('Fab', () => {
     expect(container).toHaveAttribute('data-extended');
   });
 
+  it('H-A-fab001: disabled FAB remains in tab order (no tabindex=-1)', async () => {
+    await renderComponent(Fab, { inputs: { label: 'Add', disabled: true } });
+    const btn = screen.getByRole('button');
+    expect(btn).not.toHaveAttribute('tabindex', '-1');
+    expect(btn).toHaveAttribute('aria-disabled', 'true');
+  });
+
   it('is keyboard activatable via Enter', async () => {
     const user = userEvent.setup();
     const handler = vi.fn();
