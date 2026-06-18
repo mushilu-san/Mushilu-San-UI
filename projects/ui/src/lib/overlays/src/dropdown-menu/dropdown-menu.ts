@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -48,6 +49,7 @@ export class DropdownMenu {
   readonly closed = output<void>();
 
   private readonly el = inject(ElementRef);
+  private readonly doc = inject(DOCUMENT);
 
   toggle(): void {
     const next = !this.open();
@@ -81,7 +83,7 @@ export class DropdownMenu {
     );
     if (!items.length) return;
 
-    const idx = items.indexOf(document.activeElement as HTMLButtonElement);
+    const idx = items.indexOf(this.doc.activeElement as HTMLButtonElement);
 
     switch (event.key) {
       case 'ArrowDown':

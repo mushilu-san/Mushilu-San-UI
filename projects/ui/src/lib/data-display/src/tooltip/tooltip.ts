@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -48,6 +49,7 @@ export class Tooltip implements OnDestroy {
 
   private el: HTMLDivElement | null = null;
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly doc = inject(DOCUMENT);
 
   @HostListener('mouseenter') onMouseEnter(): void {
     this.show();
@@ -74,7 +76,7 @@ export class Tooltip implements OnDestroy {
     this.visible.set(true);
     window.addEventListener('scroll', this._reposition, { capture: true, passive: true });
     window.addEventListener('resize', this._reposition, { passive: true });
-    document.addEventListener('keydown', this._docEscape);
+    this.doc.addEventListener('keydown', this._docEscape);
   }
 
   hide(): void {
@@ -83,7 +85,7 @@ export class Tooltip implements OnDestroy {
     this.el = null;
     window.removeEventListener('scroll', this._reposition, { capture: true });
     window.removeEventListener('resize', this._reposition);
-    document.removeEventListener('keydown', this._docEscape);
+    this.doc.removeEventListener('keydown', this._docEscape);
   }
 
   ngOnDestroy(): void {
@@ -91,13 +93,13 @@ export class Tooltip implements OnDestroy {
   }
 
   private create(): void {
-    const div = document.createElement('div');
+    const div = this.doc.createElement('div');
     div.id = this.tooltipId;
     div.setAttribute('role', 'tooltip');
     div.className = 'mui-tooltip-overlay';
     div.setAttribute('data-placement', this.placement());
     div.textContent = this.muiTooltip();
-    document.body.appendChild(div);
+    this.doc.body.appendChild(div);
     this.el = div;
   }
 

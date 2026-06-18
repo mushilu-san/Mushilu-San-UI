@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,6 +25,7 @@ import { TABS_CONTEXT } from './tabs';
 export class TabList {
   protected ctx = inject(TABS_CONTEXT);
   private el = inject(ElementRef<HTMLElement>);
+  private readonly doc = inject(DOCUMENT);
 
   @HostListener('keydown', ['$event'])
   onKeydown(event: Event): void {
@@ -39,7 +41,7 @@ export class TabList {
     ) as HTMLElement[];
     if (!tabs.length) return;
 
-    const active = document.activeElement as HTMLElement;
+    const active = this.doc.activeElement as HTMLElement;
     const idx = tabs.indexOf(active);
 
     let target: HTMLElement | undefined;

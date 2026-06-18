@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,6 +26,7 @@ import { CAROUSEL_CONTEXT } from './carousel-context';
 export class CarouselContent implements OnDestroy {
   private readonly ctx = inject(CAROUSEL_CONTEXT);
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly doc = inject(DOCUMENT);
 
   protected readonly transform = computed(() => `translateX(-${this.ctx.active() * 100}%)`);
 
@@ -36,13 +38,13 @@ export class CarouselContent implements OnDestroy {
     this._startX = event.clientX;
     this._dragging = true;
     this.el.nativeElement.setPointerCapture?.(event.pointerId);
-    document.addEventListener('pointerup', this._upListener);
+    this.doc.addEventListener('pointerup', this._upListener);
   }
 
   private _onUp(event: PointerEvent): void {
     if (!this._dragging) return;
     this._dragging = false;
-    document.removeEventListener('pointerup', this._upListener);
+    this.doc.removeEventListener('pointerup', this._upListener);
 
     const deltaX = event.clientX - this._startX;
     const threshold = this.el.nativeElement.offsetWidth * 0.25;
@@ -52,6 +54,6 @@ export class CarouselContent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    document.removeEventListener('pointerup', this._upListener);
+    this.doc.removeEventListener('pointerup', this._upListener);
   }
 }

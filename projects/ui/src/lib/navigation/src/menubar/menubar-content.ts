@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,6 +26,7 @@ import { MENUBAR_MENU_CONTEXT } from './menubar-context';
 export class MenubarContent {
   private readonly ctx = inject(MENUBAR_MENU_CONTEXT);
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly doc = inject(DOCUMENT);
 
   protected readonly isOpen = computed(() => this.ctx.isOpen());
 
@@ -44,7 +46,7 @@ export class MenubarContent {
     ) as HTMLElement[];
     if (!items.length) return;
 
-    const active = document.activeElement as HTMLElement;
+    const active = this.doc.activeElement as HTMLElement;
     const idx = items.indexOf(active);
 
     let next: number;

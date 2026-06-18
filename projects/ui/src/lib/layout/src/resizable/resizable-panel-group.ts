@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -45,6 +46,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   direction = input<'horizontal' | 'vertical'>('horizontal');
 
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly doc = inject(DOCUMENT);
 
   private readonly _registry: PanelEntry[] = [];
   private readonly _sizes: ReturnType<typeof signal<number[]>> = signal([]);
@@ -98,8 +100,8 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
       startPos: this.direction() === 'horizontal' ? event.clientX : event.clientY,
     };
 
-    document.addEventListener('pointermove', this._moveListener);
-    document.addEventListener('pointerup', this._upListener);
+    this.doc.addEventListener('pointermove', this._moveListener);
+    this.doc.addEventListener('pointerup', this._upListener);
   }
 
   private _onPointerMove(event: PointerEvent): void {
@@ -148,12 +150,12 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
 
   private _onPointerUp(_event: PointerEvent): void {
     this._dragState = null;
-    document.removeEventListener('pointermove', this._moveListener);
-    document.removeEventListener('pointerup', this._upListener);
+    this.doc.removeEventListener('pointermove', this._moveListener);
+    this.doc.removeEventListener('pointerup', this._upListener);
   }
 
   ngOnDestroy(): void {
-    document.removeEventListener('pointermove', this._moveListener);
-    document.removeEventListener('pointerup', this._upListener);
+    this.doc.removeEventListener('pointermove', this._moveListener);
+    this.doc.removeEventListener('pointerup', this._upListener);
   }
 }

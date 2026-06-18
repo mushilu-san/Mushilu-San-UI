@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,6 +32,7 @@ export class Menubar implements MenubarContext {
   label = input('Menu bar');
 
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly doc = inject(DOCUMENT);
   private readonly _openId = signal<string | null>(null);
   readonly openId: Signal<string | null> = this._openId.asReadonly();
 
@@ -44,7 +46,7 @@ export class Menubar implements MenubarContext {
     );
     if (!triggers.length) return;
 
-    const active = document.activeElement;
+    const active = this.doc.activeElement;
     if (!(active instanceof HTMLElement)) return;
     const idx = triggers.indexOf(active);
 
