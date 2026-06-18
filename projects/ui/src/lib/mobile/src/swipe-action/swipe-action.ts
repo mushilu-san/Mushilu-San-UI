@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +6,7 @@ import {
   HostListener,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   output,
   signal,
@@ -41,6 +43,8 @@ const MAX_OVERSCROLL = 16; // px of rubber-band past the action rail
   },
 })
 export class SwipeAction {
+  private readonly doc = inject(DOCUMENT);
+
   /** Action descriptors. */
   actions = input<SwipeActionItem[]>([]);
 
@@ -76,6 +80,7 @@ export class SwipeAction {
   @HostListener('touchstart', ['$event'])
   protected onTouchStart(e: TouchEvent): void {
     const t = e.touches[0];
+    if (!t) return;
     this._startX = t.clientX;
     this._startOffset = this.offsetX();
     this._dragging = true;
@@ -85,6 +90,7 @@ export class SwipeAction {
   protected onTouchMove(e: TouchEvent): void {
     if (!this._dragging) return;
     const t = e.touches[0];
+    if (!t) return;
     const delta = t.clientX - this._startX;
     const raw = this._startOffset + delta;
     this.offsetX.set(this._clamp(raw));
@@ -121,7 +127,7 @@ export class SwipeAction {
      ---------------------------------------------------------------- */
   private _railWidth(side: 'left' | 'right'): number {
     const el = this.trackRef()?.nativeElement?.closest('mui-swipe-action');
-    const host = (el ?? document.body) as HTMLElement;
+    const host = (el ?? this.doc.body) as HTMLElement;
     const rail = host.querySelector<HTMLElement>(
       side === 'right' ? '.mui-swipe-action__rail--right' : '.mui-swipe-action__rail--left',
     );

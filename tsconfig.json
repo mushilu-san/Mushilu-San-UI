@@ -15,7 +15,7 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "@mushilu-san/ui": ["./dist/ui"],
+      "@mushilu-san/ui": ["./projects/ui/src/public-api.ts", "./dist/ui"],
       "@mushilu-san/ui/*": ["./dist/ui/*"]
     }
   },

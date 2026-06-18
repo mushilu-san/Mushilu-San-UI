@@ -9,10 +9,10 @@ import {
   input,
   model,
   numberAttribute,
-  signal,
   viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import { useCva } from '@mushilu-san/ui';
 
 @Component({
   selector: 'mui-slider',
@@ -42,17 +42,14 @@ export class Slider implements ControlValueAccessor {
 
   private readonly trackRef = viewChild.required<ElementRef<HTMLDivElement>>('trackRef');
 
-  private readonly cvaDisabled = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());
+  private readonly _cva = useCva<number>(this.disabled);
+  protected readonly isDisabled = this._cva.isDisabled;
 
   protected readonly fillPercent = computed(() => {
     const range = this.max() - this.min();
     if (range === 0) return 0;
     return Math.max(0, Math.min(100, ((this.value() - this.min()) / range) * 100));
   });
-
-  private _onChange: (v: number) => void = () => undefined;
-  private _onTouched: () => void = () => undefined;
 
   protected onKeydown(event: KeyboardEvent): void {
     if (this.isDisabled()) return;
@@ -105,7 +102,7 @@ export class Slider implements ControlValueAccessor {
   }
 
   protected onBlur(): void {
-    this._onTouched();
+    this._cva.onTouched();
   }
 
   private setFromClientX(clientX: number): void {
@@ -120,19 +117,19 @@ export class Slider implements ControlValueAccessor {
   private commit(v: number): void {
     const rounded = Math.round(v * 1e10) / 1e10;
     this.value.set(rounded);
-    this._onChange(rounded);
+    this._cva.onChange(rounded);
   }
 
   writeValue(v: number): void {
     this.value.set(v ?? 0);
   }
   registerOnChange(fn: (v: number) => void): void {
-    this._onChange = fn;
+    this._cva.registerOnChange(fn);
   }
   registerOnTouched(fn: () => void): void {
-    this._onTouched = fn;
+    this._cva.registerOnTouched(fn);
   }
   setDisabledState(isDisabled: boolean): void {
-    this.cvaDisabled.set(isDisabled);
+    this._cva.setDisabledState(isDisabled);
   }
 }

@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,6 +12,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { createDrag, type DragSession } from '@mushilu-san/ui';
 import {
   RESIZABLE_GROUP_CONTEXT,
   ResizableGroupContext,
@@ -45,6 +47,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   direction = input<'horizontal' | 'vertical'>('horizontal');
 
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly doc = inject(DOCUMENT);
 
   private readonly _registry: PanelEntry[] = [];
   private readonly _sizes: ReturnType<typeof signal<number[]>> = signal([]);
@@ -57,8 +60,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
     startPos: number;
   } | null = null;
 
-  private _moveListener = (e: PointerEvent) => this._onPointerMove(e);
-  private _upListener = (e: PointerEvent) => this._onPointerUp(e);
+  private _dragSession: DragSession | null = null;
 
   registerPanel(defaultSize: number, minSize: number, maxSize: number): ResizablePanelRegistration {
     const idx = this._registry.length;
@@ -98,8 +100,13 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
       startPos: this.direction() === 'horizontal' ? event.clientX : event.clientY,
     };
 
-    document.addEventListener('pointermove', this._moveListener);
-    document.addEventListener('pointerup', this._upListener);
+    this._dragSession?.destroy();
+    this._dragSession = createDrag(this.doc, {
+      onMove: (e) => this._onPointerMove(e),
+      onEnd: () => {
+        this._dragState = null;
+      },
+    });
   }
 
   private _onPointerMove(event: PointerEvent): void {
@@ -146,14 +153,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
     });
   }
 
-  private _onPointerUp(_event: PointerEvent): void {
-    this._dragState = null;
-    document.removeEventListener('pointermove', this._moveListener);
-    document.removeEventListener('pointerup', this._upListener);
-  }
-
   ngOnDestroy(): void {
-    document.removeEventListener('pointermove', this._moveListener);
-    document.removeEventListener('pointerup', this._upListener);
+    this._dragSession?.destroy();
   }
 }

@@ -212,6 +212,23 @@ describe('SwipeAction', () => {
       expect(fixture.nativeElement.getAttribute('data-revealed')).toBeNull();
     });
 
+    it('H-B-3ea4ec: onTouchStart with empty touches does not crash', async () => {
+      const { fixture } = await renderComponent(SwipeAction, {
+        inputs: { actions: rightActions },
+      });
+      const instance = fixture.componentInstance as unknown as SwipePrivate;
+      expect(() => instance.onTouchStart({ touches: [] })).not.toThrow();
+    });
+
+    it('H-B-3ea4ec: onTouchMove with empty touches does not crash', async () => {
+      const { fixture } = await renderComponent(SwipeAction, {
+        inputs: { actions: rightActions },
+      });
+      const instance = fixture.componentInstance as unknown as SwipePrivate;
+      instance.onTouchStart({ touches: [{ clientX: 0 }] });
+      expect(() => instance.onTouchMove({ touches: [] })).not.toThrow();
+    });
+
     it('onTouchMove is a no-op when not dragging', async () => {
       const { fixture, detectChanges } = await renderComponent(SwipeAction, {
         inputs: { actions: rightActions },

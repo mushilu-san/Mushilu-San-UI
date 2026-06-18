@@ -18,6 +18,16 @@
   animation: mui-tooltip-in var(--mui-duration-fast, 150ms) var(--mui-easing-default, ease) both;
 }
 
+/* Host element focus ring when tooltip is triggered by keyboard */
+[muiTooltip]:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
+  border-radius: var(--mui-radius-sm);
+}
+
 @keyframes mui-tooltip-in {
   from {
     opacity: 0;

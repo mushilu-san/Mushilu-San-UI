@@ -13,6 +13,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import { useCva } from '@mushilu-san/ui';
 import { Calendar } from '../calendar/calendar';
 
 let nextId = 0;
@@ -57,8 +58,8 @@ export class DatePicker implements ControlValueAccessor {
   protected readonly isOpen = signal(false);
 
   private readonly el = inject(ElementRef<HTMLElement>);
-  private readonly cvaDisabled = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());
+  private readonly _cva = useCva<Date | null>(this.disabled);
+  protected readonly isDisabled = this._cva.isDisabled;
 
   protected readonly displayValue = computed(() => {
     const v = this.value();
@@ -82,8 +83,8 @@ export class DatePicker implements ControlValueAccessor {
   protected onCalendarSelect(date: Date | null): void {
     const n = date ? norm(date) : null;
     this.value.set(n);
-    this._onChange(n);
-    this._onTouched();
+    this._cva.onChange(n);
+    this._cva.onTouched();
     this.isOpen.set(false);
   }
 
@@ -102,19 +103,16 @@ export class DatePicker implements ControlValueAccessor {
     (this.el.nativeElement as HTMLElement).querySelector<HTMLElement>('.dp-trigger')?.focus();
   }
 
-  private _onChange: (v: Date | null) => void = () => undefined;
-  private _onTouched: () => void = () => undefined;
-
   writeValue(v: Date | null): void {
     this.value.set(v ? norm(v) : null);
   }
   registerOnChange(fn: (v: Date | null) => void): void {
-    this._onChange = fn;
+    this._cva.registerOnChange(fn);
   }
   registerOnTouched(fn: () => void): void {
-    this._onTouched = fn;
+    this._cva.registerOnTouched(fn);
   }
   setDisabledState(isDisabled: boolean): void {
-    this.cvaDisabled.set(isDisabled);
+    this._cva.setDisabledState(isDisabled);
   }
 }

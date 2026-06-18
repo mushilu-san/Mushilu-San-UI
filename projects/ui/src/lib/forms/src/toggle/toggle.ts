@@ -6,9 +6,9 @@ import {
   forwardRef,
   input,
   model,
-  signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import { useCva } from '@mushilu-san/ui';
 import type { ToggleSize } from './toggle.types';
 
 @Component({
@@ -38,7 +38,7 @@ import type { ToggleSize } from './toggle.types';
     '(click)': 'toggle()',
     '(keydown.space)': '$event.preventDefault(); toggle()',
     '(keydown.enter)': '$event.preventDefault(); toggle()',
-    '(blur)': '_onTouched()',
+    '(blur)': '_cva.onTouched()',
   },
 })
 export class Toggle implements ControlValueAccessor {
@@ -48,29 +48,26 @@ export class Toggle implements ControlValueAccessor {
 
   checked = model(false);
 
-  private readonly _cvaDisabled = signal(false);
-  protected readonly isDisabled = () => this.disabled() || this._cvaDisabled();
-
-  _onChange: (v: boolean) => void = () => undefined;
-  _onTouched: () => void = () => undefined;
+  protected readonly _cva = useCva<boolean>(this.disabled);
+  protected readonly isDisabled = this._cva.isDisabled;
 
   toggle(): void {
     if (this.isDisabled()) return;
     this.checked.update((v) => !v);
-    this._onChange(this.checked());
-    this._onTouched();
+    this._cva.onChange(this.checked());
+    this._cva.onTouched();
   }
 
   writeValue(value: boolean): void {
     this.checked.set(!!value);
   }
   registerOnChange(fn: (v: boolean) => void): void {
-    this._onChange = fn;
+    this._cva.registerOnChange(fn);
   }
   registerOnTouched(fn: () => void): void {
-    this._onTouched = fn;
+    this._cva.registerOnTouched(fn);
   }
   setDisabledState(isDisabled: boolean): void {
-    this._cvaDisabled.set(isDisabled);
+    this._cva.setDisabledState(isDisabled);
   }
 }

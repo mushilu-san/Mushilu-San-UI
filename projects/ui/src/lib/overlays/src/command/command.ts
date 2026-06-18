@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +6,7 @@ import {
   InjectionToken,
   Signal,
   ViewEncapsulation,
+  inject,
   input,
   model,
   output,
@@ -58,6 +60,8 @@ export const COMMAND_CONTEXT = new InjectionToken<CommandContext>('COMMAND_CONTE
   host: { '[attr.part]': '"root"' },
 })
 export class Command {
+  private readonly doc = inject(DOCUMENT);
+
   /** The current search string — two-way bindable. */
   search = model('');
   /** Placeholder for the built-in CommandInput (if used without a custom input). */
@@ -70,7 +74,7 @@ export class Command {
       host.querySelectorAll<HTMLElement>('[data-command-item]:not([aria-disabled="true"])'),
     );
     if (!items.length) return;
-    const active = document.activeElement as HTMLElement | null;
+    const active = this.doc.activeElement as HTMLElement | null;
     const idx = active ? items.indexOf(active) : -1;
     const next = (idx + direction + items.length) % items.length;
     items[next]?.focus();

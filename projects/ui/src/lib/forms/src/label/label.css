@@ -15,6 +15,15 @@ label {
   user-select: none;
 }
 
+label:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--mui-focus-ring-width) var(--mui-color-bg),
+    0 0 0 calc(var(--mui-focus-ring-width) + var(--mui-focus-ring-offset))
+      var(--mui-color-focus-ring);
+  border-radius: var(--mui-radius-sm);
+}
+
 :host([data-disabled]) label {
   color: var(--mui-color-text-disabled);
   cursor: not-allowed;
