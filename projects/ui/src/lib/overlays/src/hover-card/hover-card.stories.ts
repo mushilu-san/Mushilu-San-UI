@@ -1,11 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { HoverCard } from './hover-card';
 import { HoverCardContent } from './hover-card-content';
 import { HoverCardTrigger } from './hover-card-trigger';
 
+const ALL = [HoverCard, HoverCardContent, HoverCardTrigger];
+
 const meta: Meta = {
   title: 'Overlays/HoverCard',
   component: HoverCard,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
 };
@@ -14,7 +17,6 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    imports: [HoverCard, HoverCardTrigger, HoverCardContent],
     template: `
       <mui-hover-card>
         <a muiHoverCardTrigger href="#" style="color:var(--mui-color-primary);font-family:var(--mui-font-sans);text-decoration:underline;">@mushilu-san</a>
@@ -35,7 +37,6 @@ export const Default: Story = {
 
 export const Placements: Story = {
   render: () => ({
-    imports: [HoverCard, HoverCardTrigger, HoverCardContent],
     template: `
       <div style="display:flex;gap:40px;align-items:center;padding:80px;">
         <mui-hover-card placement="top">
@@ -61,7 +62,6 @@ export const Placements: Story = {
 
 export const Accessibility: Story = {
   render: () => ({
-    imports: [HoverCard, HoverCardTrigger, HoverCardContent],
     props: { open: true },
     template: `
       <p style="font-family:var(--mui-font-sans);font-size:13px;color:var(--mui-color-text-muted);margin-bottom:16px;">
@@ -80,7 +80,6 @@ export const Accessibility: Story = {
 
 export const MobilePreview: Story = {
   render: () => ({
-    imports: [HoverCard, HoverCardTrigger, HoverCardContent],
     template: `
       <div style="width:375px;padding:24px;">
         <p style="font-family:var(--mui-font-sans);margin:0 0 16px;">
