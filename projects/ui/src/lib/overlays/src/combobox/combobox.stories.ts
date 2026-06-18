@@ -1,10 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Combobox } from './combobox';
 import { ComboboxItem } from './combobox-item';
+
+const ALL = [Combobox, ComboboxItem];
 
 const meta: Meta = {
   title: 'Overlays/Combobox',
   component: Combobox,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
 };
@@ -13,7 +16,6 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    imports: [Combobox, ComboboxItem],
     props: { framework: '' },
     template: `
       <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">
@@ -32,7 +34,6 @@ export const Default: Story = {
 
 export const WithDisabledItem: Story = {
   render: () => ({
-    imports: [Combobox, ComboboxItem],
     props: { val: '' },
     template: `
       <mui-combobox [(value)]="val" placeholder="Select plan…">
@@ -46,7 +47,6 @@ export const WithDisabledItem: Story = {
 
 export const Disabled: Story = {
   render: () => ({
-    imports: [Combobox, ComboboxItem],
     template: `
       <mui-combobox [disabled]="true" placeholder="Disabled combobox">
         <mui-combobox-item value="a">Option A</mui-combobox-item>
@@ -57,7 +57,6 @@ export const Disabled: Story = {
 
 export const Accessibility: Story = {
   render: () => ({
-    imports: [Combobox, ComboboxItem],
     props: { val: 'react' },
     template: `
       <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">
@@ -77,7 +76,6 @@ export const Accessibility: Story = {
 
 export const MobilePreview: Story = {
   render: () => ({
-    imports: [Combobox, ComboboxItem],
     props: { val: '' },
     template: `
       <div style="width:375px;padding:24px;">
