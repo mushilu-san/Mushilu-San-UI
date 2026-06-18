@@ -11,9 +11,11 @@ import {
   signal,
 } from '@angular/core';
 
+import { computePosition, type Placement } from '@mushilu-san/ui';
+
 let tooltipUid = 0;
 
-export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
+export type TooltipPlacement = Placement;
 
 /**
  * Attribute component that attaches a tooltip to any host element.
@@ -107,51 +109,16 @@ export class Tooltip implements OnDestroy {
     const el = this.el;
     if (!el) return;
 
+    Object.assign(el.style, { position: 'fixed', visibility: 'hidden', top: '0px', left: '0px' });
+
     const rect = this.host.nativeElement.getBoundingClientRect();
+    const { top, left } = computePosition(
+      rect,
+      el.offsetWidth || 0,
+      el.offsetHeight || 0,
+      this.placement(),
+    );
 
-    Object.assign(el.style, {
-      position: 'fixed',
-      visibility: 'hidden',
-      top: '0px',
-      left: '0px',
-    });
-
-    const tw = el.offsetWidth || 0;
-    const th = el.offsetHeight || 0;
-    const gap = 8;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    let top: number, left: number;
-
-    switch (this.placement()) {
-      case 'bottom':
-        top = rect.bottom + gap;
-        left = rect.left + (rect.width - tw) / 2;
-        break;
-      case 'left':
-        top = rect.top + (rect.height - th) / 2;
-        left = rect.left - tw - gap;
-        break;
-      case 'right':
-        top = rect.top + (rect.height - th) / 2;
-        left = rect.right + gap;
-        break;
-      case 'top':
-      default:
-        top = rect.top - th - gap;
-        left = rect.left + (rect.width - tw) / 2;
-        break;
-    }
-
-    // Clamp within viewport so content is never cut off at edges.
-    top = Math.max(4, Math.min(top, vh - th - 4));
-    left = Math.max(4, Math.min(left, vw - tw - 4));
-
-    Object.assign(el.style, {
-      visibility: '',
-      top: `${top}px`,
-      left: `${left}px`,
-    });
+    Object.assign(el.style, { visibility: '', top: `${top}px`, left: `${left}px` });
   }
 }

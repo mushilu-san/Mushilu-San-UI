@@ -12,6 +12,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { handleRovingFocus } from '@mushilu-san/ui';
 
 export const DROPDOWN_MENU_CONTEXT = new InjectionToken<DropdownMenu>('DROPDOWN_MENU_CONTEXT');
 
@@ -83,26 +84,9 @@ export class DropdownMenu {
     );
     if (!items.length) return;
 
-    const idx = items.indexOf(this.doc.activeElement as HTMLButtonElement);
-
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        items[(idx + 1) % items.length].focus();
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        items[(idx - 1 + items.length) % items.length].focus();
-        break;
-      case 'Home':
-        event.preventDefault();
-        items[0].focus();
-        break;
-      case 'End':
-        event.preventDefault();
-        items[items.length - 1].focus();
-        break;
-      case 'Escape':
+    if (!handleRovingFocus(event, items as HTMLElement[], this.doc.activeElement)) {
+      switch (event.key) {
+        case 'Escape':
         if (this.closeOnEscape()) {
           event.preventDefault();
           this.close();
@@ -111,6 +95,7 @@ export class DropdownMenu {
       case 'Tab':
         this.close();
         break;
+      }
     }
   }
 

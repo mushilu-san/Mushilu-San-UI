@@ -15,6 +15,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import { useCva } from '@mushilu-san/ui';
 
 @Component({
   selector: 'mui-input-otp',
@@ -43,8 +44,8 @@ export class InputOtp implements ControlValueAccessor {
   valueChange = output<string>();
 
   private readonly el = inject(ElementRef<HTMLElement>);
-  private readonly _cvaDisabled = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this._cvaDisabled());
+  private readonly _cva = useCva<string>(this.disabled);
+  protected readonly isDisabled = this._cva.isDisabled;
 
   /* Positional internal state — mutated directly by user interactions */
   private readonly _slotsData: WritableSignal<string[]> = signal([]);
@@ -161,14 +162,11 @@ export class InputOtp implements ControlValueAccessor {
   private emit(): void {
     const val = this._slotsData().join('');
     this.valueChange.emit(val);
-    this._onChange(val);
+    this._cva.onChange(val);
   }
 
-  private _onChange: (v: string) => void = () => undefined;
-  private _onTouched: () => void = () => undefined;
-
   protected onBlur(): void {
-    this._onTouched();
+    this._cva.onTouched();
   }
 
   writeValue(v: string): void {
@@ -178,12 +176,12 @@ export class InputOtp implements ControlValueAccessor {
 
   registerOnChange(fn: (v: string) => void): void {
     this._cvaActive = true;
-    this._onChange = fn;
+    this._cva.registerOnChange(fn);
   }
   registerOnTouched(fn: () => void): void {
-    this._onTouched = fn;
+    this._cva.registerOnTouched(fn);
   }
   setDisabledState(isDisabled: boolean): void {
-    this._cvaDisabled.set(isDisabled);
+    this._cva.setDisabledState(isDisabled);
   }
 }

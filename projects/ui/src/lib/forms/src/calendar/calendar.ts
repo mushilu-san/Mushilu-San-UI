@@ -13,9 +13,9 @@ import {
   linkedSignal,
   model,
   runInInjectionContext,
-  signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import { useCva } from '@mushilu-san/ui';
 
 let nextId = 0;
 
@@ -63,8 +63,8 @@ export class Calendar implements ControlValueAccessor {
   private readonly injector = inject(Injector);
   private readonly _today = norm(new Date());
 
-  private readonly cvaDisabled = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());
+  private readonly _cva = useCva<Date | null>(this.disabled);
+  protected readonly isDisabled = this._cva.isDisabled;
 
   /* ── Linked signals for navigation state ───────────────── */
 
@@ -271,30 +271,27 @@ export class Calendar implements ControlValueAccessor {
 
   /* ── CVA ────────────────────────────────────────────────── */
 
-  private _onChange: (v: Date | null) => void = () => undefined;
-  private _onTouched: () => void = () => undefined;
-
   protected onBlur(): void {
-    this._onTouched();
+    this._cva.onTouched();
   }
 
   private commit(date: Date): void {
     const n = norm(date);
     this.value.set(n);
-    this._onChange(n);
-    this._onTouched();
+    this._cva.onChange(n);
+    this._cva.onTouched();
   }
 
   writeValue(v: Date | null): void {
     this.value.set(v ? norm(v) : null);
   }
   registerOnChange(fn: (v: Date | null) => void): void {
-    this._onChange = fn;
+    this._cva.registerOnChange(fn);
   }
   registerOnTouched(fn: () => void): void {
-    this._onTouched = fn;
+    this._cva.registerOnTouched(fn);
   }
   setDisabledState(isDisabled: boolean): void {
-    this.cvaDisabled.set(isDisabled);
+    this._cva.setDisabledState(isDisabled);
   }
 }
