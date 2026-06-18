@@ -51,7 +51,6 @@ export class Slider implements ControlValueAccessor {
     return Math.max(0, Math.min(100, ((this.value() - this.min()) / range) * 100));
   });
 
-
   protected onKeydown(event: KeyboardEvent): void {
     if (this.isDisabled()) return;
     const s = this.step();

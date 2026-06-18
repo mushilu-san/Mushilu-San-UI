@@ -87,14 +87,14 @@ export class DropdownMenu {
     if (!handleRovingFocus(event, items as HTMLElement[], this.doc.activeElement)) {
       switch (event.key) {
         case 'Escape':
-        if (this.closeOnEscape()) {
-          event.preventDefault();
+          if (this.closeOnEscape()) {
+            event.preventDefault();
+            this.close();
+          }
+          break;
+        case 'Tab':
           this.close();
-        }
-        break;
-      case 'Tab':
-        this.close();
-        break;
+          break;
       }
     }
   }

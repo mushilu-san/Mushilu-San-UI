@@ -103,7 +103,9 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
     this._dragSession?.destroy();
     this._dragSession = createDrag(this.doc, {
       onMove: (e) => this._onPointerMove(e),
-      onEnd: () => { this._dragState = null; },
+      onEnd: () => {
+        this._dragState = null;
+      },
     });
   }
 
