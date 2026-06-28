@@ -75,7 +75,7 @@
     "storybook": "^10.4.6",
     "typescript": "~6.0.0",
     "typescript-eslint": "8.59.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.1.9"
   },
   "size-limit": [
     {
