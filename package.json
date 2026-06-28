@@ -218,6 +218,7 @@
     "vite": ">=7.3.4",
     "launch-editor": ">=2.7.0",
     "js-yaml": ">=4.1.0",
-    "@babel/core": ">=7.29.1"
+    "@babel/core": ">=7.29.1",
+    "http-proxy-middleware": ">=3.0.7"
   }
 }
