@@ -26,12 +26,12 @@
   ],
   "packageManager": "npm@10.9.8",
   "dependencies": {
-    "@angular/common": "^22.0.2",
-    "@angular/compiler": "^22.0.2",
-    "@angular/core": "^22.0.2",
-    "@angular/forms": "^22.0.2",
-    "@angular/platform-browser": "^22.0.2",
-    "@angular/router": "^22.0.2",
+    "@angular/common": "^22.0.4",
+    "@angular/compiler": "^22.0.4",
+    "@angular/core": "^22.0.4",
+    "@angular/forms": "^22.0.4",
+    "@angular/platform-browser": "^22.0.4",
+    "@angular/router": "^22.0.4",
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
@@ -43,13 +43,13 @@
     }
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.2200.3",
+    "@angular-devkit/architect": "^0.2200.4",
     "@angular-devkit/build-angular": "^22.0.3",
-    "@angular-devkit/core": "^22.0.3",
+    "@angular-devkit/core": "^22.0.4",
     "@angular/build": "^22.0.1",
-    "@angular/cli": "^22.0.3",
-    "@angular/compiler-cli": "^22.0.2",
-    "@angular/platform-browser-dynamic": "^22.0.2",
+    "@angular/cli": "^22.0.4",
+    "@angular/compiler-cli": "^22.0.4",
+    "@angular/platform-browser-dynamic": "^22.0.4",
     "@changesets/cli": "^2.31.0",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
