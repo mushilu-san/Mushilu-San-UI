@@ -9,7 +9,7 @@ name: Dependabot PR to issue
 # read-only by default. Safe here because no PR code is checked out or run.
 on:
   pull_request_target:
-    types: [opened]
+    types: [opened, reopened]
 
 permissions:
   contents: write
