@@ -1,0 +1,47 @@
+name: Dependabot PR to issue
+
+# Dependabot has no native "open an issue instead of a PR" mode for either
+# version updates or security updates. Both still come in as PRs authored by
+# dependabot[bot] — this workflow intercepts them, files an issue with the
+# same content, and closes the PR unmerged so nothing lands automatically.
+# Uses pull_request_target (not pull_request) so the GITHUB_TOKEN keeps its
+# normal write permissions; Dependabot-triggered `pull_request` runs are
+# read-only by default. Safe here because no PR code is checked out or run.
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  convert:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    name: Convert to issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open issue with Dependabot's findings
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh issue create \
+            --repo "$REPO" \
+            --title "$PR_TITLE" \
+            --body "$PR_BODY
+
+          ---
+          Filed automatically by Dependabot. The original pull request ($PR_URL) was closed without merging — see CLAUDE.md dependency rules before bumping manually (lockfile must be regenerated under the \`.nvmrc\` Node version in the same commit)."
+
+      - name: Close the pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr close "$PR_NUMBER" --repo "$REPO" --delete-branch
