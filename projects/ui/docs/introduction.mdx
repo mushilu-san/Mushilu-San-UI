@@ -1,0 +1,113 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Mushilu-San UI
+
+A mobile-first Angular component library built with **design tokens**, **zero runtime dependencies**, and **full accessibility** out of the box.
+
+---
+
+## Getting started
+
+```bash
+npm install @mushilu-san/ui
+```
+
+```typescript
+import { provideMushiluUi } from '@mushilu-san/ui';
+
+bootstrapApplication(AppComponent, {
+  providers: [provideMushiluUi()],
+});
+```
+
+Add the token stylesheet to your `styles` array or import it directly:
+
+```css
+@import '@mushilu-san/ui/styles/tokens.css';
+```
+
+---
+
+## Component groups
+
+<div className="component-grid">
+  <div className="component-card">
+    <h4>Primitives</h4>
+    <p>Button, Icon, Badge, Spinner, Divider, Avatar</p>
+    <code>@mushilu-san/ui/primitives</code>
+  </div>
+  <div className="component-card">
+    <h4>Forms</h4>
+    <p>Input, Checkbox, Radio, Select, Toggle, Slider, DatePicker, and more</p>
+    <code>@mushilu-san/ui/forms</code>
+  </div>
+  <div className="component-card">
+    <h4>Layout</h4>
+    <p>Container, Stack, Grid, Spacer, ScrollArea, Resizable, Sidebar</p>
+    <code>@mushilu-san/ui/layout</code>
+  </div>
+  <div className="component-card">
+    <h4>Navigation</h4>
+    <p>Breadcrumb, Tabs, Pagination, NavLink, NavigationMenu, Menubar</p>
+    <code>@mushilu-san/ui/navigation</code>
+  </div>
+  <div className="component-card">
+    <h4>Feedback</h4>
+    <p>Alert, Progress, Skeleton, Toast, Dialog, AlertDialog, Sheet</p>
+    <code>@mushilu-san/ui/feedback</code>
+  </div>
+  <div className="component-card">
+    <h4>Data Display</h4>
+    <p>Accordion, Card, Carousel, Chart, Table, Tooltip, Typography</p>
+    <code>@mushilu-san/ui/data-display</code>
+  </div>
+  <div className="component-card">
+    <h4>Overlays</h4>
+    <p>Popover, Dropdown Menu, Context Menu, Hover Card, Command, Combobox</p>
+    <code>@mushilu-san/ui/overlays</code>
+  </div>
+  <div className="component-card">
+    <h4>Mobile</h4>
+    <p>BottomSheet, FAB, SwipeAction, MobileNav</p>
+    <code>@mushilu-san/ui/mobile</code>
+  </div>
+</div>
+
+---
+
+## Principles
+
+| Principle | What it means |
+|-----------|--------------|
+| **Mobile-first** | Every component meets 44px touch targets and works at 375px width |
+| **Token-driven** | All styling uses `--mui-*` semantic tokens — no hardcoded colors |
+| **Accessible** | WCAG AA contrast, keyboard navigation, ARIA roles, reduced motion |
+| **Zoneless** | Built for Angular's zoneless future — signal-based reactivity only |
+| **Tree-shakable** | Secondary entry points per group — import only what you use |
+
+---
+
+## Theme support
+
+Toggle between light and dark themes using the **paintbrush icon** in the toolbar above.
+
+Components automatically adapt via CSS custom properties — no JavaScript theme switching required. Apply themes with the `data-theme` attribute:
+
+```html
+<html data-theme="dark">
+```
+
+Or let it follow the OS preference automatically.
+
+---
+
+## Browser support
+
+| Browser | Version |
+|---------|---------|
+| Chrome | 120+ |
+| Firefox | 120+ |
+| Safari | 17+ |
+| Edge | 120+ |
