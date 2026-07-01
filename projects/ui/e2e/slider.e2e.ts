@@ -1,12 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory } from './helpers/story';
+import { gotoStoryWithHarness } from './helpers/harness';
+import { MuiSliderHarness } from '../src/lib/forms/src/testing/slider-harness';
 
 test.describe('Slider — E2E pointer drag', () => {
   test('slider thumb has correct aria-valuemin and aria-valuemax', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-slider--default');
-    const thumb = frame.locator('[role="slider"]');
-    await expect(thumb).toHaveAttribute('aria-valuemin', '0');
-    await expect(thumb).toHaveAttribute('aria-valuemax', '100');
+    const { loader } = await gotoStoryWithHarness(page, 'forms-slider--default');
+    const slider = await loader.getHarness(MuiSliderHarness);
+    expect(await slider.getMin()).toBe(0);
+    expect(await slider.getMax()).toBe(100);
   });
 
   test('pointer drag right increases value above 40', async ({ page }) => {
@@ -47,15 +49,19 @@ test.describe('Slider — E2E pointer drag', () => {
   });
 
   test('ArrowRight key increases value', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-slider--default');
-    const track = frame.locator('[part="track"]');
-    const box = await track.boundingBox();
-    if (!box) throw new Error('Slider track not found');
-    // Click at 50% to set a known mid-range value, then press ArrowRight
-    await page.mouse.click(box.x + box.width * 0.5, box.y + box.height / 2);
-    const before = Number(await frame.locator('[role="slider"]').getAttribute('aria-valuenow'));
-    await frame.locator('[role="slider"]').press('ArrowRight');
-    const after = Number(await frame.locator('[role="slider"]').getAttribute('aria-valuenow'));
-    expect(after).toBeGreaterThan(before);
+    const { loader } = await gotoStoryWithHarness(page, 'forms-slider--default');
+    const slider = await loader.getHarness(MuiSliderHarness);
+    // Establish a known value via a real commit first — the story's initial two-way-bound
+    // `value` doesn't reflect into `aria-valuenow` until the first signal write inside the
+    // component (see H-B-<hash> follow-up), matching how the pointer-drag tests above also
+    // interact before reading.
+    await slider.setToMin();
+    // Poll rather than read once: zoneless CD flushes to the DOM asynchronously, and the
+    // library's built-in auto-stabilization can't safely target the Storybook iframe (see
+    // helpers/harness.ts), so there's no synchronous "wait until settled" available here.
+    await expect.poll(() => slider.getValue()).toBe(0);
+    const before = await slider.getValue();
+    await slider.increment(1);
+    await expect.poll(() => slider.getValue()).toBeGreaterThan(before);
   });
 });
