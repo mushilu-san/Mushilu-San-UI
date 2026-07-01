@@ -53,3 +53,6 @@ storybook-static
 /test-results/
 /playwright-report/
 /.playwright-mcp/
+
+# Graphify
+/graphify-out/

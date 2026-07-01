@@ -5,6 +5,13 @@
 Angular 22 component library published to npm as `@mushilu-san/ui`.  
 Mobile-first, token-themed, zero runtime dependencies beyond Angular itself.
 
+## Graphify — query the knowledge graph before working
+
+When `graphify-out/graph.json` exists, run `graphify query "<question>"` before starting
+implementation work. Use it to understand how components connect, which files are involved,
+and what architectural constraints apply. This saves time and prevents changes that conflict
+with existing patterns.
+
 ## Key facts Claude must know
 
 - **Node version required:** 22.x (≥22.12). Node 20.16 ships on this machine — always activate nvm first.
