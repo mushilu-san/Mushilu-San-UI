@@ -1116,8 +1116,8 @@
     "file": "—",
     "title": "Slider aria-valuenow missing on initial render with two-way value binding",
     "description": "mui-slider's [attr.aria-valuenow]=\"value()\" is absent from the DOM on first paint when value is set via a Storybook [(value)] two-way binding (model()); it only appears after the first real interaction (click/keypress) commits a signal write. Confirmed independent of any test tooling via a raw outerHTML dump — aria-valuemin/aria-valuemax/tabindex render correctly, only aria-valuenow is missing. Existing e2e tests never caught this because they always interact before reading. Unit tests use single-way [value] bindings, which don't hit this path either. See projects/ui/e2e/slider.e2e.ts for a repro pattern (loader.getHarness(MuiSliderHarness).getValue() returns null before any interaction on the Default story).",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: added ariaValueNow computed that falls back to min() when value() is transiently null/undefined, so [attr.aria-valuenow] is never stripped from the DOM. Regression test added in slider.spec.ts."
   },
   {
     "id": "D-6",
@@ -1126,8 +1126,8 @@
     "file": "—",
     "title": "ComboboxItem.isSelected has a dead always-false OR clause",
     "description": "projects/ui/src/lib/overlays/src/combobox/combobox-item.ts ~line 60: isSelected = computed(() => this.ctx.selectedLabel() === this.value() || (this.ctx.search() === '' \\&\\& false)). The second OR operand always evaluates to false (search()==='' AND false), so it never contributes to the result. Harmless — selection still works correctly via the first clause — but the dead clause should be removed to avoid misleading future readers into thinking it has behavior. Found while authoring MuiComboboxHarness for the CDK e2e harness rollout.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: removed the always-false `|| (search() === \"\" && false)` clause from isSelected(). No behavior change; no test needed."
   },
   {
     "id": "B-10",
@@ -1136,8 +1136,8 @@
     "file": "—",
     "title": "InputOtp drops/shifts a digit under fast synthetic typing (zoneless CD race)",
     "description": "projects/ui/src/lib/forms/src/input-otp/input-otp.ts + input-otp.html: the slot <input>s use a controlled [value]=\"slots()[idx]\" binding alongside an imperative inp.value = char write inside onInput(), plus a synchronous getInput(idx+1)?.focus() call that moves focus before the zoneless/OnPush change-detection pass (scheduled asynchronously) has necessarily flushed. Under FAST synthetic typing (e.g. page.keyboard.type('1234') with no inter-keystroke delay, or real-world OTP autofill speeds), this intermittently (~1-in-5 in local repro) drops the first typed character and shifts the remaining slot values left by one, e.g. typing '1234' can yield ['2','3','4',''] instead of ['1','2','3','4']. Reproduced identically via raw DOM .value reads (bypassing any test harness), so this is a real component race, not a test-tooling artifact. Repro: gotoStory('forms-inputotp--reactive-form-binding'), click first .otp-slot, page.keyboard.type('1234') with zero delay, read .otp-slot values — retry ~5-10x to catch the race. Likely fix direction: make the focus-transfer + value-commit path resilient to being interleaved with the next native keydown/input event, e.g. by not relying on synchronous focus() immediately after an imperative DOM write when a CD-scheduled [value] rebind is still pending. Found while adding e2e harness coverage (MuiInputOtpHarness) for CDK harness rollout; the e2e test in projects/ui/e2e/cva.e2e.ts was given an inter-keystroke delay to route around this flake for now, but the underlying race is unfixed.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: onFocus()'s deferred select() call now guards against document.activeElement !== the target input before selecting, preventing a stale closure from yanking focus back to an earlier slot mid-typing. Verified with 30x zero-delay Playwright repro (previously failed ~1-in-10); permanent regression test added in cva.e2e.ts."
   },
   {
     "id": "E-8",

@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   computed,
   input,
+  numberAttribute,
 } from '@angular/core';
 
 @Component({
@@ -27,7 +28,7 @@ export class Spacer {
    * When omitted, the spacer grows to fill available space (`flex: 1 1 0%`)
    * — the common "push items apart" pattern inside a Stack/flex row.
    */
-  size = input<number>();
+  size = input<number>(undefined, { transform: numberAttribute });
 
   protected readonly flexValue = computed(() =>
     this.size() === undefined ? '1 1 0%' : '0 0 auto',

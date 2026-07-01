@@ -13,7 +13,7 @@
     role="slider"
     [attr.aria-valuemin]="min()"
     [attr.aria-valuemax]="max()"
-    [attr.aria-valuenow]="value()"
+    [attr.aria-valuenow]="ariaValueNow()"
     [attr.aria-disabled]="isDisabled() || null"
     [attr.tabindex]="isDisabled() ? -1 : 0"
     [style.left.%]="fillPercent()"
