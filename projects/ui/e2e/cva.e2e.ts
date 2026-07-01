@@ -9,16 +9,10 @@ import { MuiInputOtpHarness } from '../src/lib/forms/src/testing/input-otp-harne
 // Type the whole string in one page.keyboard.type() call, then poll once at the end. Polling
 // the harness *between* keystrokes was tried and made things worse, not better: each poll does
 // several CDP round-trips, and that overhead landing between native keydown events appears to
-// perturb the zoneless CD scheduler's timing relative to InputOtp's synchronous focus-transfer
-// in onInput() (tracked as B-10). One uninterrupted type() call, matching how a real user or
-// autofill types, is both simpler and more stable.
+// perturb the zoneless CD scheduler's timing relative to InputOtp's focus-transfer in onInput().
+// One uninterrupted type() call, matching how a real user or autofill types, is both simpler and
+// more stable.
 test.describe('InputOtp interaction — real browser (E-3)', () => {
-  // B-10 is a real, low-probability race in the component (confirmed via raw DOM reads,
-  // independent of any test code) — it isn't fully eliminated by test-side changes alone.
-  // Bounded retries are an explicit, tracked accommodation for that open issue, not a general
-  // anti-flake measure.
-  test.describe.configure({ retries: 2 });
-
   test('renders 4 slots with empty values on load', async ({ page }) => {
     const { frame, loader } = await gotoStoryWithHarness(
       page,
@@ -73,5 +67,18 @@ test.describe('InputOtp interaction — real browser (E-3)', () => {
     await slot0.click(); // re-focus slot 0 so Backspace targets the filled slot
     await page.keyboard.press('Backspace');
     await expect.poll(async () => (await otp.getSlotValues())[0]).toBe('');
+  });
+
+  test('B-10: zero-delay typing does not drop or misroute digits', async ({ page }) => {
+    const { frame, loader } = await gotoStoryWithHarness(
+      page,
+      'forms-inputotp--reactive-form-binding',
+    );
+    const otp = await loader.getHarness(MuiInputOtpHarness);
+    await frame.locator('.otp-slot').first().click();
+    // delay: 0 reproduced a stale-closure race in onFocus()'s deferred select() call, which
+    // could yank focus back to an earlier slot mid-typing and misroute later keystrokes.
+    await page.keyboard.type('1234', { delay: 0 });
+    await expect.poll(() => otp.getSlotValues()).toEqual(['1', '2', '3', '4']);
   });
 });

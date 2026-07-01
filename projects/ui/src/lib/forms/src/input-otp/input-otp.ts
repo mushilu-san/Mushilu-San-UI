@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -44,6 +45,7 @@ export class InputOtp implements ControlValueAccessor {
   valueChange = output<string>();
 
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly document = inject(DOCUMENT);
   private readonly _cva = useCva<string>(this.disabled);
   protected readonly isDisabled = this._cva.isDisabled;
 
@@ -140,7 +142,17 @@ export class InputOtp implements ControlValueAccessor {
   }
 
   protected onFocus(idx: number): void {
-    setTimeout(() => this.getInput(idx)?.select());
+    // B-10: idx is captured in this closure at focus time. Under fast typing, the
+    // synchronous focus-transfer in onInput() can move focus again before this deferred
+    // callback runs, so a stale callback must not call .select() — .select() implicitly
+    // re-focuses its target, which would yank focus back to an earlier slot mid-typing and
+    // misroute the next keystroke.
+    setTimeout(() => {
+      const inp = this.getInput(idx);
+      if (inp && this.document.activeElement === inp) {
+        inp.select();
+      }
+    });
   }
 
   protected onPaste(event: ClipboardEvent, idx: number): void {

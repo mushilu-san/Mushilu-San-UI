@@ -51,6 +51,11 @@ export class Slider implements ControlValueAccessor {
     return Math.max(0, Math.min(100, ((this.value() - this.min()) / range) * 100));
   });
 
+  // aria-valuenow is a mandatory ARIA slider attribute — never let it be stripped from the DOM
+  // (Angular removes [attr.x] bindings that resolve to null/undefined) if value() is transiently
+  // unset by an upstream two-way binding.
+  protected readonly ariaValueNow = computed(() => this.value() ?? this.min());
+
   protected onKeydown(event: KeyboardEvent): void {
     if (this.isDisabled()) return;
     const s = this.step();

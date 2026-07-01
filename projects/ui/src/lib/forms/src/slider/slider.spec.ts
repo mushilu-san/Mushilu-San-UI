@@ -15,6 +15,17 @@ describe('Slider', () => {
     expect(screen.getByRole('slider')).toHaveAttribute('aria-valuenow', '40');
   });
 
+  it('B-9: keeps aria-valuenow present when value() transiently resolves to undefined', async () => {
+    const { fixture, detectChanges } = await renderComponent(Slider, {
+      inputs: { value: 40, min: 5 },
+    });
+    fixture.componentRef.setInput('value', undefined);
+    detectChanges();
+    // aria-valuenow must never be stripped from the DOM — falls back to min() instead of
+    // vanishing while an upstream two-way binding (e.g. Storybook's [(value)]) is unsettled.
+    expect(screen.getByRole('slider')).toHaveAttribute('aria-valuenow', '5');
+  });
+
   it('sets aria-valuemin and aria-valuemax', async () => {
     await renderComponent(Slider, { inputs: { min: 10, max: 90, value: 50 } });
     const thumb = screen.getByRole('slider');

@@ -39,10 +39,10 @@ export class Grid {
   gap = input(4, { transform: numberAttribute });
 
   /** Column gap override — a step on the spacing scale (--mui-space-{n}). */
-  columnGap = input<number>();
+  columnGap = input<number>(undefined, { transform: numberAttribute });
 
   /** Row gap override — a step on the spacing scale (--mui-space-{n}). */
-  rowGap = input<number>();
+  rowGap = input<number>(undefined, { transform: numberAttribute });
 
   /** Block-axis alignment of grid items (align-items). */
   align = input<GridAlign>('stretch');
