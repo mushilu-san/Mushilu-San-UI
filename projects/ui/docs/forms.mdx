@@ -1,0 +1,112 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Forms/Overview" />
+
+# Forms
+
+Form controls with built-in `ControlValueAccessor` support. Import from `@mushilu-san/ui/forms`.
+
+```typescript
+import { Input, Checkbox, Select, Toggle, Slider } from '@mushilu-san/ui/forms';
+```
+
+---
+
+<div className="component-grid">
+  <div className="component-card">
+    <h4>Input</h4>
+    <p>Text input with outline, filled, and ghost variants</p>
+    <code>input[muiInput]</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Checkbox</h4>
+    <p>Checkbox with indeterminate state support</p>
+    <code>mui-checkbox</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Radio</h4>
+    <p>Radio group with roving tabindex keyboard nav</p>
+    <code>mui-radio</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Select</h4>
+    <p>Custom select dropdown with search and multi-select</p>
+    <code>mui-select</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Textarea</h4>
+    <p>Multi-line text input with auto-resize option</p>
+    <code>textarea[muiTextarea]</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Toggle</h4>
+    <p>On/off switch with label and disabled state</p>
+    <code>mui-toggle</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Slider</h4>
+    <p>Range slider with min, max, step, and dual thumbs</p>
+    <code>mui-slider</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>DatePicker</h4>
+    <p>Date input with calendar popover</p>
+    <code>mui-date-picker</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Label</h4>
+    <p>Form label linked to controls via for/id</p>
+    <code>mui-label</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>FormField</h4>
+    <p>Wrapper with label, error message, and description slots</p>
+    <code>mui-form-field</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>InputOtp</h4>
+    <p>One-time password input with auto-advance</p>
+    <code>mui-input-otp</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>InputGroup</h4>
+    <p>Prefix/suffix addon wrapper for inputs</p>
+    <code>mui-input-group</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>ToggleGroup</h4>
+    <p>Segmented control — single or multi-select</p>
+    <code>mui-toggle-group</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Calendar</h4>
+    <p>Standalone calendar grid for date selection</p>
+    <code>mui-calendar</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+</div>
+
+---
+
+## CVA pattern
+
+All form controls implement `ControlValueAccessor` for Angular forms compatibility:
+
+```html
+<mui-checkbox [(ngModel)]="agreed">I agree</mui-checkbox>
+
+<mui-slider [formControl]="volume" [min]="0" [max]="100" />
+```
