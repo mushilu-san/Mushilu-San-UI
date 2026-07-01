@@ -56,9 +56,7 @@ export class ComboboxItem {
 
   protected readonly ctx = inject(COMBOBOX_CONTEXT);
 
-  protected readonly isSelected = computed(
-    () => this.ctx.selectedLabel() === this.value() || (this.ctx.search() === '' && false),
-  );
+  protected readonly isSelected = computed(() => this.ctx.selectedLabel() === this.value());
   protected readonly isHidden = computed(() => {
     const q = this.ctx.search().toLowerCase().trim();
     if (!q) return false;
