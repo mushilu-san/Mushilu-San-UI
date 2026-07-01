@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory } from './helpers/story';
+import { gotoStoryWithHarness } from './helpers/harness';
+import { MuiAlertDialogHarness } from '../src/lib/feedback/src/testing/alert-dialog-harness';
 
 test.describe('AlertDialog — E2E focus trap + no-Escape', () => {
   test('focus moves inside alert dialog on open', async ({ page }) => {
@@ -20,18 +22,21 @@ test.describe('AlertDialog — E2E focus trap + no-Escape', () => {
   });
 
   test('Cancel button closes the alert dialog', async ({ page }) => {
-    const frame = await gotoStory(page, 'feedback-alertdialog--default');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-alertdialog--default');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
-    await expect(frame.getByRole('dialog')).toBeVisible();
-    await frame.getByRole('button', { name: 'Cancel' }).click();
-    await expect(frame.getByRole('dialog')).not.toBeVisible();
+    const dialog = await loader.getHarness(MuiAlertDialogHarness);
+    // Poll rather than read once: zoneless CD flushes to the DOM asynchronously.
+    await expect.poll(() => dialog.isOpen()).toBe(true);
+    await dialog.cancel();
+    await expect.poll(() => dialog.isOpen()).toBe(false);
   });
 
   test('Confirm button closes the alert dialog', async ({ page }) => {
-    const frame = await gotoStory(page, 'feedback-alertdialog--default');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-alertdialog--default');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
-    await expect(frame.getByRole('dialog')).toBeVisible();
-    await frame.getByRole('button', { name: 'Confirm' }).click();
-    await expect(frame.getByRole('dialog')).not.toBeVisible();
+    const dialog = await loader.getHarness(MuiAlertDialogHarness);
+    await expect.poll(() => dialog.isOpen()).toBe(true);
+    await dialog.confirm();
+    await expect.poll(() => dialog.isOpen()).toBe(false);
   });
 });

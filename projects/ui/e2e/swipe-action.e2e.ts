@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { gotoStory } from './helpers/story';
+import { gotoStoryWithHarness } from './helpers/harness';
+import { MuiSwipeActionHarness } from '../src/lib/mobile/src/testing/swipe-action-harness';
 
 type PlaywrightPage = import('@playwright/test').Page;
 
@@ -9,6 +10,9 @@ async function getStoryFrame(page: PlaywrightPage) {
   return frame;
 }
 
+// Raw touch-event simulation kept as-is — a harness wouldn't meaningfully simplify
+// dispatching synthetic TouchEvents, per the pattern established in slider.e2e.ts for
+// pointer-drag tests.
 async function swipeLeft(page: PlaywrightPage, distancePx: number): Promise<void> {
   const storyFrame = await getStoryFrame(page);
   await storyFrame.evaluate((dist: number) => {
@@ -93,27 +97,30 @@ async function swipeRight(page: PlaywrightPage, distancePx: number): Promise<voi
 
 test.describe('SwipeAction — E2E touch gesture', () => {
   test('swipe left past threshold sets data-revealed="right"', async ({ page }) => {
-    const frame = await gotoStory(page, 'mobile-swipeaction--default');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'mobile-swipeaction--default');
+    const swipeAction = await loader.getHarness(MuiSwipeActionHarness);
     const el = frame.locator('mui-swipe-action');
     await expect(el).toBeVisible();
     await swipeLeft(page, 90); // > REVEAL_THRESHOLD (72px)
-    await expect(el).toHaveAttribute('data-revealed', 'right');
+    // Poll after the interaction: zoneless CD flushes to the DOM asynchronously.
+    await expect.poll(() => swipeAction.getRevealedSide()).toBe('right');
   });
 
   test('swipe right resets row (removes data-revealed)', async ({ page }) => {
-    const frame = await gotoStory(page, 'mobile-swipeaction--default');
-    const el = frame.locator('mui-swipe-action');
+    const { loader } = await gotoStoryWithHarness(page, 'mobile-swipeaction--default');
+    const swipeAction = await loader.getHarness(MuiSwipeActionHarness);
     await swipeLeft(page, 90);
-    await expect(el).toHaveAttribute('data-revealed', 'right');
+    await expect.poll(() => swipeAction.getRevealedSide()).toBe('right');
     await swipeRight(page, 90);
-    await expect(el).not.toHaveAttribute('data-revealed');
+    await expect.poll(() => swipeAction.isRevealed()).toBe(false);
   });
 
   test('clicking revealed Delete action emits actionTriggered', async ({ page }) => {
-    const frame = await gotoStory(page, 'mobile-swipeaction--default');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'mobile-swipeaction--default');
+    const swipeAction = await loader.getHarness(MuiSwipeActionHarness);
     await swipeLeft(page, 90);
-    // Visual action buttons are inside aria-hidden rails; use part attr to locate them
-    await frame.locator('[part="action"]').click();
+    await expect.poll(() => swipeAction.getRevealedSide()).toBe('right');
+    await swipeAction.clickAction('Delete');
     await expect(frame.getByText('Triggered: delete')).toBeVisible();
   });
 });

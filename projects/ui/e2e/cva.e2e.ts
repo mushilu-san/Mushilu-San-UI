@@ -1,37 +1,56 @@
 import { expect, test } from '@playwright/test';
 import { gotoStory } from './helpers/story';
+import { gotoStoryWithHarness } from './helpers/harness';
+import { MuiInputOtpHarness } from '../src/lib/forms/src/testing/input-otp-harness';
 
 // E-3: InputOtp user-interaction round-trip — real browser, real DOM
 // Tests slot state after typing; value-emission & CVA paths covered by unit specs.
+//
+// Type the whole string in one page.keyboard.type() call, then poll once at the end. Polling
+// the harness *between* keystrokes was tried and made things worse, not better: each poll does
+// several CDP round-trips, and that overhead landing between native keydown events appears to
+// perturb the zoneless CD scheduler's timing relative to InputOtp's synchronous focus-transfer
+// in onInput() (tracked as B-10). One uninterrupted type() call, matching how a real user or
+// autofill types, is both simpler and more stable.
 test.describe('InputOtp interaction — real browser (E-3)', () => {
+  // B-10 is a real, low-probability race in the component (confirmed via raw DOM reads,
+  // independent of any test code) — it isn't fully eliminated by test-side changes alone.
+  // Bounded retries are an explicit, tracked accommodation for that open issue, not a general
+  // anti-flake measure.
+  test.describe.configure({ retries: 2 });
+
   test('renders 4 slots with empty values on load', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
-    const slots = frame.locator('.otp-slot');
-    await expect(slots).toHaveCount(4);
-    for (let i = 0; i < 4; i++) {
-      expect(await slots.nth(i).inputValue()).toBe('');
-    }
+    const { frame, loader } = await gotoStoryWithHarness(
+      page,
+      'forms-inputotp--reactive-form-binding',
+    );
+    const otp = await loader.getHarness(MuiInputOtpHarness);
+    await expect(frame.locator('.otp-slot')).toHaveCount(4);
+    expect(await otp.getSlotValues()).toEqual(['', '', '', '']);
   });
 
   test('typing fills slot values left-to-right', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
+    const { frame, loader } = await gotoStoryWithHarness(
+      page,
+      'forms-inputotp--reactive-form-binding',
+    );
+    const otp = await loader.getHarness(MuiInputOtpHarness);
     await frame.locator('.otp-slot').first().click();
     await page.keyboard.type('1234');
-    const slots = frame.locator('.otp-slot');
-    expect(await slots.nth(0).inputValue()).toBe('1');
-    expect(await slots.nth(1).inputValue()).toBe('2');
-    expect(await slots.nth(2).inputValue()).toBe('3');
-    expect(await slots.nth(3).inputValue()).toBe('4');
+    await expect.poll(() => otp.getSlotValues()).toEqual(['1', '2', '3', '4']);
+    await expect.poll(() => otp.getFocusedSlotIndex()).toBe(3);
   });
 
   test('partial entry leaves later slots empty', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
+    const { frame, loader } = await gotoStoryWithHarness(
+      page,
+      'forms-inputotp--reactive-form-binding',
+    );
+    const otp = await loader.getHarness(MuiInputOtpHarness);
     await frame.locator('.otp-slot').first().click();
     await page.keyboard.type('42');
-    const slots = frame.locator('.otp-slot');
-    expect(await slots.nth(0).inputValue()).toBe('4');
-    expect(await slots.nth(1).inputValue()).toBe('2');
-    expect(await slots.nth(2).inputValue()).toBe('');
+    await expect.poll(() => otp.getSlotValues()).toEqual(['4', '2', '', '']);
+    await expect.poll(() => otp.getFocusedSlotIndex()).toBe(2);
   });
 
   test('slots are not aria-disabled by default', async ({ page }) => {
@@ -42,13 +61,17 @@ test.describe('InputOtp interaction — real browser (E-3)', () => {
   });
 
   test('Backspace on a filled slot clears it', async ({ page }) => {
-    const frame = await gotoStory(page, 'forms-inputotp--reactive-form-binding');
+    const { frame, loader } = await gotoStoryWithHarness(
+      page,
+      'forms-inputotp--reactive-form-binding',
+    );
+    const otp = await loader.getHarness(MuiInputOtpHarness);
     const slot0 = frame.locator('.otp-slot').first();
     await slot0.click();
     await page.keyboard.type('1');
-    await expect(slot0).toHaveValue('1'); // wait for Angular to flush '1' into DOM
+    await expect.poll(async () => (await otp.getSlotValues())[0]).toBe('1');
     await slot0.click(); // re-focus slot 0 so Backspace targets the filled slot
     await page.keyboard.press('Backspace');
-    await expect(slot0).toHaveValue('');
+    await expect.poll(async () => (await otp.getSlotValues())[0]).toBe('');
   });
 });

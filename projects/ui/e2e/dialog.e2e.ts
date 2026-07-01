@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory } from './helpers/story';
+import { gotoStoryWithHarness } from './helpers/harness';
+import { MuiDialogHarness } from '../src/lib/feedback/src/testing/dialog-harness';
 
 test.describe('Dialog — E-1 focus management', () => {
   test('focus moves inside dialog on open', async ({ page }) => {
@@ -12,19 +14,24 @@ test.describe('Dialog — E-1 focus management', () => {
   });
 
   test('Escape closes the dialog', async ({ page }) => {
-    const frame = await gotoStory(page, 'feedback-dialog--playground');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--playground');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
-    await expect(frame.getByRole('dialog')).toBeVisible();
+    const dialog = await loader.getHarness(MuiDialogHarness);
+    // Poll rather than read once: zoneless CD flushes to the DOM asynchronously.
+    await expect.poll(() => dialog.isOpen()).toBe(true);
     await page.keyboard.press('Escape');
-    await expect(frame.getByRole('dialog')).not.toBeVisible();
+    await expect.poll(() => dialog.isOpen()).toBe(false);
   });
 
   test('Cancel button closes the dialog', async ({ page }) => {
-    const frame = await gotoStory(page, 'feedback-dialog--playground');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--playground');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
-    await expect(frame.getByRole('dialog')).toBeVisible();
+    const dialog = await loader.getHarness(MuiDialogHarness);
+    await expect.poll(() => dialog.isOpen()).toBe(true);
+    // "Cancel" is story-provided footer content (slot="footer"), not part of the Dialog
+    // component itself — click it raw, but verify the resulting state via the harness.
     await frame.getByRole('button', { name: 'Cancel' }).click();
-    await expect(frame.getByRole('dialog')).not.toBeVisible();
+    await expect.poll(() => dialog.isOpen()).toBe(false);
   });
 
   test('focus returns to trigger after Escape', async ({ page }) => {
@@ -39,13 +46,13 @@ test.describe('Dialog — E-1 focus management', () => {
   });
 
   test('backdrop click closes dialog when closeOnBackdrop=true', async ({ page }) => {
-    const frame = await gotoStory(page, 'feedback-dialog--playground');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--playground');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
-    const dialog = frame.getByRole('dialog');
-    await expect(dialog).toBeVisible();
+    const dialog = await loader.getHarness(MuiDialogHarness);
+    await expect.poll(() => dialog.isOpen()).toBe(true);
     // Dispatch click directly on the <dialog> element — event.target === dialog
     // triggers the onBackdropClick handler (same as a real backdrop click in Chrome)
     await frame.locator('dialog').dispatchEvent('click');
-    await expect(dialog).not.toBeVisible();
+    await expect.poll(() => dialog.isOpen()).toBe(false);
   });
 });

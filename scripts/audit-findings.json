@@ -1006,7 +1006,7 @@
     "file": "—",
     "title": "Sheet missing focus/Escape/return-focus E2E coverage",
     "description": "No Playwright spec for Sheet. Required: focus trap on open, Escape closes, focus returns to trigger. Fix: add projects/ui/e2e/sheet.e2e.ts.",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1016,7 +1016,7 @@
     "file": "—",
     "title": "AlertDialog missing focus-trap and no-Escape E2E coverage",
     "description": "No Playwright spec for AlertDialog. AlertDialog must NOT close on Escape (unlike Dialog). Required: verify focus trap, verify Escape does not dismiss. Fix: add projects/ui/e2e/alert-dialog.e2e.ts.",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1026,7 +1026,7 @@
     "file": "—",
     "title": "BottomSheet missing E2E coverage",
     "description": "No Playwright spec for BottomSheet. Required: focus trap on open, Escape closes, focus returns to trigger. Fix: add projects/ui/e2e/bottom-sheet.e2e.ts.",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1036,7 +1036,7 @@
     "file": "—",
     "title": "SwipeAction missing pointer-simulation E2E",
     "description": "No Playwright spec for SwipeAction swipe gesture. Required: page.mouse.move() drag simulation revealing the action, and drag-back to reset. Fix: add projects/ui/e2e/swipe-action.e2e.ts.",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1046,7 +1046,7 @@
     "file": "—",
     "title": "Slider missing pointer-drag E2E",
     "description": "No Playwright spec for Slider handle dragging. Required: page.mouse.down on handle, move to new position, assert value updated. Fix: add projects/ui/e2e/slider.e2e.ts.",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1056,7 +1056,7 @@
     "file": "—",
     "title": "FAB missing E2E coverage",
     "description": "No Playwright spec for FAB. Required: click triggers action, loading state disables interaction, disabled state blocks click. Fix: add projects/ui/e2e/fab.e2e.ts.",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1066,7 +1066,7 @@
     "file": "—",
     "title": "MobileNav missing E2E coverage",
     "description": "No Playwright spec for MobileNav. Required: click nav item sets active state, aria-current updates, value emitted. Fix: add projects/ui/e2e/mobile-nav.e2e.ts.",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1076,7 +1076,7 @@
     "file": "—",
     "title": "vite high-severity NTLMv2 hash disclosure vulnerability",
     "description": "npm audit reports a high-severity vulnerability in vite via launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows. Affects dev and CI environments. Fix: upgrade vite to a patched version or add an npm override for launch-editor to >=2.7.0.",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1086,7 +1086,7 @@
     "file": "—",
     "title": "js-yaml Quadratic DoS in @changesets toolchain",
     "description": "npm audit reports a moderate vulnerability in js-yaml (Quadratic-complexity DoS via repeated merge key aliases) pulled in through the @changesets/cli → read-yaml-file → js-yaml chain. Fix: add npm override in package.json: \"js-yaml\": \">=4.1.0\".",
-"resolved": true,
+    "resolved": true,
     "resolvedNote": ""
   },
   {
@@ -1106,6 +1106,36 @@
     "file": "—",
     "title": "FAB: disabled=true sets tabindex=-1, removing keyboard access",
     "description": "mui-fab button gets tabindex=-1 when disabled input is true, violating WCAG 2.1 SC 2.1.1: keyboard users cannot reach the button. Fix: keep tabindex=0 and use aria-disabled=true only.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "B-9",
+    "severity": "medium",
+    "category": "bugs",
+    "file": "—",
+    "title": "Slider aria-valuenow missing on initial render with two-way value binding",
+    "description": "mui-slider's [attr.aria-valuenow]=\"value()\" is absent from the DOM on first paint when value is set via a Storybook [(value)] two-way binding (model()); it only appears after the first real interaction (click/keypress) commits a signal write. Confirmed independent of any test tooling via a raw outerHTML dump — aria-valuemin/aria-valuemax/tabindex render correctly, only aria-valuenow is missing. Existing e2e tests never caught this because they always interact before reading. Unit tests use single-way [value] bindings, which don't hit this path either. See projects/ui/e2e/slider.e2e.ts for a repro pattern (loader.getHarness(MuiSliderHarness).getValue() returns null before any interaction on the Default story).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "D-6",
+    "severity": "low",
+    "category": "dead-code",
+    "file": "—",
+    "title": "ComboboxItem.isSelected has a dead always-false OR clause",
+    "description": "projects/ui/src/lib/overlays/src/combobox/combobox-item.ts ~line 60: isSelected = computed(() => this.ctx.selectedLabel() === this.value() || (this.ctx.search() === '' \\&\\& false)). The second OR operand always evaluates to false (search()==='' AND false), so it never contributes to the result. Harmless — selection still works correctly via the first clause — but the dead clause should be removed to avoid misleading future readers into thinking it has behavior. Found while authoring MuiComboboxHarness for the CDK e2e harness rollout.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "B-10",
+    "severity": "high",
+    "category": "bugs",
+    "file": "—",
+    "title": "InputOtp drops/shifts a digit under fast synthetic typing (zoneless CD race)",
+    "description": "projects/ui/src/lib/forms/src/input-otp/input-otp.ts + input-otp.html: the slot <input>s use a controlled [value]=\"slots()[idx]\" binding alongside an imperative inp.value = char write inside onInput(), plus a synchronous getInput(idx+1)?.focus() call that moves focus before the zoneless/OnPush change-detection pass (scheduled asynchronously) has necessarily flushed. Under FAST synthetic typing (e.g. page.keyboard.type('1234') with no inter-keystroke delay, or real-world OTP autofill speeds), this intermittently (~1-in-5 in local repro) drops the first typed character and shifts the remaining slot values left by one, e.g. typing '1234' can yield ['2','3','4',''] instead of ['1','2','3','4']. Reproduced identically via raw DOM .value reads (bypassing any test harness), so this is a real component race, not a test-tooling artifact. Repro: gotoStory('forms-inputotp--reactive-form-binding'), click first .otp-slot, page.keyboard.type('1234') with zero delay, read .otp-slot values — retry ~5-10x to catch the race. Likely fix direction: make the focus-transfer + value-commit path resilient to being interleaved with the next native keydown/input event, e.g. by not relying on synchronous focus() immediately after an imperative DOM write when a CD-scheduled [value] rebind is still pending. Found while adding e2e harness coverage (MuiInputOtpHarness) for CDK harness rollout; the e2e test in projects/ui/e2e/cva.e2e.ts was given an inter-keystroke delay to route around this flake for now, but the underlying race is unfixed.",
     "resolved": false,
     "resolvedNote": ""
   }
