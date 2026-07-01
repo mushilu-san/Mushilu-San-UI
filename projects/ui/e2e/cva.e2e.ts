@@ -6,29 +6,17 @@ import { MuiInputOtpHarness } from '../src/lib/forms/src/testing/input-otp-harne
 // E-3: InputOtp user-interaction round-trip — real browser, real DOM
 // Tests slot state after typing; value-emission & CVA paths covered by unit specs.
 //
-// Types one character at a time and waits for it to commit before typing the next. This is
-// required, not just defensive: zero/low-delay synthetic typing can race the focus-transfer in
-// onInput() against the async zoneless [value] rebind and drop a character (tracked as B-10).
-// Waiting for each keystroke to land avoids the race deterministically, unlike a fixed delay.
-async function typeAndWaitPerChar(
-  page: import('@playwright/test').Page,
-  otp: MuiInputOtpHarness,
-  text: string,
-  startIndex: number,
-): Promise<void> {
-  for (let i = 0; i < text.length; i++) {
-    await page.keyboard.type(text[i]!);
-    const idx = startIndex + i;
-    await expect.poll(async () => (await otp.getSlotValues())[idx]).toBe(text[i]);
-  }
-}
-
+// Type the whole string in one page.keyboard.type() call, then poll once at the end. Polling
+// the harness *between* keystrokes was tried and made things worse, not better: each poll does
+// several CDP round-trips, and that overhead landing between native keydown events appears to
+// perturb the zoneless CD scheduler's timing relative to InputOtp's synchronous focus-transfer
+// in onInput() (tracked as B-10). One uninterrupted type() call, matching how a real user or
+// autofill types, is both simpler and more stable.
 test.describe('InputOtp interaction — real browser (E-3)', () => {
-  // The typing race (B-10) is load-sensitive: it reproduces far more often when many browser
-  // instances run in parallel (CI / full-suite runs) than in isolation, and per-character waits
-  // reduce but don't eliminate it — the corruption happens within a single keystroke's handling,
-  // not in the gap between keystrokes. Retrying here is an explicit, tracked accommodation for a
-  // known, open, out-of-scope product bug — not a blanket anti-flake measure.
+  // B-10 is a real, low-probability race in the component (confirmed via raw DOM reads,
+  // independent of any test code) — it isn't fully eliminated by test-side changes alone.
+  // Bounded retries are an explicit, tracked accommodation for that open issue, not a general
+  // anti-flake measure.
   test.describe.configure({ retries: 2 });
 
   test('renders 4 slots with empty values on load', async ({ page }) => {
@@ -48,11 +36,9 @@ test.describe('InputOtp interaction — real browser (E-3)', () => {
     );
     const otp = await loader.getHarness(MuiInputOtpHarness);
     await frame.locator('.otp-slot').first().click();
-    await typeAndWaitPerChar(page, otp, '1234', 0);
+    await page.keyboard.type('1234');
     await expect.poll(() => otp.getSlotValues()).toEqual(['1', '2', '3', '4']);
-    // Not asserting getFocusedSlotIndex() here: the same B-10 race also makes the
-    // auto-advance-on-fill focus transfer land inconsistently under test automation, even with
-    // per-character waits. Value correctness (above) is the load-bearing assertion.
+    await expect.poll(() => otp.getFocusedSlotIndex()).toBe(3);
   });
 
   test('partial entry leaves later slots empty', async ({ page }) => {
@@ -62,9 +48,9 @@ test.describe('InputOtp interaction — real browser (E-3)', () => {
     );
     const otp = await loader.getHarness(MuiInputOtpHarness);
     await frame.locator('.otp-slot').first().click();
-    await typeAndWaitPerChar(page, otp, '42', 0);
+    await page.keyboard.type('42');
     await expect.poll(() => otp.getSlotValues()).toEqual(['4', '2', '', '']);
-    // Not asserting getFocusedSlotIndex() here — see the note in the test above (B-10).
+    await expect.poll(() => otp.getFocusedSlotIndex()).toBe(2);
   });
 
   test('slots are not aria-disabled by default', async ({ page }) => {
