@@ -1138,5 +1138,65 @@
     "description": "projects/ui/src/lib/forms/src/input-otp/input-otp.ts + input-otp.html: the slot <input>s use a controlled [value]=\"slots()[idx]\" binding alongside an imperative inp.value = char write inside onInput(), plus a synchronous getInput(idx+1)?.focus() call that moves focus before the zoneless/OnPush change-detection pass (scheduled asynchronously) has necessarily flushed. Under FAST synthetic typing (e.g. page.keyboard.type('1234') with no inter-keystroke delay, or real-world OTP autofill speeds), this intermittently (~1-in-5 in local repro) drops the first typed character and shifts the remaining slot values left by one, e.g. typing '1234' can yield ['2','3','4',''] instead of ['1','2','3','4']. Reproduced identically via raw DOM .value reads (bypassing any test harness), so this is a real component race, not a test-tooling artifact. Repro: gotoStory('forms-inputotp--reactive-form-binding'), click first .otp-slot, page.keyboard.type('1234') with zero delay, read .otp-slot values — retry ~5-10x to catch the race. Likely fix direction: make the focus-transfer + value-commit path resilient to being interleaved with the next native keydown/input event, e.g. by not relying on synchronous focus() immediately after an imperative DOM write when a CD-scheduled [value] rebind is still pending. Found while adding e2e harness coverage (MuiInputOtpHarness) for CDK harness rollout; the e2e test in projects/ui/e2e/cva.e2e.ts was given an inter-keystroke delay to route around this flake for now, but the underlying race is unfixed.",
     "resolved": true,
     "resolvedNote": "Fixed: onFocus()'s deferred select() call now guards against document.activeElement !== the target input before selecting, preventing a stale closure from yanking focus back to an earlier slot mid-typing. Verified with 30x zero-delay Playwright repro (previously failed ~1-in-10); permanent regression test added in cva.e2e.ts."
+  },
+  {
+    "id": "E-8",
+    "severity": "medium",
+    "category": "e2e",
+    "file": "—",
+    "title": "Primitives group missing E2E coverage + CDK harnesses",
+    "description": "Avatar, Badge, Button, Divider, Icon, Spinner have no Playwright e2e specs and no @mushilu-san/ui/primitives/testing harnesses. Follow the pattern proven in the forms/navigation/data-display/mobile/feedback/overlays rollout (PR #229): one harness per component in projects/ui/src/lib/primitives/src/testing/, a Default Storybook story per component suitable for e2e, and a spec per component under projects/ui/e2e/.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "E-9",
+    "severity": "medium",
+    "category": "e2e",
+    "file": "—",
+    "title": "Layout group missing E2E coverage + CDK harnesses",
+    "description": "AspectRatio, Container, Grid, Resizable, ScrollArea, Sidebar, Spacer, Stack have no Playwright e2e specs and no @mushilu-san/ui/layout/testing harnesses. Follow the pattern proven in PR #229. Resizable and ScrollArea are the most likely to benefit from real pointer-drag/scroll e2e coverage; the rest may only need lightweight structural/a11y checks.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "E-10",
+    "severity": "medium",
+    "category": "e2e",
+    "file": "—",
+    "title": "Forms group remainder missing E2E coverage + CDK harnesses",
+    "description": "Checkbox, DatePicker, FormField, Input, InputGroup, Label, Radio, Select, Textarea, Toggle, ToggleGroup have no Playwright e2e specs (Slider, Calendar, and InputOtp already do, from PR #229). Add harnesses to the existing forms/testing entry point (flat in projects/ui/src/lib/forms/src/testing/, alongside slider-harness.ts/calendar-harness.ts/input-otp-harness.ts) and a spec per component.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "E-11",
+    "severity": "medium",
+    "category": "e2e",
+    "file": "—",
+    "title": "Navigation group remainder missing E2E coverage + CDK harnesses",
+    "description": "Breadcrumb, Menubar, NavLink, NavigationMenu, Pagination have no Playwright e2e specs (Tabs already does, from PR #229). Add harnesses to the existing navigation/testing entry point and a spec per component.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "E-12",
+    "severity": "medium",
+    "category": "e2e",
+    "file": "—",
+    "title": "Feedback group remainder missing E2E coverage + CDK harnesses",
+    "description": "Alert, Progress, Skeleton have no Playwright e2e specs (AlertDialog, Dialog, Sheet, Toast already do, from PR #229). Add harnesses to the existing feedback/testing entry point and a spec per component.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "E-13",
+    "severity": "medium",
+    "category": "e2e",
+    "file": "—",
+    "title": "Data-display group remainder missing E2E coverage + CDK harnesses",
+    "description": "Accordion, Card, Chart, Empty, Table, Typography have no Playwright e2e specs (Carousel and Tooltip already do, from PR #229). Add harnesses to the existing data-display/testing entry point and a spec per component.",
+    "resolved": false,
+    "resolvedNote": ""
   }
 ]
