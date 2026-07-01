@@ -1,0 +1,61 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Overlays/Overview" />
+
+# Overlays
+
+Floating and contextual UI components. Import from `@mushilu-san/ui/overlays`.
+
+```typescript
+import { Popover, DropdownMenu, ContextMenu, HoverCard, Command, Combobox }
+  from '@mushilu-san/ui/overlays';
+```
+
+---
+
+<div className="component-grid">
+  <div className="component-card">
+    <h4>Popover</h4>
+    <p>Anchored floating panel for rich content</p>
+    <code>mui-popover</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Dropdown Menu</h4>
+    <p>Action menu with keyboard navigation and sub-menus</p>
+    <code>mui-dropdown-menu</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Context Menu</h4>
+    <p>Right-click menu triggered on any element</p>
+    <code>mui-context-menu</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Hover Card</h4>
+    <p>Preview card shown on hover with delay</p>
+    <code>mui-hover-card</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Command</h4>
+    <p>Command palette / spotlight search with filtering</p>
+    <code>mui-command</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Combobox</h4>
+    <p>Searchable select with typeahead and option groups</p>
+    <code>mui-combobox</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+</div>
+
+---
+
+## Key behaviors
+
+- All overlays reposition on scroll and resize while visible.
+- Focus moves inside on open, Escape closes, focus returns to trigger on close.
+- All overlays are clamped within the viewport with minimum 4px margins.

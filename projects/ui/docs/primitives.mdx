@@ -6,27 +6,60 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Core building-block components. Import from `@mushilu-san/ui/primitives`.
 
-```ts
-import { Button } from '@mushilu-san/ui/primitives';
+```typescript
+import { Button, Badge, Icon, Spinner, Avatar, Divider } from '@mushilu-san/ui/primitives';
 ```
 
-## Components
+---
 
-| Component | Selector | Status |
-|-----------|----------|--------|
-| Button | `button[muiButton]`, `a[muiButton]` | ✅ Ready |
-| Icon | `mui-icon` | 🚧 Planned |
-| Badge | `mui-badge` | 🚧 Planned |
-| Spinner | `mui-spinner` | 🚧 Planned |
-| Divider | `mui-divider` | 🚧 Planned |
-| Avatar | `mui-avatar` | 🚧 Planned |
+<div className="component-grid">
+  <div className="component-card">
+    <h4>Button</h4>
+    <p>Primary action trigger with variants, sizes, loading state</p>
+    <code>button[muiButton]</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Icon</h4>
+    <p>SVG icon wrapper with size and color inheritance</p>
+    <code>mui-icon</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Badge</h4>
+    <p>Status indicator with variant colors and dot mode</p>
+    <code>mui-badge</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Spinner</h4>
+    <p>Loading indicator with configurable size</p>
+    <code>mui-spinner</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Avatar</h4>
+    <p>User avatar with image, initials, or fallback icon</p>
+    <code>mui-avatar</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>Divider</h4>
+    <p>Horizontal or vertical visual separator</p>
+    <code>mui-divider</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+</div>
 
-## Design tokens used
+---
 
-- `--mui-color-primary` / `--mui-color-primary-text`
-- `--mui-color-danger`
-- `--mui-color-surface` / `--mui-color-border`
-- `--mui-space-*`
-- `--mui-radius-md`
-- `--mui-font-weight-medium`
-- `--mui-touch-target` (44px minimum on all interactive elements)
+## Key tokens used
+
+| Token | Purpose |
+|-------|---------|
+| `--mui-color-primary` | Button primary variant |
+| `--mui-color-danger` | Destructive variant, danger badges |
+| `--mui-color-success` | Success badges |
+| `--mui-color-surface` | Card-like surfaces, divider default |
+| `--mui-radius-md` | Default border radius |
+| `--mui-touch-target` | 44px minimum for all interactive elements |

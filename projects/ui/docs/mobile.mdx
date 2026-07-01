@@ -1,0 +1,49 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Mobile/Overview" />
+
+# Mobile
+
+Touch-optimized components designed for mobile-first interfaces. Import from `@mushilu-san/ui/mobile`.
+
+```typescript
+import { BottomSheet, FAB, SwipeAction, MobileNav } from '@mushilu-san/ui/mobile';
+```
+
+---
+
+<div className="component-grid">
+  <div className="component-card">
+    <h4>BottomSheet</h4>
+    <p>Draggable sheet from the bottom edge with snap points</p>
+    <code>mui-bottom-sheet</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>FAB</h4>
+    <p>Floating action button with fixed positioning</p>
+    <code>mui-fab</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>SwipeAction</h4>
+    <p>Swipeable row revealing action buttons underneath</p>
+    <code>mui-swipe-action</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+  <div className="component-card">
+    <h4>MobileNav</h4>
+    <p>Bottom tab bar navigation for mobile apps</p>
+    <code>mui-mobile-nav</code>
+    <br /><span className="status-badge status-badge--ready">Ready</span>
+  </div>
+</div>
+
+---
+
+## Mobile design guidelines
+
+- All touch targets meet the 44px minimum (WCAG 2.5.5).
+- Gesture-based components include keyboard alternatives.
+- All animations honor `prefers-reduced-motion`.
+- Test with the **Mobile (375px)** viewport preset in the toolbar.
