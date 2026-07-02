@@ -51,7 +51,7 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
 
   private readonly _registry: PanelEntry[] = [];
   private readonly _sizes: ReturnType<typeof signal<number[]>> = signal([]);
-  private readonly _sizeSignals: Signal<number>[] = [];
+  private readonly _entryBySignal = new Map<Signal<number>, PanelEntry>();
 
   private _dragState: {
     panelAIdx: number;
@@ -63,18 +63,34 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   private _dragSession: DragSession | null = null;
 
   registerPanel(defaultSize: number, minSize: number, maxSize: number): ResizablePanelRegistration {
-    const idx = this._registry.length;
-    this._registry.push({ defaultSize, minSize, maxSize });
+    const entry: PanelEntry = { defaultSize, minSize, maxSize };
+    this._registry.push(entry);
+    this._recalculateSizes();
 
-    const sizes = this._registry;
-    const total = sizes.reduce((s, p) => s + p.defaultSize, 0) || 100;
-    const normalized = sizes.map((p) => (p.defaultSize / total) * 100);
-    this._sizes.set(normalized);
+    // Looks up its slot by entry identity (not a captured index) so it keeps
+    // pointing at the right size after other panels are unregistered.
+    const sizeSignal = computed(() => {
+      const i = this._registry.indexOf(entry);
+      return i === -1 ? defaultSize : (this._sizes()[i] ?? defaultSize);
+    });
+    this._entryBySignal.set(sizeSignal, entry);
 
-    const sizeSignal = computed(() => this._sizes()[idx] ?? defaultSize);
-    this._sizeSignals[idx] = sizeSignal;
+    return { idx: this._registry.indexOf(entry), size: sizeSignal };
+  }
 
-    return { idx, size: sizeSignal };
+  unregisterPanel(registration: ResizablePanelRegistration): void {
+    const entry = this._entryBySignal.get(registration.size);
+    if (!entry) return;
+    const i = this._registry.indexOf(entry);
+    if (i === -1) return;
+    this._registry.splice(i, 1);
+    this._entryBySignal.delete(registration.size);
+    this._recalculateSizes();
+  }
+
+  private _recalculateSizes(): void {
+    const total = this._registry.reduce((s, p) => s + p.defaultSize, 0) || 100;
+    this._sizes.set(this._registry.map((p) => (p.defaultSize / total) * 100));
   }
 
   startResize(event: PointerEvent, handleEl: HTMLElement): void {

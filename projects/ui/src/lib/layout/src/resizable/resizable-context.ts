@@ -8,6 +8,7 @@ export interface ResizablePanelRegistration {
 export interface ResizableGroupContext {
   readonly direction: Signal<'horizontal' | 'vertical'>;
   registerPanel(defaultSize: number, minSize: number, maxSize: number): ResizablePanelRegistration;
+  unregisterPanel(registration: ResizablePanelRegistration): void;
   startResize(event: PointerEvent, handleEl: HTMLElement): void;
   resizeByPercent(handleEl: HTMLElement, deltaPct: number): void;
 }

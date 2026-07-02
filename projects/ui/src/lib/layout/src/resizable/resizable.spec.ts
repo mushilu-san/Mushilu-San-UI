@@ -294,4 +294,30 @@ describe('Resizable', () => {
 
     expect(parseFloat(left.style.flexBasis)).toBeGreaterThanOrEqual(40);
   });
+
+  it('H-B-fb2777: unregisters a dynamically removed panel instead of leaving a stale entry', async () => {
+    const { rerender } = await renderTemplate(
+      `<mui-resizable-panel-group style="width:600px;height:400px;">
+        <mui-resizable-panel [defaultSize]="34">A</mui-resizable-panel>
+        @if (showMiddle) {
+          <mui-resizable-handle />
+          <mui-resizable-panel [defaultSize]="33">B</mui-resizable-panel>
+        }
+        <mui-resizable-handle />
+        <mui-resizable-panel [defaultSize]="33">C</mui-resizable-panel>
+      </mui-resizable-panel-group>`,
+      { imports: IMPORTS, componentProperties: { showMiddle: true } },
+    );
+
+    expect(getPanels().length).toBe(3);
+
+    await rerender({ componentProperties: { showMiddle: false } });
+
+    // With the stale-registration bug, the removed panel's entry keeps
+    // occupying a slot, so the remaining two panels' sizes no longer sum to 100.
+    const remaining = getPanels();
+    expect(remaining.length).toBe(2);
+    const total = remaining.reduce((s, p) => s + parseFloat(p.style.flexBasis), 0);
+    expect(total).toBeCloseTo(100, 0);
+  });
 });
