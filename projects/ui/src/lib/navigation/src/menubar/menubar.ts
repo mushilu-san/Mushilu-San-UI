@@ -11,6 +11,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { handleRovingFocus } from '@mushilu-san/ui';
 import { MENUBAR_CONTEXT, MenubarContext } from './menubar-context';
 
 @Component({
@@ -46,23 +47,25 @@ export class Menubar implements MenubarContext {
     );
     if (!triggers.length) return;
 
-    const active = this.doc.activeElement;
-    if (!(active instanceof HTMLElement)) return;
-    const idx = triggers.indexOf(active);
-
-    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-      event.preventDefault();
-      const n = triggers.length;
-      const next = event.key === 'ArrowRight' ? (idx + 1) % n : (idx - 1 + n) % n;
-      if (this._openId()) {
-        const nextTrigger = triggers[next];
-        const menuEl = nextTrigger.closest<HTMLElement>('[data-menubar-menu]');
-        this._openId.set(menuEl?.dataset['menubarMenuId'] ?? null);
-      }
-      triggers[next].focus();
-    } else if (event.key === 'Escape') {
+    if (event.key === 'Escape') {
+      const active = this.doc.activeElement;
+      const idx = active instanceof HTMLElement ? triggers.indexOf(active) : -1;
       this._openId.set(null);
       if (idx >= 0) triggers[idx].focus();
+      return;
+    }
+
+    const wasOpen = this._openId() !== null;
+    const moved = handleRovingFocus(event, triggers, this.doc.activeElement, {
+      orientation: 'horizontal',
+    });
+    if (moved && wasOpen) {
+      const nextTrigger = this.doc.activeElement;
+      const menuEl =
+        nextTrigger instanceof HTMLElement
+          ? nextTrigger.closest<HTMLElement>('[data-menubar-menu]')
+          : null;
+      this._openId.set(menuEl?.dataset['menubarMenuId'] ?? null);
     }
   }
 

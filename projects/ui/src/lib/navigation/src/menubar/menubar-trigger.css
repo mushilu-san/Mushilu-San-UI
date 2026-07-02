@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0 var(--mui-space-3);
-  height: 32px;
+  min-height: var(--mui-touch-target);
   border: none;
   border-radius: var(--mui-radius-sm);
   background: transparent;

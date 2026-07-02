@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
   Signal,
   ViewEncapsulation,
@@ -9,7 +10,7 @@ import {
   numberAttribute,
   signal,
 } from '@angular/core';
-import { RESIZABLE_GROUP_CONTEXT } from './resizable-context';
+import { RESIZABLE_GROUP_CONTEXT, ResizablePanelRegistration } from './resizable-context';
 
 @Component({
   selector: 'mui-resizable-panel',
@@ -23,17 +24,26 @@ import { RESIZABLE_GROUP_CONTEXT } from './resizable-context';
     '[attr.part]': '"panel"',
   },
 })
-export class ResizablePanel implements OnInit {
+export class ResizablePanel implements OnInit, OnDestroy {
   defaultSize = input(50, { transform: numberAttribute });
   minSize = input(10, { transform: numberAttribute });
   maxSize = input(90, { transform: numberAttribute });
 
   private readonly ctx = inject(RESIZABLE_GROUP_CONTEXT);
+  private _registration: ResizablePanelRegistration | null = null;
 
   protected size: Signal<number> = signal(this.defaultSize());
 
   ngOnInit(): void {
     const reg = this.ctx.registerPanel(this.defaultSize(), this.minSize(), this.maxSize());
+    this._registration = reg;
     this.size = reg.size;
+  }
+
+  ngOnDestroy(): void {
+    if (this._registration) {
+      this.ctx.unregisterPanel(this._registration);
+      this._registration = null;
+    }
   }
 }

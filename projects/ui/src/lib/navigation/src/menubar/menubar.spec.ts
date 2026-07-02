@@ -244,6 +244,17 @@ describe('Menubar', () => {
     expect(document.activeElement).toBe(last);
   });
 
+  it('H-C-ca8cce: ArrowRight while a menu is open switches the open menu to the next trigger', async () => {
+    await renderTemplate(BASIC, { imports: IMPORTS });
+    const [t1] = getTriggers();
+    t1.focus();
+    fireEvent.click(t1);
+    expect(getContents()[0]).toHaveAttribute('data-open');
+    fireEvent.keyDown(getMenubar(), { key: 'ArrowRight' });
+    expect(getContents()[0]).not.toHaveAttribute('data-open');
+    expect(getContents()[1]).toHaveAttribute('data-open');
+  });
+
   it('H-T-9a5f1e: keyboard nav does not crash when no trigger has focus', async () => {
     await renderTemplate(BASIC, { imports: IMPORTS });
     document.body.focus();

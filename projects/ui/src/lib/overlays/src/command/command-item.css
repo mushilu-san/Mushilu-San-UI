@@ -3,7 +3,7 @@
   align-items: center;
   gap: var(--mui-space-2);
   width: 100%;
-  min-height: 36px;
+  min-height: var(--mui-touch-target);
   padding: 0 var(--mui-space-3);
   border: none;
   background: transparent;
