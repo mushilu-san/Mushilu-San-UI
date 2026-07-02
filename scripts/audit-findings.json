@@ -656,8 +656,8 @@
     "file": "—",
     "title": "Raw document.activeElement in DropdownMenu — use DOCUMENT token",
     "description": "dropdown-menu.ts:84 references the global document directly instead of the injected DOCUMENT token. This breaks SSR and sandboxed environments. Fix: inject DOCUMENT and replace document.activeElement with this.doc.activeElement.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in 0c055dd (DOCUMENT token migration, closed as #87); JSON was never synced."
   },
   {
     "id": "H-S-91139d",
@@ -666,8 +666,8 @@
     "file": "—",
     "title": "Raw document.addEventListener in ResizablePanelGroup — use DOCUMENT token",
     "description": "resizable-panel-group.ts:101-157 attaches and removes pointermove/pointerup listeners on the global document directly instead of via an injected DOCUMENT token. Breaks SSR. Fix: inject DOCUMENT; use this.doc.addEventListener/removeEventListener.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in 0c055dd (DOCUMENT token migration, closed as #88); JSON was never synced."
   },
   {
     "id": "H-S-d03039",
@@ -676,8 +676,8 @@
     "file": "—",
     "title": "Raw document.addEventListener in CarouselContent — use DOCUMENT token",
     "description": "carousel-content.ts:39-55 attaches and removes a pointerup listener on the global document directly. Breaks SSR. Fix: inject DOCUMENT; use this.doc.addEventListener/removeEventListener.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in 0c055dd (DOCUMENT token migration, closed as #89); JSON was never synced."
   },
   {
     "id": "H-S-e4dea9",
@@ -686,8 +686,8 @@
     "file": "—",
     "title": "Raw document.activeElement in TabList — use DOCUMENT token",
     "description": "tab-list.ts:42 reads document.activeElement directly for keyboard focus tracking. Breaks SSR. Fix: inject DOCUMENT; use this.doc.activeElement.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in 0c055dd (DOCUMENT token migration, closed as #90); JSON was never synced."
   },
   {
     "id": "H-S-2c1475",
@@ -696,8 +696,8 @@
     "file": "—",
     "title": "Raw document.activeElement in Menubar — use DOCUMENT token",
     "description": "menubar.ts:47 reads document.activeElement directly. Breaks SSR. Fix: inject DOCUMENT; use this.doc.activeElement.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in 0c055dd (DOCUMENT token migration, closed as #91); JSON was never synced."
   },
   {
     "id": "H-S-fda747",
@@ -706,8 +706,8 @@
     "file": "—",
     "title": "Raw document.body fallback in SwipeAction — use DOCUMENT token",
     "description": "swipe-action.ts:124 falls back to document.body as a host element. Breaks SSR. Fix: inject DOCUMENT; use this.doc.body as fallback.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in 0c055dd (DOCUMENT token migration, closed as #92); JSON was never synced."
   },
   {
     "id": "H-S-c1e3d1",
@@ -716,8 +716,8 @@
     "file": "—",
     "title": "Raw document.activeElement in Command — use DOCUMENT token",
     "description": "command.ts:73 reads document.activeElement directly for focus management. Breaks SSR. Fix: inject DOCUMENT; use this.doc.activeElement.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in 0c055dd (DOCUMENT token migration, closed as #93); JSON was never synced."
   },
   {
     "id": "H-S-a3a0cd",
@@ -726,8 +726,8 @@
     "file": "—",
     "title": "Raw document.* throughout Tooltip overlay lifecycle — use DOCUMENT token",
     "description": "tooltip.ts:77-100 uses document.addEventListener, document.createElement, and document.body.appendChild directly for overlay creation and escape-key handling. Breaks SSR. Fix: inject DOCUMENT and replace all document.* references with this.doc.*",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in 0c055dd (DOCUMENT token migration, closed as #94); JSON was never synced."
   },
   {
     "id": "H-A-56a77f",
@@ -736,8 +736,8 @@
     "file": "—",
     "title": "tooltip.css lacks :focus-visible rule",
     "description": "tooltip.css has :hover-triggered display rules but no :focus-visible counterpart. Keyboard users who focus a tooltip trigger via Tab will not see the tooltip appear. Fix: add a :focus-visible selector mirroring the :hover tooltip display rule.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in f440cd2 (:focus-visible rules added, closed as #95); JSON was never synced."
   },
   {
     "id": "H-A-2f3ca2",
@@ -746,8 +746,8 @@
     "file": "—",
     "title": "label.css lacks :focus-visible rule",
     "description": "label.css has hover/cursor selectors but no :focus-visible. Verify if Label is interactive; if so, add :focus-visible styles.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in f440cd2 (:focus-visible rules added, closed as #96); JSON was never synced."
   },
   {
     "id": "H-A-16f995",
@@ -756,8 +756,8 @@
     "file": "—",
     "title": "scroll-area.css lacks :focus-visible rule",
     "description": "scroll-area.css has :hover rules but no :focus-visible. Verify keyboard focusability of the scroll area; add :focus-visible if it receives focus.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in f440cd2 (:focus-visible rules added, closed as #97); JSON was never synced."
   },
   {
     "id": "H-A-849c67",
@@ -766,8 +766,8 @@
     "file": "—",
     "title": "toast-container.css lacks :focus-visible rule",
     "description": "toast-container.css has interactive button patterns but no :focus-visible rule for dismiss buttons. Keyboard users cannot see focus on toast dismiss targets. Fix: add :focus-visible to dismiss button selectors.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Already fixed in f440cd2 (:focus-visible rules added, closed as #98); JSON was never synced."
   },
   {
     "id": "H-T-9f3e42",
