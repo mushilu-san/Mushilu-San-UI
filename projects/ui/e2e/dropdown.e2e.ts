@@ -62,4 +62,17 @@ test.describe('DropdownMenu — E-2 keyboard navigation', () => {
     await expect(frame.getByRole('menu')).not.toBeVisible();
     await expect.poll(() => menu.isOpen()).toBe(false);
   });
+
+  test('H-E-c091ef: focus returns to the trigger after Escape', async ({ page }) => {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-dropdownmenu--default');
+    const trigger = frame.getByRole('button', { name: /options/i });
+    await trigger.click();
+    await expect(frame.getByRole('menu')).toBeVisible();
+    // Move focus into the menu — this is the case where the browser's
+    // display:none-on-close would otherwise strand focus on <body>.
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Escape');
+    await expect(frame.getByRole('menu')).not.toBeVisible();
+    await expect(trigger).toBeFocused();
+  });
 });
