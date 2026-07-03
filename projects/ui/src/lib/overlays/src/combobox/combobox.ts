@@ -1,15 +1,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostListener,
   InjectionToken,
+  Injector,
   Signal,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
+  inject,
   input,
   model,
   output,
+  runInInjectionContext,
   signal,
+  viewChild,
 } from '@angular/core';
 
 export interface ComboboxContext {
@@ -71,12 +77,21 @@ export class Combobox {
   protected readonly search = signal('');
   protected readonly selectedLabel = signal('');
 
+  private readonly injector = inject(Injector);
+  private readonly searchInputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+
   protected toggle(): void {
     if (this.disabled()) return;
     this.open.update((v) => !v);
     if (this.open()) {
       this.search.set('');
       this.opened.emit();
+      // H-E-beee38: focus the search input once the panel has rendered.
+      runInInjectionContext(this.injector, () => {
+        afterNextRender(() => {
+          this.searchInputRef()?.nativeElement.focus();
+        });
+      });
     }
   }
 

@@ -319,6 +319,18 @@ describe('DropdownMenu', () => {
     expect(btn).toBeInstanceOf(HTMLButtonElement);
   });
 
+  it('H-E-c091ef: Escape returns focus to the trigger after arrow-key navigation moved it into the menu', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(basic, { imports });
+    const trigger = screen.getByRole('button', { name: 'Open' });
+    await user.click(trigger);
+    const host = document.querySelector('mui-dropdown-menu')!;
+    fireEvent.keyDown(host, { key: 'ArrowDown' });
+    expect(document.activeElement).toBe(screen.getAllByRole('menuitem')[0]);
+    fireEvent.keyDown(host, { key: 'Escape' });
+    expect(document.activeElement).toBe(trigger);
+  });
+
   it('arrow-key navigation skips aria-disabled items', async () => {
     const user = userEvent.setup();
     await renderTemplate(
