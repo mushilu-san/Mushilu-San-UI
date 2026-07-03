@@ -64,7 +64,14 @@
       "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" add .claude/settings.local.json)",
       "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" stash pop)",
       "Bash(git -C \"/Users/mzakay/Desktop/code project/Mushilu-San-UI\" push)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(cat playwright.config.ts)",
+      "Bash(cat projects/ui/playwright.config.ts)",
+      "Bash(find . -name \"playwright.config*\" -not -path \"*/node_modules/*\")",
+      "Skill(debugging:hunt)",
+      "WebSearch",
+      "Bash(sort -t'-' -k2 -n -u)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }
