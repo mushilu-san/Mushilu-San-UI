@@ -42,4 +42,22 @@ test.describe('Combobox — E-7 open / select / Escape', () => {
     await expect.poll(() => combobox.isOpen()).toBe(true);
     await expect.poll(() => combobox.isOptionSelected(/vue/i)).toBe(true);
   });
+
+  test('H-E-beee38: focus moves to the search input on open', async ({ page }) => {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-combobox--default');
+    await frame.locator('button[aria-haspopup="listbox"]').click();
+    await expect(frame.getByRole('listbox')).toBeVisible();
+    await expect(frame.getByPlaceholder('Search…')).toBeFocused();
+  });
+
+  test('H-E-beee38: typing in the search input filters without needing an extra click', async ({
+    page,
+  }) => {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-combobox--default');
+    await frame.locator('button[aria-haspopup="listbox"]').click();
+    await expect(frame.getByRole('listbox')).toBeVisible();
+    await page.keyboard.type('vue');
+    await expect(frame.getByRole('option', { name: /vue/i })).toBeVisible();
+    await expect(frame.getByRole('option', { name: /angular/i })).not.toBeVisible();
+  });
 });

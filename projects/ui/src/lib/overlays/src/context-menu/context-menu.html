@@ -8,7 +8,7 @@
     aria-orientation="vertical"
     tabindex="-1"
     (click)="$event.stopPropagation()"
-    (keydown)="$event.stopPropagation()"
+    (keydown)="onPanelKeydown($event)"
   >
     <ng-content />
   </div>

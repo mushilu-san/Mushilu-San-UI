@@ -21,6 +21,7 @@ const areaStyle = `display:flex;align-items:center;justify-content:center;width:
 export const Default: Story = {
   render: () => ({
     template: `
+      <button type="button" style="margin-bottom:12px;">Focus me first</button>
       <mui-context-menu>
         <div muiContextMenuTrigger style="${areaStyle}">Right-click here</div>
         <mui-context-menu-item>View</mui-context-menu-item>
