@@ -157,6 +157,18 @@ describe('ContextMenu', () => {
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
 
+  it('H-E-fd6a0a: Escape closes the menu even when a menu item (inside the panel) has focus', async () => {
+    // The panel stops propagation for every other key to keep keystrokes from
+    // leaking to the page — Escape dispatched from *inside* the panel must be
+    // carved out, or it never reaches the document-level close handler.
+    await renderTemplate(BASE, { imports: IMPORTS });
+    fireEvent.contextMenu(screen.getByTestId('trigger'));
+    const item = screen.getByRole('menuitem', { name: 'Edit' });
+    item.focus();
+    fireEvent.keyDown(item, { key: 'Escape' });
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
   it('Escape when menu is closed is a no-op', async () => {
     const onClosed = vi.fn();
     await renderTemplate(
@@ -181,6 +193,27 @@ describe('ContextMenu', () => {
     fireEvent.contextMenu(screen.getByTestId('t'));
     await user.click(screen.getByRole('menuitem', { name: 'Edit' }));
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('H-E-fd6a0a: Escape returns focus to whatever was focused before the menu opened', async () => {
+    await renderTemplate(
+      `<button data-testid="page-btn">Elsewhere</button>
+      <mui-context-menu>
+        <div muiContextMenuTrigger data-testid="trigger" style="width:200px;height:100px;">Trigger</div>
+        <mui-context-menu-item>Edit</mui-context-menu-item>
+      </mui-context-menu>`,
+      { imports: IMPORTS },
+    );
+    const pageBtn = screen.getByTestId('page-btn');
+    pageBtn.focus();
+    // Focus is captured on pointerdown (before the browser's mousedown-driven
+    // blur runs) — real right-clicks always fire pointerdown first.
+    fireEvent.pointerDown(screen.getByTestId('trigger'));
+    fireEvent.contextMenu(screen.getByTestId('trigger'));
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+    screen.getByRole('menuitem', { name: 'Edit' }).focus();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(document.activeElement).toBe(pageBtn);
   });
 
   it('touchstart with empty touches does not throw (B-2)', async () => {

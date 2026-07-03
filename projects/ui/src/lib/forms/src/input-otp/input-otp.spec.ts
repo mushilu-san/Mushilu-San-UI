@@ -1,6 +1,6 @@
 import { screen, fireEvent, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { renderComponent, renderTemplate } from '../../../../core/testing';
@@ -216,5 +216,37 @@ describe('InputOtp', () => {
     });
     expect(getSlots().length).toBe(8);
     expect(getSlots()[0].value).toBe('1');
+  });
+});
+
+describe('InputOtp (fake timers)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
+  it('H-U-1121b7: defers select() on focus instead of calling it synchronously', async () => {
+    const selectSpy = vi.spyOn(HTMLInputElement.prototype, 'select');
+    await renderComponent(InputOtp, { inputs: { value: '123456' } });
+    const slots = getSlots();
+    slots[0].focus();
+    expect(selectSpy).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(0);
+    expect(selectSpy).toHaveBeenCalledOnce();
+  });
+
+  it('H-U-1121b7 / B-10: a stale deferred select() does not fire once focus has moved elsewhere', async () => {
+    const selectSpy = vi.spyOn(HTMLInputElement.prototype, 'select');
+    await renderComponent(InputOtp, { inputs: { value: '123456' } });
+    const slots = getSlots();
+    slots[0].focus();
+    slots[1].focus();
+    vi.advanceTimersByTime(0);
+    expect(selectSpy).toHaveBeenCalledTimes(1);
+    expect(selectSpy.mock.instances[0]).toBe(slots[1]);
   });
 });

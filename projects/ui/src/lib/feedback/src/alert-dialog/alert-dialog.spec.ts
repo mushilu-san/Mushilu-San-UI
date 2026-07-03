@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderComponent, renderTemplate } from '../../../../core/testing';
 import { AlertDialog } from './alert-dialog';
 
@@ -92,5 +92,32 @@ describe('AlertDialog', () => {
     expect(screen.getByRole('button', { name: 'Confirm' })).toHaveClass(
       'mui-alert-dialog__btn--destructive',
     );
+  });
+});
+
+describe('AlertDialog (fake timers)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('H-U-c3a905: does not move focus to the cancel button before the deferred timer fires', async () => {
+    const { detectChanges } = await renderComponent(AlertDialog, {
+      inputs: { open: true, heading: 'Delete?' },
+    });
+    detectChanges();
+    expect(document.activeElement).not.toBe(screen.getByRole('button', { name: 'Cancel' }));
+  });
+
+  it('H-U-c3a905: moves focus to the cancel button once the deferred timer fires', async () => {
+    const { detectChanges } = await renderComponent(AlertDialog, {
+      inputs: { open: true, heading: 'Delete?' },
+    });
+    vi.advanceTimersByTime(0);
+    detectChanges();
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Cancel' }));
   });
 });
