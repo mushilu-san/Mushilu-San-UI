@@ -479,3 +479,30 @@ double-files. See `.mui-team/reports/bug-hunt.md` for the consolidated report.
 Run `/mui-hunt` to fan out all ten read-only hunters in parallel across the full repo.
 Pass `--file-issues` to open GitHub issues for every new finding. The sweep writes
 `.mui-team/reports/bug-hunt.md` as proof nothing was dropped between discovery and filing.
+
+## Bug-fix workflow — always use a worktree
+
+Any bug-fix work (audit findings, hunt-squad findings, one-off bug reports) MUST happen
+in an isolated git worktree — never as a branch checked out directly in the main working
+directory.
+
+```bash
+# Create an isolated worktree for the fix, off main
+git worktree add ../Mushilu-San-UI-fix-<short-name> -b fix/<short-name> main
+
+# ...do the fix, run ./scripts/ci-verify.sh, commit, push, open the PR from there...
+
+# After the PR merges, clean up
+git worktree remove ../Mushilu-San-UI-fix-<short-name>
+git branch -D fix/<short-name>   # only after confirming it's merged
+```
+
+Or use the `superpowers:using-git-worktrees` skill / `EnterWorktree` tool if available in
+the session instead of raw `git worktree` commands.
+
+**Why:** keeps the main working directory clean and available for other work while a fix
+is in progress, and guarantees a fix can be abandoned or redone without touching whatever
+else is checked out.
+
+This does not apply to non-bug-fix work (new components, docs, chores) — those may still
+branch directly in the main working directory per the existing per-component workflow.
