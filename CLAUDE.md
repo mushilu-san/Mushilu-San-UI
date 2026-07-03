@@ -432,6 +432,32 @@ Category values: `security` | `performance` | `decomposition` | `bugs` | `tests`
 
 All finding data lives in `scripts/audit-findings.json`. The script is idempotent — safe to run multiple times without creating duplicates.
 
+### Closing multiple issues in one PR — one keyword per issue (MANDATORY)
+
+GitHub's auto-close linking (`Closes #N`, `Fixes #N`, `Resolves #N`) only recognizes a
+closing keyword immediately followed by **one** issue reference. A single keyword
+followed by a comma-separated list only closes the **first** number in the list — the
+rest are linked as plain mentions but silently stay open:
+
+```text
+# WRONG — only #149 auto-closes; #150-#154 stay open forever
+Closes #149, #150, #151, #152, #153, #154
+
+# RIGHT — every issue gets its own keyword, every issue closes
+Closes #149
+Closes #150
+Closes #151
+Closes #152
+Closes #153
+Closes #154
+```
+
+This exact bug caused 18 already-fixed findings (#150-154, #164-167, #175-183) to sit
+open on GitHub for weeks after PR #240/#241 merged. Prefer `./scripts/open-audit-issues.sh
+--resolve <ID>` per finding when closing outside of a PR — it always closes one issue at
+a time and can't hit this bug. When closing via a commit/PR body instead, one `Closes #N`
+line per issue, never a comma list.
+
 ### Automated hunt sweep IDs
 
 The Bloodhound hunt squad (`/mui-hunt`) files issues through the **same script** using
