@@ -72,8 +72,6 @@ describe('ContextMenuItem', () => {
       imports: [ContextMenuItem],
       providers: [{ provide: CONTEXT_MENU_CONTEXT, useValue: makeCtx() }],
     });
-    expect(document.querySelector('.mui-context-menu-item__shortcut')?.textContent).toContain(
-      '⌘K',
-    );
+    expect(document.querySelector('.mui-context-menu-item__shortcut')?.textContent).toContain('⌘K');
   });
 });

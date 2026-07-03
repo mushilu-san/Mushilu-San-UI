@@ -15,9 +15,12 @@ describe('CommandList', () => {
   });
 
   it('projects content', async () => {
-    await renderTemplate('<mui-command-list><div data-testid="item">Item</div></mui-command-list>', {
-      imports: [CommandList],
-    });
+    await renderTemplate(
+      '<mui-command-list><div data-testid="item">Item</div></mui-command-list>',
+      {
+        imports: [CommandList],
+      },
+    );
     expect(screen.getByTestId('item')).toBeInTheDocument();
   });
 });

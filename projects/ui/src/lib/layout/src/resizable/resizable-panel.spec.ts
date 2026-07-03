@@ -30,7 +30,10 @@ describe('ResizablePanel', () => {
     const { ctx } = makeCtx();
     await renderTemplate(
       '<mui-resizable-panel [defaultSize]="40" [minSize]="5" [maxSize]="95">Content</mui-resizable-panel>',
-      { imports: [ResizablePanel], providers: [{ provide: RESIZABLE_GROUP_CONTEXT, useValue: ctx }] },
+      {
+        imports: [ResizablePanel],
+        providers: [{ provide: RESIZABLE_GROUP_CONTEXT, useValue: ctx }],
+      },
     );
     expect(ctx.registerPanel).toHaveBeenCalledWith(40, 5, 95);
   });
@@ -39,7 +42,10 @@ describe('ResizablePanel', () => {
     const { ctx, sizes } = makeCtx();
     const { detectChanges } = await renderTemplate(
       '<mui-resizable-panel [defaultSize]="40" [minSize]="5" [maxSize]="95">Content</mui-resizable-panel>',
-      { imports: [ResizablePanel], providers: [{ provide: RESIZABLE_GROUP_CONTEXT, useValue: ctx }] },
+      {
+        imports: [ResizablePanel],
+        providers: [{ provide: RESIZABLE_GROUP_CONTEXT, useValue: ctx }],
+      },
     );
     sizes[0].set(70);
     detectChanges();

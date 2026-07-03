@@ -61,10 +61,13 @@ describe('CommandItem', () => {
   });
 
   it('reflects the selected input as aria-selected', async () => {
-    await renderTemplate('<mui-command-item value="copy" [selected]="true">Copy</mui-command-item>', {
-      imports: [CommandItem],
-      providers: [{ provide: COMMAND_CONTEXT, useValue: makeCtx() }],
-    });
+    await renderTemplate(
+      '<mui-command-item value="copy" [selected]="true">Copy</mui-command-item>',
+      {
+        imports: [CommandItem],
+        providers: [{ provide: COMMAND_CONTEXT, useValue: makeCtx() }],
+      },
+    );
     expect(screen.getByRole('option')).toHaveAttribute('aria-selected', 'true');
   });
 
