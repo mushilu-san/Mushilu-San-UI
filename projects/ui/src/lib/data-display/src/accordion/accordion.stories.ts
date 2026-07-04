@@ -1,9 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { AccordionGroup } from './accordion';
 import { AccordionItem } from './accordion-item';
 
+const ALL = [AccordionGroup, AccordionItem];
+
 const meta: Meta = {
   title: 'Data Display/Accordion',
+  component: AccordionGroup,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
 };
 export default meta;
@@ -11,7 +15,6 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    imports: [AccordionGroup, AccordionItem],
     template: `
       <mui-accordion style="max-width: 480px;">
         <mui-accordion-item heading="What is Mushilu-San UI?">
@@ -30,7 +33,6 @@ export const Default: Story = {
 
 export const Multiple: Story = {
   render: () => ({
-    imports: [AccordionGroup, AccordionItem],
     template: `
       <mui-accordion [multiple]="true" style="max-width: 480px;">
         <mui-accordion-item heading="Section A">Content for section A — stays open when B opens.</mui-accordion-item>
@@ -43,7 +45,6 @@ export const Multiple: Story = {
 
 export const WithDisabled: Story = {
   render: () => ({
-    imports: [AccordionGroup, AccordionItem],
     template: `
       <mui-accordion style="max-width: 480px;">
         <mui-accordion-item heading="Active item">This item is interactive.</mui-accordion-item>
@@ -59,7 +60,6 @@ export const WithDisabled: Story = {
 export const Accessibility: Story = {
   parameters: { a11y: { disable: false } },
   render: () => ({
-    imports: [AccordionGroup, AccordionItem],
     template: `
       <section aria-labelledby="faq-heading" style="max-width: 480px;">
         <h2 id="faq-heading" style="margin: 0 0 1rem; font-size: 1.25rem;">FAQ</h2>
@@ -79,7 +79,6 @@ export const Accessibility: Story = {
 export const MobilePreview: Story = {
   parameters: { viewport: { defaultViewport: 'mobile1' } },
   render: () => ({
-    imports: [AccordionGroup, AccordionItem],
     template: `
       <div style="padding: 1rem;">
         <mui-accordion>

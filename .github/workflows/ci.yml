@@ -27,7 +27,10 @@ jobs:
         # Storybook artifacts are produced on the canonical leg only.
         node: ['', '24']
     steps:
+      # fetch-depth: 0 gives affected.mjs full history to diff a PR branch against its base ref.
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
 
       # When matrix.node is '', node-version is empty (ignored) and the version is
       # read from .nvmrc. When it is '24', node-version-file is empty (ignored).
@@ -47,6 +50,17 @@ jobs:
             angular-cache-${{ runner.os }}-node${{ matrix.node || 'nvmrc' }}-${{ hashFiles('package-lock.json') }}-
             angular-cache-${{ runner.os }}-node${{ matrix.node || 'nvmrc' }}-
 
+      # Nx's task cache — skips build/test/lint/build-storybook when their inputs
+      # (per nx.json namedInputs) haven't changed since a prior run.
+      - name: Cache Nx cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .nx/cache
+          key: nx-cache-${{ runner.os }}-node${{ matrix.node || 'nvmrc' }}-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            nx-cache-${{ runner.os }}-node${{ matrix.node || 'nvmrc' }}-${{ hashFiles('package-lock.json') }}-
+            nx-cache-${{ runner.os }}-node${{ matrix.node || 'nvmrc' }}-
+
       # npm ci fails hard if package-lock.json is out of sync with package.json
       # (including workspaces). That is intentional: fix the lockfile locally with
       # `npm install` and commit it — never replace this with `npm install` in CI.
@@ -61,9 +75,19 @@ jobs:
       - name: Format check
         run: npm run format:check
 
-      # 3. Tests — full suite, no watch
+      # 3. Tests — affected only on PRs (scripts/affected.mjs diffs against the PR base);
+      #    full suite on push to main and on the Node 24 forward-compat leg (cheap safety net).
       - name: Test
-        run: npm run test:ci
+        env:
+          IS_PR: ${{ github.event_name == 'pull_request' }}
+          IS_CANONICAL_NODE: ${{ matrix.node == '' }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ "$IS_PR" = "true" ] && [ "$IS_CANONICAL_NODE" = "true" ]; then
+            npm run test:affected -- --base "$PR_BASE_SHA"
+          else
+            npm run test:ci
+          fi
 
       # Retain V8 coverage for inspection on the run summary (canonical leg only).
       - name: Upload coverage
@@ -119,6 +143,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
@@ -137,8 +163,17 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
 
+      # Affected only on PRs (diffed against the PR base); full suite on push to main.
       - name: Run E2E tests
-        run: npm run e2e
+        env:
+          IS_PR: ${{ github.event_name == 'pull_request' }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ "$IS_PR" = "true" ]; then
+            npm run e2e:affected -- --base "$PR_BASE_SHA"
+          else
+            npm run e2e
+          fi
 
       - name: Upload Playwright report
         if: always()

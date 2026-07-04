@@ -15,7 +15,12 @@ with existing patterns.
 ## Key facts Claude must know
 
 - **Node version required:** 22.x (≥22.12). Node 20.16 ships on this machine — always activate nvm first.
-- **Angular CLI:** v22; use `npx ng` or the local `node_modules/.bin/ng`.
+- **Build tooling: Nx wraps the Angular CLI builders.** `angular.json` was replaced by
+  `projects/ui/project.json` — bare `ng` commands fail with "not available outside a workspace".
+  Use `npx nx <target> ui` (e.g. `nx build ui`, `nx test ui --no-watch`, `nx lint ui`) or the
+  local `node_modules/.bin/nx`. All `npm run <script>` commands already do this internally.
+  `nx.json` defines cacheable targets (`build`, `test`, `lint`, `build-storybook`) — a second
+  `nx build ui` with no relevant input changes reads from cache instead of re-running.
 - **Package manager:** npm (not pnpm, despite plan references to `pnpm changeset` — use `npm run changeset`).
 - **Component prefix:** `mui-` — all selectors start with `mui-` or use `[muiX]` attribute form.
 - **No zone.js** — library is fully zoneless. Never import `fakeAsync`/`tick` in tests.
@@ -81,6 +86,30 @@ Or use the `./dev.sh` helper — it does this automatically.
 ./dev.sh release
 ```
 
+## Affected testing
+
+CI runs the full unit + E2E suite on push to `main` and nightly (`.github/workflows/nightly.yml`),
+but on pull requests it runs only the tests affected by the diff, computed by
+`scripts/affected.mjs` from the repo's naming convention
+(`src/lib/<group>/src/<name>/<name>.ts` ↔ `<name>.spec.ts` ↔ `e2e/<name>.e2e.ts`):
+
+```bash
+# Run only the unit specs / e2e files affected by your current diff (base defaults to origin/main)
+npm run test:affected
+npm run e2e:affected
+
+# Same, against a specific base ref
+node scripts/affected-run.mjs unit --base main
+node scripts/affected-run.mjs e2e --base main
+
+# Locally mirror the PR path exactly (lint/format full, test+e2e affected, everything else full)
+./scripts/ci-verify.sh --affected
+```
+
+A change to a shared/cross-cutting path (`src/styles/**`, `src/core/**`, `e2e/helpers/**`,
+config files) — or a component with no exact `e2e/<name>.e2e.ts` match — falls back to the full
+suite rather than risk a false negative; a change with no mapped tests (docs-only) skips cleanly.
+
 ## Directory map
 
 ```text
@@ -100,6 +129,7 @@ projects/ui/
 │   │   ├── mobile/src/       BottomSheet, FAB, SwipeAction, MobileNav (done)
 │   │   └── overlays/src/     Popover, Dropdown Menu, Context Menu, Hover Card, Command, Combobox (done)
 │   └── public-api.ts     PRIMARY entry — exports provideMushiluUi() + MushiluUiConfig type
+├── project.json          Nx project config (build/test/lint/storybook targets) — replaces angular.json
 ├── primitives/ng-package.json   → @mushilu-san/ui/primitives
 ├── forms/ng-package.json        → @mushilu-san/ui/forms
 ├── layout/ng-package.json       → @mushilu-san/ui/layout
@@ -217,7 +247,8 @@ ng-packagr to fail with `Internal error: failed to get symbol for entrypoint`.
 ### 6. `thresholds` is not a valid `@angular/build:unit-test` option
 
 Coverage thresholds go in a separate `vitest.config.ts` or are enforced externally. Putting
-`thresholds` in `angular.json` causes schema validation failure.
+`thresholds` in `projects/ui/project.json`'s `test` target (formerly `angular.json`) causes
+schema validation failure.
 
 ### 7. `test-setup.ts` TypeScript warning
 

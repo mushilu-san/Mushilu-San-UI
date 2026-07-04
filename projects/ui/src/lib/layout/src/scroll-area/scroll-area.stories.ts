@@ -21,6 +21,17 @@ const itemsHtml = items
   )
   .join('');
 
+export const Default: Story = {
+  render: () => ({
+    imports: [ScrollArea],
+    template: `
+      <mui-scroll-area style="height:200px;width:300px;border:1px solid var(--mui-color-border);border-radius:var(--mui-radius-md);">
+        ${itemsHtml}
+      </mui-scroll-area>
+    `,
+  }),
+};
+
 export const Vertical: Story = {
   render: () => ({
     imports: [ScrollArea],

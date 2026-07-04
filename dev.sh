@@ -40,12 +40,13 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-# ── Local Angular CLI shortcut ───────────────────────────────────────────────
-_NG_LOCAL="$SCRIPT_DIR/node_modules/.bin/ng"
-if [[ -x "$_NG_LOCAL" ]]; then
-  run_ng() { "$_NG_LOCAL" "$@"; }
+# ── Local Nx shortcut (wraps the Angular builders — angular.json was ────────
+# replaced by projects/ui/project.json, so bare `ng` no longer works here) ───
+_NX_LOCAL="$SCRIPT_DIR/node_modules/.bin/nx"
+if [[ -x "$_NX_LOCAL" ]]; then
+  run_nx() { "$_NX_LOCAL" "$@"; }
 else
-  run_ng() { npx @angular/cli@21 "$@"; }
+  run_nx() { npx nx "$@"; }
 fi
 
 COMMAND="${1:-help}"
@@ -54,18 +55,18 @@ case "$COMMAND" in
 
   build)
     echo "▶ Building @mushilu-san/ui…"
-    run_ng build ui
+    run_nx build ui
     echo "✔ Built → dist/ui"
     ;;
 
   test)
     echo "▶ Running tests (watch mode)…"
-    run_ng test ui
+    run_nx test ui
     ;;
 
   test:ci)
     echo "▶ Running tests (single pass + coverage)…"
-    run_ng test ui --no-watch
+    run_nx test ui --no-watch
     ;;
 
   storybook)
@@ -96,7 +97,7 @@ case "$COMMAND" in
 
   lint)
     echo "▶ Linting…"
-    run_ng lint ui
+    run_nx lint ui
     ;;
 
   clean)

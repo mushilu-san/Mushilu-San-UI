@@ -10,6 +10,17 @@ const meta: Meta<Typography> = {
 export default meta;
 type Story = StoryObj<Typography>;
 
+export const Default: Story = {
+  render: () => ({
+    imports: [Typography],
+    template: `
+      <mui-typography variant="p" style="max-width:640px;">
+        Default paragraph text. Angular is a platform for building mobile and desktop web applications.
+      </mui-typography>
+    `,
+  }),
+};
+
 export const AllVariants: Story = {
   render: () => ({
     imports: [Typography],

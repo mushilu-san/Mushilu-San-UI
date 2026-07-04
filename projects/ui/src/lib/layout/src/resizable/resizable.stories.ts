@@ -1,12 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { ResizablePanelGroup } from './resizable-panel-group';
 import { ResizablePanel } from './resizable-panel';
 import { ResizableHandle } from './resizable-handle';
 
 const IMPORTS = [ResizablePanelGroup, ResizablePanel, ResizableHandle];
 
+// `component` + `moduleMetadata` (rather than per-story `imports:`) is required for
+// multi-component groups to actually compile in the production Storybook build — see
+// Command/CommandItem for the established pattern. Without it, the story's template
+// string is inserted as static, uncompiled markup (host bindings never apply).
 const meta: Meta = {
   title: 'Layout/Resizable',
+  component: ResizablePanelGroup,
+  decorators: [moduleMetadata({ imports: IMPORTS })],
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
 };
@@ -26,7 +32,6 @@ export const Default: Story = {
         </mui-resizable-panel>
       </mui-resizable-panel-group>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -43,7 +48,6 @@ export const WithHandle: Story = {
         </mui-resizable-panel>
       </mui-resizable-panel-group>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -60,7 +64,6 @@ export const Vertical: Story = {
         </mui-resizable-panel>
       </mui-resizable-panel-group>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -81,7 +84,6 @@ export const ThreePanels: Story = {
         </mui-resizable-panel>
       </mui-resizable-panel-group>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -104,7 +106,6 @@ export const Accessibility: Story = {
         </mui-resizable-panel>
       </mui-resizable-panel-group>
     `,
-    imports: IMPORTS,
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -124,7 +125,6 @@ export const MobilePreview: Story = {
         </mui-resizable-panel-group>
       </div>
     `,
-    imports: IMPORTS,
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };

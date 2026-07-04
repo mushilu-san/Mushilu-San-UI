@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Sidebar } from './sidebar';
 import { SidebarSection } from './sidebar-section';
 import { SidebarItem } from './sidebar-item';
@@ -6,8 +6,14 @@ import { SidebarTrigger } from './sidebar-trigger';
 
 const IMPORTS = [Sidebar, SidebarSection, SidebarItem, SidebarTrigger];
 
+// `component` + `moduleMetadata` (rather than per-story `imports:`) is required for
+// multi-component groups to actually compile in the production Storybook build — see
+// Command/CommandItem for the established pattern. Without it, the story's template
+// string is inserted as static, uncompiled markup (host bindings never apply).
 const meta: Meta = {
   title: 'Layout/Sidebar',
+  component: Sidebar,
+  decorators: [moduleMetadata({ imports: IMPORTS })],
   tags: ['autodocs'],
   parameters: { layout: 'fullscreen' },
 };
@@ -68,7 +74,6 @@ export const Default: Story = {
         </main>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -100,7 +105,6 @@ export const Collapsed: Story = {
         <main style="flex:1;padding:24px;">Content area</main>
       </div>
     `,
-    imports: IMPORTS,
     componentProperties: { expanded: false },
   }),
 };
@@ -135,7 +139,6 @@ export const Accessibility: Story = {
         </main>
       </div>
     `,
-    imports: IMPORTS,
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -170,7 +173,6 @@ export const MobilePreview: Story = {
         </main>
       </div>
     `,
-    imports: IMPORTS,
     componentProperties: { expanded: true },
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },

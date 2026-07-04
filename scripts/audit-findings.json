@@ -1208,5 +1208,25 @@
     "description": "onKeydown Escape handler only refocuses when activeElement is itself a trigger; if focus is on a content item when Escape is pressed, the menu closes and focus is dropped to <body> instead of returning to the owning trigger.",
     "resolved": true,
     "resolvedNote": "Fixed by resolving the trigger from the open menu id (data-menubar-menu-id) instead of document.activeElement; closed as #248."
+  },
+  {
+    "id": "B-12",
+    "severity": "medium",
+    "category": "bugs",
+    "file": "—",
+    "title": "Accordion stories never compiled AccordionItem template",
+    "description": "accordion.stories.ts declared imports: [AccordionGroup, AccordionItem] inline per-story render() instead of via decorators: [moduleMetadata(...)] at the meta level (the pattern every other multi-component compound story in this repo uses), so AccordionItem's template never compiled in the Storybook preview and every Accordion story rendered raw, unprocessed light DOM. Discovered while adding E-13 e2e coverage.",
+    "resolved": true,
+    "resolvedNote": "Fixed in the same commit that discovered it (accordion.stories.ts moduleMetadata fix), closed as #251."
+  },
+  {
+    "id": "B-13",
+    "severity": "medium",
+    "category": "bugs",
+    "file": "—",
+    "title": "Resizable and Sidebar stories never compiled their child component templates",
+    "description": "resizable.stories.ts and sidebar.stories.ts declared imports: IMPORTS inline per-story render() instead of via decorators: [moduleMetadata(...)] at the meta level (the pattern every other multi-component compound story in this repo uses), so ResizablePanel/ResizableHandle and SidebarSection/SidebarItem/SidebarTrigger templates never compiled in the Storybook preview. Same class of bug as B-11 (#248) and B-12 (#251). Discovered while adding E-9 e2e coverage.",
+    "resolved": true,
+    "resolvedNote": "Fixed in the same commit that discovered it (resizable.stories.ts + sidebar.stories.ts moduleMetadata fix), closed as #254."
   }
 ]

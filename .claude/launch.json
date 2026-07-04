@@ -4,7 +4,7 @@
     {
       "name": "storybook",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["-c", "cd '/Users/mzakay/Desktop/code project/Mushilu-San-UI' && export NVM_DIR=\"$HOME/.nvm\" && . \"$NVM_DIR/nvm.sh\" && nvm use 22 && npx ng run ui:storybook --port 6006"],
+      "runtimeArgs": ["-c", "cd '/Users/mzakay/Desktop/code project/Mushilu-San-UI' && export NVM_DIR=\"$HOME/.nvm\" && . \"$NVM_DIR/nvm.sh\" && nvm use 22 && npx nx run ui:storybook --port 6006"],
       "port": 6006
     }
   ]
