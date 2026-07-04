@@ -1198,5 +1198,15 @@
     "description": "Accordion, Card, Chart, Empty, Table, Typography have no Playwright e2e specs (Carousel and Tooltip already do, from PR #229). Add harnesses to the existing data-display/testing entry point and a spec per component.",
     "resolved": false,
     "resolvedNote": ""
+  },
+  {
+    "id": "B-12",
+    "severity": "medium",
+    "category": "bugs",
+    "file": "—",
+    "title": "Accordion stories never compiled AccordionItem template",
+    "description": "accordion.stories.ts declared imports: [AccordionGroup, AccordionItem] inline per-story render() instead of via decorators: [moduleMetadata(...)] at the meta level (the pattern every other multi-component compound story in this repo uses), so AccordionItem's template never compiled in the Storybook preview and every Accordion story rendered raw, unprocessed light DOM. Discovered while adding E-13 e2e coverage.",
+    "resolved": true,
+    "resolvedNote": "Fixed in the same commit that discovered it (accordion.stories.ts moduleMetadata fix), closed as #251."
   }
 ]

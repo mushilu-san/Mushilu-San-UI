@@ -19,6 +19,24 @@ type Story = StoryObj<Chart>;
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
 
+export const Default: Story = {
+  args: {
+    type: 'bar',
+    label: 'Monthly Revenue',
+    data: {
+      labels: MONTHS,
+      datasets: [
+        {
+          label: 'Revenue',
+          data: [12000, 19000, 8000, 15000, 21000, 17000],
+          backgroundColor: 'rgba(99, 102, 241, 0.8)',
+          borderRadius: 4,
+        },
+      ],
+    },
+  },
+};
+
 export const BarChart: Story = {
   args: {
     type: 'bar',
