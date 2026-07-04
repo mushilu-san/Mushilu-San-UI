@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { NavigationMenu } from './navigation-menu';
 import { NavigationMenuItem } from './navigation-menu-item';
 import { NavigationMenuTrigger } from './navigation-menu-trigger';
 import { NavigationMenuContent } from './navigation-menu-content';
 import { NavigationMenuLink } from './navigation-menu-link';
 
-const IMPORTS = [
+const ALL = [
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuTrigger,
@@ -15,6 +15,8 @@ const IMPORTS = [
 
 const meta: Meta = {
   title: 'Navigation/NavigationMenu',
+  component: NavigationMenu,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
 };
@@ -51,7 +53,6 @@ export const Default: Story = {
         </mui-navigation-menu>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -84,7 +85,6 @@ export const WithRichContent: Story = {
         </mui-navigation-menu>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -111,7 +111,6 @@ export const Accessibility: Story = {
         </p>
       </div>
     `,
-    imports: IMPORTS,
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -136,7 +135,6 @@ export const MobilePreview: Story = {
         </mui-navigation-menu>
       </div>
     `,
-    imports: IMPORTS,
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };
