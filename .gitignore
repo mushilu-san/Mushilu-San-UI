@@ -56,3 +56,8 @@ storybook-static
 
 # Graphify
 /graphify-out/
+
+# Nx
+.nx/cache
+.nx/workspace-data
+.nx/migrate-runs
