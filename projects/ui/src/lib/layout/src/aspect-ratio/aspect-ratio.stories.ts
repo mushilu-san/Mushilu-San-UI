@@ -14,6 +14,19 @@ type Story = StoryObj<AspectRatio>;
 const placeholder = (label: string, bg = 'var(--mui-color-surface)') =>
   `<div style="width:100%;height:100%;background:${bg};display:flex;align-items:center;justify-content:center;font-family:var(--mui-font-sans);font-size:14px;color:var(--mui-color-text-muted);">${label}</div>`;
 
+export const Default: Story = {
+  render: () => ({
+    imports: [AspectRatio],
+    template: `
+      <div style="max-width:400px;">
+        <mui-aspect-ratio [ratio]="16/9">
+          ${placeholder('16 / 9', 'var(--mui-color-primary)')}
+        </mui-aspect-ratio>
+      </div>
+    `,
+  }),
+};
+
 export const Widescreen: Story = {
   render: () => ({
     imports: [AspectRatio],
