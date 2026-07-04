@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Menubar } from './menubar';
 import { MenubarMenu } from './menubar-menu';
 import { MenubarTrigger } from './menubar-trigger';
@@ -6,17 +6,12 @@ import { MenubarContent } from './menubar-content';
 import { MenubarItem } from './menubar-item';
 import { MenubarSeparator } from './menubar-separator';
 
-const IMPORTS = [
-  Menubar,
-  MenubarMenu,
-  MenubarTrigger,
-  MenubarContent,
-  MenubarItem,
-  MenubarSeparator,
-];
+const ALL = [Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator];
 
 const meta: Meta = {
   title: 'Navigation/Menubar',
+  component: Menubar,
+  decorators: [moduleMetadata({ imports: ALL })],
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
 };
@@ -74,7 +69,6 @@ export const Default: Story = {
         </mui-menubar>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -110,7 +104,6 @@ export const WithDisabledItems: Story = {
         </p>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -131,7 +124,6 @@ export const CustomLabel: Story = {
         </mui-menubar>
       </div>
     `,
-    imports: IMPORTS,
   }),
 };
 
@@ -166,7 +158,6 @@ export const Accessibility: Story = {
         </p>
       </div>
     `,
-    imports: IMPORTS,
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -196,7 +187,6 @@ export const MobilePreview: Story = {
         </mui-menubar>
       </div>
     `,
-    imports: IMPORTS,
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };

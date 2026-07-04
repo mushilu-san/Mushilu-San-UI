@@ -261,6 +261,20 @@ describe('Menubar', () => {
     expect(() => fireEvent.keyDown(getMenubar(), { key: 'ArrowRight' })).not.toThrow();
   });
 
+  it('B-11: Escape while focus is on a menu item returns focus to the owning trigger', async () => {
+    await renderTemplate(BASIC, { imports: IMPORTS });
+    const [t1] = getTriggers();
+    t1.focus();
+    fireEvent.click(t1);
+    const content = getContents()[0];
+    const item = content.querySelector('[muiMenubarItem]') as HTMLElement;
+    item.focus();
+    expect(document.activeElement).toBe(item);
+    fireEvent.keyDown(content, { key: 'Escape' });
+    expect(getContents()[0]).not.toHaveAttribute('data-open');
+    expect(document.activeElement).toBe(t1);
+  });
+
   it('ArrowDown wraps from last to first item', async () => {
     await renderTemplate(BASIC, { imports: IMPORTS });
     fireEvent.click(getTriggers()[0]);

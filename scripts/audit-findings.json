@@ -1198,5 +1198,15 @@
     "description": "Accordion, Card, Chart, Empty, Table, Typography have no Playwright e2e specs (Carousel and Tooltip already do, from PR #229). Add harnesses to the existing data-display/testing entry point and a spec per component.",
     "resolved": false,
     "resolvedNote": ""
+  },
+  {
+    "id": "B-11",
+    "severity": "medium",
+    "category": "bugs",
+    "file": "projects/ui/src/lib/navigation/src/menubar/menubar.ts",
+    "title": "Menubar Escape key loses focus to <body> instead of returning it to the trigger",
+    "description": "onKeydown Escape handler only refocuses when activeElement is itself a trigger; if focus is on a content item when Escape is pressed, the menu closes and focus is dropped to <body> instead of returning to the owning trigger.",
+    "resolved": true,
+    "resolvedNote": "Fixed by resolving the trigger from the open menu id (data-menubar-menu-id) instead of document.activeElement; closed as #248."
   }
 ]

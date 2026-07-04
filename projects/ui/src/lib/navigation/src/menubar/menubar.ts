@@ -48,10 +48,21 @@ export class Menubar implements MenubarContext {
     if (!triggers.length) return;
 
     if (event.key === 'Escape') {
+      const openId = this._openId();
       const active = this.doc.activeElement;
-      const idx = active instanceof HTMLElement ? triggers.indexOf(active) : -1;
+      const activeIdx = active instanceof HTMLElement ? triggers.indexOf(active) : -1;
       this._openId.set(null);
-      if (idx >= 0) triggers[idx].focus();
+      // Prefer the trigger owning the menu that was just closed — focus may be on a
+      // menu item inside the content (reached via roving focus), not the trigger
+      // itself, and that content unmounts once isOpen() flips false. Falling back to
+      // "was a trigger already focused" covers the case where no menu was open.
+      const openTrigger = openId
+        ? triggers.find(
+            (t) =>
+              t.closest<HTMLElement>('[data-menubar-menu]')?.dataset['menubarMenuId'] === openId,
+          )
+        : undefined;
+      (openTrigger ?? (activeIdx >= 0 ? triggers[activeIdx] : undefined))?.focus();
       return;
     }
 
