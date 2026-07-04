@@ -1,5 +1,5 @@
 import { fireEvent } from '@testing-library/angular';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
 import { Carousel } from './carousel';
 import { CarouselContent } from './carousel-content';
@@ -234,5 +234,82 @@ describe('Carousel', () => {
     fireEvent.pointerUp(document, { clientX: 150, pointerId: 1 });
 
     expect(getItems()[0]).toHaveAttribute('data-active');
+  });
+});
+
+describe('Carousel autoPlay (fake timers)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('H-U-6c850e: does not advance before the autoPlay interval elapses', async () => {
+    const { detectChanges } = await renderTemplate(
+      `<mui-carousel [autoPlay]="1000">
+        <mui-carousel-content>
+          <mui-carousel-item>Slide 1</mui-carousel-item>
+          <mui-carousel-item>Slide 2</mui-carousel-item>
+        </mui-carousel-content>
+      </mui-carousel>`,
+      { imports: IMPORTS },
+    );
+    vi.advanceTimersByTime(999);
+    detectChanges();
+    expect(getItems()[0]).toHaveAttribute('data-active');
+  });
+
+  it('H-U-6c850e: advances to the next slide once the autoPlay interval elapses', async () => {
+    const { detectChanges } = await renderTemplate(
+      `<mui-carousel [autoPlay]="1000">
+        <mui-carousel-content>
+          <mui-carousel-item>Slide 1</mui-carousel-item>
+          <mui-carousel-item>Slide 2</mui-carousel-item>
+        </mui-carousel-content>
+      </mui-carousel>`,
+      { imports: IMPORTS },
+    );
+    vi.advanceTimersByTime(1000);
+    detectChanges();
+    expect(getItems()[1]).toHaveAttribute('data-active');
+  });
+
+  it('H-U-6c850e: keeps advancing on every interval tick', async () => {
+    const { detectChanges } = await renderTemplate(
+      `<mui-carousel [autoPlay]="1000" [loop]="true">
+        <mui-carousel-content>
+          <mui-carousel-item>Slide 1</mui-carousel-item>
+          <mui-carousel-item>Slide 2</mui-carousel-item>
+          <mui-carousel-item>Slide 3</mui-carousel-item>
+        </mui-carousel-content>
+      </mui-carousel>`,
+      { imports: IMPORTS },
+    );
+    vi.advanceTimersByTime(3000);
+    detectChanges();
+    expect(getItems()[0]).toHaveAttribute('data-active');
+  });
+
+  it('H-U-6c850e: does not set up a timer when autoPlay is 0 (default)', async () => {
+    const { detectChanges } = await renderTemplate(BASIC, { imports: IMPORTS });
+    vi.advanceTimersByTime(10000);
+    detectChanges();
+    expect(getItems()[0]).toHaveAttribute('data-active');
+  });
+
+  it('H-U-6c850e: clears the interval on destroy without throwing', async () => {
+    const { fixture } = await renderTemplate(
+      `<mui-carousel [autoPlay]="1000">
+        <mui-carousel-content>
+          <mui-carousel-item>Slide 1</mui-carousel-item>
+          <mui-carousel-item>Slide 2</mui-carousel-item>
+        </mui-carousel-content>
+      </mui-carousel>`,
+      { imports: IMPORTS },
+    );
+    expect(() => fixture.destroy()).not.toThrow();
+    expect(() => vi.advanceTimersByTime(5000)).not.toThrow();
   });
 });

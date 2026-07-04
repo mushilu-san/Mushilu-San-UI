@@ -51,9 +51,13 @@ export class DropdownMenu {
 
   private readonly el = inject(ElementRef);
   private readonly doc = inject(DOCUMENT);
+  private _triggerEl: HTMLElement | null = null;
 
   toggle(): void {
     const next = !this.open();
+    if (next) {
+      this._triggerEl = this.doc.activeElement as HTMLElement | null;
+    }
     this.open.set(next);
     if (next) {
       this.opened.emit();
@@ -90,6 +94,9 @@ export class DropdownMenu {
           if (this.closeOnEscape()) {
             event.preventDefault();
             this.close();
+            // H-E-c091ef: display:none on close force-blurs any focused item, so
+            // the trigger captured at open time must be re-focused explicitly.
+            this._triggerEl?.focus();
           }
           break;
         case 'Tab':
