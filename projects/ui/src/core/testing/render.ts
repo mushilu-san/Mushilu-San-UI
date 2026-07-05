@@ -1,4 +1,6 @@
+import { DOCUMENT } from '@angular/common';
 import type { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { render } from '@testing-library/angular';
 import type {
   RenderComponentOptions,
@@ -25,13 +27,14 @@ export async function renderComponent<T>(
   options: MuiRenderOptions<T> = {},
 ): Promise<RenderResult<T>> {
   const { providers = [], theme, ...rest } = options;
-  if (theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-  }
-  return render<T>(component, {
+  const result = await render<T>(component, {
     providers: [provideMushiluUi(), ...providers],
     ...rest,
   });
+  if (theme) {
+    TestBed.inject(DOCUMENT).documentElement.setAttribute('data-theme', theme);
+  }
+  return result;
 }
 
 /**
@@ -50,11 +53,12 @@ export async function renderTemplate(
   options: MuiTemplateRenderOptions = {},
 ): Promise<RenderResult<unknown>> {
   const { providers = [], theme, ...rest } = options;
-  if (theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-  }
-  return render(template, {
+  const result = await render(template, {
     providers: [provideMushiluUi(), ...providers],
     ...rest,
   });
+  if (theme) {
+    TestBed.inject(DOCUMENT).documentElement.setAttribute('data-theme', theme);
+  }
+  return result;
 }
