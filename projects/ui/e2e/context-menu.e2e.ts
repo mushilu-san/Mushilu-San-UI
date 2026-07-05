@@ -29,6 +29,30 @@ test.describe('ContextMenu — E-5 right-click / Escape / keyboard', () => {
     await expect(items).toHaveCount(4); // View, Edit, Duplicate, Delete
   });
 
+  test('H-E-648d10: focus is inside the menu immediately after it opens', async ({ page }) => {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-contextmenu--default');
+    await frame.getByText('Right-click here').click({ button: 'right', force: true });
+    await expect(frame.getByRole('menu')).toBeVisible();
+    // Assert against document.activeElement directly rather than Playwright's
+    // :focus-within/toBeFocused() locators: those read Chromium's window-level
+    // "AX focused" state, which doesn't reliably propagate into a nested
+    // Storybook iframe after an async afterNextRender() focus call triggered by
+    // a right-click (no native focus-granting default action, unlike left-click).
+    // document.activeElement is the actual DOM focus state assistive tech and
+    // keyboard navigation rely on, and is what the fix in context-menu.ts sets.
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const iframe = document.getElementById(
+            'storybook-preview-iframe',
+          ) as HTMLIFrameElement | null;
+          const active = iframe?.contentDocument?.activeElement;
+          return active?.getAttribute('role') ?? null;
+        }),
+      )
+      .toBe('menu');
+  });
+
   test('Tab navigates to first menu item', async ({ page }) => {
     const { frame } = await gotoStoryWithHarness(page, 'overlays-contextmenu--default');
     await frame.getByText('Right-click here').click({ button: 'right', force: true });

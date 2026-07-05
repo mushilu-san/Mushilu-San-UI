@@ -2,16 +2,21 @@ import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostListener,
   InjectionToken,
+  Injector,
   Signal,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   inject,
   input,
   model,
   output,
+  runInInjectionContext,
   signal,
+  viewChild,
 } from '@angular/core';
 
 export interface ContextMenuContext {
@@ -70,6 +75,8 @@ export class ContextMenu {
   protected readonly panelY = signal(0);
 
   private readonly doc = inject(DOCUMENT);
+  private readonly injector = inject(Injector);
+  private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panelEl');
   private _restoreFocusEl: HTMLElement | null = null;
 
   openAt(clientX: number, clientY: number): void {
@@ -77,6 +84,16 @@ export class ContextMenu {
     this.panelY.set(clientY);
     this.open.set(true);
     this.opened.emit();
+    // H-E-648d10: focus must move into the menu panel once it renders — a
+    // right-click opening the menu previously left focus wherever it was,
+    // violating the WCAG requirement that opening a menu moves focus inside it.
+    runInInjectionContext(this.injector, () => {
+      afterNextRender(() => {
+        const panel = this.panelRef();
+        if (!panel) return;
+        panel.nativeElement.focus();
+      });
+    });
   }
 
   /**
