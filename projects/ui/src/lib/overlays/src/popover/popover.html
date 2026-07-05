@@ -2,9 +2,11 @@
 
 @if (open()) {
   <div
+    #panelEl
     class="mui-popover__panel"
     part="panel"
     role="dialog"
+    tabindex="-1"
     [id]="panelId"
     [attr.data-placement]="placement()"
     [attr.aria-labelledby]="heading() ? headingId : null"
