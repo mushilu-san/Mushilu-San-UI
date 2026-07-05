@@ -60,4 +60,14 @@ test.describe('Combobox — E-7 open / select / Escape', () => {
     await expect(frame.getByRole('option', { name: /vue/i })).toBeVisible();
     await expect(frame.getByRole('option', { name: /angular/i })).not.toBeVisible();
   });
+
+  test('H-E-93d6a6: focus returns to the trigger after Escape', async ({ page }) => {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-combobox--default');
+    const trigger = frame.locator('button[aria-haspopup="listbox"]');
+    await trigger.click();
+    await expect(frame.getByRole('listbox')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(frame.getByRole('listbox')).not.toBeVisible();
+    await expect(trigger).toBeFocused();
+  });
 });
