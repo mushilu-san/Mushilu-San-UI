@@ -11,6 +11,13 @@ test.describe('Popover — E-3 focus / Escape / return-focus', () => {
     await expect.poll(() => popover.isOpen()).toBe(true);
   });
 
+  test('H-E-3a3965: focus moves inside popover on open', async ({ page }) => {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-popover--default');
+    await frame.getByRole('button', { name: /open popover/i }).click();
+    await expect(frame.getByRole('dialog')).toBeVisible();
+    await expect(frame.locator('[role=dialog]:focus-within')).toBeAttached();
+  });
+
   test('Escape closes popover', async ({ page }) => {
     const { frame, loader } = await gotoStoryWithHarness(page, 'overlays-popover--default');
     const popover = await loader.getHarness(MuiPopoverHarness);
