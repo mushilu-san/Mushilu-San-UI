@@ -8,6 +8,8 @@
   border-radius: var(--mui-radius-sm);
   border: 1px solid var(--mui-color-input-border);
   background-color: var(--mui-color-surface-raised);
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
   cursor: pointer;
   outline: none;
   touch-action: manipulation;

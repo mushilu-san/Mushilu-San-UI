@@ -1,11 +1,14 @@
 :host {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   outline: none;
   border-radius: var(--mui-radius-full);
   transition: box-shadow var(--mui-duration-fast) var(--mui-easing-default);
   flex-shrink: 0;
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
