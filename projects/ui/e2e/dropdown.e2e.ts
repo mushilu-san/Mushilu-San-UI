@@ -63,6 +63,16 @@ test.describe('DropdownMenu — E-2 keyboard navigation', () => {
     await expect.poll(() => menu.isOpen()).toBe(false);
   });
 
+  test('H-E-945d37: focus stays on the trigger immediately after click, before any arrow key', async ({
+    page,
+  }) => {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-dropdownmenu--default');
+    const trigger = frame.getByRole('button', { name: /options/i });
+    await trigger.click();
+    await expect(frame.getByRole('menu')).toBeVisible();
+    await expect(trigger).toBeFocused();
+  });
+
   test('H-E-c091ef: focus returns to the trigger after Escape', async ({ page }) => {
     const { frame } = await gotoStoryWithHarness(page, 'overlays-dropdownmenu--default');
     const trigger = frame.getByRole('button', { name: /options/i });
