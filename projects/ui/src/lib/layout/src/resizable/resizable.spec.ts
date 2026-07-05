@@ -320,4 +320,18 @@ describe('Resizable', () => {
     const total = remaining.reduce((s, p) => s + parseFloat(p.style.flexBasis), 0);
     expect(total).toBeCloseTo(100, 0);
   });
+
+  it("H-U-2d807a: ngOnDestroy cleans up an active drag session's document listeners", async () => {
+    const { fixture } = await renderTemplate(BASIC, { imports: IMPORTS });
+    const handle = getHandle();
+
+    fireEvent.pointerDown(handle, { clientX: 300, clientY: 0, pointerId: 1 });
+
+    const removeSpy = vi.spyOn(document, 'removeEventListener');
+    fixture.destroy();
+
+    expect(removeSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
+    expect(removeSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
+    removeSpy.mockRestore();
+  });
 });
