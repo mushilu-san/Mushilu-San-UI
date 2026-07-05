@@ -2,30 +2,4 @@
 const { defineConfig } = require('eslint/config');
 const rootConfig = require('../../eslint.config.js');
 
-module.exports = defineConfig([
-  ...rootConfig,
-  {
-    files: ['**/*.ts'],
-    rules: {
-      '@angular-eslint/directive-selector': [
-        'error',
-        {
-          type: 'attribute',
-          prefix: 'mui',
-          style: 'camelCase',
-        },
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
-        [
-          { type: 'element', prefix: 'mui', style: 'kebab-case' },
-          { type: 'attribute', prefix: 'mui', style: 'camelCase' },
-        ],
-      ],
-    },
-  },
-  {
-    files: ['**/*.html'],
-    rules: {},
-  },
-]);
+module.exports = defineConfig([...rootConfig]);
