@@ -99,16 +99,13 @@ test.describe('InputGroup — E2E', () => {
     expect(await group?.getAddonTexts()).toEqual(['$', 'USD']);
   });
 
-  test('invalid group renders with its own invalid state and an aria-invalid nested input', async ({
+  test('invalid group propagates invalid state to its own host and the nested input', async ({
     page,
   }) => {
     const { frame, loader } = await gotoStoryWithHarness(page, 'forms-inputgroup--invalid');
     const group = await loader.getHarness(MuiInputGroupHarness);
     expect(await group.isInvalid()).toBe(true);
-    // The story marks the nested input `aria-invalid="true"` directly (a static attribute,
-    // not the `data-invalid` host binding — see issue #287: InputGroup's INPUT_GROUP_CONTEXT
-    // propagation to a projected Input's `data-invalid` host attribute does not take effect in
-    // the live browser bootstrap, only in TestBed-based unit tests).
     await expect(frame.locator('input')).toHaveAttribute('aria-invalid', 'true');
+    await expect(frame.locator('input')).toHaveAttribute('data-invalid', 'true');
   });
 });
