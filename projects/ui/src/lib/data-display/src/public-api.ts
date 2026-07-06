@@ -5,7 +5,7 @@ export type { CardVariant } from './card/card.types';
 // Accordion
 export { AccordionGroup } from './accordion/accordion';
 export { AccordionItem } from './accordion/accordion-item';
-export type { AccordionContext, AccordionItemRef } from './accordion/accordion.types';
+export type { AccordionContext } from './accordion/accordion.types';
 export { ACCORDION_CONTEXT } from './accordion/accordion.types';
 
 // Table

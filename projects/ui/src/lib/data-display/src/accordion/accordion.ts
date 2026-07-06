@@ -6,7 +6,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import type { AccordionContext, AccordionItemRef } from './accordion.types';
+import type { AccordionContext } from './accordion.types';
 import { ACCORDION_CONTEXT } from './accordion.types';
 
 @Component({
@@ -27,16 +27,6 @@ export class AccordionGroup implements AccordionContext {
 
   readonly openIds = signal<ReadonlySet<string>>(new Set());
 
-  private items: AccordionItemRef[] = [];
-
-  register(item: AccordionItemRef): void {
-    this.items = [...this.items, item];
-  }
-
-  unregister(item: AccordionItemRef): void {
-    this.items = this.items.filter((i) => i !== item);
-  }
-
   toggle(id: string): void {
     const curr = this.openIds();
     if (this.multiple()) {
@@ -50,30 +40,5 @@ export class AccordionGroup implements AccordionContext {
     } else {
       this.openIds.set(curr.has(id) ? new Set() : new Set([id]));
     }
-  }
-
-  private enabled(): AccordionItemRef[] {
-    return this.items.filter((i) => !i.disabled());
-  }
-
-  focusNext(item: AccordionItemRef): void {
-    const list = this.enabled();
-    const idx = list.indexOf(item);
-    list[(idx + 1) % list.length]?.focusTrigger();
-  }
-
-  focusPrev(item: AccordionItemRef): void {
-    const list = this.enabled();
-    const idx = list.indexOf(item);
-    list[(idx - 1 + list.length) % list.length]?.focusTrigger();
-  }
-
-  focusFirst(): void {
-    this.enabled()[0]?.focusTrigger();
-  }
-
-  focusLast(): void {
-    const list = this.enabled();
-    list[list.length - 1]?.focusTrigger();
   }
 }
