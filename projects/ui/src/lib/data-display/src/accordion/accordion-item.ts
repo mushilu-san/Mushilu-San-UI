@@ -1,18 +1,16 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
-  OnDestroy,
-  OnInit,
   ViewEncapsulation,
   booleanAttribute,
   computed,
   inject,
   input,
-  viewChild,
 } from '@angular/core';
-import type { AccordionItemRef } from './accordion.types';
+import { handleRovingFocus } from '@mushilu-san/ui';
 import { ACCORDION_CONTEXT } from './accordion.types';
 
 let itemUid = 0;
@@ -30,7 +28,7 @@ let itemUid = 0;
     '[attr.data-disabled]': 'disabled() ? "" : null',
   },
 })
-export class AccordionItem implements OnInit, OnDestroy, AccordionItemRef {
+export class AccordionItem {
   /** Visible heading text of the trigger button. */
   heading = input.required<string>();
   disabled = input(false, { transform: booleanAttribute });
@@ -39,45 +37,23 @@ export class AccordionItem implements OnInit, OnDestroy, AccordionItemRef {
   protected readonly panelId = `mui-accordion-panel-${itemUid++}`;
 
   private readonly group = inject(ACCORDION_CONTEXT, { optional: true });
+  private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly doc = inject(DOCUMENT);
 
   readonly isOpen = computed(() => this.group?.openIds().has(this.triggerId) ?? false);
-
-  private readonly triggerRef = viewChild<ElementRef<HTMLButtonElement>>('trigger');
-
-  ngOnInit(): void {
-    this.group?.register(this);
-  }
-  ngOnDestroy(): void {
-    this.group?.unregister(this);
-  }
-
-  focusTrigger(): void {
-    this.triggerRef()?.nativeElement.focus();
-  }
 
   protected toggle(): void {
     if (!this.disabled()) this.group?.toggle(this.triggerId);
   }
 
   @HostListener('keydown', ['$event'])
-  protected onKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        this.group?.focusNext(this);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.group?.focusPrev(this);
-        break;
-      case 'Home':
-        event.preventDefault();
-        this.group?.focusFirst();
-        break;
-      case 'End':
-        event.preventDefault();
-        this.group?.focusLast();
-        break;
-    }
+  protected onKeydown(event: Event): void {
+    const e = event as KeyboardEvent;
+    const triggers = Array.from(
+      this.el.nativeElement
+        .closest('mui-accordion')
+        ?.querySelectorAll('.mui-accordion-item__trigger:not([aria-disabled="true"])') ?? [],
+    ) as HTMLElement[];
+    handleRovingFocus(e, triggers, this.doc.activeElement, { orientation: 'vertical' });
   }
 }

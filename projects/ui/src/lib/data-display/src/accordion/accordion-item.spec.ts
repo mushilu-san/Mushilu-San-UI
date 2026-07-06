@@ -5,18 +5,12 @@ import { describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
 import { AccordionItem } from './accordion-item';
 import { ACCORDION_CONTEXT } from './accordion.types';
-import type { AccordionContext, AccordionItemRef } from './accordion.types';
+import type { AccordionContext } from './accordion.types';
 
 function makeCtx(overrides: Partial<AccordionContext> = {}): AccordionContext {
   return {
     openIds: signal(new Set<string>()),
     toggle: vi.fn(),
-    register: vi.fn(),
-    unregister: vi.fn(),
-    focusNext: vi.fn(),
-    focusPrev: vi.fn(),
-    focusFirst: vi.fn(),
-    focusLast: vi.fn(),
     ...overrides,
   };
 }
@@ -60,22 +54,13 @@ describe('AccordionItem (isolated)', () => {
 
   it('aria-expanded is true and panel is unhidden when its id is in ctx.openIds', async () => {
     const openIds = signal(new Set<string>());
-    await renderTemplate(TEMPLATE, {
+    const { fixture } = await renderTemplate(TEMPLATE, {
       imports: [AccordionItem],
-      providers: [
-        {
-          provide: ACCORDION_CONTEXT,
-          useValue: makeCtx({
-            openIds: openIds.asReadonly(),
-            register: (item: AccordionItemRef) => {
-              const triggerId = (item as unknown as { triggerId: string }).triggerId;
-              openIds.set(new Set([triggerId]));
-            },
-          }),
-        },
-      ],
+      providers: [{ provide: ACCORDION_CONTEXT, useValue: makeCtx({ openIds }) }],
     });
     const btn = screen.getByRole('button', { name: 'Section' });
+    openIds.set(new Set([btn.id]));
+    fixture.detectChanges();
     expect(btn).toHaveAttribute('aria-expanded', 'true');
     expect(document.querySelector('[role="region"]')).not.toHaveAttribute('hidden');
   });
@@ -104,57 +89,5 @@ describe('AccordionItem (isolated)', () => {
     expect(btn).toHaveAttribute('aria-disabled', 'true');
     fireEvent.click(btn);
     expect(toggle).not.toHaveBeenCalled();
-  });
-
-  it('ArrowDown calls ctx.focusNext', async () => {
-    const focusNext = vi.fn();
-    await renderTemplate(TEMPLATE, {
-      imports: [AccordionItem],
-      providers: [{ provide: ACCORDION_CONTEXT, useValue: makeCtx({ focusNext }) }],
-    });
-    fireEvent.keyDown(screen.getByRole('button', { name: 'Section' }), { key: 'ArrowDown' });
-    expect(focusNext).toHaveBeenCalled();
-  });
-
-  it('ArrowUp calls ctx.focusPrev', async () => {
-    const focusPrev = vi.fn();
-    await renderTemplate(TEMPLATE, {
-      imports: [AccordionItem],
-      providers: [{ provide: ACCORDION_CONTEXT, useValue: makeCtx({ focusPrev }) }],
-    });
-    fireEvent.keyDown(screen.getByRole('button', { name: 'Section' }), { key: 'ArrowUp' });
-    expect(focusPrev).toHaveBeenCalled();
-  });
-
-  it('Home calls ctx.focusFirst', async () => {
-    const focusFirst = vi.fn();
-    await renderTemplate(TEMPLATE, {
-      imports: [AccordionItem],
-      providers: [{ provide: ACCORDION_CONTEXT, useValue: makeCtx({ focusFirst }) }],
-    });
-    fireEvent.keyDown(screen.getByRole('button', { name: 'Section' }), { key: 'Home' });
-    expect(focusFirst).toHaveBeenCalled();
-  });
-
-  it('End calls ctx.focusLast', async () => {
-    const focusLast = vi.fn();
-    await renderTemplate(TEMPLATE, {
-      imports: [AccordionItem],
-      providers: [{ provide: ACCORDION_CONTEXT, useValue: makeCtx({ focusLast }) }],
-    });
-    fireEvent.keyDown(screen.getByRole('button', { name: 'Section' }), { key: 'End' });
-    expect(focusLast).toHaveBeenCalled();
-  });
-
-  it('registers with ctx on init and unregisters on destroy', async () => {
-    const register = vi.fn();
-    const unregister = vi.fn();
-    const { fixture } = await renderTemplate(TEMPLATE, {
-      imports: [AccordionItem],
-      providers: [{ provide: ACCORDION_CONTEXT, useValue: makeCtx({ register, unregister }) }],
-    });
-    expect(register).toHaveBeenCalled();
-    fixture.destroy();
-    expect(unregister).toHaveBeenCalled();
   });
 });

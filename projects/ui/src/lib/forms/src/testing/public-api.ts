@@ -1,3 +1,14 @@
 export { MuiSliderHarness } from './slider-harness';
 export { MuiCalendarHarness } from './calendar-harness';
 export { MuiInputOtpHarness } from './input-otp-harness';
+export { MuiCheckboxHarness } from './checkbox-harness';
+export { MuiRadioHarness } from './radio-harness';
+export { MuiToggleHarness } from './toggle-harness';
+export { MuiInputHarness } from './input-harness';
+export { MuiTextareaHarness } from './textarea-harness';
+export { MuiInputGroupHarness } from './input-group-harness';
+export { MuiSelectHarness } from './select-harness';
+export { MuiToggleGroupHarness } from './toggle-group-harness';
+export { MuiLabelHarness } from './label-harness';
+export { MuiDatePickerHarness } from './date-picker-harness';
+export { MuiFormFieldHarness } from './form-field-harness';
