@@ -37,12 +37,7 @@ test.describe('Select — E2E', () => {
 });
 
 test.describe('ToggleGroup — E2E', () => {
-  // H-B-ToggleGroup-CtxLive (issue #288): mui-toggle-group-item does not mount as an Angular
-  // component in the production/Storybook build — it renders as inert plain markup (no button,
-  // no aria-pressed) even though the identical composition passes fully under TestBed unit tests
-  // (toggle-group.spec.ts). Marked fixme rather than deleted so these stay documented and
-  // auto-verify themselves once the underlying DI/mounting bug is fixed.
-  test.fixme('single-select story starts with one item pressed and toggles selection on click', async ({
+  test('single-select story starts with one item pressed and toggles selection on click', async ({
     page,
   }) => {
     const { loader } = await gotoStoryWithHarness(page, 'forms-togglegroup--single');
@@ -57,10 +52,7 @@ test.describe('ToggleGroup — E2E', () => {
     await expect.poll(() => group.getSelectedValues()).toEqual([]);
   });
 
-  // H-B-ToggleGroup-CtxLive (issue #288) — see note above.
-  test.fixme('multiple-select story accumulates and removes independent selections', async ({
-    page,
-  }) => {
+  test('multiple-select story accumulates and removes independent selections', async ({ page }) => {
     const { loader } = await gotoStoryWithHarness(page, 'forms-togglegroup--multiple');
     const group = await loader.getHarness(MuiToggleGroupHarness);
     await expect.poll(() => group.getSelectedValues()).toEqual(['bold']);
@@ -74,8 +66,7 @@ test.describe('ToggleGroup — E2E', () => {
     await expect.poll(() => group.getSelectedValues()).toEqual(['italic']);
   });
 
-  // H-B-ToggleGroup-CtxLive (issue #288) — see note above.
-  test.fixme('with-disabled story: group-level disables every item, item-level disables only itself', async ({
+  test('with-disabled story: group-level disables every item, item-level disables only itself', async ({
     page,
   }) => {
     // Story renders two <mui-toggle-group>s: the first is disabled wholesale, the second only
@@ -96,8 +87,7 @@ test.describe('ToggleGroup — E2E', () => {
     await expect(frame.locator('mui-toggle-group')).toHaveAttribute('role', 'group');
   });
 
-  // H-B-ToggleGroup-CtxLive (issue #288) — see note above.
-  test.fixme('keyboard: Space toggles a focused item', async ({ page }) => {
+  test('keyboard: Space toggles a focused item', async ({ page }) => {
     const { frame, loader } = await gotoStoryWithHarness(page, 'forms-togglegroup--single');
     const group = await loader.getHarness(MuiToggleGroupHarness);
     await expect.poll(() => group.getSelectedValues()).toEqual(['left']);

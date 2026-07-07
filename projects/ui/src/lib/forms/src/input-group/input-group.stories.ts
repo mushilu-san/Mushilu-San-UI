@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { Input } from '../input/input';
 import { InputGroup } from './input-group';
 import { InputGroupAddon } from './input-group-addon';
@@ -6,6 +6,7 @@ import { InputGroupAddon } from './input-group-addon';
 const meta: Meta<InputGroup> = {
   title: 'Forms/InputGroup',
   component: InputGroup,
+  decorators: [moduleMetadata({ imports: [InputGroup, InputGroupAddon, Input] })],
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
@@ -23,7 +24,6 @@ export const Default: Story = {
         <input muiInput placeholder="Enter text…" aria-label="Text input" />
       </mui-input-group>
     `,
-    imports: [InputGroup, Input],
   }),
 };
 
@@ -35,7 +35,6 @@ export const WithLeadingAddon: Story = {
         <input muiInput type="number" placeholder="0.00" aria-label="Dollar amount" />
       </mui-input-group>
     `,
-    imports: [InputGroup, InputGroupAddon, Input],
   }),
 };
 
@@ -47,7 +46,6 @@ export const WithTrailingAddon: Story = {
         <mui-input-group-addon>@example.com</mui-input-group-addon>
       </mui-input-group>
     `,
-    imports: [InputGroup, InputGroupAddon, Input],
   }),
 };
 
@@ -70,7 +68,6 @@ export const BothAddons: Story = {
         </mui-input-group>
       </div>
     `,
-    imports: [InputGroup, InputGroupAddon, Input],
   }),
 };
 
@@ -92,7 +89,6 @@ export const Sizes: Story = {
         </mui-input-group>
       </div>
     `,
-    imports: [InputGroup, InputGroupAddon, Input],
   }),
 };
 
@@ -110,7 +106,6 @@ export const Invalid: Story = {
         </p>
       </div>
     `,
-    imports: [InputGroup, InputGroupAddon, Input],
   }),
 };
 
@@ -146,7 +141,6 @@ export const Accessibility: Story = {
         </div>
       </div>
     `,
-    imports: [InputGroup, InputGroupAddon, Input],
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -169,7 +163,6 @@ export const MobilePreview: Story = {
         </mui-input-group>
       </div>
     `,
-    imports: [InputGroup, InputGroupAddon, Input],
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };

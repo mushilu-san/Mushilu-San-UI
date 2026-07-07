@@ -1,10 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { ToggleGroup } from './toggle-group';
 import { ToggleGroupItem } from './toggle-group-item';
 
 const meta: Meta = {
   title: 'Forms/ToggleGroup',
   component: ToggleGroup,
+  decorators: [moduleMetadata({ imports: [ToggleGroup, ToggleGroupItem] })],
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
 };
@@ -13,7 +14,6 @@ type Story = StoryObj;
 
 export const Single: Story = {
   render: () => ({
-    imports: [ToggleGroup, ToggleGroupItem],
     props: { align: 'left' },
     template: `
       <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
@@ -30,7 +30,6 @@ export const Single: Story = {
 
 export const Multiple: Story = {
   render: () => ({
-    imports: [ToggleGroup, ToggleGroupItem],
     props: { formats: 'bold' },
     template: `
       <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
@@ -56,7 +55,6 @@ export const Multiple: Story = {
 
 export const Sizes: Story = {
   render: () => ({
-    imports: [ToggleGroup, ToggleGroupItem],
     template: `
       <div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;">
         <mui-toggle-group size="sm" value="a">
@@ -81,7 +79,6 @@ export const Sizes: Story = {
 
 export const OutlineVariant: Story = {
   render: () => ({
-    imports: [ToggleGroup, ToggleGroupItem],
     props: { view: 'grid' },
     template: `
       <mui-toggle-group variant="outline" [(value)]="view">
@@ -95,7 +92,6 @@ export const OutlineVariant: Story = {
 
 export const WithDisabled: Story = {
   render: () => ({
-    imports: [ToggleGroup, ToggleGroupItem],
     template: `
       <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
         <p style="margin:0;font-family:var(--mui-font-sans);font-size:13px;color:var(--mui-color-text-muted);">Group disabled</p>
@@ -117,7 +113,6 @@ export const WithDisabled: Story = {
 
 export const Accessibility: Story = {
   render: () => ({
-    imports: [ToggleGroup, ToggleGroupItem],
     props: { alignment: 'center' },
     template: `
       <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
@@ -139,7 +134,6 @@ export const Accessibility: Story = {
 
 export const MobilePreview: Story = {
   render: () => ({
-    imports: [ToggleGroup, ToggleGroupItem],
     props: { tab: 'all' },
     template: `
       <div style="width:375px;padding:24px;">
