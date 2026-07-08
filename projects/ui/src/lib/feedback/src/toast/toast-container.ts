@@ -11,12 +11,7 @@ import { ToastService } from './toast.service';
 import type { ToastRef } from './toast.types';
 
 export type ToastPlacement =
-  | 'top-start'
-  | 'top-center'
-  | 'top-end'
-  | 'bottom-start'
-  | 'bottom-center'
-  | 'bottom-end';
+  'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
 
 @Component({
   selector: 'mui-toast-container',
