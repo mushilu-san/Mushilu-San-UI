@@ -20,7 +20,8 @@
     "build-storybook": "nx run ui:build-storybook",
     "e2e": "playwright test",
     "e2e:affected": "node scripts/affected-run.mjs e2e",
-    "e2e:report": "playwright show-report"
+    "e2e:report": "playwright show-report",
+    "test:scripts": "vitest run --config vitest.scripts.config.mjs"
   },
   "private": true,
   "workspaces": [
