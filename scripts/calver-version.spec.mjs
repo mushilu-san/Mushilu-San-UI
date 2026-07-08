@@ -9,6 +9,11 @@ describe('isoWeekYearAndWeek', () => {
   it('rolls late-December dates into week 1 of the next ISO year', () => {
     expect(isoWeekYearAndWeek(new Date(Date.UTC(2025, 11, 29)))).toEqual({ year: 2026, week: 1 });
   });
+
+  it('rolls early-January dates back into the previous ISO year\'s last week', () => {
+    // 2027-01-01 is a Friday; ISO week 53 of 2026 (2026 starts on a Thursday, a 53-week year)
+    expect(isoWeekYearAndWeek(new Date(Date.UTC(2027, 0, 1)))).toEqual({ year: 2026, week: 53 });
+  });
 });
 
 describe('computeNextVersion', () => {
