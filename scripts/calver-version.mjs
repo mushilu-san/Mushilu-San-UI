@@ -5,6 +5,7 @@
 
 import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 export function isoWeekYearAndWeek(date) {
   const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
@@ -41,6 +42,6 @@ function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (fileURLToPath(import.meta.url) === process.argv[1]) {
   main();
 }
