@@ -29,16 +29,37 @@ export function computeNextVersion(tags, referenceDate = new Date()) {
   return `${year}.${weekStr}.${next}`;
 }
 
+export function findLatestTag(tags) {
+  let best = null;
+  for (const tag of tags) {
+    const match = tag.match(/^v(\d+)\.(\d+)\.(\d+)$/);
+    if (!match) continue;
+    const candidate = { tag, year: Number(match[1]), week: Number(match[2]), counter: Number(match[3]) };
+    if (
+      !best ||
+      candidate.year > best.year ||
+      (candidate.year === best.year && candidate.week > best.week) ||
+      (candidate.year === best.year && candidate.week === best.week && candidate.counter > best.counter)
+    ) {
+      best = candidate;
+    }
+  }
+  return best ? best.tag : null;
+}
+
 function main() {
   const tags = execFileSync('git', ['tag', '-l'], { encoding: 'utf8' })
     .split('\n')
     .map((t) => t.trim())
     .filter(Boolean);
   const version = computeNextVersion(tags, new Date());
+  const previousTag = findLatestTag(tags) ?? '';
   if (process.env.GITHUB_OUTPUT) {
     appendFileSync(process.env.GITHUB_OUTPUT, `version=${version}\n`);
+    appendFileSync(process.env.GITHUB_OUTPUT, `previous_tag=${previousTag}\n`);
   } else {
     console.log(version);
+    console.log(previousTag);
   }
 }
 

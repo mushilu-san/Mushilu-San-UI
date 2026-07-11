@@ -48,16 +48,8 @@ jobs:
         id: version
         run: node scripts/calver-version.mjs
 
-      - name: Update changelog and package version
-        run: node scripts/calver-changelog.mjs "${{ steps.version.outputs.version }}"
-
-      - name: Commit and tag release
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "chore: release ${{ steps.version.outputs.version }} [skip ci]"
-          git tag "v${{ steps.version.outputs.version }}"
-          git push origin HEAD:main --follow-tags
+      - name: Build release notes and bump package version (working tree only)
+        run: node scripts/calver-changelog.mjs "${{ steps.version.outputs.version }}" "${{ steps.version.outputs.previous_tag }}"
 
       - name: Build library
         run: npm run build
@@ -67,6 +59,11 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag release
+        run: |
+          git tag "v${{ steps.version.outputs.version }}"
+          git push origin "v${{ steps.version.outputs.version }}"
 
       - name: Create GitHub release
         run: gh release create "v${{ steps.version.outputs.version }}" --notes-file /tmp/calver-release-notes.md

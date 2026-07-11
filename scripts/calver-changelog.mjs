@@ -1,14 +1,15 @@
 #!/usr/bin/env node
-// Consumes pending .changeset/*.md files into a CalVer changelog entry, bumps
-// projects/ui/package.json's version, and deletes the consumed changeset files.
-// Usage: node scripts/calver-changelog.mjs <version> [notesOutPath]
+// Builds CalVer release notes from changesets added since the previous release
+// tag, and bumps projects/ui/package.json's version (in the working tree only —
+// this is never committed; see the design spec's 2026-07-12 amendment for why).
+// Usage: node scripts/calver-changelog.mjs <version> [previousTag] [notesOutPath]
 
-import { readFileSync, writeFileSync, readdirSync, unlinkSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const CHANGESET_DIR = '.changeset';
-const CHANGELOG_PATH = 'projects/ui/CHANGELOG.md';
 const PACKAGE_JSON_PATH = 'projects/ui/package.json';
 
 export function parseChangesetBody(fileContent) {
@@ -26,38 +27,42 @@ export function buildChangelogSection(version, isoDate, bodies) {
   return `${heading}\n\n${entries}\n`;
 }
 
-function listChangesetFiles() {
-  return readdirSync(CHANGESET_DIR)
-    .filter((name) => name.endsWith('.md') && name !== 'README.md')
-    .map((name) => join(CHANGESET_DIR, name));
+function listNewChangesetFiles(previousTag) {
+  if (!previousTag) {
+    return readdirSync(CHANGESET_DIR)
+      .filter((name) => name.endsWith('.md') && name !== 'README.md')
+      .map((name) => join(CHANGESET_DIR, name))
+      .sort();
+  }
+  const output = execFileSync(
+    'git',
+    ['diff', '--name-only', '--diff-filter=A', `${previousTag}..HEAD`, '--', CHANGESET_DIR],
+    { encoding: 'utf8' },
+  );
+  return output
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.endsWith('.md') && !line.endsWith('README.md'))
+    .sort();
 }
 
 function main() {
   const version = process.argv[2];
   if (!version) {
-    throw new Error('Usage: node scripts/calver-changelog.mjs <version> [notesOutPath]');
+    throw new Error('Usage: node scripts/calver-changelog.mjs <version> [previousTag] [notesOutPath]');
   }
-  const notesOutPath = process.argv[3] ?? '/tmp/calver-release-notes.md';
+  const previousTag = process.argv[3] || null;
+  const notesOutPath = process.argv[4] ?? '/tmp/calver-release-notes.md';
 
-  const changesetFiles = listChangesetFiles();
+  const changesetFiles = listNewChangesetFiles(previousTag);
   const bodies = changesetFiles.map((path) => parseChangesetBody(readFileSync(path, 'utf8')));
 
   const isoDate = new Date().toISOString().slice(0, 10);
   const section = buildChangelogSection(version, isoDate, bodies);
 
-  const existingChangelog = readFileSync(CHANGELOG_PATH, 'utf8');
-  const titleMatch = existingChangelog.match(/^# .*\n/);
-  const title = titleMatch ? titleMatch[0] : '';
-  const rest = existingChangelog.slice(title.length).replace(/^\n+/, '');
-  writeFileSync(CHANGELOG_PATH, `${title}\n${section}\n${rest}`);
-
   const packageJson = JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf8'));
   packageJson.version = version;
   writeFileSync(PACKAGE_JSON_PATH, `${JSON.stringify(packageJson, null, 2)}\n`);
-
-  for (const path of changesetFiles) {
-    unlinkSync(path);
-  }
 
   writeFileSync(notesOutPath, section);
 }

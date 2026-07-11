@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeNextVersion, isoWeekYearAndWeek } from './calver-version.mjs';
+import { computeNextVersion, isoWeekYearAndWeek, findLatestTag } from './calver-version.mjs';
 
 describe('isoWeekYearAndWeek', () => {
   it('computes ISO week for a mid-year date', () => {
@@ -34,5 +34,21 @@ describe('computeNextVersion', () => {
   it('is robust to a gap left by a deleted tag (uses max, not count)', () => {
     const tags = ['v2026.28.1', 'v2026.28.3'];
     expect(computeNextVersion(tags, new Date(Date.UTC(2026, 6, 8)))).toBe('2026.28.4');
+  });
+});
+
+describe('findLatestTag', () => {
+  it('returns null when no tag matches the vYYYY.WW.N pattern', () => {
+    expect(findLatestTag(['some-other-tag', 'v1.2'])).toBeNull();
+  });
+
+  it('picks the numerically highest tag across different weeks', () => {
+    const tags = ['v2026.27.9', 'v2026.28.1', 'v2025.52.3'];
+    expect(findLatestTag(tags)).toBe('v2026.28.1');
+  });
+
+  it('compares counters numerically, not lexicographically', () => {
+    const tags = ['v2026.28.2', 'v2026.28.10'];
+    expect(findLatestTag(tags)).toBe('v2026.28.10');
   });
 });
