@@ -11,8 +11,6 @@
     "storybook": "nx run ui:storybook",
     "storybook:build": "nx run ui:build-storybook",
     "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "npm run build && changeset publish",
     "lint": "nx lint ui",
     "format": "prettier --write \"projects/**/*.{ts,html,css,mjs,json}\"",
     "format:check": "prettier --check \"projects/**/*.{ts,html,css,mjs,json}\"",
