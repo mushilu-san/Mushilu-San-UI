@@ -79,11 +79,10 @@ Or use the `./dev.sh` helper — it does this automatically.
 # Add a changeset before merging a PR
 ./dev.sh changeset
 
-# Bump versions + update CHANGELOG
-./dev.sh version-packages
-
-# Publish to npm (build + changeset publish)
-./dev.sh release
+# Releases are automatic: every merge to main computes the next CalVer
+# version (YYYY.WW.N), generates release notes, tags, and publishes — no
+# separate version-bump PR. To trigger one without waiting for a merge:
+gh workflow run release.yml
 ```
 
 ## Affected testing
@@ -361,9 +360,14 @@ fireEvent.click(screen.getByRole('button'));   // not userEvent.click()
 
 1. `./dev.sh test` — all green
 2. `./dev.sh build` — dist/ clean
-3. `npm run changeset` — describe changes
-4. Push PR → merge → Changesets bot opens "Version Packages" PR
-5. Merge version PR → `changesets/action` publishes to npm automatically
+3. `npm run changeset` — describe changes (used as changelog prose only —
+   the bump type you pick is ignored by the CalVer release script)
+4. Push PR → merge to main → the Release workflow automatically computes
+   the next CalVer version (`YYYY.WW.N`), generates release notes for the
+   GitHub Release, tags the commit, and publishes to GitHub Packages — no
+   separate "Version Packages" PR to merge, and no committed CHANGELOG.md
+   entry (the GitHub Release is the changelog record, not the repo)
+5. To release without waiting for a merge: `gh workflow run release.yml`
 
 ## Code standards — mandatory rules for every new component
 
