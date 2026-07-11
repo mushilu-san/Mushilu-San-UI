@@ -79,7 +79,7 @@
     "jsdom": "^29.1.1",
     "ng-packagr": "^22.0.1",
     "nx": "23.0.1",
-    "prettier": "^3.9.4",
+    "prettier": "^3.9.5",
     "serve": "^14.2.6",
     "size-limit": "^12.1.0",
     "storybook": "^10.4.6",
