@@ -14,8 +14,7 @@
 #   storybook         Start Storybook dev server on port 6006
 #   storybook:build   Build Storybook static output → storybook-static/
 #   changeset         Add a changeset (run before merging a PR)
-#   version-packages  Bump versions + update CHANGELOG from changesets
-#   release           Build + publish to npm (runs changeset publish)
+#   release-status    Show the release workflow's most recent runs
 #   lint              Run ESLint on the library
 #   clean             Delete dist/ coverage/ storybook-static/
 #   help              Show this help text
@@ -85,14 +84,10 @@ case "$COMMAND" in
     npm run changeset
     ;;
 
-  version-packages)
-    echo "▶ Bumping versions and updating CHANGELOG…"
-    npm run version-packages
-    ;;
-
-  release)
-    echo "▶ Building and publishing to npm…"
-    npm run release
+  release-status)
+    echo "▶ Recent Release workflow runs (releases are automatic on merge to main;"
+    echo "  to trigger one on demand: gh workflow run release.yml)…"
+    gh run list --workflow=release.yml --limit 10
     ;;
 
   lint)

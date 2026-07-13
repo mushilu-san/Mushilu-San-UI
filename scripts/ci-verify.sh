@@ -43,6 +43,9 @@ else
   npm run test:ci
 fi
 
+echo "==> Test release scripts"
+npm run test:scripts
+
 echo "==> Build library"
 npm run build
 

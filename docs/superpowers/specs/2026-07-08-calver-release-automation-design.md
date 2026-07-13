@@ -169,3 +169,59 @@ change to describe the new auto-publish-on-merge flow instead.
    No supported hook exists for a custom version-string generator — bump type is
    hardcoded to major/minor/patch semantics. Would require monkeypatching internals,
    fragile across upgrades. Rejected.
+
+## Amendment (2026-07-12): tag-only release, no commit pushed to `main`
+
+During implementation, the final whole-branch review flagged that `main` has
+branch protection requiring a pull request + 1 approval
+(`required_pull_request_reviews`, `required_approving_review_count: 1`) with no
+bypass allowance configured. GitHub rejects any direct push to a
+protected-with-required-PR branch for any non-exempt actor — the workflow's
+`contents: write` permission scopes what the token's API calls may do, but does
+not override this server-side ref-update rule. `github-actions[bot]` is not
+exempt.
+
+The fix would normally be `bypass_pull_request_allowances` (letting a specific
+actor bypass required reviews while everyone else still needs them) — but this
+field is a GitHub Team/Enterprise Cloud feature. This org is on GitHub Free:
+`PATCH .../required_pull_request_reviews` with a `bypass_pull_request_allowances`
+body returns 200 but silently never persists the field. Confirmed by re-fetching
+the resource immediately after two separate attempts.
+
+**Decision:** the release job never pushes a commit to `main`. It pushes only a
+git tag (`refs/tags/v{version}`) — tags are not covered by branch protection,
+which only governs `refs/heads/*`. This changes two things from the original
+design:
+
+- **The version bump in `projects/ui/package.json` is never committed.** It's
+  written directly in the ephemeral CI checkout, just long enough for
+  `npm run build` (via ng-packagr) to pick it up before publish. The working
+  tree changes are discarded when the runner is torn down. `main`'s committed
+  `package.json` version is no longer expected to match the latest published
+  version — the tag and the GitHub Release are the source of truth for "what's
+  actually published," not the committed file.
+- **`projects/ui/CHANGELOG.md` is no longer written to at all.** The changelog
+  text becomes the GitHub Release body (via `gh release create --notes-file`)
+  instead of a committed file section. Consequently, `.changeset/*.md` files
+  are no longer deleted either — deleting them would require a commit, which we
+  no longer make. Instead, "which changesets are new this release" is computed
+  by diffing against the previous release tag: `git diff --name-only
+  --diff-filter=A <previous-tag>..HEAD -- .changeset` (or, if no previous CalVer
+  tag exists yet, every current changeset file). `parseChangesetBody` and
+  `buildChangelogSection` are unchanged — only how the input file list is
+  gathered changes.
+
+**Accepted tradeoff:** `.changeset/*.md` files accumulate in the repository
+indefinitely rather than being pruned after each release (there is no commit to
+prune them in). This is a real accretion of files over time with no automated
+cleanup. It's accepted as the cost of never touching a protected branch
+directly; a periodic manual cleanup (or a separate, human-reviewed PR) can prune
+already-released changeset files if this becomes a nuisance — out of scope for
+this change.
+
+**Side benefit:** this also eliminates the final review's other Important
+finding about a non-fast-forward race on concurrent merges (Task 2/3's original
+design pushed a commit to `main`, which could lose a race to a second merge
+landing first). With no commit pushed to `main`, there is nothing to race —
+only the serialized-by-`concurrency` tag push remains, which doesn't have this
+failure mode.

@@ -89,6 +89,11 @@ jobs:
             npm run test:ci
           fi
 
+      # 3b. Release-tooling scripts — pure-function unit tests for the CalVer
+      #     version/changelog scripts that drive every published version.
+      - name: Test release scripts
+        run: npm run test:scripts
+
       # Retain V8 coverage for inspection on the run summary (canonical leg only).
       - name: Upload coverage
         if: matrix.node == '' && always()
