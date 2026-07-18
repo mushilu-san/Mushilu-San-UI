@@ -71,7 +71,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/user-event": "^14.6.1",
     "@vitest/coverage-v8": "^4.1.9",
-    "angular-eslint": "22.0.0",
+    "angular-eslint": "22.1.0",
     "chart.js": "^4.5.1",
     "eslint": "^10.6.0",
     "http-server": "^14.1.1",
