@@ -61,7 +61,7 @@
     "@nx/workspace": "23.0.1",
     "@playwright/test": "^1.61.1",
     "@schematics/angular": "^22.0.4",
-    "@size-limit/preset-small-lib": "^12.1.0",
+    "@size-limit/preset-small-lib": "^14.0.0",
     "@storybook/addon-a11y": "^10.4.6",
     "@storybook/addon-docs": "^10.4.6",
     "@storybook/addon-onboarding": "^10.4.6",
