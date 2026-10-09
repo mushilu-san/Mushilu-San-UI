@@ -22,6 +22,7 @@ mui-tabs {
   flex-direction: column;
   align-items: stretch;
   box-shadow: none;
+  border-bottom: none;
   border-inline-end: 2px solid var(--mui-color-border);
 }
 
