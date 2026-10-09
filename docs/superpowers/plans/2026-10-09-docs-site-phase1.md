@@ -6173,6 +6173,5 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 **Known risks, flagged inline:**
 
 - Angular's `resource` option name (Task 11 Step 4).
-- `DocsNav` `inject` placement (Task 10 Step 5; the corrected code is given).
 - The `banner` role on a custom element (Task 10 Step 7).
 - Library prerender safety (Task 1 Step 12).
