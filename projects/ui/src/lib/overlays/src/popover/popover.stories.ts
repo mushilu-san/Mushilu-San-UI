@@ -110,3 +110,16 @@ export const MobilePreview: Story = {
   }),
   parameters: { viewport: { defaultViewport: 'mobile1' } },
 };
+
+export const LogicalPlacements: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;justify-content:center;padding:120px 240px;">
+        <mui-popover placement="start">
+          <button muiPopoverTrigger style="padding:8px 16px;border:1px solid var(--mui-color-border);border-radius:8px;background:var(--mui-color-surface);cursor:pointer;color:var(--mui-color-text)">Start popover</button>
+          <p style="margin:0;white-space:nowrap;color:var(--mui-color-text)">Placement: start</p>
+        </mui-popover>
+      </div>
+    `,
+  }),
+};

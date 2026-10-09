@@ -27,4 +27,16 @@ describe('Calendar RTL', () => {
   it('H-B-dad290: ArrowRight still moves to the next day in LTR', async () => {
     expect(await focusedDayAfter('{ArrowRight}', 'ltr')).toBe('16');
   });
+  it('RTL-E2E: keyboard nav moves DOM focus to the day, not the nav buttons', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(`<div dir="rtl"><mui-calendar [value]="date"></mui-calendar></div>`, {
+      imports: [Calendar],
+      componentProperties: { date: new Date(2024, 0, 15) },
+    });
+    document.querySelector<HTMLElement>('.cal-day[tabindex="0"]')?.focus();
+    await user.keyboard('{ArrowLeft}');
+    await new Promise((r) => setTimeout(r, 0));
+    expect(document.activeElement?.classList.contains('cal-day')).toBe(true);
+    expect(document.activeElement?.textContent?.trim()).toBe('16');
+  });
 });

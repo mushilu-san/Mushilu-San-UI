@@ -260,7 +260,7 @@ export class Calendar implements ControlValueAccessor {
     runInInjectionContext(this.injector, () => {
       afterNextRender(() => {
         (this.el.nativeElement as HTMLElement)
-          .querySelector<HTMLElement>('button[tabindex="0"]')
+          .querySelector<HTMLElement>('button.cal-day[tabindex="0"]')
           ?.focus();
       });
     });
