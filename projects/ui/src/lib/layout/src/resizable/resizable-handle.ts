@@ -8,6 +8,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { resolveDirection } from '@mushilu-san/ui';
 import { RESIZABLE_GROUP_CONTEXT } from './resizable-context';
 
 @Component({
@@ -51,8 +52,10 @@ export class ResizableHandle {
 
   protected onKeydown(event: KeyboardEvent): void {
     const isH = this.ctx.direction() === 'horizontal';
-    const fwd = isH ? 'ArrowRight' : 'ArrowDown';
-    const bwd = isH ? 'ArrowLeft' : 'ArrowUp';
+    // Under RTL the first panel sits on the right, so grow keys swap (H-B-bfbaef).
+    const rtl = isH && resolveDirection(this.el.nativeElement) === 'rtl';
+    const fwd = isH ? (rtl ? 'ArrowLeft' : 'ArrowRight') : 'ArrowDown';
+    const bwd = isH ? (rtl ? 'ArrowRight' : 'ArrowLeft') : 'ArrowUp';
     if (event.key !== fwd && event.key !== bwd) return;
     event.preventDefault();
     const step = event.shiftKey ? 10 : 1;
