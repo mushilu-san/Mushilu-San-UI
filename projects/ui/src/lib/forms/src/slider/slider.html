@@ -16,7 +16,7 @@
     [attr.aria-valuenow]="ariaValueNow()"
     [attr.aria-disabled]="isDisabled() || null"
     [attr.tabindex]="isDisabled() ? -1 : 0"
-    [style.left.%]="fillPercent()"
+    [style.inset-inline-start.%]="fillPercent()"
     (keydown)="onKeydown($event)"
     (blur)="onBlur()"
   ></div>

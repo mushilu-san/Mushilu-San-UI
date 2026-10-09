@@ -28,8 +28,8 @@
 /* ── Fill ───────────────────────────────────────────────── */
 .slider-fill {
   position: absolute;
-  inset: 0;
-  right: auto;
+  inset-block: 0;
+  inset-inline-start: 0;
   height: 100%;
   background-color: var(--mui-color-primary);
   border-radius: var(--mui-radius-full);
@@ -45,7 +45,7 @@
   background-color: var(--mui-color-surface-raised);
   border: 2px solid var(--mui-color-primary);
   border-radius: var(--mui-radius-full);
-  transform: translate(-50%, -50%);
+  transform: translate(calc(-50% * var(--mui-dir-sign, 1)), -50%);
   box-shadow: var(--mui-shadow-1);
   transition:
     border-color var(--mui-duration-fast) var(--mui-easing-default),
@@ -63,7 +63,7 @@
 }
 
 .slider-thumb:hover:not(:focus-visible) {
-  transform: translate(-50%, -50%) scale(1.15);
+  transform: translate(calc(-50% * var(--mui-dir-sign, 1)), -50%) scale(1.15);
 }
 
 :host([data-disabled]) .slider-thumb {
