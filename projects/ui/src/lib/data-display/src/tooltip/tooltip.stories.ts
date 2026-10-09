@@ -99,3 +99,13 @@ export const MobilePreview: Story = {
     `,
   }),
 };
+
+export const LogicalPlacements: Story = {
+  render: () => ({
+    template: `
+      <div style="padding: 5rem; display: flex; justify-content: center;">
+        <button [muiTooltip]="'Start tooltip'" placement="start" style="padding: 0.5rem 1rem; border: 1px solid var(--mui-color-border); border-radius: var(--mui-radius-md); background: var(--mui-color-surface); cursor: pointer;">Start</button>
+      </div>
+    `,
+  }),
+};

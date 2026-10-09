@@ -11,7 +11,7 @@ import {
   signal,
 } from '@angular/core';
 
-import { computePosition, type Placement } from '@mushilu-san/ui';
+import { computePosition, resolveDirection, type Placement } from '@mushilu-san/ui';
 
 let tooltipUid = 0;
 
@@ -99,6 +99,8 @@ export class Tooltip implements OnDestroy {
     div.id = this.tooltipId;
     div.setAttribute('role', 'tooltip');
     div.className = 'mui-tooltip-overlay';
+    // H-S-a3a0cd: overlay is appended to <body>, so it must carry the trigger's direction.
+    div.setAttribute('dir', resolveDirection(this.host.nativeElement, this.doc));
     div.setAttribute('data-placement', this.placement());
     div.textContent = this.muiTooltip();
     this.doc.body.appendChild(div);
@@ -117,6 +119,9 @@ export class Tooltip implements OnDestroy {
       el.offsetWidth || 0,
       el.offsetHeight || 0,
       this.placement(),
+      8,
+      4,
+      { rtl: resolveDirection(this.host.nativeElement, this.doc) === 'rtl' },
     );
 
     Object.assign(el.style, { visibility: '', top: `${top}px`, left: `${left}px` });

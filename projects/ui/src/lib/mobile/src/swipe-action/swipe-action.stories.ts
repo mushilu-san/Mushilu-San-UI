@@ -148,3 +148,21 @@ export const MobilePreview: Story = {
   }),
   parameters: { viewport: { defaultViewport: 'mobile1' } },
 };
+
+export const LogicalEnd: Story = {
+  render: () => ({
+    imports: [SwipeAction],
+    props: {
+      actions: [
+        { key: 'delete', label: 'Delete', side: 'end', color: 'danger' },
+      ] as SwipeActionItem[],
+    },
+    template: `
+      <div style="width:375px;">
+        <mui-swipe-action [actions]="actions">
+          <div style="${rowStyle}">Row with an end-side action</div>
+        </mui-swipe-action>
+      </div>
+    `,
+  }),
+};

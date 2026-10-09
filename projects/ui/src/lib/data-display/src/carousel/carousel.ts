@@ -1,17 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
   booleanAttribute,
   effect,
   forwardRef,
+  inject,
   input,
   model,
   numberAttribute,
   signal,
 } from '@angular/core';
+import { resolveDirection } from '@mushilu-san/ui';
 import { CAROUSEL_CONTEXT, CarouselContext } from './carousel-context';
 
 @Component({
@@ -32,8 +35,7 @@ import { CAROUSEL_CONTEXT, CarouselContext } from './carousel-context';
     '[attr.aria-label]': 'label()',
     '[attr.aria-roledescription]': '"carousel"',
     '[attr.part]': '"root"',
-    '(keydown.arrowLeft)': 'prev()',
-    '(keydown.arrowRight)': 'next()',
+    '(keydown)': 'onKeydown($event)',
   },
 })
 export class Carousel implements CarouselContext, OnInit, OnDestroy {
@@ -45,6 +47,7 @@ export class Carousel implements CarouselContext, OnInit, OnDestroy {
   private readonly _count = signal(0);
   readonly count = this._count.asReadonly();
 
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private _timer: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
@@ -77,6 +80,15 @@ export class Carousel implements CarouselContext, OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this._timer !== null) clearInterval(this._timer);
+  }
+
+  /** ArrowRight = next in LTR, prev in RTL (H-A-e64f76). */
+  protected onKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    const rtl = resolveDirection(this.el.nativeElement) === 'rtl';
+    const forward = rtl ? event.key === 'ArrowLeft' : event.key === 'ArrowRight';
+    if (forward) this.next();
+    else this.prev();
   }
 
   next(): void {

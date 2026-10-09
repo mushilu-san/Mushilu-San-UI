@@ -20,7 +20,7 @@
   font-family: var(--mui-font-sans);
   color: var(--mui-color-text);
   cursor: pointer;
-  text-align: left;
+  text-align: start;
   touch-action: manipulation;
   transition:
     border-color var(--mui-duration-fast) var(--mui-easing-default),
@@ -65,7 +65,7 @@
 .dp-panel {
   position: absolute;
   top: calc(100% + var(--mui-space-1));
-  left: 0;
+  inset-inline-start: 0;
   z-index: var(--mui-z-modal);
   box-shadow: var(--mui-shadow-3);
   border-radius: var(--mui-radius-lg);

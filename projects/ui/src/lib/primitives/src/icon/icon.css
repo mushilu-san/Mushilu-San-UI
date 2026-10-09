@@ -47,3 +47,8 @@
     animation: mui-icon-pulse 1.5s ease-in-out infinite;
   }
 }
+
+/* Directional icons: flip horizontally in RTL (opt-in via the `mirror` input). */
+:host-context([dir='rtl'])[data-mirror] {
+  transform: scaleX(-1);
+}

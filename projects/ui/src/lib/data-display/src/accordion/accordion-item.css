@@ -23,7 +23,7 @@
   font-size: var(--mui-font-size-base);
   font-weight: var(--mui-font-weight-medium);
   font-family: inherit;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;

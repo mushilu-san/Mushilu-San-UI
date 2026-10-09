@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   input,
 } from '@angular/core';
@@ -158,6 +159,8 @@ const ICONS: Record<IconName, IconData> = {
     '[attr.data-name]': 'name()',
     '[attr.data-size]': 'size()',
     '[attr.data-color]': 'color()',
+    '[attr.data-mirror]': 'mirror() ? "" : null',
+    '[class.mui-icon--mirror]': 'mirror()',
     '[attr.part]': '"root"',
   },
 })
@@ -166,6 +169,8 @@ export class Icon {
   size = input<IconSize>('md');
   color = input<IconColor>('inherit');
   label = input<string>();
+  /** Flip horizontally in RTL. Use for directional icons (chevrons, arrows). */
+  mirror = input(false, { transform: booleanAttribute });
 
   protected readonly svgSize = computed(() => SIZE_PX[this.size()]);
   protected readonly iconData = computed(() => ICONS[this.name()]);

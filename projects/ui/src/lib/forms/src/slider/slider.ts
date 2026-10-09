@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   ViewEncapsulation,
   booleanAttribute,
   computed,
@@ -12,7 +13,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { useCva } from '@mushilu-san/ui';
+import { resolveDirection, useCva } from '@mushilu-san/ui';
 
 @Component({
   selector: 'mui-slider',
@@ -40,6 +41,7 @@ export class Slider implements ControlValueAccessor {
   disabled = input(false, { transform: booleanAttribute });
   value = model(0);
 
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly trackRef = viewChild.required<ElementRef<HTMLDivElement>>('trackRef');
 
   private readonly _cva = useCva<number>(this.disabled);
@@ -62,13 +64,19 @@ export class Slider implements ControlValueAccessor {
     const big = (this.max() - this.min()) * 0.1;
     let next = this.value();
 
-    switch (event.key) {
-      case 'ArrowRight':
+    // WAI-ARIA APG: in RTL, ArrowLeft increases and ArrowRight decreases.
+    const rtl = resolveDirection(this.host.nativeElement) === 'rtl';
+    const inc = rtl ? 'ArrowLeft' : 'ArrowRight';
+    const dec = rtl ? 'ArrowRight' : 'ArrowLeft';
+    const key = event.key === inc ? 'Increase' : event.key === dec ? 'Decrease' : event.key;
+
+    switch (key) {
+      case 'Increase':
       case 'ArrowUp':
         event.preventDefault();
         next = Math.min(this.max(), next + s);
         break;
-      case 'ArrowLeft':
+      case 'Decrease':
       case 'ArrowDown':
         event.preventDefault();
         next = Math.max(this.min(), next - s);
@@ -113,7 +121,9 @@ export class Slider implements ControlValueAccessor {
   private setFromClientX(clientX: number): void {
     const track = this.trackRef();
     const rect = track.nativeElement.getBoundingClientRect();
-    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    const raw0 = (clientX - rect.left) / rect.width;
+    const dirRatio = resolveDirection(this.host.nativeElement) === 'rtl' ? 1 - raw0 : raw0;
+    const ratio = Math.max(0, Math.min(1, dirRatio));
     const raw = this.min() + ratio * (this.max() - this.min());
     const snapped = Math.round(raw / this.step()) * this.step();
     this.commit(Math.max(this.min(), Math.min(this.max(), snapped)));

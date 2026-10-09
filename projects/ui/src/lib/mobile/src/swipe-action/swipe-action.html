@@ -1,12 +1,13 @@
 <div class="mui-swipe-action__container" part="container">
-  <!-- Left action rail -->
-  @if (hasLeft()) {
+  <!-- Action rails (physical left/right, or logical start/end) -->
+  @for (rail of rails(); track rail.side) {
     <div
-      class="mui-swipe-action__rail mui-swipe-action__rail--left"
-      part="rail-left"
+      class="mui-swipe-action__rail"
+      [class]="'mui-swipe-action__rail--' + rail.side"
+      [attr.part]="'rail-' + rail.side"
       aria-hidden="true"
     >
-      @for (action of leftActions(); track action.key) {
+      @for (action of rail.actions; track action.key) {
         <button
           type="button"
           class="mui-swipe-action__action"
@@ -65,28 +66,6 @@
       </button>
     }
   </div>
-
-  <!-- Right action rail -->
-  @if (hasRight()) {
-    <div
-      class="mui-swipe-action__rail mui-swipe-action__rail--right"
-      part="rail-right"
-      aria-hidden="true"
-    >
-      @for (action of rightActions(); track action.key) {
-        <button
-          type="button"
-          class="mui-swipe-action__action"
-          [class]="colorClass(action.color)"
-          part="action"
-          tabindex="-1"
-          (click)="triggerAction(action.key)"
-        >
-          {{ action.label }}
-        </button>
-      }
-    </div>
-  }
 </div>
 
 <!-- Accessible action buttons (always in DOM for keyboard/AT users) -->

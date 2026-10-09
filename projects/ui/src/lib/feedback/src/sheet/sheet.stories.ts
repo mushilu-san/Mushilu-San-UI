@@ -153,3 +153,16 @@ export const MobilePreview: Story = {
   }),
   parameters: { viewport: { defaultViewport: 'mobile1' } },
 };
+
+export const LogicalSides: Story = {
+  render: () => ({
+    imports: [Sheet],
+    props: { startOpen: false },
+    template: `
+      <button style="${triggerStyle}" (click)="startOpen=true">Open start sheet</button>
+      <mui-sheet [(open)]="startOpen" side="start" heading="Start sheet">
+        <p style="margin:0;font-family:var(--mui-font-sans);">Slides in from the inline start edge.</p>
+      </mui-sheet>
+    `,
+  }),
+};

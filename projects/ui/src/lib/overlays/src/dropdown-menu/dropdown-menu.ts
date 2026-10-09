@@ -12,7 +12,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { handleRovingFocus } from '@mushilu-san/ui';
+import { handleRovingFocus, resolveDirection } from '@mushilu-san/ui';
 
 export const DROPDOWN_MENU_CONTEXT = new InjectionToken<DropdownMenu>('DROPDOWN_MENU_CONTEXT');
 
@@ -88,7 +88,8 @@ export class DropdownMenu {
     );
     if (!items.length) return;
 
-    if (!handleRovingFocus(event, items as HTMLElement[], this.doc.activeElement)) {
+    const rtl = resolveDirection(host) === 'rtl';
+    if (!handleRovingFocus(event, items as HTMLElement[], this.doc.activeElement, { rtl })) {
       switch (event.key) {
         case 'Escape':
           if (this.closeOnEscape()) {

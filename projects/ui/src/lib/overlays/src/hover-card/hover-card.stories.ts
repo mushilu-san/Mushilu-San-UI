@@ -96,3 +96,16 @@ export const MobilePreview: Story = {
   }),
   parameters: { viewport: { defaultViewport: 'mobile1' } },
 };
+
+export const LogicalPlacements: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;justify-content:center;padding:120px 240px;">
+        <mui-hover-card placement="start" [openDelay]="0" [closeDelay]="0">
+          <button muiHoverCardTrigger style="padding:8px 12px;border:1px solid var(--mui-color-border);border-radius:8px;background:var(--mui-color-surface-raised);cursor:pointer;font-family:var(--mui-font-sans);color:var(--mui-color-text);">Start card</button>
+          <mui-hover-card-content><p style="margin:0;font-family:var(--mui-font-sans);">Appears at start</p></mui-hover-card-content>
+        </mui-hover-card>
+      </div>
+    `,
+  }),
+};

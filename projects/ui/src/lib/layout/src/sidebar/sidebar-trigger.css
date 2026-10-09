@@ -33,6 +33,8 @@
 
 .trigger-icon {
   flex-shrink: 0;
+  /* Mirror the chevron in RTL (--mui-dir-sign is -1 under dir=rtl). */
+  transform: scaleX(var(--mui-dir-sign, 1));
   transition: transform var(--mui-duration-normal) var(--mui-easing-default);
 }
 
