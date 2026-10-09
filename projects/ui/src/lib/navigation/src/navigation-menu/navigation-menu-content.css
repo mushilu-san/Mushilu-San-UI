@@ -1,7 +1,7 @@
 :host {
   position: absolute;
   top: calc(100% + var(--mui-space-2));
-  left: 0;
+  inset-inline-start: 0;
   min-width: 220px;
   padding: var(--mui-space-2);
   background-color: var(--mui-color-surface);

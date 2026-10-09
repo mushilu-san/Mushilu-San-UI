@@ -10,6 +10,14 @@ describe('Pagination', () => {
     expect(screen.getByRole('navigation', { name: 'Pagination' })).toBeInTheDocument();
   });
 
+  it('marks prev/next glyphs as aria-hidden mirrorable spans', async () => {
+    await renderComponent(Pagination, { inputs: { totalPages: 5, page: 2 } });
+    const glyphs = document.querySelectorAll('.pagination-glyph');
+    expect(glyphs).toHaveLength(2);
+    glyphs.forEach((g) => expect(g).toHaveAttribute('aria-hidden', 'true'));
+    expect(screen.getByRole('button', { name: 'Go to previous page' })).toBeInTheDocument();
+  });
+
   it('renders page buttons', async () => {
     await renderComponent(Pagination, { inputs: { totalPages: 5 } });
     expect(screen.getByRole('button', { name: 'Page 1' })).toBeInTheDocument();

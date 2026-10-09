@@ -20,7 +20,7 @@ mui-tabs {
   flex-direction: column;
   align-items: stretch;
   border-bottom: none;
-  border-right: 2px solid var(--mui-color-border);
+  border-inline-end: 2px solid var(--mui-color-border);
 }
 
 /* tab */
@@ -47,9 +47,9 @@ mui-tabs {
 
 :host(mui-tab[data-orientation='vertical']) {
   border-bottom: none;
-  border-right: 2px solid transparent;
+  border-inline-end: 2px solid transparent;
   margin-bottom: 0;
-  margin-right: -2px;
+  margin-inline-end: -2px;
 }
 
 :host(mui-tab):hover:not([data-disabled]) {
@@ -63,7 +63,7 @@ mui-tabs {
 
 :host(mui-tab[data-orientation='vertical'])[data-active] {
   border-bottom-color: transparent;
-  border-right-color: var(--mui-color-primary);
+  border-inline-end-color: var(--mui-color-primary);
 }
 
 :host(mui-tab)[data-disabled] {
