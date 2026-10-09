@@ -11,7 +11,7 @@
   cursor: pointer;
   font-family: var(--mui-font-sans);
   font-size: var(--mui-font-size-base);
-  text-align: left;
+  text-align: start;
   border-radius: var(--mui-radius-sm);
   transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
 }
@@ -39,7 +39,7 @@
 }
 
 .mui-command-item__shortcut {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-size: 11px;
   font-family: var(--mui-font-mono, monospace);
   color: var(--mui-color-text-muted);
