@@ -9,12 +9,12 @@
   white-space: nowrap;
   user-select: none;
   flex-shrink: 0;
-  /* Leading addon: separator on the right */
-  border-right: 1px solid var(--mui-color-input-border);
+  /* Leading addon: separator on the inline-end side */
+  border-inline-end: 1px solid var(--mui-color-input-border);
 }
 
-/* Trailing addon: separator on the left instead */
+/* Trailing addon: separator on the inline-start side instead */
 :host(:last-child) {
-  border-right: none;
-  border-left: 1px solid var(--mui-color-input-border);
+  border-inline-end: none;
+  border-inline-start: 1px solid var(--mui-color-input-border);
 }
