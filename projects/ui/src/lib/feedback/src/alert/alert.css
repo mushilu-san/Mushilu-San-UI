@@ -4,7 +4,7 @@
   gap: var(--mui-space-3);
   padding: var(--mui-space-3) var(--mui-space-4);
   border: 1px solid transparent;
-  border-left-width: 4px;
+  border-inline-start-width: 4px;
   border-radius: var(--mui-radius-md);
   color: var(--mui-color-text);
   font-size: var(--mui-font-size-sm);
@@ -60,8 +60,8 @@
   justify-content: center;
   min-width: var(--mui-touch-target);
   min-height: var(--mui-touch-target);
-  margin: calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1)
-    0;
+  margin-block: calc(var(--mui-space-2) * -1);
+  margin-inline: 0 calc(var(--mui-space-2) * -1);
   padding: 0;
   border: none;
   border-radius: var(--mui-radius-sm);
