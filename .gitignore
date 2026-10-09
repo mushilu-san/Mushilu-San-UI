@@ -61,3 +61,6 @@ storybook-static
 .nx/cache
 .nx/workspace-data
 .nx/migrate-runs
+
+# Docs site generated sources (extract-api / collect-demos)
+/projects/docs/src/generated/

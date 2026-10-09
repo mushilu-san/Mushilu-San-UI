@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/docs",
+    "types": [],
+    "paths": {
+      "@mushilu-san/ui": ["../ui/src/public-api.ts"],
+      "@mushilu-san/ui/*": ["../ui/src/lib/*/src/public-api.ts"]
+    }
+  },
+  "files": ["src/main.ts", "src/main.server.ts"],
+  "include": ["src/**/*.d.ts"]
+}

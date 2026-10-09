@@ -1,0 +1,87 @@
+/* Docs-only tokens. Everything else comes from --mui-* in tokens.css. */
+:root {
+  --docs-header-height: 56px;
+  --docs-sidebar-width: 264px;
+  --docs-toc-width: 208px;
+  --docs-content-max: 768px;
+
+  /* Code surfaces stay dark in both themes. Every syntax colour below was chosen
+     for >= 4.5:1 against --docs-code-bg; the axe E2E scan (Task 17) enforces it. */
+  --docs-code-bg: #0f172a;
+  --docs-code-border: #1e293b;
+  --docs-code-plain: #e2e8f0;
+  --docs-code-kw: #c4b5fd;
+  --docs-code-str: #86efac;
+  --docs-code-com: #94a3b8;
+  --docs-code-num: #fdba74;
+  --docs-code-tag: #7dd3fc;
+  --docs-code-attr: #fde68a;
+  --docs-code-punc: #cbd5e1;
+}
+
+html {
+  scroll-padding-top: calc(var(--docs-header-height) + var(--mui-space-4));
+}
+
+body {
+  margin: 0;
+  background: var(--mui-color-bg);
+  color: var(--mui-color-text);
+  font-family: var(--mui-font-sans);
+  font-size: var(--mui-font-size-base);
+  line-height: var(--mui-line-height-base);
+}
+
+a {
+  color: var(--mui-color-primary);
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+code {
+  font-family: var(--mui-font-mono);
+  font-size: 0.875em;
+  background: var(--mui-color-surface);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-sm);
+  padding: 0.1em 0.35em;
+}
+
+kbd {
+  font-family: var(--mui-font-mono);
+  font-size: var(--mui-font-size-sm);
+  border: 1px solid var(--mui-color-border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--mui-radius-sm);
+  padding: 0 0.4em;
+  background: var(--mui-color-surface-raised);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
