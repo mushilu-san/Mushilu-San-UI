@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnInit,
   ViewEncapsulation,
   computed,
   inject,
@@ -12,7 +13,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import type { SwipeActionColor, SwipeActionItem } from './swipe-action.types';
+import { resolveDirection, type Direction } from '@mushilu-san/ui';
+import type { SwipeActionColor, SwipeActionItem, SwipeSide } from './swipe-action.types';
 
 const REVEAL_THRESHOLD = 72; // px before actions snap fully open
 const MAX_OVERSCROLL = 16; // px of rubber-band past the action rail
@@ -42,8 +44,12 @@ const MAX_OVERSCROLL = 16; // px of rubber-band past the action rail
     '[attr.data-revealed]': 'revealedSide() ?? null',
   },
 })
-export class SwipeAction {
+export class SwipeAction implements OnInit {
   private readonly doc = inject(DOCUMENT);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  /** Resolved text direction; maps logical start/end onto physical sides. */
+  private readonly dir = signal<Direction>('ltr');
 
   /** Action descriptors. */
   actions = input<SwipeActionItem[]>([]);
@@ -51,12 +57,28 @@ export class SwipeAction {
   /** Emits the key of the triggered action. */
   readonly actionTriggered = output<string>();
 
-  protected readonly leftActions = computed(() => this.actions().filter((a) => a.side === 'left'));
-  protected readonly rightActions = computed(() =>
-    this.actions().filter((a) => a.side === 'right'),
+  /** Resolve a (possibly logical) side to the physical side it occupies. */
+  private readonly physical = computed(() => {
+    const rtl = this.dir() === 'rtl';
+    return (side: SwipeSide): 'left' | 'right' => {
+      if (side === 'start') return rtl ? 'right' : 'left';
+      if (side === 'end') return rtl ? 'left' : 'right';
+      return side;
+    };
+  });
+
+  /** One rail per declared side value (logical rails use inset-inline-*). */
+  protected readonly rails = computed(() =>
+    (['left', 'start', 'end', 'right'] as const)
+      .map((side) => ({ side, actions: this.actions().filter((a) => a.side === side) }))
+      .filter((r) => r.actions.length > 0),
   );
-  protected readonly hasLeft = computed(() => this.leftActions().length > 0);
-  protected readonly hasRight = computed(() => this.rightActions().length > 0);
+  protected readonly hasLeft = computed(() =>
+    this.actions().some((a) => this.physical()(a.side) === 'left'),
+  );
+  protected readonly hasRight = computed(() =>
+    this.actions().some((a) => this.physical()(a.side) === 'right'),
+  );
 
   /** Current translate-x offset in pixels. */
   protected readonly offsetX = signal(0);
@@ -77,8 +99,13 @@ export class SwipeAction {
   /* ----------------------------------------------------------------
      Touch handlers — zoneless; signal writes drive change detection
      ---------------------------------------------------------------- */
+  ngOnInit(): void {
+    this.dir.set(resolveDirection(this.host.nativeElement, this.doc));
+  }
+
   @HostListener('touchstart', ['$event'])
   protected onTouchStart(e: TouchEvent): void {
+    this.dir.set(resolveDirection(this.host.nativeElement, this.doc));
     const t = e.touches[0];
     if (!t) return;
     this._startX = t.clientX;
@@ -128,10 +155,13 @@ export class SwipeAction {
   private _railWidth(side: 'left' | 'right'): number {
     const el = this.trackRef()?.nativeElement?.closest('mui-swipe-action');
     const host = (el ?? this.doc.body) as HTMLElement;
-    const rail = host.querySelector<HTMLElement>(
-      side === 'right' ? '.mui-swipe-action__rail--right' : '.mui-swipe-action__rail--left',
-    );
-    return rail?.offsetWidth ?? REVEAL_THRESHOLD;
+    const resolve = this.physical();
+    // Widest rail among those (physical or logical) that land on this physical side.
+    const widths = (['left', 'start', 'end', 'right'] as const)
+      .filter((s) => resolve(s) === side)
+      .map((s) => host.querySelector<HTMLElement>(`.mui-swipe-action__rail--${s}`)?.offsetWidth)
+      .filter((w): w is number => w !== undefined);
+    return widths.length > 0 ? Math.max(...widths) : REVEAL_THRESHOLD;
   }
 
   private _clamp(raw: number): number {

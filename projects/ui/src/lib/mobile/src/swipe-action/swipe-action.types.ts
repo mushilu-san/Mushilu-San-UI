@@ -1,5 +1,8 @@
 export type SwipeActionColor = 'primary' | 'danger' | 'success' | 'warning' | 'surface';
-export type SwipeSide = 'left' | 'right';
+/**
+ * `start`/`end` are logical (flip under RTL); `left`/`right` are physical aliases.
+ */
+export type SwipeSide = 'left' | 'right' | 'start' | 'end';
 
 export interface SwipeActionItem {
   /** Unique key for this action. */

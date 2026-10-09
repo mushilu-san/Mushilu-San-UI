@@ -40,3 +40,8 @@
     transition: none;
   }
 }
+
+/* Mirror chevron glyph under RTL (H-A-23d67a, H-A-bd90b0) */
+svg {
+  transform: scaleX(var(--mui-dir-sign, 1));
+}

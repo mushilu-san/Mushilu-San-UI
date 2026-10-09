@@ -34,6 +34,13 @@
 .mui-swipe-action__rail--right {
   right: 0;
 }
+/* Logical rails flip under RTL (H-A-94fd28) */
+.mui-swipe-action__rail--start {
+  inset-inline-start: 0;
+}
+.mui-swipe-action__rail--end {
+  inset-inline-end: 0;
+}
 
 .mui-swipe-action__action {
   display: flex;
@@ -100,7 +107,7 @@
 .mui-swipe-action__kbd-trigger,
 .mui-swipe-action__kbd-collapse {
   position: absolute;
-  right: var(--mui-space-2);
+  inset-inline-end: var(--mui-space-2);
   top: 50%;
   transform: translateY(-50%);
   display: inline-flex;
