@@ -104,6 +104,27 @@ describe('Icon', () => {
     expect(document.querySelectorAll('svg path')).toHaveLength(2);
   });
 
+  it('does not mirror by default', async () => {
+    await renderTemplate('<mui-icon name="chevron-right"></mui-icon>', { imports: [Icon] });
+    const host = document.querySelector('mui-icon')!;
+    expect(host).not.toHaveAttribute('data-mirror');
+    expect(host).not.toHaveClass('mui-icon--mirror');
+  });
+
+  it('mirror input sets data-mirror attribute and class', async () => {
+    await renderTemplate('<mui-icon name="chevron-right" [mirror]="true"></mui-icon>', {
+      imports: [Icon],
+    });
+    const host = document.querySelector('mui-icon')!;
+    expect(host).toHaveAttribute('data-mirror');
+    expect(host).toHaveClass('mui-icon--mirror');
+  });
+
+  it('mirror works as a bare attribute (booleanAttribute)', async () => {
+    await renderTemplate('<mui-icon name="arrow-right" mirror></mui-icon>', { imports: [Icon] });
+    expect(document.querySelector('mui-icon')).toHaveAttribute('data-mirror');
+  });
+
   it('shows as accessible landmark when used as standalone icon button label', async () => {
     await renderTemplate('<mui-icon name="x" label="Close dialog"></mui-icon>', {
       imports: [Icon],
