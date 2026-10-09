@@ -72,7 +72,7 @@
 .mui-mobile-nav-item__badge {
   position: absolute;
   top: -4px;
-  right: -6px;
+  inset-inline-end: -6px;
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
