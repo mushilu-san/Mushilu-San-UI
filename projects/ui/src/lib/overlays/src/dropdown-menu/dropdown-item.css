@@ -14,7 +14,7 @@
   color: var(--mui-color-text);
   font-family: var(--mui-font-sans);
   font-size: var(--mui-font-size-base);
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
@@ -65,7 +65,7 @@
 .mui-dropdown-item__shortcut {
   font-size: var(--mui-font-size-xs);
   color: var(--mui-color-text-muted);
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {

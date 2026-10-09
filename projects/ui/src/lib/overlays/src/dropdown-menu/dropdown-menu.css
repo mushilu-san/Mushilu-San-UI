@@ -6,7 +6,7 @@
 .mui-dropdown-menu__panel {
   position: absolute;
   top: calc(100% + var(--mui-space-1));
-  left: 0;
+  inset-inline-start: 0;
   z-index: 200;
   min-width: max(10rem, 100%);
   padding: var(--mui-space-1) 0;
