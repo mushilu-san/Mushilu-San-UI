@@ -15,7 +15,7 @@ import {
   runInInjectionContext,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { useCva } from '@mushilu-san/ui';
+import { resolveDirection, useCva } from '@mushilu-san/ui';
 
 let nextId = 0;
 
@@ -214,12 +214,13 @@ export class Calendar implements ControlValueAccessor {
     if (this.isDisabled()) return;
     let next = new Date(this.focusedDate());
 
+    const rtl = resolveDirection(this.el.nativeElement) === 'rtl';
     switch (event.key) {
       case 'ArrowRight':
-        next.setDate(next.getDate() + 1);
+        next.setDate(next.getDate() + (rtl ? -1 : 1));
         break;
       case 'ArrowLeft':
-        next.setDate(next.getDate() - 1);
+        next.setDate(next.getDate() + (rtl ? 1 : -1));
         break;
       case 'ArrowDown':
         next.setDate(next.getDate() + 7);
