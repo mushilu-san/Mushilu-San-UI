@@ -7,8 +7,21 @@ const themeDecorator: Decorator = (story, context) => {
   return story();
 };
 
+const directionDecorator: Decorator = (story, context) => {
+  // Storybook applies `?globals=direction:rtl` to context.globals (manager, iframe.html,
+  // docs canvas and test-runner). Fall back to parsing the URL for robustness.
+  let dir: unknown = context.globals?.['direction'];
+  if (!dir) {
+    const m = /[?&]globals=([^&]*)/.exec(window.location.search);
+    const pair = m?.[1]?.split(';').find((p) => decodeURIComponent(p).startsWith('direction:'));
+    dir = pair ? decodeURIComponent(pair).slice('direction:'.length) : 'ltr';
+  }
+  document.documentElement.dir = dir === 'rtl' ? 'rtl' : 'ltr';
+  return story();
+};
+
 const preview: Preview = {
-  decorators: [themeDecorator],
+  decorators: [themeDecorator, directionDecorator],
   globalTypes: {
     theme: {
       name: 'Theme',
@@ -22,9 +35,22 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    direction: {
+      name: 'Direction',
+      description: 'Text direction (sets <html dir>)',
+      toolbar: {
+        icon: 'transfer',
+        items: [
+          { value: 'ltr', title: 'LTR' },
+          { value: 'rtl', title: 'RTL' },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
   initialGlobals: {
     theme: 'light',
+    direction: 'ltr',
     backgrounds: { value: 'surface' },
   },
   parameters: {
