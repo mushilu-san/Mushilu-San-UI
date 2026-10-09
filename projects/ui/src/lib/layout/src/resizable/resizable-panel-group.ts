@@ -117,7 +117,8 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
       containerSize,
       startPos: this.direction() === 'horizontal' ? event.clientX : event.clientY,
       sign:
-        this.direction() === 'horizontal' && resolveDirection(this.el.nativeElement, this.doc) === 'rtl'
+        this.direction() === 'horizontal' &&
+        resolveDirection(this.el.nativeElement, this.doc) === 'rtl'
           ? -1
           : 1,
     };
