@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/docs",
+    "resolveJsonModule": true,
     "types": [],
     "paths": {
       "@mushilu-san/ui": ["../ui/src/public-api.ts"],
