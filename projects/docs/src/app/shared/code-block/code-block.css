@@ -75,7 +75,11 @@
 
 /* Global inline-code styling must not paint a light box inside the dark code surface. */
 .pre code {
+  /* display:block + border:0 — an inline <code> wrapping block-level .line spans otherwise paints
+     its border as stray 1px bars plus an empty line box above the first and below the last line. */
+  display: block;
   padding: 0;
+  border: 0;
   border-radius: 0;
   background: transparent;
   color: inherit;

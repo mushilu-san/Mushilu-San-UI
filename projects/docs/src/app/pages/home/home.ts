@@ -16,12 +16,16 @@ import { GROUPS } from '../../../content/groups';
     h1 {
       margin: var(--mui-space-3) 0;
       font-size: clamp(2rem, 6vw, 3.25rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      line-height: var(--mui-line-height-tight);
+      letter-spacing: var(--mui-letter-spacing-tight);
     }
     .lede {
+      margin: 0 0 var(--mui-space-6);
       color: var(--mui-color-text-muted);
       font-size: var(--mui-font-size-lg);
+    }
+    h2 {
+      margin-bottom: var(--mui-space-4);
     }
     .facts {
       display: flex;

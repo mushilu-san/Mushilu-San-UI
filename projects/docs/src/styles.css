@@ -19,6 +19,18 @@
   --docs-code-punc: #cbd5e1;
 }
 
+/* In dark mode --docs-code-bg is one step above the page background, so the code surface needs a
+   lighter edge to stay distinct from the page and from the demo stage. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --docs-code-border: #334155;
+  }
+}
+
+[data-theme='dark'] {
+  --docs-code-border: #334155;
+}
+
 html {
   scroll-padding-top: calc(var(--docs-header-height) + var(--mui-space-4));
 }

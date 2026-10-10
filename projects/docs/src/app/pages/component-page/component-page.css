@@ -17,13 +17,14 @@
 }
 
 .summary {
+  max-width: 60ch;
   margin: 0;
   color: var(--mui-color-text-muted);
   font-size: var(--mui-font-size-lg);
 }
 
 .selector {
-  margin-top: var(--mui-space-6);
+  margin-block: var(--mui-space-6) var(--mui-space-3);
   color: var(--mui-color-text-muted);
   font-size: var(--mui-font-size-sm);
 }
@@ -44,17 +45,30 @@ h2 {
   font-size: var(--mui-font-size-2xl);
   padding-bottom: var(--mui-space-2);
   border-bottom: 1px solid var(--mui-color-border);
+  margin-bottom: var(--mui-space-4);
 }
 
 h3 {
   font-size: var(--mui-font-size-lg);
-  margin-top: var(--mui-space-8);
+  margin-block: var(--mui-space-8) var(--mui-space-2);
+}
+
+/* reset.css zeroes every margin; restore a paragraph rhythm for prose sections, and keep prose
+   lines under ~75 characters even though tables and demos use the full content width. */
+section > p {
+  max-width: 70ch;
+  margin-block: 0 var(--mui-space-4);
 }
 
 .usage,
 .guidelines {
   display: grid;
   gap: var(--mui-space-6);
+  margin-top: var(--mui-space-6);
+}
+
+.usage h3 {
+  margin-top: 0;
 }
 
 .do,

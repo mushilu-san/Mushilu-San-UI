@@ -328,3 +328,34 @@ The site follows the same rules as the library, plus:
 - Dark mode works with no flash.
 - The deploy workflow publishes the site at the root and Storybook at `/storybook/`.
 - E2E and axe checks pass.
+
+## Implementation notes (deviations from this spec)
+
+- Generated indexes are TS modules (`generated/api.ts`, `generated/demo-sources.ts`), not JSON, so
+  they are typed without `resolveJsonModule` casts.
+- "Exported class without a page" and "unknown apiClasses" are enforced by the registry consistency
+  spec (`nx test docs`) instead of by `extract-api`, because the registry is TypeScript.
+- Inline text is a `docs-inline-text` component (parser + template), not a pipe.
+- API and a11y tables are native `<table>`s: `mui-table` renders plain-text cells only.
+- The demo-viewer toolbar is deferred to Phase 3 (no empty placeholder).
+- The skip link is a button (a `#main` href breaks under a non-root `<base href>`).
+- `serve` is SPA-only; SSR/prerender runs only in the production build configuration.
+- 404 fallback is `index.csr.html` (client-render shell), not a copy of the prerendered home page,
+  to avoid hydration mismatches.
+- The TOC is hidden below 1280px with `@media (max-width: 1279.98px) { .toc { display: none } }`
+  rather than a base `display: none` rule, so the "On this page" landmark stays queryable in
+  jsdom unit tests. There is no in-page nav on narrower screens yet.
+- Pilot prose was checked against the real components, not the plan text: a disabled Button gets
+  `tabindex="-1"` while a loading Button stays focusable; Button's "when not to use" text was
+  reworded because the renderer appends "Use Tabs instead." Tabs renders duplicate ids — tracked as
+  library issue A-7 (#686), not worked around in the docs.
+- `verify-build` cross-checks the slugs it parses from `registry.ts` (strict vs loose match count,
+  zero slugs = failure) so a formatting change cannot make the prerender check pass vacuously.
+- E2E lives in `projects/docs/e2e/` (config `playwright.docs.config.ts`, run with
+  `npm run e2e:docs`), not `e2e/docs/`. The axe scan filters one known library violation —
+  destructive Button contrast in dark mode, A-8 (#707) — by rule, selector and theme; remove the
+  filter in `a11y.e2e.ts` when A-8 is fixed.
+- npm scripts: `docs` (serve, port 4300), `docs:build`, `docs:verify` (build + `verify-build`),
+  `test:docs`, `e2e:docs`; `./dev.sh docs | docs:build | test:docs` wrap them.
+- The Tabs-based demo viewer overrides the library's tab-panel padding and hides the tab list's
+  vertical overflow (44px tabs + 2px border overflow the list by 2px, showing a scrollbar).

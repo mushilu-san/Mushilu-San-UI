@@ -25,3 +25,16 @@ docs-code-block {
   border: 0;
   border-radius: 0;
 }
+
+/* The stage and code block are the panel's surfaces; the library's default panel padding would
+   leave a blank band above and below them inside the bordered viewer. `:host` raises specificity
+   above the library's equally specific `:host(mui-tab-panel)` rule. */
+:host mui-tab-panel {
+  padding: 0;
+}
+
+/* 44px tabs plus the 2px indicator border overflow the list's height by 2px, which shows a
+   vertical scrollbar on overlay-scrollbar platforms. The tabs never need vertical scrolling. */
+mui-tab-list {
+  overflow-y: hidden;
+}
