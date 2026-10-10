@@ -13,6 +13,9 @@
 #   test:ci           Run unit tests with coverage (single pass, for CI)
 #   storybook         Start Storybook dev server on port 6006
 #   storybook:build   Build Storybook static output → storybook-static/
+#   docs              Start the docs site dev server on port 4300
+#   docs:build        Build + verify the prerendered docs site → dist/docs/browser
+#   test:docs         Run docs site unit tests (single pass)
 #   changeset         Add a changeset (run before merging a PR)
 #   release-status    Show the release workflow's most recent runs
 #   lint              Run ESLint on the library
@@ -95,9 +98,21 @@ case "$COMMAND" in
     run_nx lint ui
     ;;
 
+  docs)
+    npx nx serve docs
+    ;;
+
+  docs:build)
+    npm run docs:verify
+    ;;
+
+  test:docs)
+    npm run test:docs
+    ;;
+
   clean)
     echo "▶ Cleaning build artefacts…"
-    rm -rf dist/ coverage/ storybook-static/ out-tsc/
+    rm -rf dist/ coverage/ storybook-static/ out-tsc/ dist/docs projects/docs/src/generated
     echo "✔ Cleaned"
     ;;
 

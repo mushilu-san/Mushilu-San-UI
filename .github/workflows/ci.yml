@@ -94,6 +94,10 @@ jobs:
       - name: Test release scripts
         run: npm run test:scripts
 
+      # 3c. Docs site unit tests (registry consistency, components, shell)
+      - name: Test docs site
+        run: npm run test:docs
+
       # Retain V8 coverage for inspection on the run summary (canonical leg only).
       - name: Upload coverage
         if: matrix.node == '' && always()
@@ -136,6 +140,20 @@ jobs:
         with:
           name: storybook-static-${{ github.sha }}
           path: storybook-static/
+          retention-days: 1
+          if-no-files-found: error
+
+      # 7b. Docs site: prerender every route and verify the output
+      - name: Build docs site
+        if: matrix.node == ''
+        run: npm run docs:verify
+
+      - name: Upload docs build
+        if: matrix.node == ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: docs-dist-${{ github.sha }}
+          path: dist/docs/browser/
           retention-days: 1
           if-no-files-found: error
 
@@ -185,6 +203,37 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: playwright-report-${{ github.sha }}
+          path: playwright-report/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  e2e-docs:
+    name: E2E docs site (Playwright)
+    needs: ci-matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Download docs build
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: docs-dist-${{ github.sha }}
+          path: dist/docs/browser/
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+      - name: Run docs E2E
+        run: npx playwright test -c playwright.docs.config.ts
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-docs-report-${{ github.sha }}
           path: playwright-report/
           retention-days: 7
           if-no-files-found: ignore
