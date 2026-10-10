@@ -13,7 +13,7 @@ export const doc: ComponentDoc = {
   ],
   whenToUse: [
     'Submitting a form or confirming a step.',
-    'Triggering an in-page action, such as opening a Dialog.',
+    'Triggering an in-page action, such as opening a [Dialog](dialog).',
     'A call to action that navigates. Apply `muiButton` to an `<a>` so it is still a link.',
   ],
   whenNotToUse: [
@@ -92,4 +92,5 @@ export const doc: ComponentDoc = {
     '--mui-touch-target',
     '--mui-color-focus-ring',
   ],
+  related: ['dialog'],
 };

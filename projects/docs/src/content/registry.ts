@@ -8,6 +8,13 @@ export const REGISTRY: readonly RegistryEntry[] = [
     summary: 'Triggers an action or navigation, with variants, sizes and a loading state.',
     load: () => import('./components/button/button.docs').then((m) => m.doc),
   },
+  {
+    slug: 'dialog',
+    name: 'Dialog',
+    group: 'feedback',
+    summary: 'A modal window for focused tasks, built on the native <dialog> element.',
+    load: () => import('./components/dialog/dialog.docs').then((m) => m.doc),
+  },
 ];
 
 export function findEntry(
