@@ -106,10 +106,6 @@ section > p {
   text-decoration: none;
 }
 
-.loading {
-  color: var(--mui-color-text-muted);
-}
-
 @media (min-width: 768px) {
   .usage,
   .guidelines {

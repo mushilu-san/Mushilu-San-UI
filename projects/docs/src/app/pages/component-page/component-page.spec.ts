@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+import { convertToParamMap, provideRouter } from '@angular/router';
 import { render, screen } from '@testing-library/angular';
 import { provideMushiluUi } from '@mushilu-san/ui';
 import type { ApiIndex } from '../../../content/api-types';
 import { API_INDEX, DEMO_SOURCE_INDEX, DOCS_REGISTRY } from '../../../content/tokens';
 import type { ComponentDoc, RegistryEntry } from '../../../content/types';
+import { componentDocResolver } from './component-doc.resolver';
 import { ComponentPage } from './component-page';
 import { importStatement, pageSections } from './page-sections';
 
@@ -99,11 +101,33 @@ describe('importStatement', () => {
   });
 });
 
+describe('componentDocResolver', () => {
+  const run = (slug: string) =>
+    TestBed.runInInjectionContext(() =>
+      componentDocResolver({ paramMap: convertToParamMap({ slug }) } as never, {} as never),
+    );
+
+  beforeEach(() => TestBed.configureTestingModule({ providers }));
+
+  it('resolves the loaded doc for a known slug', async () => {
+    expect(await run('widget')).toBe(doc);
+  });
+
+  it('resolves undefined for an unknown slug', () => {
+    expect(run('nope')).toBeUndefined();
+  });
+
+  it('resolves undefined when the doc fails to load', async () => {
+    expect(await run('gadget')).toBeUndefined();
+  });
+});
+
 describe('ComponentPage', () => {
-  it('renders the h1 from the registry immediately and the doc sections once loaded', async () => {
-    await render(ComponentPage, { inputs: { slug: 'widget' }, providers });
+  it('renders the h1 and the doc sections synchronously from the resolved doc', async () => {
+    await render(ComponentPage, { inputs: { slug: 'widget', doc }, providers });
     expect(screen.getByRole('heading', { level: 1, name: 'Widget' })).toBeInTheDocument();
-    expect(await screen.findByRole('heading', { level: 2, name: 'Overview' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Overview' })).toBeInTheDocument();
+    expect(screen.queryByText(/Loading documentation/)).toBeNull();
     expect(screen.getByRole('heading', { level: 2, name: 'Accessibility' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'API' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 3, name: 'More' })).toBeInTheDocument();
@@ -114,9 +138,14 @@ describe('ComponentPage', () => {
   });
 
   it('renders an "On this page" navigation', async () => {
-    await render(ComponentPage, { inputs: { slug: 'widget' }, providers });
-    const toc = await screen.findByRole('navigation', { name: 'On this page' });
+    await render(ComponentPage, { inputs: { slug: 'widget', doc }, providers });
+    const toc = screen.getByRole('navigation', { name: 'On this page' });
     expect(toc).toHaveTextContent('Examples');
+  });
+
+  it('shows a failure message when the doc could not be loaded', async () => {
+    await render(ComponentPage, { inputs: { slug: 'widget', doc: undefined }, providers });
+    expect(screen.getByRole('alert')).toHaveTextContent('failed to load');
   });
 
   it('shows not-found for an unknown slug', async () => {

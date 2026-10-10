@@ -1,7 +1,8 @@
+import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { extractApi, jsdocCoverage, renderModule } from './extract-api.mjs';
+import { GROUPS, extractApi, jsdocCoverage, renderModule } from './extract-api.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const entry = resolve(here, '__fixtures__/lib/demo-group/src/public-api.ts');
@@ -102,5 +103,24 @@ describe('extractApi', () => {
     expect(mod).toContain("import type { ApiIndex } from '../content/api-types';");
     expect(mod).toContain('export const API: ApiIndex = {');
     expect(mod).toContain('"FixtureCard"');
+  });
+});
+
+describe('extractApi duplicate class names', () => {
+  it('throws a clear error when two groups export a class with the same name', () => {
+    expect(() =>
+      extractApi([
+        { group: 'group-a', file: entry },
+        { group: 'group-b', file: entry },
+      ]),
+    ).toThrow(/Duplicate exported class name "Fixture\w+" in groups "group-a" and "group-b"/);
+  });
+});
+
+describe('GROUPS', () => {
+  it('matches the group ids in projects/docs/src/content/groups.ts', () => {
+    const text = readFileSync(resolve(here, '../src/content/groups.ts'), 'utf8');
+    const ids = [...text.matchAll(/^\s+id: '([a-z-]+)',/gm)].map((m) => m[1]);
+    expect([...GROUPS].sort()).toEqual([...ids].sort());
   });
 });

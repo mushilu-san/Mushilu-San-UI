@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/angular';
+import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { CodeBlock, plainLines } from './code-block';
 
@@ -57,16 +57,55 @@ describe('CodeBlock', () => {
     });
     await userEvent.click(screen.getByRole('button', { name: 'Copy code' }));
     expect(writeText).toHaveBeenCalledWith('a\nb');
-    expect(await screen.findByRole('button', { name: 'Copied' })).toBeInTheDocument();
-    expect(screen.getByRole('status')).toHaveTextContent('Code copied to clipboard');
+    await waitFor(() =>
+      expect(screen.getByRole('status')).toHaveTextContent('Code copied to clipboard'),
+    );
+    expect(screen.getByRole('button', { name: 'Copy code' })).toHaveTextContent('Copied');
   });
 
-  it('does not claim success when the clipboard rejects', async () => {
+  it('reports failure, never success, when the clipboard rejects', async () => {
     writeText.mockRejectedValue(new Error('denied'));
     await render(CodeBlock, { inputs: { lines: plainLines('a'), source: 'a' } });
+    const button = screen.getByRole('button', { name: 'Copy code' });
+    const seen: string[] = [];
+    const observer = new MutationObserver(() => seen.push(document.body.textContent ?? ''));
+    observer.observe(document.body, { subtree: true, childList: true, characterData: true });
+    await userEvent.click(button);
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Copy failed'));
+    observer.disconnect();
+    expect(button).toHaveAccessibleName('Copy code');
+    expect(button).toHaveTextContent('Copy failed');
+    expect(seen.some((t) => t.includes('Code copied'))).toBe(false);
+    expect(screen.queryByText('Copied')).toBeNull();
+  });
+
+  it('reports failure when navigator.clipboard is unavailable', async () => {
+    Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
+    await render(CodeBlock, { inputs: { lines: plainLines('a'), source: 'a' } });
     await userEvent.click(screen.getByRole('button', { name: 'Copy code' }));
-    expect(screen.getByRole('button', { name: 'Copy code' })).toBeInTheDocument();
-    expect(screen.getByRole('status')).toHaveTextContent('');
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Copy failed'));
+  });
+
+  it('reverts to idle 2s after copying', async () => {
+    const { fixture } = await render(CodeBlock, {
+      inputs: { lines: plainLines('a'), source: 'a' },
+    });
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    try {
+      const button = screen.getByRole('button', { name: 'Copy code' });
+      button.click();
+      for (let i = 0; i < 5; i++) await Promise.resolve(); // let writeText settle
+      fixture.detectChanges();
+      expect(button).toHaveTextContent('Copied');
+      vi.advanceTimersByTime(1999);
+      fixture.detectChanges();
+      expect(button).toHaveTextContent('Copied');
+      vi.advanceTimersByTime(1);
+      fixture.detectChanges();
+      expect(button).toHaveTextContent(/^\s*Copy\s*$/);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('makes the scrollable code region keyboard focusable and labelled', async () => {

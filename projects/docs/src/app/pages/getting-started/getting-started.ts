@@ -57,7 +57,11 @@ export class App {
         <h2>Install</h2>
         <p>
           The package is published to GitHub Packages. Point the <code>&#64;mushilu-san</code> scope
-          at that registry in your <code>.npmrc</code> first.
+          at that registry in your <code>.npmrc</code> first. GitHub Packages requires
+          authentication even for public packages: sign in with <code>npm login</code> for the
+          <code>&#64;mushilu-san</code> scope and the
+          <code>https://npm.pkg.github.com</code> registry, using a GitHub token that has the
+          <code>read:packages</code> permission. Keep the token out of files you commit.
         </p>
         <docs-code-block label=".npmrc" [lines]="registryLines" [source]="registry" />
         <docs-code-block label="Terminal" [lines]="installLines" [source]="install" />

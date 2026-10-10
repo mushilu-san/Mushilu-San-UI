@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { Stack } from '@mushilu-san/ui/layout';
 import { Button } from '@mushilu-san/ui/primitives';
 
@@ -18,8 +18,15 @@ import { Button } from '@mushilu-san/ui/primitives';
 export class ButtonLoadingDemo {
   protected readonly saving = signal(false);
 
+  private timer: ReturnType<typeof setTimeout> | undefined;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => clearTimeout(this.timer));
+  }
+
   protected save(): void {
     this.saving.set(true);
-    setTimeout(() => this.saving.set(false), 1500);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.saving.set(false), 1500);
   }
 }

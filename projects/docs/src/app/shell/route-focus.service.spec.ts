@@ -44,4 +44,63 @@ describe('RouteFocus', () => {
     expect(h1).toHaveAttribute('tabindex', '-1');
     expect(focus.message()).toBe('B title');
   });
+
+  describe('fragment-only and query-only navigation', () => {
+    async function setup() {
+      TestBed.configureTestingModule({
+        providers: [
+          provideRouter([
+            { path: 'a', title: 'A title', component: PageA },
+            { path: 'b', title: 'B title', component: PageB },
+          ]),
+        ],
+      });
+      const focus = TestBed.inject(RouteFocus);
+      focus.init();
+      const harness = await RouterTestingHarness.create('/a');
+      const settle = async (url: string) => {
+        await harness.navigateByUrl(url);
+        await TestBed.inject(Router).navigated;
+        harness.detectChanges();
+        await harness.fixture.whenStable();
+      };
+      return { focus, harness, settle };
+    }
+
+    it('does not move focus or re-announce when only the fragment changes', async () => {
+      const { focus, harness, settle } = await setup();
+      const h1 = harness.routeNativeElement?.querySelector('h1');
+      await settle('/a#section');
+      expect(document.activeElement).not.toBe(h1);
+      expect(h1).not.toHaveAttribute('tabindex');
+      expect(focus.message()).toBe('');
+    });
+
+    it('does not move focus when only the query string changes', async () => {
+      const { focus, settle } = await setup();
+      await settle('/a?x=1');
+      expect(focus.message()).toBe('');
+    });
+
+    it('still moves focus after a fragment nav followed by a real route change', async () => {
+      const { focus, harness, settle } = await setup();
+      await settle('/a#section');
+      await settle('/b');
+      expect(document.activeElement).toBe(harness.routeNativeElement?.querySelector('h1'));
+      expect(focus.message()).toBe('B title');
+    });
+
+    it('focuses the h1 without scrolling it into view', async () => {
+      const { harness, settle } = await setup();
+      await settle('/a#x'); // no-op
+      const spy = vi.spyOn(HTMLElement.prototype, 'focus');
+      try {
+        await settle('/b');
+        expect(spy).toHaveBeenCalledWith({ preventScroll: true });
+        expect(document.activeElement).toBe(harness.routeNativeElement?.querySelector('h1'));
+      } finally {
+        spy.mockRestore();
+      }
+    });
+  });
 });

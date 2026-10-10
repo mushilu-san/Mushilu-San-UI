@@ -232,7 +232,14 @@ export function extractApi(entries) {
       const decl = sym.declarations?.find(ts.isClassDeclaration);
       if (!decl) continue;
       const cls = extractClass(checker, decl, group);
-      if (cls) api[cls.name] = cls;
+      if (!cls) continue;
+      const existing = api[cls.name];
+      if (existing && existing.group !== group) {
+        throw new Error(
+          `Duplicate exported class name "${cls.name}" in groups "${existing.group}" and "${group}"; the API index is keyed by class name.`,
+        );
+      }
+      api[cls.name] = cls;
     }
   }
   return api;

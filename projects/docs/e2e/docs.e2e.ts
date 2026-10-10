@@ -32,6 +32,40 @@ test('client navigation moves focus to the new h1', async ({ page, isMobile }) =
   await expect(page).toHaveTitle('Tabs · Mushilu-San UI');
 });
 
+test('deep link scrolls to the section and hydrates without a loading flash', async ({ page }) => {
+  await page.addInitScript(() => {
+    const w = window as unknown as { __h1?: Element | null; __loadingSeen?: boolean };
+    new MutationObserver(() => {
+      w.__h1 ??= document.querySelector('main h1');
+      if (document.body?.textContent?.includes('Loading documentation')) w.__loadingSeen = true;
+    }).observe(document, { subtree: true, childList: true, characterData: true });
+  });
+  await page.goto('/components/dialog/#accessibility');
+  await page.waitForLoadState('networkidle');
+  await expect(page.locator('#accessibility')).toBeInViewport();
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  const state = await page.evaluate(() => {
+    const w = window as unknown as { __h1?: Element | null; __loadingSeen?: boolean };
+    return {
+      loadingSeen: !!w.__loadingSeen,
+      // Hydration reuses the prerendered h1 node instead of replacing it.
+      sameH1: !!w.__h1 && w.__h1 === document.querySelector('main h1'),
+    };
+  });
+  expect(state).toEqual({ loadingSeen: false, sameH1: true });
+});
+
+test('TOC click scrolls without moving focus to the h1', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'TOC is hidden on small screens');
+  await page.goto('/components/dialog/');
+  await page
+    .getByRole('navigation', { name: 'On this page' })
+    .getByRole('link', { name: 'API' })
+    .click();
+  await expect(page.locator('#api')).toBeInViewport();
+  await expect(page.locator('main h1')).not.toBeFocused();
+});
+
 test('theme toggle persists across reloads', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: /^Theme: system/ }).click();
@@ -48,7 +82,8 @@ test('copy button copies demo source', async ({ page, context, isMobile }) => {
   const hero = page.locator('docs-demo-viewer').first();
   await hero.getByRole('tab', { name: 'Code' }).click();
   await hero.getByRole('button', { name: 'Copy code' }).click();
-  await expect(hero.getByRole('button', { name: 'Copied' })).toBeVisible();
+  await expect(hero.getByRole('status')).toHaveText('Code copied to clipboard');
+  await expect(hero.getByRole('button', { name: 'Copy code' })).toHaveText('Copied');
   const text = await page.evaluate(() => navigator.clipboard.readText());
   expect(text).toContain('ButtonVariantsDemo');
 });

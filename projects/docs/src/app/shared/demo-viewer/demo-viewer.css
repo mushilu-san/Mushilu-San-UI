@@ -28,13 +28,16 @@ docs-code-block {
 
 /* The stage and code block are the panel's surfaces; the library's default panel padding would
    leave a blank band above and below them inside the bordered viewer. `:host` raises specificity
-   above the library's equally specific `:host(mui-tab-panel)` rule. */
+   above the library's equally specific `:host(mui-tab-panel)` rule. Deliberate layout override
+   (not a library bug), but it depends on the library's tab-panel host selector. See also A-9. */
 :host mui-tab-panel {
   padding: 0;
 }
 
 /* 44px tabs plus the 2px indicator border overflow the list's height by 2px, which shows a
-   vertical scrollbar on overlay-scrollbar platforms. The tabs never need vertical scrolling. */
+   vertical scrollbar on overlay-scrollbar platforms. The tabs never need vertical scrolling.
+   WORKAROUND for library bug A-9 (#708, "Tabs: tab list overflows its box by 2px"): remove this
+   rule once mui-tab-list is fixed in projects/ui. */
 mui-tab-list {
   overflow-y: hidden;
 }

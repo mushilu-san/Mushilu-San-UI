@@ -87,7 +87,10 @@ export const doc: ComponentDoc = {
   },
   tokens: [
     '--mui-color-primary',
+    '--mui-color-primary-hover',
+    '--mui-color-primary-active',
     '--mui-color-danger',
+    '--mui-color-danger-hover',
     '--mui-radius-md',
     '--mui-touch-target',
     '--mui-color-focus-ring',

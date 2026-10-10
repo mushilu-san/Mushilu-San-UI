@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { componentDocResolver } from './pages/component-page/component-doc.resolver';
 import { componentTitle, groupTitle } from './route-titles';
 
 export const routes: Routes = [
@@ -27,6 +28,7 @@ export const routes: Routes = [
   {
     path: 'components/:slug',
     title: componentTitle,
+    resolve: { doc: componentDocResolver },
     loadComponent: () =>
       import('./pages/component-page/component-page').then((m) => m.ComponentPage),
   },

@@ -35,4 +35,34 @@ describe('A11ySection', () => {
     });
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
   });
+
+  it('renders duplicate elements and keys without NG0955 duplicate-key warnings', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const pair = (n: string) => ({
+      roles: [
+        { element: 'button', role: 'button', notes: `${n} one.` },
+        { element: 'button', role: 'button', notes: `${n} two.` },
+      ],
+      keyboard: [
+        { keys: 'Enter', action: `${n} first.` },
+        { keys: 'Enter', action: `${n} second.` },
+      ],
+      notes: [],
+    });
+    try {
+      const { fixture } = await render(A11ySection, {
+        inputs: { a11y: pair('A') },
+        providers: [provideRouter([])],
+      });
+      // Duplicate keys are only detected when the collection is reconciled on update.
+      fixture.componentRef.setInput('a11y', pair('B'));
+      fixture.detectChanges();
+      expect(screen.getAllByText('button', { selector: 'code' })).toHaveLength(2);
+      expect(screen.getByText('B two.')).toBeInTheDocument();
+      expect(screen.getByText('B second.')).toBeInTheDocument();
+      expect(warn.mock.calls.flat().join(' ')).not.toContain('NG0955');
+    } finally {
+      warn.mockRestore();
+    }
+  });
 });

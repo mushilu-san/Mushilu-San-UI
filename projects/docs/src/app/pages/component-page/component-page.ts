@@ -1,16 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  resource,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Badge } from '@mushilu-san/ui/primitives';
 import { groupInfo } from '../../../content/groups';
 import { findEntry } from '../../../content/registry';
 import { API_INDEX, DOCS_REGISTRY } from '../../../content/tokens';
+import type { ComponentDoc } from '../../../content/types';
 import { A11ySection } from '../../shared/a11y-section/a11y-section';
 import { ApiReference } from '../../shared/api-reference/api-reference';
 import { CodeBlock, plainLines } from '../../shared/code-block/code-block';
@@ -37,6 +31,8 @@ import { importStatement, pageSections } from './page-sections';
 })
 export class ComponentPage {
   readonly slug = input.required<string>();
+  /** Bound from the route `resolve`; undefined when the doc failed to load. */
+  readonly doc = input<ComponentDoc | undefined>();
 
   private readonly registry = inject(DOCS_REGISTRY);
   private readonly api = inject(API_INDEX);
@@ -46,11 +42,7 @@ export class ComponentPage {
     const e = this.entry();
     return e ? groupInfo(e.group).label : '';
   });
-  protected readonly doc = resource({
-    params: () => this.entry(),
-    loader: ({ params }) => params.load(),
-  });
-  protected readonly loaded = computed(() => (this.doc.hasValue() ? this.doc.value() : undefined));
+  protected readonly loaded = computed(() => this.doc());
   protected readonly sections = computed(() => {
     const d = this.loaded();
     return d ? pageSections(d) : [];

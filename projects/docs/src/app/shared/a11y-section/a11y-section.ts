@@ -34,7 +34,7 @@ import { parseKeys } from './parse-keys';
             </tr>
           </thead>
           <tbody>
-            @for (r of a11y().roles; track r.element) {
+            @for (r of a11y().roles; track $index) {
               <tr>
                 <td>
                   <code>{{ r.element }}</code>
@@ -62,7 +62,7 @@ import { parseKeys } from './parse-keys';
             </tr>
           </thead>
           <tbody>
-            @for (k of keyboard(); track k.keys) {
+            @for (k of keyboard(); track $index) {
               <tr>
                 <td>
                   @for (combo of k.parsed; track $index) {

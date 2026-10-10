@@ -28,16 +28,16 @@ export function plainLines(text: string): CodeLines {
         size="sm"
         type="button"
         class="copy"
-        [attr.aria-label]="copied() ? 'Copied' : 'Copy code'"
+        aria-label="Copy code"
         (click)="copy()"
       >
-        {{ copied() ? 'Copied' : 'Copy' }}
+        {{ state() === 'copied' ? 'Copied' : state() === 'failed' ? 'Copy failed' : 'Copy' }}
       </button>
     </div>
     <!-- prettier-ignore -->
     <pre class="pre" role="region" tabindex="0" [attr.aria-label]="label() + ' source'"><code>@for (line of lines(); track $index) {<span class="line">@for (tok of line; track $index) {<span [class]="'tok-' + tok.t">{{ tok.v }}</span>}</span>}</code></pre>
     <span class="visually-hidden" role="status" aria-live="polite">{{
-      copied() ? 'Code copied to clipboard' : ''
+      state() === 'copied' ? 'Code copied to clipboard' : state() === 'failed' ? 'Copy failed' : ''
     }}</span>
   `,
 })
@@ -46,7 +46,7 @@ export class CodeBlock {
   readonly source = input.required<string>();
   readonly label = input('Code');
 
-  protected readonly copied = signal(false);
+  protected readonly state = signal<'idle' | 'copied' | 'failed'>('idle');
   private readonly document = inject(DOCUMENT);
   private resetTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -56,14 +56,22 @@ export class CodeBlock {
 
   protected async copy(): Promise<void> {
     const clipboard = this.document.defaultView?.navigator.clipboard;
-    if (!clipboard) return;
+    if (!clipboard) {
+      this.flash('failed');
+      return;
+    }
     try {
       await clipboard.writeText(this.source());
     } catch {
+      this.flash('failed');
       return;
     }
-    this.copied.set(true);
+    this.flash('copied');
+  }
+
+  private flash(next: 'copied' | 'failed'): void {
+    this.state.set(next);
     clearTimeout(this.resetTimer);
-    this.resetTimer = setTimeout(() => this.copied.set(false), 2000);
+    this.resetTimer = setTimeout(() => this.state.set('idle'), 2000);
   }
 }

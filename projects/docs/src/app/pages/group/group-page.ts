@@ -31,7 +31,10 @@ import { NotFound } from '../not-found/not-found';
           }
         </ul>
       } @else {
-        <p>Documentation for this group is coming soon. Meanwhile, see the Storybook.</p>
+        <p>
+          Documentation for this group is coming soon. Meanwhile, see the
+          <a href="storybook/">Storybook</a>.
+        </p>
       }
     } @else {
       <docs-not-found />
