@@ -101,6 +101,11 @@
         "eslintConfig": "projects/docs/eslint.config.js"
       }
     },
+    "verify-build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": { "command": "node projects/docs/scripts/verify-build.mjs" }
+    },
     "collect-demos": {
       "executor": "nx:run-commands",
       "cache": true,
