@@ -17,7 +17,7 @@ export const doc: ComponentDoc = {
     'A call to action that navigates. Apply `muiButton` to an `<a>` so it is still a link.',
   ],
   whenNotToUse: [
-    { text: 'Switching between views of related content. Use Tabs.' },
+    { text: 'Switching between views of related content.', alternative: 'tabs' },
     { text: 'Inline navigation inside a sentence. Use a plain link.' },
   ],
   demos: [

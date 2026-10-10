@@ -15,6 +15,13 @@ export const REGISTRY: readonly RegistryEntry[] = [
     summary: 'A modal window for focused tasks, built on the native <dialog> element.',
     load: () => import('./components/dialog/dialog.docs').then((m) => m.doc),
   },
+  {
+    slug: 'tabs',
+    name: 'Tabs',
+    group: 'navigation',
+    summary: 'Switches between related panels of content in the same view.',
+    load: () => import('./components/tabs/tabs.docs').then((m) => m.doc),
+  },
 ];
 
 export function findEntry(
