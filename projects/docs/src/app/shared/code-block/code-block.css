@@ -1,0 +1,74 @@
+:host {
+  display: block;
+  border: 1px solid var(--docs-code-border);
+  border-radius: var(--mui-radius-md);
+  background: var(--docs-code-bg);
+  overflow: hidden;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--mui-space-3) var(--mui-space-1);
+  border-bottom: 1px solid var(--docs-code-border);
+}
+
+.label {
+  color: var(--docs-code-com);
+  font-family: var(--mui-font-mono);
+  font-size: var(--mui-font-size-xs);
+}
+
+.copy {
+  min-height: var(--mui-touch-target);
+  min-width: var(--mui-touch-target);
+  color: var(--docs-code-plain);
+}
+
+.pre {
+  margin: 0;
+  padding: var(--mui-space-4);
+  overflow-x: auto;
+  font-family: var(--mui-font-mono);
+  font-size: var(--mui-font-size-sm);
+  line-height: 1.6;
+  color: var(--docs-code-plain);
+}
+
+.pre:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: calc(-1 * var(--mui-focus-ring-width));
+}
+
+.line {
+  display: block;
+  min-height: 1.6em;
+  white-space: pre;
+}
+
+.tok-kw {
+  color: var(--docs-code-kw);
+}
+.tok-str {
+  color: var(--docs-code-str);
+}
+.tok-com {
+  color: var(--docs-code-com);
+  font-style: italic;
+}
+.tok-num {
+  color: var(--docs-code-num);
+}
+.tok-tag {
+  color: var(--docs-code-tag);
+}
+.tok-attr {
+  color: var(--docs-code-attr);
+}
+.tok-punc {
+  color: var(--docs-code-punc);
+}
+.tok-plain {
+  color: var(--docs-code-plain);
+}
