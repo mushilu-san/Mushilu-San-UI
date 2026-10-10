@@ -23,7 +23,7 @@
     },
     "build": {
       "executor": "@angular/build:application",
-      "dependsOn": ["extract-api"],
+      "dependsOn": ["extract-api", "collect-demos"],
       "outputs": ["{workspaceRoot}/dist/docs"],
       "options": {
         "outputPath": "dist/docs",
@@ -82,11 +82,11 @@
         }
       },
       "defaultConfiguration": "development",
-      "dependsOn": ["extract-api"]
+      "dependsOn": ["extract-api", "collect-demos"]
     },
     "test": {
       "executor": "@angular/build:unit-test",
-      "dependsOn": ["extract-api"],
+      "dependsOn": ["extract-api", "collect-demos"],
       "options": {
         "buildTarget": "docs:build:development",
         "tsConfig": "projects/docs/tsconfig.spec.json",
@@ -99,6 +99,19 @@
       "options": {
         "lintFilePatterns": ["projects/docs/src/**/*.ts", "projects/docs/src/**/*.html"],
         "eslintConfig": "projects/docs/eslint.config.js"
+      }
+    },
+    "collect-demos": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/src/content/**/*.demo.ts",
+        "{projectRoot}/scripts/collect-demos.mjs",
+        "{projectRoot}/scripts/tokenize.mjs"
+      ],
+      "outputs": ["{projectRoot}/src/generated/demo-sources.ts"],
+      "options": {
+        "command": "node projects/docs/scripts/collect-demos.mjs"
       }
     }
   }
