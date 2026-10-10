@@ -4,9 +4,15 @@ import {
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import {
+  TitleStrategy,
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+} from '@angular/router';
 import { provideMushiluUi } from '@mushilu-san/ui';
 import { routes } from './app.routes';
+import { DocsTitleStrategy } from './title-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +25,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientHydration(withEventReplay()),
     provideMushiluUi(),
+    { provide: TitleStrategy, useClass: DocsTitleStrategy },
   ],
 };
