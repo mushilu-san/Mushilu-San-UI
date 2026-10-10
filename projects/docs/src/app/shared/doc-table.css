@@ -1,0 +1,49 @@
+.scroll {
+  overflow-x: auto;
+  margin-block: var(--mui-space-3) var(--mui-space-6);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-md);
+}
+
+.scroll:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--mui-font-size-sm);
+}
+
+th,
+td {
+  text-align: start;
+  vertical-align: top;
+  padding: var(--mui-space-2) var(--mui-space-3);
+  border-bottom: 1px solid var(--mui-color-border);
+}
+
+th {
+  background: var(--mui-color-surface);
+  font-weight: var(--mui-font-weight-semibold);
+  white-space: nowrap;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+td code {
+  white-space: nowrap;
+}
+
+.muted {
+  color: var(--mui-color-text-muted);
+}
+
+.note {
+  display: block;
+  margin-top: var(--mui-space-1);
+  color: var(--mui-color-text-muted);
+}

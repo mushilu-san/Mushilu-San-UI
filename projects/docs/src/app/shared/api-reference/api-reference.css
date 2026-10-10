@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.class + .class {
+  margin-top: var(--mui-space-10);
+}
+
+h3 {
+  margin-bottom: var(--mui-space-1);
+}
+
+.meta {
+  margin-top: 0;
+  color: var(--mui-color-text-muted);
+}
+
+mui-badge {
+  margin-inline-start: var(--mui-space-1);
+}
+
+.parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mui-space-2);
+  padding: 0;
+  list-style: none;
+}
