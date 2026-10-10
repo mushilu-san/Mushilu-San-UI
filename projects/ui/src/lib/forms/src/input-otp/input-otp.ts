@@ -16,7 +16,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { useCva } from '@mushilu-san/ui';
+import { resolveDirection, useCva } from '@mushilu-san/ui';
 
 @Component({
   selector: 'mui-input-otp',
@@ -132,12 +132,15 @@ export class InputOtp implements ControlValueAccessor {
         return n;
       });
       this.emit();
-    } else if (event.key === 'ArrowLeft' && idx > 0) {
-      event.preventDefault();
-      this.getInput(idx - 1)?.focus();
-    } else if (event.key === 'ArrowRight' && idx < this.length() - 1) {
-      event.preventDefault();
-      this.getInput(idx + 1)?.focus();
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      // Slots flow right-to-left visually in RTL, so the arrow direction is mirrored.
+      const rtl = resolveDirection(this.el.nativeElement) === 'rtl';
+      const delta = (event.key === 'ArrowRight') === rtl ? -1 : 1;
+      const target = idx + (delta === 1 ? 1 : -1);
+      if (target >= 0 && target < this.length()) {
+        event.preventDefault();
+        this.getInput(target)?.focus();
+      }
     }
   }
 

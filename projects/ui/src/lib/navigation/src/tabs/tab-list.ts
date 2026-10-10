@@ -7,7 +7,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { handleRovingFocus } from '@mushilu-san/ui';
+import { handleRovingFocus, resolveDirection } from '@mushilu-san/ui';
 import { TABS_CONTEXT } from './tabs';
 
 @Component({
@@ -36,6 +36,7 @@ export class TabList {
     ) as HTMLElement[];
     handleRovingFocus(e, tabs, this.doc.activeElement, {
       orientation: this.ctx.orientation(),
+      rtl: resolveDirection(this.el.nativeElement) === 'rtl',
     });
   }
 }

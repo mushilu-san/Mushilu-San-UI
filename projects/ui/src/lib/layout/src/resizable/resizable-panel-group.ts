@@ -12,7 +12,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { createDrag, type DragSession } from '@mushilu-san/ui';
+import { createDrag, resolveDirection, type DragSession } from '@mushilu-san/ui';
 import {
   RESIZABLE_GROUP_CONTEXT,
   ResizableGroupContext,
@@ -58,6 +58,8 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
     panelBIdx: number;
     containerSize: number;
     startPos: number;
+    /** -1 for horizontal drags under RTL (panel A sits on the right). */
+    sign: 1 | -1;
   } | null = null;
 
   private _dragSession: DragSession | null = null;
@@ -114,6 +116,11 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
       panelBIdx,
       containerSize,
       startPos: this.direction() === 'horizontal' ? event.clientX : event.clientY,
+      sign:
+        this.direction() === 'horizontal' &&
+        resolveDirection(this.el.nativeElement, this.doc) === 'rtl'
+          ? -1
+          : 1,
     };
 
     this._dragSession?.destroy();
@@ -128,10 +135,10 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   private _onPointerMove(event: PointerEvent): void {
     const state = this._dragState;
     if (!state) return;
-    const { panelAIdx, panelBIdx, containerSize, startPos } = state;
+    const { panelAIdx, panelBIdx, containerSize, startPos, sign } = state;
 
     const pos = this.direction() === 'horizontal' ? event.clientX : event.clientY;
-    const deltaAbs = pos - startPos;
+    const deltaAbs = (pos - startPos) * sign;
     if (containerSize === 0) return;
     const deltaPct = (deltaAbs / containerSize) * 100;
 

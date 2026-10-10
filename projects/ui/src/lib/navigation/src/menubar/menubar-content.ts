@@ -7,7 +7,7 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { handleRovingFocus } from '@mushilu-san/ui';
+import { handleRovingFocus, resolveDirection } from '@mushilu-san/ui';
 import { MENUBAR_MENU_CONTEXT } from './menubar-context';
 
 @Component({
@@ -35,7 +35,8 @@ export class MenubarContent {
     const items = Array.from(
       this.el.nativeElement.querySelectorAll('[muiMenubarItem]:not([aria-disabled="true"])'),
     ) as HTMLElement[];
-    if (handleRovingFocus(event, items, this.doc.activeElement)) {
+    const rtl = resolveDirection(this.el.nativeElement) === 'rtl';
+    if (handleRovingFocus(event, items, this.doc.activeElement, { rtl })) {
       event.stopPropagation();
     }
   }

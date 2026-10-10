@@ -12,6 +12,15 @@ function makeCtx(expanded = true): SidebarContext {
 }
 
 describe('SidebarTrigger', () => {
+  it('renders the chevron as a decorative .trigger-icon (mirrored in RTL via CSS)', async () => {
+    await renderTemplate('<button muiSidebarTrigger></button>', {
+      imports: [SidebarTrigger],
+      providers: [{ provide: SIDEBAR_CONTEXT, useValue: makeCtx(true) }],
+    });
+    const icon = screen.getByRole('button').querySelector('svg.trigger-icon');
+    expect(icon).toHaveAttribute('aria-hidden', 'true');
+  });
+
   it('sets aria-expanded to reflect ctx.expanded()', async () => {
     await renderTemplate('<button muiSidebarTrigger></button>', {
       imports: [SidebarTrigger],

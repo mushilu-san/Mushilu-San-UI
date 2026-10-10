@@ -11,7 +11,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { handleRovingFocus } from '@mushilu-san/ui';
+import { handleRovingFocus, resolveDirection } from '@mushilu-san/ui';
 import { MENUBAR_CONTEXT, MenubarContext } from './menubar-context';
 
 @Component({
@@ -69,6 +69,7 @@ export class Menubar implements MenubarContext {
     const wasOpen = this._openId() !== null;
     const moved = handleRovingFocus(event, triggers, this.doc.activeElement, {
       orientation: 'horizontal',
+      rtl: resolveDirection(this.el.nativeElement) === 'rtl',
     });
     if (moved && wasOpen) {
       const nextTrigger = this.doc.activeElement;

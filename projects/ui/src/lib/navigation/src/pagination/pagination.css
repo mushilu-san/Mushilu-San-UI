@@ -88,3 +88,9 @@
     transition: none;
   }
 }
+
+/* Mirror directional chevrons in RTL */
+:dir(rtl) .pagination-glyph {
+  display: inline-block;
+  transform: scaleX(-1);
+}

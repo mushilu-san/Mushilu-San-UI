@@ -11,7 +11,7 @@
   cursor: pointer;
   font-family: var(--mui-font-sans);
   font-size: var(--mui-font-size-base);
-  text-align: left;
+  text-align: start;
   transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
 }
 

@@ -62,7 +62,7 @@
 .thumb {
   position: absolute;
   top: var(--thumb-offset);
-  left: var(--thumb-offset);
+  inset-inline-start: var(--thumb-offset);
   width: var(--thumb-size);
   height: var(--thumb-size);
   border-radius: var(--mui-radius-full);
@@ -72,7 +72,9 @@
 }
 
 :host([data-checked]) .thumb {
-  transform: translateX(calc(var(--toggle-w) - var(--thumb-size) - var(--thumb-offset) * 2));
+  transform: translateX(
+    calc((var(--toggle-w) - var(--thumb-size) - var(--thumb-offset) * 2) * var(--mui-dir-sign, 1))
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

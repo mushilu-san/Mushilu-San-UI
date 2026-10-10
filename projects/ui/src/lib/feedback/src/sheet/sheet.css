@@ -78,6 +78,37 @@
   --_sheet-inline-size: var(--_sheet-size-full);
 }
 
+/* START / END — logical placement, flips under RTL (H-A-fc2d84) */
+.mui-sheet__panel[data-side='start'],
+.mui-sheet__panel[data-side='end'] {
+  inset-block: 0;
+  inline-size: var(--_sheet-inline-size, var(--_sheet-size-md));
+  block-size: 100dvh;
+}
+.mui-sheet__panel[data-side='start'] {
+  inset-inline: 0 auto;
+  border-inline-end: 1px solid var(--mui-color-border);
+  animation: mui-sheet-in-start var(--mui-duration-normal, 220ms) var(--mui-easing-default, ease)
+    both;
+}
+.mui-sheet__panel[data-side='end'] {
+  inset-inline: auto 0;
+  border-inline-start: 1px solid var(--mui-color-border);
+  animation: mui-sheet-in-end var(--mui-duration-normal, 220ms) var(--mui-easing-default, ease) both;
+}
+.mui-sheet__panel[data-side='start'][data-size='sm'],
+.mui-sheet__panel[data-side='end'][data-size='sm'] {
+  --_sheet-inline-size: var(--_sheet-size-sm);
+}
+.mui-sheet__panel[data-side='start'][data-size='lg'],
+.mui-sheet__panel[data-side='end'][data-size='lg'] {
+  --_sheet-inline-size: var(--_sheet-size-lg);
+}
+.mui-sheet__panel[data-side='start'][data-size='full'],
+.mui-sheet__panel[data-side='end'][data-size='full'] {
+  --_sheet-inline-size: var(--_sheet-size-full);
+}
+
 /* TOP */
 .mui-sheet__panel[data-side='top'] {
   inset: 0 0 auto 0;
@@ -111,6 +142,22 @@
 @keyframes mui-sheet-in-left {
   from {
     transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes mui-sheet-in-start {
+  from {
+    transform: translateX(calc(-100% * var(--mui-dir-sign, 1)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes mui-sheet-in-end {
+  from {
+    transform: translateX(calc(100% * var(--mui-dir-sign, 1)));
   }
   to {
     transform: translateX(0);
@@ -169,7 +216,7 @@
   background: transparent;
   color: var(--mui-color-text-muted);
   cursor: pointer;
-  margin-left: auto;
+  margin-inline-start: auto;
   flex-shrink: 0;
   transition:
     background-color var(--mui-duration-fast) var(--mui-easing-default),

@@ -76,8 +76,8 @@
 }
 
 :host([data-variant='blockquote']) {
-  border-left: 3px solid var(--mui-color-border);
-  padding-left: var(--mui-space-4);
+  border-inline-start: 3px solid var(--mui-color-border);
+  padding-inline-start: var(--mui-space-4);
   color: var(--mui-color-text-muted);
   font-style: italic;
   line-height: var(--mui-line-height-base, 1.6);

@@ -56,10 +56,10 @@
 
 @keyframes mui-skeleton-shimmer {
   0% {
-    background-position: 200% 0;
+    background-position: calc(200% * var(--mui-dir-sign, 1)) 0;
   }
   100% {
-    background-position: -200% 0;
+    background-position: calc(-200% * var(--mui-dir-sign, 1)) 0;
   }
 }
 

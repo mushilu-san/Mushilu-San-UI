@@ -12,5 +12,11 @@ export { useCva } from './core/forms/use-cva';
 export type { CvaState } from './core/forms/use-cva';
 export { handleRovingFocus } from './core/a11y/roving-focus';
 export type { RovingFocusConfig, RovingOrientation } from './core/a11y/roving-focus';
+export { resolveDirection, Directionality } from './core/a11y/direction';
+export type { Direction } from './core/a11y/direction';
 export { computePosition } from './core/positioning/compute-position';
-export type { Placement, PositionResult } from './core/positioning/compute-position';
+export type {
+  Placement,
+  PositionResult,
+  ComputePositionOptions,
+} from './core/positioning/compute-position';

@@ -3,6 +3,8 @@ export type RovingOrientation = 'horizontal' | 'vertical' | 'both';
 export interface RovingFocusConfig {
   orientation?: RovingOrientation;
   wrap?: boolean;
+  /** Right-to-left layout: swaps ArrowLeft/ArrowRight for horizontal/both. Default false. */
+  rtl?: boolean;
 }
 
 export function handleRovingFocus(
@@ -11,21 +13,23 @@ export function handleRovingFocus(
   activeElement: Element | null,
   config: RovingFocusConfig = {},
 ): boolean {
-  const { orientation = 'vertical', wrap = true } = config;
+  const { orientation = 'vertical', wrap = true, rtl = false } = config;
   if (!items.length) return false;
 
+  const startKey = rtl ? 'ArrowRight' : 'ArrowLeft';
+  const endKey = rtl ? 'ArrowLeft' : 'ArrowRight';
   const prev =
     orientation === 'horizontal'
-      ? ['ArrowLeft']
+      ? [startKey]
       : orientation === 'vertical'
         ? ['ArrowUp']
-        : ['ArrowLeft', 'ArrowUp'];
+        : [startKey, 'ArrowUp'];
   const next =
     orientation === 'horizontal'
-      ? ['ArrowRight']
+      ? [endKey]
       : orientation === 'vertical'
         ? ['ArrowDown']
-        : ['ArrowRight', 'ArrowDown'];
+        : [endKey, 'ArrowDown'];
 
   const key = event.key;
   const idx = items.indexOf(activeElement as HTMLElement);

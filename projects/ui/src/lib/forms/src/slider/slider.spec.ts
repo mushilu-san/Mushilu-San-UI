@@ -291,9 +291,9 @@ describe('Slider', () => {
     const { fixture } = await renderComponent(Slider, {
       inputs: { value: 5, min: 5, max: 5 },
     });
-    // fillPercent = 0 → thumb left style should be 0%
+    // fillPercent = 0 → thumb inset-inline-start style should be 0%
     const thumb = fixture.nativeElement.querySelector('.slider-thumb') as HTMLElement;
-    expect(thumb.style.left).toBe('0%');
+    expect(thumb.style.insetInlineStart).toBe('0%');
   });
 
   it('rounds floating-point values correctly', async () => {
