@@ -97,7 +97,7 @@ jobs:
       # Retain V8 coverage for inspection on the run summary (canonical leg only).
       - name: Upload coverage
         if: matrix.node == '' && always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-${{ github.sha }}
           path: coverage/
@@ -117,7 +117,7 @@ jobs:
       # 6. Archive build output — downloadable zip on the run summary page
       - name: Upload build artifact
         if: matrix.node == ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: mushilu-san-ui-${{ github.sha }}
           path: dist/ui
@@ -132,7 +132,7 @@ jobs:
       # 8. Upload storybook-static so the e2e job can download it without rebuilding
       - name: Upload Storybook artifact
         if: matrix.node == ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: storybook-static-${{ github.sha }}
           path: storybook-static/
@@ -182,7 +182,7 @@ jobs:
 
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-report-${{ github.sha }}
           path: playwright-report/
