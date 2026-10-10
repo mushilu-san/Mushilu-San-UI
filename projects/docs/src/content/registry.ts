@@ -1,6 +1,14 @@
 import type { RegistryEntry } from './types';
 
-export const REGISTRY: readonly RegistryEntry[] = [];
+export const REGISTRY: readonly RegistryEntry[] = [
+  {
+    slug: 'button',
+    name: 'Button',
+    group: 'primitives',
+    summary: 'Triggers an action or navigation, with variants, sizes and a loading state.',
+    load: () => import('./components/button/button.docs').then((m) => m.doc),
+  },
+];
 
 export function findEntry(
   slug: string,
