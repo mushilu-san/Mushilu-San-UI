@@ -6,9 +6,24 @@
   "prefix": "docs",
   "implicitDependencies": ["ui"],
   "targets": {
+    "extract-api": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{workspaceRoot}/projects/ui/src/lib/**/*.ts",
+        "{workspaceRoot}/projects/ui/src/lib/**/*.html",
+        "!{workspaceRoot}/projects/ui/src/lib/**/*.spec.ts",
+        "!{workspaceRoot}/projects/ui/src/lib/**/*.stories.ts",
+        "{projectRoot}/scripts/extract-api.mjs"
+      ],
+      "outputs": ["{projectRoot}/src/generated/api.ts"],
+      "options": {
+        "command": "node projects/docs/scripts/extract-api.mjs"
+      }
+    },
     "build": {
       "executor": "@angular/build:application",
-      "dependsOn": [],
+      "dependsOn": ["extract-api"],
       "outputs": ["{workspaceRoot}/dist/docs"],
       "options": {
         "outputPath": "dist/docs",
@@ -20,7 +35,12 @@
           "projects/ui/src/styles/tokens.css",
           "projects/docs/src/styles.css"
         ],
-        "assets": [{ "glob": "**/*", "input": "projects/docs/public" }]
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "projects/docs/public"
+          }
+        ]
       },
       "configurations": {
         "production": {
@@ -28,8 +48,16 @@
           "outputMode": "static",
           "outputHashing": "all",
           "budgets": [
-            { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
-            { "type": "anyComponentStyle", "maximumWarning": "8kB", "maximumError": "16kB" }
+            {
+              "type": "initial",
+              "maximumWarning": "500kB",
+              "maximumError": "1MB"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "8kB",
+              "maximumError": "16kB"
+            }
           ]
         },
         "development": {
@@ -42,16 +70,23 @@
     },
     "serve": {
       "executor": "@angular/build:dev-server",
-      "options": { "port": 4300 },
-      "configurations": {
-        "production": { "buildTarget": "docs:build:production" },
-        "development": { "buildTarget": "docs:build:development" }
+      "options": {
+        "port": 4300
       },
-      "defaultConfiguration": "development"
+      "configurations": {
+        "production": {
+          "buildTarget": "docs:build:production"
+        },
+        "development": {
+          "buildTarget": "docs:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "dependsOn": ["extract-api"]
     },
     "test": {
       "executor": "@angular/build:unit-test",
-      "dependsOn": [],
+      "dependsOn": ["extract-api"],
       "options": {
         "buildTarget": "docs:build:development",
         "tsConfig": "projects/docs/tsconfig.spec.json",
