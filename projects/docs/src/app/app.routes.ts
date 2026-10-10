@@ -10,17 +10,19 @@ export const routes: Routes = [
   {
     path: 'getting-started',
     title: 'Installation',
-    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
+    loadComponent: () =>
+      import('./pages/getting-started/getting-started').then((m) => m.GettingStarted),
   },
   {
     path: 'components',
     title: 'Components',
-    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
+    loadComponent: () =>
+      import('./pages/components-index/components-index').then((m) => m.ComponentsIndex),
   },
   {
     path: 'components/group/:group',
     title: groupTitle,
-    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
+    loadComponent: () => import('./pages/group/group-page').then((m) => m.GroupPage),
   },
   {
     path: 'components/:slug',
