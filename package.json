@@ -21,6 +21,7 @@
     "size": "size-limit",
     "build-storybook": "nx run ui:build-storybook",
     "e2e": "playwright test",
+    "e2e:docs": "nx build docs && playwright test -c playwright.docs.config.ts",
     "e2e:affected": "node scripts/affected-run.mjs e2e",
     "e2e:report": "playwright show-report",
     "test:scripts": "vitest run --config vitest.scripts.config.mjs"
@@ -59,6 +60,7 @@
     "@angular/platform-browser-dynamic": "^22.0.6",
     "@angular/platform-server": "22.0.6",
     "@angular/ssr": "22.0.6",
+    "@axe-core/playwright": "^4.13.0",
     "@changesets/cli": "^2.31.0",
     "@eslint/js": "^10.0.1",
     "@ngx-playwright/harness": "^0.12.1",
