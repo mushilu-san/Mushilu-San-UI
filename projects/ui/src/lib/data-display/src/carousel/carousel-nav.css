@@ -45,3 +45,8 @@
 svg {
   transform: scaleX(var(--mui-dir-sign, 1));
 }
+
+/* Chevrons point along the reading direction, so mirror them under RTL (#584). */
+:host(:dir(rtl)) svg {
+  transform: scaleX(-1);
+}

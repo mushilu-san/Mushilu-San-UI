@@ -11,7 +11,7 @@
     "storybook": "nx run ui:storybook",
     "storybook:build": "nx run ui:build-storybook",
     "changeset": "changeset",
-    "lint": "nx run-many -t lint -p ui docs",
+    "lint": "nx run-many -t lint -p ui docs && npm run lint:css",
     "docs": "nx serve docs",
     "docs:build": "nx build docs",
     "docs:verify": "nx run docs:verify-build",
@@ -24,7 +24,8 @@
     "e2e:docs": "nx build docs && playwright test -c playwright.docs.config.ts",
     "e2e:affected": "node scripts/affected-run.mjs e2e",
     "e2e:report": "playwright show-report",
-    "test:scripts": "vitest run --config vitest.scripts.config.mjs"
+    "test:scripts": "vitest run --config vitest.scripts.config.mjs",
+    "lint:css": "stylelint \"projects/ui/src/**/*.css\""
   },
   "private": true,
   "workspaces": [
@@ -90,6 +91,7 @@
     "rolldown": "^1.2.13",
     "size-limit": "^14.1.0",
     "storybook": "^10.6.1",
+    "stylelint": "^17.16.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "8.71.1",
     "vitest": "^5.0.3",
