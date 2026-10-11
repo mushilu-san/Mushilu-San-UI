@@ -12,14 +12,16 @@ mui-tabs {
   display: flex;
   align-items: center;
   gap: 0;
-  border-bottom: 2px solid var(--mui-color-border);
+  /* Drawn as an inset shadow, not a border: a border sits outside the content
+     box, so the tabs' 44px height overflowed by 2px and forced a scrollbar (A-9, #708). */
+  box-shadow: inset 0 -2px 0 var(--mui-color-border);
   overflow-x: auto;
 }
 
 :host(mui-tab-list)[aria-orientation='vertical'] {
   flex-direction: column;
   align-items: stretch;
-  border-bottom: none;
+  box-shadow: none;
   border-inline-end: 2px solid var(--mui-color-border);
 }
 
@@ -36,7 +38,6 @@ mui-tabs {
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
   cursor: pointer;
   white-space: nowrap;
   transition:
