@@ -49,10 +49,15 @@ export const doc: ComponentDoc = {
       {
         element: 'list',
         role: 'listbox',
-        notes: 'Options are `role="option"` with `aria-selected` on the highlighted one.',
+        notes:
+          'Named "Results" by default. Options are `role="option"` with `aria-selected` on the highlighted one.',
       },
       { element: 'group', role: 'group', notes: 'Named by `label`.' },
-      { element: 'empty message', role: 'status', notes: 'Announced when no item matches.' },
+      {
+        element: 'empty message',
+        role: '—',
+        notes: '`aria-live="polite"`, so it is announced when no item matches.',
+      },
     ],
     keyboard: [
       { keys: 'Type', action: 'Filters the items.' },

@@ -13,6 +13,7 @@ function makeCtx(direction: 'horizontal' | 'vertical' = 'horizontal'): Resizable
     unregisterPanel: vi.fn(),
     startResize: vi.fn(),
     resizeByPercent: vi.fn(),
+    handleValue: vi.fn(() => 40),
   };
 }
 
@@ -101,5 +102,15 @@ describe('ResizableHandle (isolated)', () => {
     });
     fireEvent.keyDown(screen.getByRole('separator'), { key: 'Tab' });
     expect(ctx.resizeByPercent).not.toHaveBeenCalled();
+  });
+
+  it('H-A11Y-727: exposes the panel size as aria-valuenow', async () => {
+    const ctx = makeCtx();
+    await renderTemplate('<mui-resizable-handle></mui-resizable-handle>', {
+      imports: [ResizableHandle],
+      providers: [{ provide: RESIZABLE_GROUP_CONTEXT, useValue: ctx }],
+    });
+    expect(screen.getByRole('separator')).toHaveAttribute('aria-valuenow', '40');
+    expect(ctx.handleValue).toHaveBeenCalled();
   });
 });

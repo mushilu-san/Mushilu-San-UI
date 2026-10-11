@@ -52,4 +52,15 @@ describe('Textarea (muiTextarea directive)', () => {
     });
     expect(screen.getByRole('textbox', { name: 'Message' })).toBeInTheDocument();
   });
+
+  // #724: invalid state must reach assistive technology, not only the stylesheet.
+  it('H-A11Y-724: sets aria-invalid when invalid', async () => {
+    await renderTemplate('<textarea muiTextarea invalid></textarea>', { imports: [Textarea] });
+    expect(document.querySelector('textarea')).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('H-A11Y-724: omits aria-invalid when valid', async () => {
+    await renderTemplate('<textarea muiTextarea></textarea>', { imports: [Textarea] });
+    expect(document.querySelector('textarea')).not.toHaveAttribute('aria-invalid');
+  });
 });

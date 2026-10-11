@@ -3,17 +3,14 @@ import { expect, test } from '@playwright/test';
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
+// Known library gaps. Every entry was removed when its finding was fixed. Add an entry here only
+// with an open audit finding, scoped to the one page that shows the gap.
 // Known library gaps. Each entry disables only the listed axe rules on that one page, and names
-// the audit finding that tracks the fix. Remove the entry when the finding is resolved.
+// the audit finding that tracks the remaining gap. Remove the entry when the finding is resolved.
 const KNOWN_AXE_ISSUES: Record<string, { rules: string[]; finding: string }> = {
-  command: {
-    rules: ['aria-input-field-name', 'aria-required-children', 'color-contrast'],
-    finding: 'A-13',
-  },
-  resizable: { rules: ['aria-required-attr'], finding: 'A-14' },
-  'scroll-area': { rules: ['scrollable-region-focusable'], finding: 'A-15' },
-  slider: { rules: ['aria-input-field-name'], finding: 'A-16' },
-  'swipe-action': { rules: ['aria-required-children'], finding: 'A-17' },
+  // A-13 (#726): the listbox still owns a non-option child (the empty-state message), so
+  // aria-required-children fails. The name and shortcut contrast are fixed.
+  command: { rules: ['aria-required-children'], finding: 'A-13' },
 };
 
 // Every component page is checked, so a new docs page is covered without editing this list.

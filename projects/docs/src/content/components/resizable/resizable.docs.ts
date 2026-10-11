@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   summary: 'Splits an area into panels that the user can resize by dragging a handle.',
   description: [
     'A panel group holds panels separated by handles. Each panel has `defaultSize`, `minSize` and `maxSize` as percentages of the group. `direction` sets whether the panels sit side by side or stacked.',
-    'Each handle has `role="separator"` and is focusable. The arrow keys move it in small steps, so resizing does not need a mouse.',
+    'Each handle has `role="separator"` and is focusable. Its `aria-valuenow` is the size of the panel before it, in percent. The arrow keys move it in small steps, so resizing does not need a mouse.',
   ],
   whenToUse: [
     'A file tree next to an editor, or a list next to a detail view, where the user needs to choose the split.',

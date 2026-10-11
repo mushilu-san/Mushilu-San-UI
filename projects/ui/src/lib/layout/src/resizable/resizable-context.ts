@@ -11,6 +11,7 @@ export interface ResizableGroupContext {
   unregisterPanel(registration: ResizablePanelRegistration): void;
   startResize(event: PointerEvent, handleEl: HTMLElement): void;
   resizeByPercent(handleEl: HTMLElement, deltaPct: number): void;
+  handleValue(handleEl: HTMLElement): number;
 }
 
 export const RESIZABLE_GROUP_CONTEXT = new InjectionToken<ResizableGroupContext>(

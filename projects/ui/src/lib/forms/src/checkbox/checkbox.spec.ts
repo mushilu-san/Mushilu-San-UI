@@ -37,4 +37,15 @@ describe('Checkbox (muiCheckbox directive)', () => {
     await renderTemplate('<input type="checkbox" muiCheckbox invalid />', { imports: [Checkbox] });
     expect(document.querySelector('input')).toHaveAttribute('data-invalid');
   });
+
+  // #724: invalid state must reach assistive technology, not only the stylesheet.
+  it('H-A11Y-724: sets aria-invalid when invalid', async () => {
+    await renderTemplate('<input type="checkbox" muiCheckbox invalid />', { imports: [Checkbox] });
+    expect(document.querySelector('input')).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('H-A11Y-724: omits aria-invalid when valid', async () => {
+    await renderTemplate('<input type="checkbox" muiCheckbox />', { imports: [Checkbox] });
+    expect(document.querySelector('input')).not.toHaveAttribute('aria-invalid');
+  });
 });

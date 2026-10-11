@@ -18,6 +18,7 @@ import type { SelectSize, SelectVariant } from './select.types';
     '[attr.data-size]': 'size()',
     '[attr.data-variant]': 'variant()',
     '[attr.data-invalid]': 'invalid() || null',
+    '[attr.aria-invalid]': 'invalid() || null',
     '[attr.part]': '"select"',
   },
 })
@@ -26,6 +27,6 @@ export class Select {
   size = input<SelectSize>('md');
   /** Visual style: `outline`, `filled` or `ghost`. Default `outline`. */
   variant = input<SelectVariant>('outline');
-  /** Shows the failed-validation style and sets `data-invalid`. Does not set `aria-invalid`. */
+  /** Shows the failed-validation style and sets `data-invalid`. Also sets `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
 }

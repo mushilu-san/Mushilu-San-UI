@@ -307,4 +307,9 @@ describe('Slider', () => {
   });
 
   afterEach(() => vi.restoreAllMocks());
+
+  it('H-A11Y-729: names the thumb from label', async () => {
+    await renderTemplate('<mui-slider label="Volume" />', { imports: [Slider] });
+    expect(document.querySelector('.slider-thumb')).toHaveAttribute('aria-label', 'Volume');
+  });
 });

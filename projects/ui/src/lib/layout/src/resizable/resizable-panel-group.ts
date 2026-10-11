@@ -148,14 +148,23 @@ export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
   }
 
   resizeByPercent(handleEl: HTMLElement, deltaPct: number): void {
-    const parent = handleEl.parentElement;
-    if (!parent) return;
-    const siblings = Array.from(parent.children);
-    const handlePos = siblings.indexOf(handleEl);
-    const panelAIdx = Math.floor((handlePos - 1) / 2);
+    const panelAIdx = this._panelBeforeHandle(handleEl);
     const panelBIdx = panelAIdx + 1;
     if (panelAIdx < 0 || panelBIdx >= this._registry.length) return;
     this._applyDelta(panelAIdx, panelBIdx, deltaPct);
+  }
+
+  /** Current size of the panel before the handle, as a percentage (#727: aria-valuenow). */
+  handleValue(handleEl: HTMLElement): number {
+    const idx = this._panelBeforeHandle(handleEl);
+    return idx < 0 ? 0 : Math.round(this._sizes()[idx] ?? 0);
+  }
+
+  private _panelBeforeHandle(handleEl: HTMLElement): number {
+    const parent = handleEl.parentElement;
+    if (!parent) return -1;
+    const handlePos = Array.from(parent.children).indexOf(handleEl);
+    return Math.floor((handlePos - 1) / 2);
   }
 
   private _applyDelta(panelAIdx: number, panelBIdx: number, deltaPct: number): void {

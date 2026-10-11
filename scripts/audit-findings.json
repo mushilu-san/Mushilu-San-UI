@@ -1327,7 +1327,7 @@
     "title": "Command: listbox has no name and wraps groups, shortcut text fails contrast",
     "description": "CommandList is role=listbox with no accessible name, and CommandGroup (role=group) sits directly inside it, so aria-required-children fails. The .mui-command-item__shortcut text fails 4.5:1 in light theme. Found by the docs axe e2e.",
     "resolved": false,
-    "resolvedNote": ""
+    "resolvedNote": "Partly fixed: listbox is named and shortcut contrast passes. Remaining: aria-required-children on the listbox (the empty-state message is a non-option child). Still open in #726."
   },
   {
     "id": "A-14",
@@ -1336,8 +1336,8 @@
     "file": "—",
     "title": "Resizable: focusable separator handle has no aria-valuenow",
     "description": "mui-resizable-handle is role=separator and focusable, but has no aria-valuenow (required for a focusable separator by ARIA 1.2). Found by the docs axe e2e.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: resizable handle exposes aria-valuenow (size of the panel before it)."
   },
   {
     "id": "A-15",
@@ -1346,8 +1346,8 @@
     "file": "—",
     "title": "Scroll area: scrollable viewport is not keyboard focusable",
     "description": "mui-scroll-area viewport scrolls its content but cannot receive focus, so keyboard users cannot scroll it without tabindex. Found by the docs axe e2e (scrollable-region-focusable).",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: scroll-area viewport is focusable (tabindex=0)."
   },
   {
     "id": "A-16",
@@ -1356,8 +1356,8 @@
     "file": "—",
     "title": "Slider: thumb has no accessible name",
     "description": "The role=slider thumb has no name. aria-label set on mui-slider stays on the host and does not reach the thumb. Found by the docs axe e2e (aria-input-field-name).",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: slider has a label input that names the thumb."
   },
   {
     "id": "A-17",
@@ -1366,8 +1366,8 @@
     "file": "—",
     "title": "Swipe action: listitem role sits on the inner track, so role=list parents have invalid children",
     "description": "The role=listitem is on .mui-swipe-action__track, not on the mui-swipe-action host, so a role=list container holds a child with no listitem role (aria-required-children). Found by the docs axe e2e.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: the swipe-action host is the listitem."
   },
   {
     "id": "A-11",
@@ -1376,8 +1376,8 @@
     "file": "—",
     "title": "Form controls set data-invalid but not aria-invalid",
     "description": "checkbox, input, select and textarea expose the invalid state only as data-invalid (styling). Screen readers get no invalid state. Tracked in #724.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: checkbox, input, select and textarea set aria-invalid with data-invalid."
   },
   {
     "id": "A-12",
@@ -1386,8 +1386,8 @@
     "file": "—",
     "title": "Typography: variant headings have no heading semantics",
     "description": "mui-typography renders a styled host with no element or role, so variant h1-h4 gives screen readers no heading. Tracked in #725.",
-    "resolved": false,
-    "resolvedNote": ""
+    "resolved": true,
+    "resolvedNote": "Fixed: heading variants expose role=heading with aria-level."
   },
   {
     "id": "A-18",

@@ -1,5 +1,5 @@
 import { signal } from '@angular/core';
-import { screen } from '@testing-library/angular';
+
 import { describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
 import { COMMAND_CONTEXT } from './command';
@@ -17,12 +17,14 @@ function makeCtx(search = ''): CommandContext {
 }
 
 describe('CommandEmpty', () => {
-  it('renders with role=status and projects content', async () => {
+  it('announces politely and projects content', async () => {
     await renderTemplate('<mui-command-empty>No results found.</mui-command-empty>', {
       imports: [CommandEmpty],
       providers: [{ provide: COMMAND_CONTEXT, useValue: makeCtx('xyz') }],
     });
-    expect(screen.getByRole('status')).toHaveTextContent('No results found.');
+    const empty = document.querySelector('.mui-command-empty');
+    expect(empty).toHaveAttribute('aria-live', 'polite');
+    expect(empty).toHaveTextContent('No results found.');
   });
 
   it('exposes part="empty"', async () => {
@@ -30,6 +32,6 @@ describe('CommandEmpty', () => {
       imports: [CommandEmpty],
       providers: [{ provide: COMMAND_CONTEXT, useValue: makeCtx() }],
     });
-    expect(screen.getByRole('status')).toHaveAttribute('part', 'empty');
+    expect(document.querySelector('.mui-command-empty')).toHaveAttribute('part', 'empty');
   });
 });
