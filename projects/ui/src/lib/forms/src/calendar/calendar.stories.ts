@@ -20,7 +20,7 @@ export const Default: Story = {
   render: () => ({
     template: `<mui-calendar [(value)]="date" />`,
     imports: [Calendar],
-    componentProperties: { date: null },
+    props: { date: null },
   }),
 };
 
@@ -28,7 +28,7 @@ export const WithSelectedDate: Story = {
   render: () => ({
     template: `<mui-calendar [(value)]="date" />`,
     imports: [Calendar],
-    componentProperties: { date: new Date(2024, 5, 15) }, // June 15, 2024
+    props: { date: new Date(2024, 5, 15) }, // June 15, 2024
   }),
 };
 
@@ -43,7 +43,7 @@ export const WithMinMaxDate: Story = {
       </div>
     `,
     imports: [Calendar],
-    componentProperties: {
+    props: {
       date: null,
       min: new Date(new Date().getFullYear(), new Date().getMonth(), 10),
       max: new Date(new Date().getFullYear(), new Date().getMonth(), 20),
@@ -55,7 +55,7 @@ export const Disabled: Story = {
   render: () => ({
     template: `<mui-calendar [value]="date" [disabled]="true" />`,
     imports: [Calendar],
-    componentProperties: { date: new Date(2024, 5, 15) },
+    props: { date: new Date(2024, 5, 15) },
   }),
 };
 
@@ -73,7 +73,7 @@ export const Accessibility: Story = {
       </div>
     `,
     imports: [Calendar],
-    componentProperties: { date: null },
+    props: { date: null },
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -89,7 +89,7 @@ export const MobilePreview: Story = {
       </div>
     `,
     imports: [Calendar],
-    componentProperties: { date: null },
+    props: { date: null },
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };

@@ -21,7 +21,7 @@ export const Default: Story = {
   render: () => ({
     template: `<mui-date-picker [(value)]="date" />`,
     imports: [DatePicker],
-    componentProperties: { date: null },
+    props: { date: null },
   }),
 };
 
@@ -29,7 +29,7 @@ export const WithSelectedDate: Story = {
   render: () => ({
     template: `<mui-date-picker [(value)]="date" />`,
     imports: [DatePicker],
-    componentProperties: { date: new Date(2024, 5, 15) },
+    props: { date: new Date(2024, 5, 15) },
   }),
 };
 
@@ -44,7 +44,7 @@ export const WithMinMaxDate: Story = {
       </div>
     `,
     imports: [DatePicker],
-    componentProperties: {
+    props: {
       date: null,
       min: new Date(new Date().getFullYear(), new Date().getMonth(), 10),
       max: new Date(new Date().getFullYear(), new Date().getMonth(), 20),
@@ -56,7 +56,7 @@ export const CustomPlaceholder: Story = {
   render: () => ({
     template: `<mui-date-picker placeholder="Select appointment date" [(value)]="date" />`,
     imports: [DatePicker],
-    componentProperties: { date: null },
+    props: { date: null },
   }),
 };
 
@@ -64,7 +64,7 @@ export const Disabled: Story = {
   render: () => ({
     template: `<mui-date-picker [value]="date" [disabled]="true" />`,
     imports: [DatePicker],
-    componentProperties: { date: new Date(2024, 5, 15) },
+    props: { date: new Date(2024, 5, 15) },
   }),
 };
 
@@ -89,7 +89,7 @@ export const InAForm: Story = {
       </div>
     `,
     imports: [DatePicker],
-    componentProperties: { dob: null },
+    props: { dob: null },
   }),
 };
 
@@ -106,7 +106,7 @@ export const Accessibility: Story = {
       </div>
     `,
     imports: [DatePicker],
-    componentProperties: { date: null },
+    props: { date: null },
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -126,7 +126,7 @@ export const MobilePreview: Story = {
       </div>
     `,
     imports: [DatePicker],
-    componentProperties: { checkin: null, checkout: null },
+    props: { checkin: null, checkout: null },
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };

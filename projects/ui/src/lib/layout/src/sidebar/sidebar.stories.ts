@@ -105,7 +105,7 @@ export const Collapsed: Story = {
         <main style="flex:1;padding:24px;">Content area</main>
       </div>
     `,
-    componentProperties: { expanded: false },
+    props: { expanded: false },
   }),
 };
 
@@ -173,7 +173,7 @@ export const MobilePreview: Story = {
         </main>
       </div>
     `,
-    componentProperties: { expanded: true },
+    props: { expanded: true },
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };

@@ -18,7 +18,7 @@ export const Default: Story = {
   render: () => ({
     template: `<mui-input-otp [(value)]="otp" />`,
     imports: [InputOtp],
-    componentProperties: { otp: '' },
+    props: { otp: '' },
   }),
 };
 
@@ -26,7 +26,7 @@ export const FourDigit: Story = {
   render: () => ({
     template: `<mui-input-otp [length]="4" [(value)]="otp" />`,
     imports: [InputOtp],
-    componentProperties: { otp: '' },
+    props: { otp: '' },
   }),
 };
 
@@ -34,7 +34,7 @@ export const PreFilled: Story = {
   render: () => ({
     template: `<mui-input-otp [value]="otp" />`,
     imports: [InputOtp],
-    componentProperties: { otp: '483920' },
+    props: { otp: '483920' },
   }),
 };
 
@@ -47,7 +47,7 @@ export const WithValueDisplay: Story = {
       </div>
     `,
     imports: [InputOtp],
-    componentProperties: { otp: '' },
+    props: { otp: '' },
   }),
 };
 
@@ -55,7 +55,7 @@ export const Disabled: Story = {
   render: () => ({
     template: `<mui-input-otp [value]="'483920'" [disabled]="true" />`,
     imports: [InputOtp],
-    componentProperties: {},
+    props: {},
   }),
 };
 
@@ -80,7 +80,7 @@ export const Accessibility: Story = {
       </div>
     `,
     imports: [InputOtp],
-    componentProperties: { otp: '' },
+    props: { otp: '' },
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -90,7 +90,7 @@ export const ReactiveFormBinding: Story = {
   render: () => ({
     template: `<mui-input-otp [length]="4"></mui-input-otp>`,
     imports: [InputOtp],
-    componentProperties: {},
+    props: {},
   }),
 };
 
@@ -110,7 +110,7 @@ export const MobilePreview: Story = {
       </div>
     `,
     imports: [InputOtp],
-    componentProperties: { otp: '' },
+    props: { otp: '' },
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };

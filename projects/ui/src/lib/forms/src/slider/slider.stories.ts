@@ -21,7 +21,7 @@ export const Default: Story = {
   render: () => ({
     template: `<mui-slider [(value)]="val" style="width:280px;" />`,
     imports: [Slider],
-    componentProperties: { val: 40 },
+    props: { val: 40 },
   }),
 };
 
@@ -34,7 +34,7 @@ export const WithStep: Story = {
       </div>
     `,
     imports: [Slider],
-    componentProperties: { val: 50 },
+    props: { val: 50 },
   }),
 };
 
@@ -47,7 +47,7 @@ export const CustomRange: Story = {
       </div>
     `,
     imports: [Slider],
-    componentProperties: { val: 500 },
+    props: { val: 500 },
   }),
 };
 
@@ -64,7 +64,7 @@ export const WithValueDisplay: Story = {
       </div>
     `,
     imports: [Slider],
-    componentProperties: { val: 60 },
+    props: { val: 60 },
   }),
 };
 
@@ -103,7 +103,7 @@ export const Accessibility: Story = {
       </div>
     `,
     imports: [Slider],
-    componentProperties: { vol: 60, price: 150 },
+    props: { vol: 60, price: 150 },
   }),
   parameters: { a11y: { disable: false } },
 };
@@ -127,7 +127,7 @@ export const MobilePreview: Story = {
       </div>
     `,
     imports: [Slider],
-    componentProperties: { brightness: 75, volume: 40 },
+    props: { brightness: 75, volume: 40 },
   }),
   parameters: { viewport: { defaultViewport: 'mobile' } },
 };
