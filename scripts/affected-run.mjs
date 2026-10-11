@@ -9,6 +9,7 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { splitByProject } from './affected-partition.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -22,15 +23,19 @@ const baseIdx = process.argv.indexOf('--base');
 const base = baseIdx !== -1 ? process.argv[baseIdx + 1] : 'origin/main';
 
 const affectedScript = resolve(__dirname, 'affected.mjs');
-const output = execFileSync(
-  process.execPath,
-  [affectedScript, '--base', base, '--mode', mode],
-  { encoding: 'utf8' },
-).trim();
+const output = execFileSync(process.execPath, [affectedScript, '--base', base, '--mode', mode], {
+  encoding: 'utf8',
+}).trim();
 
 function run(command, args) {
   const result = spawnSync(command, args, { stdio: 'inherit' });
   process.exit(result.status ?? 1);
+}
+
+// Like run(), but returns on success so several Nx projects can run in sequence.
+function runOrExit(command, args) {
+  const result = spawnSync(command, args, { stdio: 'inherit' });
+  if (result.status !== 0) process.exit(result.status ?? 1);
 }
 
 if (output === '') {
@@ -44,10 +49,25 @@ if (output === 'ALL') {
 }
 
 const items = output.split('\n').filter(Boolean);
-console.log(`[affected] running ${items.length} affected ${mode} target(s):\n  ${items.join('\n  ')}`);
+console.log(
+  `[affected] running ${items.length} affected ${mode} target(s):\n  ${items.join('\n  ')}`,
+);
 
 if (mode === 'unit') {
-  run('npx', ['nx', 'test', 'ui', '--no-watch', ...items.map((glob) => `--include=${glob}`)]);
+  // Each spec belongs to one Nx project. Running docs specs under `ui` finds no tests and fails.
+  const { ui, docs } = splitByProject(items);
+  if (ui.length) {
+    runOrExit('npx', ['nx', 'test', 'ui', '--no-watch', ...ui.map((glob) => `--include=${glob}`)]);
+  }
+  if (docs.length) {
+    runOrExit('npx', [
+      'nx',
+      'test',
+      'docs',
+      '--no-watch',
+      ...docs.map((glob) => `--include=${glob}`),
+    ]);
+  }
 } else {
   run('npx', ['playwright', 'test', ...items]);
 }
