@@ -1388,5 +1388,15 @@
     "description": "mui-typography renders a styled host with no element or role, so variant h1-h4 gives screen readers no heading. Tracked in #725.",
     "resolved": false,
     "resolvedNote": ""
+  },
+  {
+    "id": "A-18",
+    "severity": "high",
+    "category": "tests",
+    "file": "—",
+    "title": "CI affected-tests runs docs specs under the ui project, failing PRs that touch docs specs",
+    "description": "scripts/affected-run.mjs sends every changed *.spec.ts to nx test ui. Changed projects/docs spec files match no ui test, so nx fails with 'No tests found' on the canonical node job. Seen on PR #732.",
+    "resolved": false,
+    "resolvedNote": ""
   }
 ]
