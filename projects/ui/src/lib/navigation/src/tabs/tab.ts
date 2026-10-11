@@ -31,7 +31,9 @@ import { TABS_CONTEXT } from './tabs';
   },
 })
 export class Tab {
+  /** Value that identifies this tab and its panel. */
   value = input.required<string>();
+  /** Disables this tab. It is skipped by the arrow keys. */
   disabled = input(false, { transform: booleanAttribute });
 
   protected ctx = inject(TABS_CONTEXT);

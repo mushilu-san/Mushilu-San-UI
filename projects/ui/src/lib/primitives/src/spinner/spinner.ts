@@ -30,8 +30,11 @@ const SIZE_PX: Record<SpinnerSize, number> = {
   },
 })
 export class Spinner {
+  /** Spinner size: `sm` (16px) to `xl` (48px). Default `md` (24px). */
   size = input<SpinnerSize>('md');
+  /** Spinner colour from the semantic palette. `inherit` uses the surrounding text colour. */
   color = input<SpinnerColor>('inherit');
+  /** Text announced to screen readers while loading. Default `Loading`. */
   label = input<string>('Loading');
 
   protected readonly svgSize = computed(() => SIZE_PX[this.size()]);

@@ -51,7 +51,9 @@ import { COMBOBOX_CONTEXT } from './combobox';
   },
 })
 export class ComboboxItem {
+  /** Value this option represents. Written to the combobox's `value` model when chosen. */
   value = input.required<string>();
+  /** Disables this option. It cannot be chosen. */
   disabled = input(false, { transform: booleanAttribute });
 
   protected readonly ctx = inject(COMBOBOX_CONTEXT);

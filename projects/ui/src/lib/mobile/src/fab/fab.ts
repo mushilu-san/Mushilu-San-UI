@@ -49,9 +49,12 @@ export class Fab {
   label = input.required<string>();
   /** Show label text alongside the icon (extended FAB pattern). */
   extended = input(false, { transform: booleanAttribute });
+  /** Disables the button. Sets `aria-disabled` and ignores clicks. */
   disabled = input(false, { transform: booleanAttribute });
+  /** Shows a spinner and sets `aria-busy`. Clicks are ignored while loading. */
   loading = input(false, { transform: booleanAttribute });
 
+  /** Emits the native click event unless the button is disabled or loading. */
   readonly clicked = output<MouseEvent>();
 
   protected readonly uid = fabUid++;

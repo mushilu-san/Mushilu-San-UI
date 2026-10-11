@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { Badge } from '@mushilu-san/ui/primitives';
 import type { ApiClass, ApiMember, ApiMemberKind } from '../../../content/api-types';
-import { API_INDEX } from '../../../content/tokens';
+import { API_INDEX } from '../../../content/source-tokens';
 
 interface MemberTable {
   kind: ApiMemberKind;

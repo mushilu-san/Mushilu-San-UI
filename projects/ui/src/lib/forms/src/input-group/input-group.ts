@@ -36,6 +36,8 @@ export const INPUT_GROUP_CONTEXT = new InjectionToken<InputGroupContext>('INPUT_
   },
 })
 export class InputGroup {
+  /** Size of the input and addons inside the group: `sm`, `md` or `lg`. Default `md`. */
   size = input<InputGroupSize>('md');
+  /** Shows the failed-validation style on the whole group. */
   invalid = input(false, { transform: booleanAttribute });
 }

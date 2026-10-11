@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { provideMushiluUi } from '@mushilu-san/ui';
-import { DEMO_SOURCE_INDEX } from '../../../content/tokens';
+import { DEMO_SOURCE_INDEX } from '../../../content/source-tokens';
 import type { DemoRef } from '../../../content/types';
 import { DemoViewer } from './demo-viewer';
 

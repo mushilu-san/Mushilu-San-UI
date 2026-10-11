@@ -33,15 +33,24 @@ let sheetUid = 0;
   host: { '[attr.part]': '"root"' },
 })
 export class Sheet {
+  /** Whether the sheet is open. Two-way bindable with `[(open)]`. */
   open = model(false);
+  /** Edge the sheet slides from: `start`, `end`, `top`, `bottom`, or the physical `left` and `right`. Default `right`. */
   side = input<SheetSide>('right');
+  /** Size along the sheet's main axis: `sm`, `md`, `lg` or `full`. Default `md`. */
   size = input<SheetSize>('md');
+  /** Heading text. Labels the sheet. */
   heading = input<string>();
+  /** Closes the sheet when the backdrop is clicked. Default `true`. */
   closeOnBackdrop = input(true, { transform: booleanAttribute });
+  /** Closes the sheet on Escape. Default `true`. */
   closeOnEscape = input(true, { transform: booleanAttribute });
+  /** Shows the close button in the header. Default `true`. */
   showClose = input(true, { transform: booleanAttribute });
 
+  /** Emits when the sheet opens. */
   readonly opened = output<void>();
+  /** Emits when the sheet closes, however it was closed. */
   readonly closed = output<void>();
 
   protected readonly headingId = `mui-sheet-title-${sheetUid++}`;

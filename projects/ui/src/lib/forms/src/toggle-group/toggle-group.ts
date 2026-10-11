@@ -67,9 +67,13 @@ export const TOGGLE_GROUP_CONTEXT = new InjectionToken<ToggleGroupContext>('TOGG
   },
 })
 export class ToggleGroup {
+  /** `single` allows one pressed item; `multiple` allows several. Default `single`. */
   type = input<ToggleGroupType>('single');
+  /** Size of every item: `sm`, `md` or `lg`. Default `md`. */
   size = input<ToggleGroupSize>('md');
+  /** Visual style: `default` or `outline`. Default `default`. */
   variant = input<ToggleGroupVariant>('default');
+  /** Disables every item in the group. */
   disabled = input(false, { transform: booleanAttribute });
 
   /** For single mode: the selected value (string). For multiple: comma-joined string of selected values. */

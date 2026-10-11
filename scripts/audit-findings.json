@@ -1228,5 +1228,165 @@
     "description": "resizable.stories.ts and sidebar.stories.ts declared imports: IMPORTS inline per-story render() instead of via decorators: [moduleMetadata(...)] at the meta level (the pattern every other multi-component compound story in this repo uses), so ResizablePanel/ResizableHandle and SidebarSection/SidebarItem/SidebarTrigger templates never compiled in the Storybook preview. Same class of bug as B-11 (#248) and B-12 (#251). Discovered while adding E-9 e2e coverage.",
     "resolved": true,
     "resolvedNote": "Fixed in the same commit that discovered it (resizable.stories.ts + sidebar.stories.ts moduleMetadata fix), closed as #254."
+  },
+  {
+    "id": "B-InputGroup-CtxLive",
+    "severity": "high",
+    "category": "bugs",
+    "file": "—",
+    "title": "InputGroup: nested Input component doesn't mount in production/Storybook build",
+    "description": "Confirmed via direct DOM inspection against the live Storybook build: input[muiInput] nested inside <mui-input-group> renders with zero Angular directive traces (no part=\"input\", no data-size, no data-invalid) even though the identical markup passes fully under TestBed-based unit tests (input.spec.ts, input-group.spec.ts). Suspected cause: InputGroup's INPUT_GROUP_CONTEXT provider uses a self-referential useFactory + deps:[InputGroup] pattern (see input-group.ts); the same self-referential pattern works fine for Popover's directive-based trigger (PopoverTrigger, a @Directive not @Component) but Tabs/Tab (working, Component-based) uses the simpler useExisting:Tabs pattern instead. Needs investigation into whether this is specific to Storybook's dynamic render()/imports story pattern or reproduces in a real consuming app's static template + full nx build.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "B-ToggleGroup-CtxLive",
+    "severity": "high",
+    "category": "bugs",
+    "file": "—",
+    "title": "ToggleGroup: nested ToggleGroupItem component doesn't mount in production/Storybook build",
+    "description": "Confirmed by an independent investigation against the live Storybook build: mui-toggle-group-item nested inside <mui-toggle-group> renders as inert plain markup (no button role, no aria-pressed, no _nghost marker), while its sibling mui-toggle-group mounts and applies host bindings correctly. The served JS chunk was checked and contains current source, ruling out a stale build; toggle-group.spec.ts (real ToggleGroup+ToggleGroupItem composition, no mocked DI) passes fully under TestBed, proving the component logic itself is correct in that environment. Same symptom class as B-InputGroup-CtxLive (see that issue): a projected child @Component silently fails to mount specifically where the parent's context token is provided via a self-referential useFactory + deps:[SelfClass] pattern (ToggleGroup uses this; Tabs/Tab, which works, uses the simpler useExisting:Tabs pattern instead). Needs a single combined investigation across both findings to confirm root cause (Storybook-render()-specific vs a real AOT/production build defect) before deciding on a fix (e.g. switching to useExisting-based context provision where the exposed API allows it).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-B-dad290",
+    "severity": "medium",
+    "category": "bugs",
+    "file": "—",
+    "title": "Calendar arrow keys focus Previous-month button instead of active day",
+    "description": "Arrow-key navigation moved focus to the nav button, not button.cal-day[tabindex=0]; fixed on feat/rtl-support",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-B-60460d",
+    "severity": "low",
+    "category": "bugs",
+    "file": "—",
+    "title": "Stories using componentProperties do not bind in Storybook 10",
+    "description": "Slider stories with componentProperties { val: 40 } yield aria-valuenow NaN after key press; use args/render instead",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "H-B-dad290-FOCUS",
+    "severity": "medium",
+    "category": "bugs",
+    "file": "—",
+    "title": "Calendar arrow keys focus Previous-month button instead of active day",
+    "description": "Arrow-key navigation moved focus to the nav button, not the active day (LTR too); fixed on feat/rtl-support",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-7",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Tabs: duplicate DOM ids when two Tabs share values",
+    "description": "tab.ts:39 builds id as mui-tab-${value}; two mui-tabs on one page with same values produce duplicate ids, breaking aria-controls/labelledby. Use a per-instance counter.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-8",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Destructive Button fails WCAG AA contrast in dark theme",
+    "description": "In dark theme, button[muiButton][variant=destructive] renders #ffffff on --mui-color-danger (red-500 #ef4444) = 3.76:1, below the 4.5:1 AA minimum for normal text. Found by docs axe E2E (Task 17); fix by darkening dark-theme --mui-color-danger or its text token.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-9",
+    "severity": "low",
+    "category": "bugs",
+    "file": "—",
+    "title": "Tabs: tab list overflows its box by 2px, showing a vertical scrollbar",
+    "description": "Found while building the docs site (Task 19): mui-tab-list is ~2px taller than its box so a vertical scrollbar appears in Tabs demos. Docs viewer hides it; library CSS needs a fix (likely overflow/border-box on tab-list).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-10",
+    "severity": "high",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Badge: danger variant text fails WCAG AA contrast in light theme",
+    "description": "Light-theme mui-badge variant=danger uses --mui-color-danger (red-600 #dc2626) on --mui-color-danger-subtle (red-50 #fef2f2): 4.41:1, below 4.5:1. Found by the new docs axe e2e for /components/badge/.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-13",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Command: listbox has no name and wraps groups, shortcut text fails contrast",
+    "description": "CommandList is role=listbox with no accessible name, and CommandGroup (role=group) sits directly inside it, so aria-required-children fails. The .mui-command-item__shortcut text fails 4.5:1 in light theme. Found by the docs axe e2e.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-14",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Resizable: focusable separator handle has no aria-valuenow",
+    "description": "mui-resizable-handle is role=separator and focusable, but has no aria-valuenow (required for a focusable separator by ARIA 1.2). Found by the docs axe e2e.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-15",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Scroll area: scrollable viewport is not keyboard focusable",
+    "description": "mui-scroll-area viewport scrolls its content but cannot receive focus, so keyboard users cannot scroll it without tabindex. Found by the docs axe e2e (scrollable-region-focusable).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-16",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Slider: thumb has no accessible name",
+    "description": "The role=slider thumb has no name. aria-label set on mui-slider stays on the host and does not reach the thumb. Found by the docs axe e2e (aria-input-field-name).",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-17",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Swipe action: listitem role sits on the inner track, so role=list parents have invalid children",
+    "description": "The role=listitem is on .mui-swipe-action__track, not on the mui-swipe-action host, so a role=list container holds a child with no listitem role (aria-required-children). Found by the docs axe e2e.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-11",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Form controls set data-invalid but not aria-invalid",
+    "description": "checkbox, input, select and textarea expose the invalid state only as data-invalid (styling). Screen readers get no invalid state. Tracked in #724.",
+    "resolved": false,
+    "resolvedNote": ""
+  },
+  {
+    "id": "A-12",
+    "severity": "medium",
+    "category": "accessibility",
+    "file": "—",
+    "title": "Typography: variant headings have no heading semantics",
+    "description": "mui-typography renders a styled host with no element or role, so variant h1-h4 gives screen readers no heading. Tracked in #725.",
+    "resolved": false,
+    "resolvedNote": ""
   }
 ]

@@ -165,9 +165,13 @@ const ICONS: Record<IconName, IconData> = {
   },
 })
 export class Icon {
+  /** Name of the built-in icon to draw. */
   name = input.required<IconName>();
+  /** Icon size: `xs` (12px) to `xl` (32px). Default `md` (20px). */
   size = input<IconSize>('md');
+  /** Icon colour from the semantic palette. `inherit` uses the surrounding text colour. */
   color = input<IconColor>('inherit');
+  /** Accessible name. When set the icon is announced as an image; when empty it is hidden from assistive technology. */
   label = input<string>();
   /** Flip horizontally in RTL. Use for directional icons (chevrons, arrows). */
   mirror = input(false, { transform: booleanAttribute });

@@ -24,5 +24,6 @@ export type TypographyVariant =
   },
 })
 export class Typography {
+  /** Type style: `h1`–`h4`, `p`, `lead`, `large`, `small`, `muted`, `code` or `blockquote`. Default `p`. */
   variant = input<TypographyVariant>('p');
 }

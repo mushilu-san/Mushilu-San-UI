@@ -51,11 +51,16 @@ import type { DropdownItemColor } from './dropdown-menu.types';
   host: { '[attr.part]': '"item"' },
 })
 export class DropdownItem {
+  /** Colour of the item: `default` or `danger` for destructive actions. Default `default`. */
   color = input<DropdownItemColor>('default');
+  /** Disables the item. It is skipped by the arrow keys. */
   disabled = input(false, { transform: booleanAttribute });
+  /** Keyboard shortcut shown on the right, for display only. */
   shortcut = input<string>();
+  /** Reserves space on the left for an icon in a `slot="icon"` element. */
   hasIcon = input(false, { transform: booleanAttribute });
 
+  /** Emits when the item is chosen. */
   readonly itemClick = output<void>();
 
   private readonly ctx = inject(DROPDOWN_MENU_CONTEXT);

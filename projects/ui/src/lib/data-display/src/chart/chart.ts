@@ -36,9 +36,13 @@ const prefersReducedMotion =
   },
 })
 export class Chart implements AfterViewInit, OnDestroy {
+  /** Chart kind: `bar`, `line`, `pie`, `doughnut`, and other Chart.js types. Default `bar`. */
   type = input<ChartType>('bar');
+  /** Data set in the Chart.js format: `labels` and `datasets`. */
   data = input.required<ChartData>();
+  /** Chart.js options passed through to the chart. */
   options = input<PortableChartOptions>({});
+  /** Accessible name of the figure, describing what is shown. Default `Chart`. */
   label = input<string>('Chart');
 
   private readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvasRef');

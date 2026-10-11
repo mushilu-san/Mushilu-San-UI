@@ -58,9 +58,10 @@
   color: var(--mui-color-warning-text);
 }
 
+/* Text uses -hover (red-700 light, red-400 dark): red-600 on red-50 is 4.41:1, below WCAG AA. */
 :host([data-variant='danger']) {
   background-color: var(--mui-color-danger-subtle);
-  color: var(--mui-color-danger);
+  color: var(--mui-color-danger-hover);
 }
 
 :host([data-variant='info']) {

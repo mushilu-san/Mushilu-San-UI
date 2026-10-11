@@ -65,10 +65,14 @@ export const CONTEXT_MENU_CONTEXT = new InjectionToken<ContextMenuContext>('CONT
   },
 })
 export class ContextMenu {
+  /** Whether the menu is open. Two-way bindable with `[(open)]`. */
   open = model(false);
+  /** Closes the menu after an item is chosen. Default `true`. */
   closeOnSelect = input(true, { transform: booleanAttribute });
 
+  /** Emits when the menu opens. */
   readonly opened = output<void>();
+  /** Emits when the menu closes, however it was closed. */
   readonly closed = output<void>();
 
   protected readonly panelX = signal(0);

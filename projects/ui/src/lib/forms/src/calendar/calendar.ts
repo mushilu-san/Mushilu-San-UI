@@ -51,10 +51,15 @@ interface CalDay {
   host: { '[attr.part]': '"root"' },
 })
 export class Calendar implements ControlValueAccessor {
+  /** Earliest selectable date. Days before it are disabled. */
   minDate = input<Date | null>(null);
+  /** Latest selectable date. Days after it are disabled. */
   maxDate = input<Date | null>(null);
+  /** BCP 47 locale used for month and weekday names. Default `en-US`. */
   locale = input('en-US');
+  /** Disables the whole calendar. */
   disabled = input(false, { transform: booleanAttribute });
+  /** Selected date, or `null` when none is chosen. Two-way bindable with `[(value)]`. */
   value = model<Date | null>(null);
 
   protected readonly uid = `cal-${++nextId}`;

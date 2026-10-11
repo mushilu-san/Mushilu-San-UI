@@ -18,6 +18,7 @@ import { SIDEBAR_CONTEXT } from './sidebar-context';
   host: { '[attr.part]': '"section"' },
 })
 export class SidebarSection {
+  /** Heading text for the section. Decorative in the accessibility tree. */
   label = input('');
 
   private readonly ctx = inject(SIDEBAR_CONTEXT);

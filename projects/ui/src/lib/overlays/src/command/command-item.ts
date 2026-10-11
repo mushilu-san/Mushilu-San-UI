@@ -46,10 +46,14 @@ import { COMMAND_CONTEXT } from './command';
 export class CommandItem {
   /** The searchable value for this item. Filters against ctx.search(). */
   value = input.required<string>();
+  /** Disables the item. It cannot be highlighted or run. */
   disabled = input(false, { transform: booleanAttribute });
+  /** Marks the item as highlighted. Set by the keyboard handling. */
   selected = input(false, { transform: booleanAttribute });
+  /** Keyboard shortcut shown on the right, for display only. */
   shortcut = input<string>();
 
+  /** Emits the item's `value` when it is run. */
   readonly activated = output<string>();
 
   protected readonly ctx = inject(COMMAND_CONTEXT);

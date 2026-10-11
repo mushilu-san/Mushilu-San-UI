@@ -25,8 +25,11 @@ import { RESIZABLE_GROUP_CONTEXT, ResizablePanelRegistration } from './resizable
   },
 })
 export class ResizablePanel implements OnInit, OnDestroy {
+  /** Initial size as a percentage of the group. Default `50`. */
   defaultSize = input(50, { transform: numberAttribute });
+  /** Smallest size the user can drag this panel to, as a percentage. Default `10`. */
   minSize = input(10, { transform: numberAttribute });
+  /** Largest size the user can drag this panel to, as a percentage. Default `90`. */
   maxSize = input(90, { transform: numberAttribute });
 
   private readonly ctx = inject(RESIZABLE_GROUP_CONTEXT);

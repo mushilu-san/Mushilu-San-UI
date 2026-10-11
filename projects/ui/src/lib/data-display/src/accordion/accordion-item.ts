@@ -31,6 +31,7 @@ let itemUid = 0;
 export class AccordionItem {
   /** Visible heading text of the trigger button. */
   heading = input.required<string>();
+  /** Disables this item so it cannot be opened. */
   disabled = input(false, { transform: booleanAttribute });
 
   protected readonly triggerId = `mui-accordion-trigger-${itemUid}`;

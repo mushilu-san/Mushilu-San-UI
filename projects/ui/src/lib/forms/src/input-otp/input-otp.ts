@@ -38,10 +38,13 @@ import { resolveDirection, useCva } from '@mushilu-san/ui';
   },
 })
 export class InputOtp implements ControlValueAccessor {
+  /** Number of characters, and therefore boxes. Default `6`. */
   length = input(6, { transform: numberAttribute });
+  /** Disables every box. */
   disabled = input(false, { transform: booleanAttribute });
   /** Initial / externally controlled value. Use [(value)] for two-way binding. */
   value = input('');
+  /** Emits the full code each time a character changes. */
   valueChange = output<string>();
 
   private readonly el = inject(ElementRef<HTMLElement>);

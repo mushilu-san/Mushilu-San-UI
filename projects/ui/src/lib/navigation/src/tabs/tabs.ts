@@ -28,7 +28,9 @@ let nextTabsUid = 0;
   providers: [{ provide: TABS_CONTEXT, useExisting: Tabs }],
 })
 export class Tabs {
+  /** Value of the selected tab. Two-way bindable with `[(activeTab)]`. */
   activeTab = model<string>('');
+  /** Whether the tab list runs horizontally or vertically. Default `horizontal`. */
   orientation = input<TabsOrientation>('horizontal');
   readonly uid = `t${++nextTabsUid}`;
 }

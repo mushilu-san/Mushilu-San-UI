@@ -68,11 +68,16 @@ export const COMBOBOX_CONTEXT = new InjectionToken<ComboboxContext>('COMBOBOX_CO
   },
 })
 export class Combobox {
+  /** Value of the chosen item. Two-way bindable with `[(value)]`. */
   value = model('');
+  /** Text shown in the trigger when nothing is chosen. Default `Select…`. */
   placeholder = input('Select…');
+  /** Disables the trigger. */
   disabled = input(false, { transform: booleanAttribute });
 
+  /** Emits when the panel opens. */
   readonly opened = output<void>();
+  /** Emits when the panel closes. */
   readonly closed = output<void>();
 
   protected readonly open = signal(false);

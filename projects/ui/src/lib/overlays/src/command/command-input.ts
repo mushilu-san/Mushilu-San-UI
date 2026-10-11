@@ -46,6 +46,7 @@ import { COMMAND_CONTEXT } from './command';
   host: { '[attr.part]': '"input-root"' },
 })
 export class CommandInput {
+  /** Hint text shown while the search is empty. Default `Search…`. */
   placeholder = input('Search…');
   protected readonly ctx = inject(COMMAND_CONTEXT);
 

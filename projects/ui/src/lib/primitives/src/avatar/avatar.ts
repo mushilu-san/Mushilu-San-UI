@@ -36,9 +36,13 @@ export class Avatar {
    * for passing trusted/validated URLs, especially user-generated ones.
    */
   src = input<string>();
+  /** Full name. Used for the initials fallback and, when no `label` is set, the accessible name. */
   name = input<string>('');
+  /** Accessible name. Overrides `name` for screen readers. */
   label = input<string>('');
+  /** Avatar size: `xs` to `xl`. Default `md`. */
   size = input<AvatarSize>('md');
+  /** Avatar shape: `circle` or `square`. Default `circle`. */
   shape = input<AvatarShape>('circle');
 
   protected readonly imgError = signal(false);

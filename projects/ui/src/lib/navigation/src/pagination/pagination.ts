@@ -28,12 +28,19 @@ import type { PaginationSize, PaginationVariant } from './pagination.types';
   },
 })
 export class Pagination {
+  /** Current page, starting at 1. Two-way bindable with `[(page)]`. */
   page = model<number>(1);
+  /** Total number of pages. */
   totalPages = input.required<number, number>({ transform: numberAttribute });
+  /** Number of page buttons shown on each side of the current page. Default `1`. */
   siblingCount = input(1, { transform: numberAttribute });
+  /** Shows the first and last page buttons next to the ellipses. Default `true`. */
   showFirstLast = input(true, { transform: booleanAttribute });
+  /** Button size: `sm`, `md` or `lg`. Default `md`. */
   size = input<PaginationSize>('md');
+  /** Visual style: `default` or `outline`. Default `default`. */
   variant = input<PaginationVariant>('default');
+  /** Accessible name of the navigation landmark. Default `Pagination`. */
   ariaLabel = input<string>('Pagination');
 
   protected pages = computed(() => this.buildPages());

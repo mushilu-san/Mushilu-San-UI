@@ -30,6 +30,7 @@ import { RESIZABLE_GROUP_CONTEXT } from './resizable-context';
   },
 })
 export class ResizableHandle {
+  /** Shows a visible grip on the separator. */
   withHandle = input(false, { transform: booleanAttribute });
 
   private readonly ctx = inject(RESIZABLE_GROUP_CONTEXT);

@@ -23,7 +23,10 @@ import type { NavLinkSize, NavLinkVariant } from './nav-link.types';
   },
 })
 export class NavLink {
+  /** Visual style: `default` for plain text links, `primary` for emphasised links. */
   variant = input<NavLinkVariant>('default');
+  /** Link text size: `sm`, `md` or `lg`. Default `md`. */
   size = input<NavLinkSize>('md');
+  /** Marks the link as the current page with `aria-current="page"`. */
   active = input(false, { transform: booleanAttribute });
 }

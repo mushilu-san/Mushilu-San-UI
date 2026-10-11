@@ -29,12 +29,16 @@ import type { ToastVariant } from './toast.types';
   },
 })
 export class Toast implements OnInit, OnDestroy {
+  /** Meaning of the toast: `info`, `success`, `warning` or `danger`. Default `info`. */
   variant = input<ToastVariant>('info');
+  /** Body text of the toast. */
   message = input<string>('');
+  /** Optional short heading above the message. */
   heading = input<string>();
   /** ms before auto-dismiss; 0 disables the timer. */
   duration = input(5000, { transform: numberAttribute });
 
+  /** Emits when the toast is dismissed, by timer or by the user. */
   readonly dismissed = output<void>();
 
   private timer: ReturnType<typeof setTimeout> | null = null;

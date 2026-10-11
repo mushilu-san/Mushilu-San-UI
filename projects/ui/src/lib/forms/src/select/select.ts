@@ -22,7 +22,10 @@ import type { SelectSize, SelectVariant } from './select.types';
   },
 })
 export class Select {
+  /** Select height and text size: `sm`, `md` or `lg`. Default `md`. */
   size = input<SelectSize>('md');
+  /** Visual style: `outline`, `filled` or `ghost`. Default `outline`. */
   variant = input<SelectVariant>('outline');
+  /** Shows the failed-validation style and sets `data-invalid`. Does not set `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
 }

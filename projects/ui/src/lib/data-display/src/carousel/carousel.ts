@@ -39,9 +39,13 @@ import { CAROUSEL_CONTEXT, CarouselContext } from './carousel-context';
   },
 })
 export class Carousel implements CarouselContext, OnInit, OnDestroy {
+  /** Index of the visible slide, starting at 0. Two-way bindable with `[(active)]`. */
   active = model(0);
+  /** Wraps from the last slide to the first and back. Default `false`. */
   loop = input(false, { transform: booleanAttribute });
+  /** Advances to the next slide every N milliseconds. `0` turns auto-play off. Default `0`. */
   autoPlay = input(0, { transform: numberAttribute });
+  /** Accessible name of the carousel region. Default `Carousel`. */
   label = input('Carousel');
 
   private readonly _count = signal(0);

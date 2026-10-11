@@ -32,6 +32,7 @@ import { NAV_MENU_CONTEXT, NavMenuContext } from './navigation-menu-context';
   },
 })
 export class NavigationMenu implements NavMenuContext {
+  /** Accessible name of the navigation landmark. Default `Main navigation`. */
   label = input('Main navigation');
 
   private readonly el = inject(ElementRef<HTMLElement>);

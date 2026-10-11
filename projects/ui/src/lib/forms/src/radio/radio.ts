@@ -14,5 +14,6 @@ import type { RadioSize } from './radio.types';
   },
 })
 export class Radio {
+  /** Radio size: `sm`, `md` or `lg`. Default `md`. */
   size = input<RadioSize>('md');
 }

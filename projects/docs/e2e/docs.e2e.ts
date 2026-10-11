@@ -1,13 +1,15 @@
 import { type ConsoleMessage, expect, test } from '@playwright/test';
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
+// Every component page and group page is loaded, so a broken demo fails the suite.
+const componentSlugs = readdirSync(join(__dirname, '..', 'src', 'content', 'components')).sort();
 const ROUTES = [
   '/',
   '/getting-started/',
   '/components/',
   '/components/group/navigation/',
-  '/components/button/',
-  '/components/dialog/',
-  '/components/tabs/',
+  ...componentSlugs.map((slug) => `/components/${slug}/`),
 ];
 
 for (const route of ROUTES) {

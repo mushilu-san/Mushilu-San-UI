@@ -28,5 +28,6 @@ export type ScrollAreaOrientation = 'vertical' | 'horizontal' | 'both';
   },
 })
 export class ScrollArea {
+  /** Which axes scroll: `vertical`, `horizontal` or `both`. Default `vertical`. */
   orientation = input<ScrollAreaOrientation>('vertical');
 }

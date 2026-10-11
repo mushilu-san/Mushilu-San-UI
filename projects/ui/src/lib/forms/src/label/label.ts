@@ -20,7 +20,10 @@ import {
   },
 })
 export class Label {
+  /** Id of the control this label names. Sets the `for` attribute. */
   for = input<string>();
+  /** Shows a required marker after the text. The marker is decorative; set `required` on the control too. */
   required = input(false, { transform: booleanAttribute });
+  /** Dims the label to match a disabled control. */
   disabled = input(false, { transform: booleanAttribute });
 }
