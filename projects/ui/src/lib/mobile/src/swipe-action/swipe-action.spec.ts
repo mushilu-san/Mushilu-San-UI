@@ -273,4 +273,13 @@ describe('SwipeAction', () => {
       expect(track.style.transition).toBe('transform 220ms ease');
     });
   });
+
+  it('H-A11Y-730: the row host is the listitem', async () => {
+    await renderTemplate('<mui-swipe-action [actions]="actions" />', {
+      imports: [SwipeAction],
+      componentProperties: { actions: [{ key: 'del', label: 'Delete', side: 'end' }] },
+    });
+    expect(document.querySelector('mui-swipe-action')).toHaveAttribute('role', 'listitem');
+    expect(document.querySelector('.mui-swipe-action__track')).not.toHaveAttribute('role');
+  });
 });

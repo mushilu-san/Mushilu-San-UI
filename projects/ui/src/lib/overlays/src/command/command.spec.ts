@@ -194,7 +194,7 @@ describe('CommandEmpty', () => {
     expect(emptyHost.style.display).toBe('contents');
   });
 
-  it('has role="status" for screen readers', async () => {
+  it('announces the empty state politely (no role inside the listbox, #726)', async () => {
     await renderTemplate(
       `<mui-command>
         <mui-command-list>
@@ -203,7 +203,7 @@ describe('CommandEmpty', () => {
       </mui-command>`,
       { imports: IMPORTS },
     );
-    expect(screen.getByRole('status')).toBeInTheDocument();
+    expect(document.querySelector('.mui-command-empty')).toHaveAttribute('aria-live', 'polite');
   });
 
   it('remains visible (display not none) when search term yields no matching items', async () => {

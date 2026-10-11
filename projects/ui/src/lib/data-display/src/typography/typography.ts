@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  input,
+} from '@angular/core';
 
 export type TypographyVariant =
   'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'lead' | 'large' | 'small' | 'muted' | 'code' | 'blockquote';
@@ -20,10 +26,21 @@ export type TypographyVariant =
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[attr.data-variant]': 'variant()',
+    '[attr.role]': 'headingLevel() ? "heading" : null',
+    '[attr.aria-level]': 'headingLevel()',
     '[attr.part]': '"root"',
   },
 })
 export class Typography {
   /** Type style: `h1`–`h4`, `p`, `lead`, `large`, `small`, `muted`, `code` or `blockquote`. Default `p`. */
   variant = input<TypographyVariant>('p');
+
+  /**
+   * Heading levels are exposed as `role="heading"` so screen readers see the outline (#725).
+   * The text stays a styled host, so nothing is wrapped in a native heading element.
+   */
+  protected readonly headingLevel = computed(() => {
+    const v = this.variant();
+    return v === 'h1' || v === 'h2' || v === 'h3' || v === 'h4' ? Number(v.slice(1)) : null;
+  });
 }

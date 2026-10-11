@@ -55,7 +55,7 @@ export const doc: ComponentDoc = {
       { keys: 'PageUp / PageDown', action: 'Move by a larger increment.' },
       { keys: 'Home / End', action: 'Jump to the minimum and maximum.' },
     ],
-    notes: ['Name the slider with `aria-label` or a `<label>` that targets the thumb.'],
+    notes: ['Name the slider with the `label` input. It sets the accessible name of the thumb.'],
   },
   tokens: [
     '--mui-color-primary',

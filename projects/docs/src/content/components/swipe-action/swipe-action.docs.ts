@@ -36,7 +36,11 @@ export const doc: ComponentDoc = {
   },
   a11y: {
     roles: [
-      { element: 'row', role: 'listitem', notes: 'The track is a listitem inside your list.' },
+      {
+        element: 'row',
+        role: 'listitem',
+        notes: 'The host is the list item, so put rows inside a list.',
+      },
       {
         element: 'more actions button',
         role: 'button',

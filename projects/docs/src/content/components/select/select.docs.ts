@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   summary: 'A native dropdown for choosing one value from a fixed list.',
   description: [
     'Select is applied to a native `<select>`, so the browser handles keyboard and mobile pickers. It keeps the native role and all option behaviour.',
-    'As with Input, `invalid` only adds `data-invalid`. Set `aria-invalid="true"` yourself when the choice fails validation.',
+    'As with Input, `invalid` also sets `aria-invalid="true"`, so the failed choice is announced.',
   ],
   whenToUse: [
     'Choosing one value from a list of about 5 to 20 items.',
@@ -43,7 +43,7 @@ export const doc: ComponentDoc = {
       {
         element: 'select[muiSelect]',
         role: 'combobox (native)',
-        notes: '`invalid` adds `data-invalid` only.',
+        notes: '`invalid` sets `data-invalid` and `aria-invalid="true"`.',
       },
     ],
     keyboard: [

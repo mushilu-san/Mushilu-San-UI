@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   summary: 'A single-line text field with sizes, visual variants and an invalid state.',
   description: [
     'Input is applied to a native `<input>`, so it keeps the native role, value handling and autofill. Pair it with a `<label>` or a [Form field](form-field).',
-    'Set `invalid` for the failed-validation styling. The component adds `data-invalid` only, so also set `aria-invalid="true"` and link an error message with `aria-describedby`.',
+    'Set `invalid` for the failed-validation styling. It also sets `aria-invalid="true"`, so screen readers announce the state. Link an error message with `aria-describedby`.',
   ],
   whenToUse: [
     'Collecting a short piece of text, such as a name, email or search term.',
@@ -46,7 +46,7 @@ export const doc: ComponentDoc = {
       {
         element: 'input[muiInput]',
         role: 'textbox (native)',
-        notes: '`invalid` adds `data-invalid` only. Set `aria-invalid="true"` yourself.',
+        notes: '`invalid` sets `data-invalid` and `aria-invalid="true"`.',
       },
     ],
     keyboard: [{ keys: 'Tab / Shift+Tab', action: 'Moves focus to and from the field.' }],

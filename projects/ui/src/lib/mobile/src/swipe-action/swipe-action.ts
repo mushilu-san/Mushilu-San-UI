@@ -40,6 +40,8 @@ const MAX_OVERSCROLL = 16; // px of rubber-band past the action rail
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
+    // The row is the list item, so a role=list parent has valid children (#730).
+    role: 'listitem',
     '[attr.part]': '"root"',
     '[attr.data-revealed]': 'revealedSide() ?? null',
   },

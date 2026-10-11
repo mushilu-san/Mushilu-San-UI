@@ -17,6 +17,7 @@ function makeCtx(): { ctx: ResizableGroupContext; sizes: WritableSignal<number>[
     unregisterPanel: vi.fn(),
     startResize: vi.fn(),
     resizeByPercent: vi.fn(),
+    handleValue: vi.fn(() => 50),
   };
   return { ctx, sizes };
 }

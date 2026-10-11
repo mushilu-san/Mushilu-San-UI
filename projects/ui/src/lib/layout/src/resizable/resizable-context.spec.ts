@@ -16,6 +16,7 @@ describe('ResizableGroupContext', () => {
       unregisterPanel: vi.fn(),
       startResize: vi.fn(),
       resizeByPercent: vi.fn(),
+      handleValue: vi.fn(() => 50),
     };
     TestBed.configureTestingModule({
       providers: [{ provide: RESIZABLE_GROUP_CONTEXT, useValue: ctx }],

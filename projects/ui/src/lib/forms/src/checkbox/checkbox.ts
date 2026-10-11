@@ -17,12 +17,13 @@ import type { CheckboxSize } from './checkbox.types';
   host: {
     '[attr.data-size]': 'size()',
     '[attr.data-invalid]': 'invalid() || null',
+    '[attr.aria-invalid]': 'invalid() || null',
     '[attr.part]': '"checkbox"',
   },
 })
 export class Checkbox {
   /** Checkbox size: `sm`, `md` or `lg`. Default `md`. */
   size = input<CheckboxSize>('md');
-  /** Shows the failed-validation style and sets `data-invalid`. Does not set `aria-invalid`. */
+  /** Shows the failed-validation style and sets `data-invalid`. Also sets `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
 }

@@ -15,7 +15,7 @@ export type ScrollAreaOrientation = 'vertical' | 'horizontal' | 'both';
   selector: 'mui-scroll-area',
   standalone: true,
   template: `
-    <div class="mui-scroll-area__viewport" part="viewport">
+    <div class="mui-scroll-area__viewport" part="viewport" tabindex="0">
       <ng-content />
     </div>
   `,

@@ -43,4 +43,15 @@ describe('Input (muiInput directive)', () => {
     await renderTemplate('<input muiInput aria-label="Email" />', { imports: [Input] });
     expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
   });
+
+  // #724: invalid state must reach assistive technology, not only the stylesheet.
+  it('H-A11Y-724: sets aria-invalid when invalid', async () => {
+    await renderTemplate('<input muiInput invalid />', { imports: [Input] });
+    expect(document.querySelector('input')).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('H-A11Y-724: omits aria-invalid when valid', async () => {
+    await renderTemplate('<input muiInput />', { imports: [Input] });
+    expect(document.querySelector('input')).not.toHaveAttribute('aria-invalid');
+  });
 });
