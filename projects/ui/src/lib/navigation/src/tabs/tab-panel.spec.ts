@@ -10,6 +10,7 @@ function makeCtx(activeTab = 'a'): Tabs {
   return {
     activeTab: signal(activeTab),
     orientation: signal('horizontal'),
+    uid: 't0',
   } as unknown as Tabs;
 }
 
@@ -31,20 +32,20 @@ describe('TabPanel (isolated)', () => {
     expect(document.querySelector('mui-tab-panel')).toHaveAttribute('hidden');
   });
 
-  it('sets id to mui-tabpanel-<value>', async () => {
+  it('sets id to mui-<uid>-tabpanel-<value>', async () => {
     await renderTemplate('<mui-tab-panel value="a">Panel A</mui-tab-panel>', {
       imports: [TabPanel],
       providers: [{ provide: TABS_CONTEXT, useValue: makeCtx('a') }],
     });
-    expect(screen.getByRole('tabpanel')).toHaveAttribute('id', 'mui-tabpanel-a');
+    expect(screen.getByRole('tabpanel')).toHaveAttribute('id', 'mui-t0-tabpanel-a');
   });
 
-  it('sets aria-labelledby to mui-tab-<value>', async () => {
+  it('sets aria-labelledby to mui-<uid>-tab-<value>', async () => {
     await renderTemplate('<mui-tab-panel value="a">Panel A</mui-tab-panel>', {
       imports: [TabPanel],
       providers: [{ provide: TABS_CONTEXT, useValue: makeCtx('a') }],
     });
-    expect(screen.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', 'mui-tab-a');
+    expect(screen.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', 'mui-t0-tab-a');
   });
 
   it('has tabindex=0', async () => {
