@@ -25,7 +25,9 @@ import { SIDEBAR_CONTEXT } from './sidebar-context';
   },
 })
 export class SidebarItem {
+  /** Text of the item. Shown only while the sidebar is expanded. */
   label = input('');
+  /** Marks the current page with `aria-current="page"`. */
   active = input(false, { transform: booleanAttribute });
 
   private readonly ctx = inject(SIDEBAR_CONTEXT);

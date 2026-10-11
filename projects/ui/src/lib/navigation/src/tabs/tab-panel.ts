@@ -26,6 +26,7 @@ import { TABS_CONTEXT } from './tabs';
   },
 })
 export class TabPanel {
+  /** Value of the tab that controls this panel. */
   value = input.required<string>();
 
   private ctx = inject(TABS_CONTEXT);

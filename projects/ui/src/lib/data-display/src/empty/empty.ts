@@ -23,6 +23,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
   },
 })
 export class Empty {
+  /** Short heading that says what is missing. */
   title = input<string>();
+  /** Explanation of why the area is empty and what to do next. */
   description = input<string>();
 }

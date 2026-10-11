@@ -42,7 +42,9 @@ import { TOGGLE_GROUP_CONTEXT } from './toggle-group';
   host: { '[attr.part]': '"root"' },
 })
 export class ToggleGroupItem {
+  /** Value this item represents. It is the value written to the group's `value` model. */
   value = input.required<string>();
+  /** Disables this item only. */
   disabled = input(false, { transform: booleanAttribute });
 
   protected readonly ctx = inject(TOGGLE_GROUP_CONTEXT);

@@ -31,8 +31,11 @@ import { SIDEBAR_CONTEXT, SidebarContext } from './sidebar-context';
   },
 })
 export class Sidebar implements SidebarContext {
+  /** Whether the sidebar shows its labels. Two-way bindable with `[(expanded)]`. */
   expanded = model(true);
+  /** Accessible name of the navigation landmark. Default `Sidebar navigation`. */
   label = input('Sidebar navigation');
+  /** Allows the trigger to collapse the sidebar. Default `true`. */
   collapsible = input(true, { transform: booleanAttribute });
 
   toggle(): void {

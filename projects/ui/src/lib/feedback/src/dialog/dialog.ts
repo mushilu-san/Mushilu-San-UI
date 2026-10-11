@@ -30,11 +30,16 @@ export class Dialog {
   open = model(false);
   /** Bold heading; wires up aria-labelledby when present. */
   heading = input<string>();
+  /** Width of the dialog: `sm`, `md` or `lg`. Default `md`. */
   size = input<DialogSize>('md');
+  /** Closes the dialog when the backdrop is clicked. Default `true`. */
   closeOnBackdrop = input(true, { transform: booleanAttribute });
+  /** Closes the dialog on Escape. Default `true`. */
   closeOnEscape = input(true, { transform: booleanAttribute });
 
+  /** Emits when the dialog opens. */
   readonly opened = output<void>();
+  /** Emits when the dialog closes, however it was closed. */
   readonly closed = output<void>();
 
   protected readonly headingId = `mui-dialog-title-${dialogUid++}`;

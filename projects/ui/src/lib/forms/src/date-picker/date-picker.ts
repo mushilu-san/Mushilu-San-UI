@@ -46,11 +46,17 @@ function norm(d: Date): Date {
   },
 })
 export class DatePicker implements ControlValueAccessor {
+  /** Text shown in the trigger when no date is chosen. Default `Pick a date`. */
   placeholder = input('Pick a date');
+  /** Earliest selectable date. Days before it are disabled. */
   minDate = input<Date | null>(null);
+  /** Latest selectable date. Days after it are disabled. */
   maxDate = input<Date | null>(null);
+  /** BCP 47 locale used to format the date and calendar names. Default `en-US`. */
   locale = input('en-US');
+  /** Disables the trigger and the calendar. */
   disabled = input(false, { transform: booleanAttribute });
+  /** Selected date, or `null` when none is chosen. Two-way bindable with `[(value)]`. */
   value = model<Date | null>(null);
 
   protected readonly uid = `dp-${++nextId}`;

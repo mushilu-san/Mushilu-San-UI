@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/angular';
 import { provideMushiluUi } from '@mushilu-san/ui';
 import type { ApiIndex } from '../../../content/api-types';
-import { API_INDEX } from '../../../content/tokens';
+import { API_INDEX } from '../../../content/source-tokens';
 import { ApiReference } from './api-reference';
 
 const api: ApiIndex = {

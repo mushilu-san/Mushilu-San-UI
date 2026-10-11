@@ -38,10 +38,14 @@ import type { ContextMenuItemColor } from './context-menu.types';
   host: { '[attr.part]': '"item"' },
 })
 export class ContextMenuItem {
+  /** Disables the item. It is skipped by the arrow keys. */
   disabled = input(false, { transform: booleanAttribute });
+  /** Colour of the item: `default` or `danger`. Default `default`. */
   color = input<ContextMenuItemColor>('default');
+  /** Keyboard shortcut shown on the right, for display only. */
   shortcut = input<string>();
 
+  /** Emits when the item is chosen. */
   readonly selected = output<void>();
 
   private readonly ctx = inject(CONTEXT_MENU_CONTEXT);

@@ -44,6 +44,7 @@ interface PanelEntry {
   },
 })
 export class ResizablePanelGroup implements ResizableGroupContext, OnDestroy {
+  /** Layout axis: `horizontal` places panels side by side, `vertical` stacks them. Default `horizontal`. */
   direction = input<'horizontal' | 'vertical'>('horizontal');
 
   private readonly el = inject(ElementRef<HTMLElement>);

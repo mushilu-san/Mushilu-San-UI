@@ -24,9 +24,11 @@ import type { SkeletonVariant } from './skeleton.types';
   },
 })
 export class Skeleton {
+  /** Shape of the placeholder: `text` lines, a `rect` or a `circle`. Default `text`. */
   variant = input<SkeletonVariant>('text');
   /** CSS size, e.g. "200px" or "100%". For circle, used as the diameter. */
   width = input<string>();
+  /** Height of the placeholder as a CSS length. */
   height = input<string>();
   /** Number of placeholder lines (text variant only). */
   lines = input(1, { transform: numberAttribute });

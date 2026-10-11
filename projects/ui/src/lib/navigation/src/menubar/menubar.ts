@@ -30,6 +30,7 @@ import { MENUBAR_CONTEXT, MenubarContext } from './menubar-context';
   },
 })
 export class Menubar implements MenubarContext {
+  /** Accessible name of the menubar. Default `Menu bar`. */
   label = input('Menu bar');
 
   private readonly el = inject(ElementRef<HTMLElement>);

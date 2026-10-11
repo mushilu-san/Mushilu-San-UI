@@ -33,10 +33,15 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
   },
 })
 export class Progress {
+  /** Current value. Clamped between 0 and `max`. Default `0`. */
   value = input(0, { transform: numberAttribute });
+  /** Value that means complete. Default `100`. */
   max = input(100, { transform: numberAttribute });
+  /** Shape of the indicator: `linear` bar or `circular` ring. Default `linear`. */
   variant = input<ProgressVariant>('linear');
+  /** Indicator size: `sm`, `md` or `lg`. Default `md`. */
   size = input<ProgressSize>('md');
+  /** Shows an animated bar with no value, for tasks of unknown length. */
   indeterminate = input(false, { transform: booleanAttribute });
   /** Accessible name for the progress bar. */
   label = input<string>();

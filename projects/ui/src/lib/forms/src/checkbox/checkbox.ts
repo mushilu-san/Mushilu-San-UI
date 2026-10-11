@@ -21,6 +21,8 @@ import type { CheckboxSize } from './checkbox.types';
   },
 })
 export class Checkbox {
+  /** Checkbox size: `sm`, `md` or `lg`. Default `md`. */
   size = input<CheckboxSize>('md');
+  /** Shows the failed-validation style and sets `data-invalid`. Does not set `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
 }

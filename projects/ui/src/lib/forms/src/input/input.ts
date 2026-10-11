@@ -26,8 +26,11 @@ import { INPUT_GROUP_CONTEXT } from '../input-group/input-group';
   },
 })
 export class Input {
+  /** Input height and text size: `sm`, `md` or `lg`. Default `md`. */
   size = input<InputSize>('md');
+  /** Visual style: `outline`, `filled` or `ghost`. Default `outline`. */
   variant = input<InputVariant>('outline');
+  /** Shows the failed-validation style and sets `data-invalid`. Does not set `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
 
   protected readonly groupCtx = inject(INPUT_GROUP_CONTEXT, { optional: true });

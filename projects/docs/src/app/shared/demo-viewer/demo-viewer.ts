@@ -11,7 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { Tab, TabList, TabPanel, Tabs } from '@mushilu-san/ui/navigation';
-import { DEMO_SOURCE_INDEX } from '../../../content/tokens';
+import { DEMO_SOURCE_INDEX } from '../../../content/source-tokens';
 import type { DemoRef } from '../../../content/types';
 import { CodeBlock } from '../code-block/code-block';
 

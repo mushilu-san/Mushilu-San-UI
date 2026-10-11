@@ -18,7 +18,10 @@ import type { DividerOrientation, DividerVariant } from './divider.types';
   },
 })
 export class Divider {
+  /** Whether the line is horizontal or vertical. Default `horizontal`. */
   orientation = input<DividerOrientation>('horizontal');
+  /** Line style: `solid`, `dashed` or `dotted`. Default `solid`. */
   variant = input<DividerVariant>('solid');
+  /** Optional text drawn in the middle of a horizontal divider. */
   label = input<string>();
 }

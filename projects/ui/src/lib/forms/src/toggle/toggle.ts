@@ -42,10 +42,14 @@ import type { ToggleSize } from './toggle.types';
   },
 })
 export class Toggle implements ControlValueAccessor {
+  /** Switch size: `sm`, `md` or `lg`. Default `md`. */
   size = input<ToggleSize>('md');
+  /** Accessible name for the switch, also shown as text when provided. */
   label = input<string>();
+  /** Disables the switch. Sets `aria-disabled` and ignores input. */
   disabled = input(false, { transform: booleanAttribute });
 
+  /** Whether the switch is on. Two-way bindable with `[(checked)]`. */
   checked = model(false);
 
   protected readonly _cva = useCva<boolean>(this.disabled);

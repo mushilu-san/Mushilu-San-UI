@@ -57,12 +57,18 @@ export const HOVER_CARD_CONTEXT = new InjectionToken<HoverCardContext>('HOVER_CA
   host: { '[attr.part]': '"root"' },
 })
 export class HoverCard implements OnDestroy {
+  /** Whether the card is open. Two-way bindable with `[(open)]`. */
   open = model(false);
+  /** Side of the trigger the card opens on. Default `bottom`. */
   placement = input<PopoverPlacement>('bottom');
+  /** Milliseconds to wait after the pointer arrives before opening. Default `700`. */
   openDelay = input(700, { transform: numberAttribute });
+  /** Milliseconds to wait after the pointer leaves before closing. Default `300`. */
   closeDelay = input(300, { transform: numberAttribute });
 
+  /** Emits when the card opens. */
   readonly opened = output<void>();
+  /** Emits when the card closes. */
   readonly closed = output<void>();
 
   private openTimer: ReturnType<typeof setTimeout> | null = null;

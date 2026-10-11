@@ -28,6 +28,7 @@ export class Breadcrumb {
    * user-generated ones.
    */
   items = input.required<BreadcrumbItem[]>();
+  /** Text drawn between items. Decorative. Default `/`. */
   separator = input<string>('/');
 
   protected lastIndex = computed(() => this.items().length - 1);

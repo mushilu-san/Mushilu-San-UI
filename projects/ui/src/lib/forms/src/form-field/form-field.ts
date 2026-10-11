@@ -22,10 +22,15 @@ let _fieldId = 0;
   },
 })
 export class FormField {
+  /** Visible label text, linked to the control through `controlId`. */
   label = input<string>();
+  /** Helper text shown under the control, for format rules or guidance. */
   hint = input<string>();
+  /** Error message shown under the control. Announced when it appears. */
   error = input<string>();
+  /** Shows the required marker on the label. */
   required = input(false, { transform: booleanAttribute });
+  /** Dims the label and hint to match a disabled control. */
   disabled = input(false, { transform: booleanAttribute });
   /** Pass the id of the control inside so the label `for` wires correctly. */
   controlId = input<string>('');

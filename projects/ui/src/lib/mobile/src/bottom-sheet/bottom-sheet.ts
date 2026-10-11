@@ -45,10 +45,14 @@ export class BottomSheet {
   size = input<BottomSheetSize>('md');
   /** Show the drag-handle affordance at the top of the sheet. */
   showHandle = input(true, { transform: booleanAttribute });
+  /** Closes the sheet when the backdrop is tapped. Default `true`. */
   closeOnBackdrop = input(true, { transform: booleanAttribute });
+  /** Closes the sheet on Escape. Default `true`. */
   closeOnEscape = input(true, { transform: booleanAttribute });
 
+  /** Emits when the sheet opens. */
   readonly opened = output<void>();
+  /** Emits when the sheet closes, however it was closed. */
   readonly closed = output<void>();
 
   protected readonly headingId = `mui-sheet-title-${sheetUid++}`;

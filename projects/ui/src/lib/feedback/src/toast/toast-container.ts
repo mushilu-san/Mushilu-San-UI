@@ -29,6 +29,7 @@ export type ToastPlacement =
   },
 })
 export class ToastContainer {
+  /** Where toasts appear on screen. Default `bottom-end`. */
   placement = input<ToastPlacement>('bottom-end');
   /** Accessible name for the notifications landmark. */
   label = input<string>('Notifications');

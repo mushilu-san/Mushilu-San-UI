@@ -28,11 +28,16 @@ import type { ButtonSize, ButtonVariant } from './button.types';
   },
 })
 export class Button {
+  /** Visual style: `primary` for the main action, `secondary` for supporting actions, `ghost` for low emphasis, `destructive` for irreversible actions. Default `primary`. */
   variant = input<ButtonVariant>('primary');
+  /** Button size. Every size keeps a 44px minimum touch target. Default `md`. */
   size = input<ButtonSize>('md');
+  /** Disables the button. Sets `aria-disabled` and swallows clicks but keeps the element in the DOM. */
   disabled = input(false, { transform: booleanAttribute });
+  /** Shows a spinner and sets `aria-busy`. Clicks are ignored while loading. */
   loading = input(false, { transform: booleanAttribute });
 
+  /** Emits the native click event unless the button is disabled or loading. */
   readonly clicked = output<MouseEvent>();
 
   protected readonly isInteractive = computed(() => !this.disabled() && !this.loading());

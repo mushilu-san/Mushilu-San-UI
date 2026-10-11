@@ -20,5 +20,6 @@ import {
   },
 })
 export class NavigationMenuLink {
+  /** Marks the link as the current page with `aria-current="page"`. */
   active = input(false, { transform: booleanAttribute });
 }

@@ -69,10 +69,14 @@ export class Popover {
   open = model(false);
   /** Optional accessible heading inside the panel. */
   heading = input<string>();
+  /** Closes the panel on a click outside it. Default `true`. */
   closeOnOutsideClick = input(true, { transform: booleanAttribute });
+  /** Closes the panel on Escape. Default `true`. */
   closeOnEscape = input(true, { transform: booleanAttribute });
 
+  /** Emits when the panel opens. */
   readonly opened = output<void>();
+  /** Emits when the panel closes, however it was closed. */
   readonly closed = output<void>();
 
   protected readonly panelId = `mui-popover-panel-${popoverUid++}`;

@@ -35,10 +35,15 @@ import { resolveDirection, useCva } from '@mushilu-san/ui';
   },
 })
 export class Slider implements ControlValueAccessor {
+  /** Lowest value on the slider. Default `0`. */
   min = input(0, { transform: numberAttribute });
+  /** Highest value on the slider. Default `100`. */
   max = input(100, { transform: numberAttribute });
+  /** Distance between allowed values. Default `1`. */
   step = input(1, { transform: numberAttribute });
+  /** Disables the slider. Keyboard and pointer input are ignored. */
   disabled = input(false, { transform: booleanAttribute });
+  /** Current value. Two-way bindable with `[(value)]`. */
   value = model(0);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

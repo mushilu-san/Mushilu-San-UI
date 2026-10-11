@@ -24,8 +24,12 @@ import type { BadgeSize, BadgeVariant } from './badge.types';
   },
 })
 export class Badge {
+  /** Meaning of the badge: `default`, `primary`, `success`, `warning`, `danger` or `info`. */
   variant = input<BadgeVariant>('default');
+  /** Badge size. Default `md`. */
   size = input<BadgeSize>('md');
+  /** Renders a small coloured dot without text. Pair with `label` so the status is announced. */
   dot = input(false, { transform: booleanAttribute });
+  /** Accessible name for a dot badge. Ignored for text badges. */
   label = input<string>();
 }

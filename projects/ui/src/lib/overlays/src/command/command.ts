@@ -67,6 +67,7 @@ export class Command {
   /** Placeholder for the built-in CommandInput (if used without a custom input). */
   placeholder = input('Search…');
 
+  /** Emits the `value` and `label` of the item the user runs. */
   readonly itemActivated = output<{ value: string; label: string }>();
 
   moveFocus(direction: 1 | -1, host: HTMLElement): void {

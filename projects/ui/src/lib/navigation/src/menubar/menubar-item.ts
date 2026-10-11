@@ -27,6 +27,7 @@ import { MENUBAR_CONTEXT } from './menubar-context';
   },
 })
 export class MenubarItem {
+  /** Disables this item. It is skipped by the arrow keys. */
   disabled = input(false, { transform: booleanAttribute });
 
   private readonly root = inject(MENUBAR_CONTEXT);

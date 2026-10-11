@@ -37,5 +37,6 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class CommandGroup {
+  /** Heading for the group. Also its accessible name. */
   label = input<string>();
 }

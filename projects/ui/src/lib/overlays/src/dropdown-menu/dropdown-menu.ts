@@ -42,11 +42,16 @@ export const DROPDOWN_MENU_CONTEXT = new InjectionToken<DropdownMenu>('DROPDOWN_
   providers: [{ provide: DROPDOWN_MENU_CONTEXT, useExisting: DropdownMenu }],
 })
 export class DropdownMenu {
+  /** Whether the menu is open. Two-way bindable with `[(open)]`. */
   open = model(false);
+  /** Closes the menu on Escape and returns focus to the trigger. Default `true`. */
   closeOnEscape = input(true, { transform: booleanAttribute });
+  /** Closes the menu after an item is chosen. Default `true`. */
   closeOnSelect = input(true, { transform: booleanAttribute });
 
+  /** Emits when the menu opens. */
   readonly opened = output<void>();
+  /** Emits when the menu closes, however it was closed. */
   readonly closed = output<void>();
 
   private readonly el = inject(ElementRef);

@@ -35,14 +35,20 @@ let alertDialogUid = 0;
   host: { '[attr.part]': '"root"' },
 })
 export class AlertDialog {
+  /** Whether the dialog is open. Two-way bindable with `[(open)]`. */
   open = model(false);
+  /** Question the user is asked. Labels the dialog. */
   heading = input.required<string>();
+  /** Text of the confirm button. Default `Confirm`. */
   confirmLabel = input('Confirm');
+  /** Text of the cancel button. Default `Cancel`. */
   cancelLabel = input('Cancel');
   /** Set to true for destructive actions — styles confirm button in danger color. */
   destructive = input(false, { transform: booleanAttribute });
 
+  /** Emits when the user chooses the confirm button. */
   readonly confirmed = output<void>();
+  /** Emits when the user chooses the cancel button. */
   readonly cancelled = output<void>();
 
   protected readonly titleId = `mui-alert-title-${alertDialogUid++}`;
