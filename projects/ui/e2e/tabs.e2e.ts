@@ -46,4 +46,15 @@ test.describe('Tabs — E-2 keyboard navigation', () => {
     await tabs.selectTab('Settings');
     await expect.poll(() => tabs.getVisiblePanelText()).toContain('Configure');
   });
+
+  test('A-9 #708: tab list does not overflow its box (no spurious vertical scrollbar)', async ({
+    page,
+  }) => {
+    const frame = await gotoStory(page, 'navigation-tabs--default');
+    const overflow = await frame
+      .locator('mui-tab-list')
+      .first()
+      .evaluate((el) => el.scrollHeight - el.clientHeight);
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
 });
