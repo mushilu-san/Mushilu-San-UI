@@ -22,6 +22,7 @@ const PAGES = [
   '/',
   '/getting-started/',
   '/components/',
+  '/playground/',
   ...componentSlugs.map((slug) => `/components/${slug}/`),
 ];
 

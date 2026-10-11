@@ -58,4 +58,22 @@ describe('DemoViewer', () => {
     await render(DemoViewer, { inputs: { demo: okDemo }, providers });
     expect(screen.getByRole('tab', { name: 'Preview' }).id).toContain('preview-fake-basic');
   });
+
+  it('shows the example in a phone-width frame when Mobile frame is on', async () => {
+    await render(DemoViewer, { inputs: { demo: okDemo }, providers });
+    const toggle = await screen.findByRole('button', { name: 'Mobile frame' });
+    expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    await userEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    expect(document.querySelector('.stage')).toHaveClass('stage--mobile');
+  });
+
+  it('sets dir="rtl" on the stage when Right to left is on', async () => {
+    await render(DemoViewer, { inputs: { demo: okDemo }, providers });
+    const toggle = await screen.findByRole('button', { name: 'Right to left' });
+    expect(document.querySelector('.stage')).not.toHaveAttribute('dir');
+    await userEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    expect(document.querySelector('.stage')).toHaveAttribute('dir', 'rtl');
+  });
 });

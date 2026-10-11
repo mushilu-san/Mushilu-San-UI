@@ -41,3 +41,23 @@ docs-code-block {
 mui-tab-list {
   overflow-y: hidden;
 }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mui-space-2);
+  padding: var(--mui-space-2) var(--mui-space-3);
+  border-bottom: 1px solid var(--mui-color-border);
+  background: var(--mui-color-bg);
+}
+
+/* Phone-width frame for responsive checks. The width is the common 375px phone viewport. */
+.stage--mobile {
+  justify-items: stretch;
+  width: min(375px, 100%);
+  margin-inline: auto;
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-xl, 24px);
+  padding: var(--mui-space-4);
+  background: var(--mui-color-surface-raised);
+}

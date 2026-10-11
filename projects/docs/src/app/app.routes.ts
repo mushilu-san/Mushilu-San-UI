@@ -33,6 +33,12 @@ export const routes: Routes = [
       import('./pages/component-page/component-page').then((m) => m.ComponentPage),
   },
   {
+    path: 'playground',
+    title: 'Theme playground',
+    loadComponent: () =>
+      import('./pages/theme-playground/theme-playground').then((m) => m.ThemePlayground),
+  },
+  {
     path: '**',
     title: 'Not found',
     loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),

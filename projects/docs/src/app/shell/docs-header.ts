@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, booleanAttribute, input, output } f
 import { RouterLink } from '@angular/router';
 import { Button } from '@mushilu-san/ui/primitives';
 import { ThemeToggle } from '../shared/theme/theme-toggle';
+import { DocsSearch } from './docs-search';
 
 @Component({
   selector: 'docs-header',
-  imports: [RouterLink, Button, ThemeToggle],
+  imports: [RouterLink, Button, ThemeToggle, DocsSearch],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {
@@ -96,6 +97,8 @@ import { ThemeToggle } from '../shared/theme/theme-toggle';
         Mushilu-San UI
       </a>
       <span class="spacer"></span>
+      <docs-search />
+      <a class="ext" routerLink="/playground">Playground</a>
       <a class="ext" href="storybook/">Storybook</a>
       <a class="ext" href="https://github.com/mushilu-san/Mushilu-San-UI" rel="noopener">GitHub</a>
       <docs-theme-toggle />

@@ -11,13 +11,14 @@ import {
   signal,
 } from '@angular/core';
 import { Tab, TabList, TabPanel, Tabs } from '@mushilu-san/ui/navigation';
+import { Button } from '@mushilu-san/ui/primitives';
 import { DEMO_SOURCE_INDEX } from '../../../content/source-tokens';
 import type { DemoRef } from '../../../content/types';
 import { CodeBlock } from '../code-block/code-block';
 
 @Component({
   selector: 'docs-demo-viewer',
-  imports: [NgComponentOutlet, Tabs, TabList, Tab, TabPanel, CodeBlock],
+  imports: [NgComponentOutlet, Tabs, TabList, Tab, TabPanel, CodeBlock, Button],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './demo-viewer.css',
   template: `
@@ -27,7 +28,34 @@ import { CodeBlock } from '../code-block/code-block';
         <mui-tab [value]="codeValue()">Code</mui-tab>
       </mui-tab-list>
       <mui-tab-panel [value]="previewValue()">
-        <div class="stage" part="stage">
+        <div class="toolbar" role="group" aria-label="Preview options">
+          <button
+            muiButton
+            variant="ghost"
+            size="sm"
+            type="button"
+            [attr.aria-pressed]="mobile()"
+            (clicked)="mobile.set(!mobile())"
+          >
+            Mobile frame
+          </button>
+          <button
+            muiButton
+            variant="ghost"
+            size="sm"
+            type="button"
+            [attr.aria-pressed]="rtl()"
+            (clicked)="rtl.set(!rtl())"
+          >
+            Right to left
+          </button>
+        </div>
+        <div
+          class="stage"
+          part="stage"
+          [class.stage--mobile]="mobile()"
+          [attr.dir]="rtl() ? 'rtl' : null"
+        >
           @if (component(); as cmp) {
             <ng-container *ngComponentOutlet="cmp" />
           } @else if (failed()) {
@@ -59,6 +87,10 @@ export class DemoViewer {
   protected readonly source = computed(() => this.sources[this.demo().id]);
   protected readonly component = signal<Type<unknown> | null>(null);
   protected readonly failed = signal(false);
+  /** Shows the example in a phone-width frame. Preview only; the code tab is unchanged. */
+  protected readonly mobile = signal(false);
+  /** Renders the example with `dir="rtl"` on the stage, so library components mirror. */
+  protected readonly rtl = signal(false);
 
   constructor() {
     afterNextRender(() => {

@@ -9,6 +9,7 @@ const ROUTES = [
   '/getting-started/',
   '/components/',
   '/components/group/navigation/',
+  '/playground/',
   ...componentSlugs.map((slug) => `/components/${slug}/`),
 ];
 
@@ -118,4 +119,28 @@ test('mobile nav sheet: opens, Escape closes, focus returns', async ({ page, isM
 test('unknown URL falls back to client-rendered not-found', async ({ page }) => {
   const res = await page.goto('/does-not-exist/');
   expect(res?.status()).toBe(404);
+});
+
+test('Ctrl+K opens component search and Enter opens the chosen page', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, 'header search is hidden on small screens');
+  await page.goto('/components/button/');
+  await page.keyboard.press('Control+k');
+  const dialog = page.getByRole('dialog', { name: 'Search components' });
+  await expect(dialog).toBeVisible();
+  await dialog.locator('input').first().fill('dialog');
+  await dialog.getByRole('option', { name: 'Dialog', exact: true }).click();
+  await expect(page).toHaveURL(/\/components\/dialog\/?$/);
+  await expect(page.locator('main h1')).toHaveText('Dialog');
+});
+
+test('the theme playground updates the preview and exports CSS', async ({ page }) => {
+  await page.goto('/playground/');
+  await page.locator('#token-color-primary').fill('#7c3aed');
+  await expect(page.getByRole('textbox', { name: 'CSS' })).toHaveValue(
+    ':root {\n  --mui-color-primary: #7c3aed;\n}',
+  );
+  await expect(page.locator('.preview')).toHaveAttribute('style', /--mui-color-primary: #7c3aed/);
 });
