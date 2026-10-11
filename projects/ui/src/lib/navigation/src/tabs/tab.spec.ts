@@ -10,6 +10,7 @@ function makeCtx(activeTab = 'a'): Tabs {
   return {
     activeTab: signal(activeTab),
     orientation: signal('horizontal'),
+    uid: 't0',
   } as unknown as Tabs;
 }
 

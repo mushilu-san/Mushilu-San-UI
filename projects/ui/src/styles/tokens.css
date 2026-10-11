@@ -23,6 +23,7 @@
   --mui-palette-blue-900: #1e3a8a;
 
   --mui-palette-red-50: #fef2f2;
+  --mui-palette-red-400: #f87171;
   --mui-palette-red-500: #ef4444;
   --mui-palette-red-600: #dc2626;
   --mui-palette-red-700: #b91c1c;
@@ -218,7 +219,8 @@
     --mui-color-primary-text: var(--mui-palette-slate-950);
 
     --mui-color-danger: var(--mui-palette-red-500);
-    --mui-color-danger-hover: var(--mui-palette-red-600);
+    --mui-color-danger-hover: var(--mui-palette-red-400);
+    --mui-color-danger-text: var(--mui-palette-slate-950);
     --mui-color-danger-subtle: rgba(239, 68, 68, 0.15);
 
     --mui-color-success: var(--mui-palette-green-500);
@@ -262,7 +264,8 @@
   --mui-color-primary-text: var(--mui-palette-slate-950);
 
   --mui-color-danger: var(--mui-palette-red-500);
-  --mui-color-danger-hover: var(--mui-palette-red-600);
+  --mui-color-danger-hover: var(--mui-palette-red-400);
+  --mui-color-danger-text: var(--mui-palette-slate-950);
   --mui-color-danger-subtle: rgba(239, 68, 68, 0.15);
 
   --mui-color-success: var(--mui-palette-green-500);

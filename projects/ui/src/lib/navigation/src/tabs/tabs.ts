@@ -10,6 +10,10 @@ import type { TabsOrientation } from './tabs.types';
 
 export const TABS_CONTEXT = new InjectionToken<Tabs>('TABS_CONTEXT');
 
+// Module counter: gives each <mui-tabs> a unique id prefix so tab/panel ids
+// stay unique when several Tabs on one page share values (A-7, #686).
+let nextTabsUid = 0;
+
 @Component({
   selector: 'mui-tabs',
   standalone: true,
@@ -26,4 +30,5 @@ export const TABS_CONTEXT = new InjectionToken<Tabs>('TABS_CONTEXT');
 export class Tabs {
   activeTab = model<string>('');
   orientation = input<TabsOrientation>('horizontal');
+  readonly uid = `t${++nextTabsUid}`;
 }

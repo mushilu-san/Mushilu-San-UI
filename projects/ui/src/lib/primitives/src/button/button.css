@@ -116,8 +116,11 @@
   border-color: var(--mui-color-danger-hover);
 }
 
+/* Pressed uses the hover fill: darkening (brightness) drops white/dark text
+   below 4.5:1 in dark theme, so press does not change the colour further. */
 :host([data-variant='destructive']:active:not([aria-disabled='true'])) {
-  filter: brightness(0.85);
+  background-color: var(--mui-color-danger-hover);
+  border-color: var(--mui-color-danger-hover);
 }
 
 /* ----------------------------------------------------------------

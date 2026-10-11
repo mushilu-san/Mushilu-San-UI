@@ -36,8 +36,8 @@ export class Tab {
 
   protected ctx = inject(TABS_CONTEXT);
   protected isActive = computed(() => this.ctx.activeTab() === this.value());
-  protected tabId = computed(() => `mui-tab-${this.value()}`);
-  protected panelId = computed(() => `mui-tabpanel-${this.value()}`);
+  protected tabId = computed(() => `mui-${this.ctx.uid}-tab-${this.value()}`);
+  protected panelId = computed(() => `mui-${this.ctx.uid}-tabpanel-${this.value()}`);
 
   @HostListener('click')
   onClick(): void {

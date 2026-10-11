@@ -19,21 +19,7 @@ for (const theme of ['light', 'dark'] as const) {
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
         .analyze();
-      // Library issue, not a docs one: dark-theme destructive Button is 3.76:1 (#707, A-8).
-      // Only that rule on only that element is ignored; remove when A-8 is fixed in projects/ui.
-      const violations = results.violations
-        .map((v) => ({
-          ...v,
-          nodes: v.nodes.filter(
-            (n) =>
-              !(
-                v.id === 'color-contrast' &&
-                theme === 'dark' &&
-                n.target.join(' ').startsWith('button[variant="destructive"]')
-              ),
-          ),
-        }))
-        .filter((v) => v.nodes.length > 0);
+      const violations = results.violations;
       expect(
         violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(' | ')}`),
       ).toEqual([]);
