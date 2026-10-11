@@ -47,7 +47,8 @@ CI failed for days in June 2026 because `package-lock.json` drifted out of sync 
 4. **Never replace `npm ci` with `npm install` in workflows.** `npm ci` failing with EUSAGE
    means the lockfile is stale — fix it locally per rule 1, never paper over it in CI.
 5. **Before every push:** run `./scripts/ci-verify.sh` — it mirrors `.github/workflows/ci.yml`
-   exactly (npm ci → lint → test → build → storybook). If it's green locally, CI is green.
+   exactly (npm ci → lint → format → test → build → size → storybook → docs build → e2e → docs e2e).
+   If it's green locally, CI is green.
 6. **GitHub Actions are pinned by commit SHA** with a `# vX.Y.Z` comment. When bumping,
    update both SHA and comment; pick releases that run on the current runner Node (≥24).
 
@@ -75,6 +76,11 @@ Or use the `./dev.sh` helper — it does this automatically.
 
 # Build Storybook static output
 ./dev.sh storybook:build
+
+# Docs site (Angular app, port 4300) — content in projects/docs/src/content
+./dev.sh docs
+./dev.sh docs:build
+./dev.sh test:docs
 
 # Add a changeset before merging a PR
 ./dev.sh changeset
@@ -140,6 +146,12 @@ projects/ui/
 ├── .storybook/           main.ts, preview.ts, preview-head.html, tsconfig.json, typings.d.ts
 ├── docs/                 MDX group pages
 └── tsconfig.spec.json    types: vitest/globals + @testing-library/jest-dom
+
+projects/docs/            Docs site — Angular app (Nx project `docs`), prerendered; compiles the library from source
+├── scripts/              build-time Node scripts: extract-api, collect-demos, tokenize, verify-build (+ *.spec.mjs)
+├── src/content/          registry.ts, groups, undocumented.json, per-component pages in components/<slug>/
+├── src/app/              shell (header/nav), pages (home, component page, index, group) and shared doc widgets
+└── e2e/                  Playwright + axe specs (`npm run e2e:docs`, config: playwright.docs.config.ts)
 ```
 
 ## Accessibility requirements (mandatory for every component)
@@ -205,7 +217,9 @@ These are non-negotiable — no exceptions.
 7. Styling: semantic `--mui-*` tokens only, `:host`-scoped, `part` attributes exposed
 8. Tests: all cases passing, ≥80% coverage — including at least one test per ARIA behaviour
 9. Stories: Default, variants, Interactive, Accessibility, MobilePreview
-10. MDX: add to group docs file
+10. MDX: add to group docs file …and add a docs page: `projects/docs/src/content/components/<slug>/`
+    (`<slug>.docs.ts` + `demos/*.demo.ts`), register it in `registry.ts`, and remove its classes from
+    `undocumented.json`. The registry consistency spec fails until you do.
 11. Export from group `public-api.ts`
 12. Bundle check: `npm run size` (size-limit). Budgets are enforced **per entry-point group**
     (each group bundles many components), not per individual component, with framework peer deps
@@ -322,16 +336,16 @@ echo "export { Badge } from './badge/badge';" >> projects/ui/src/lib/primitives/
 
 All components consume `--mui-*` semantic tokens — never raw palette tokens.
 
-| Category  | Key tokens |
-|-----------|-----------|
-| Color     | `--mui-color-primary`, `--mui-color-danger`, `--mui-color-text`, `--mui-color-surface`, `--mui-color-border` |
-| Spacing   | `--mui-space-1` (4px) … `--mui-space-12` (48px) |
-| Type      | `--mui-font-size-base` (16px), `--mui-font-weight-medium` |
-| Radius    | `--mui-radius-sm` (4px), `--mui-radius-md` (8px), `--mui-radius-full` |
-| Shadow    | `--mui-shadow-1` … `--mui-shadow-5` |
-| Z-index   | `--mui-z-sticky:100`, `--mui-z-modal:300`, `--mui-z-toast:400` |
-| Touch     | `--mui-touch-target: 44px` — enforce on all interactive elements |
-| Focus     | `--mui-color-focus-ring`, `--mui-focus-ring-width`, `--mui-focus-ring-offset` |
+| Category | Key tokens                                                                                                   |
+| -------- | ------------------------------------------------------------------------------------------------------------ |
+| Color    | `--mui-color-primary`, `--mui-color-danger`, `--mui-color-text`, `--mui-color-surface`, `--mui-color-border` |
+| Spacing  | `--mui-space-1` (4px) … `--mui-space-12` (48px)                                                              |
+| Type     | `--mui-font-size-base` (16px), `--mui-font-weight-medium`                                                    |
+| Radius   | `--mui-radius-sm` (4px), `--mui-radius-md` (8px), `--mui-radius-full`                                        |
+| Shadow   | `--mui-shadow-1` … `--mui-shadow-5`                                                                          |
+| Z-index  | `--mui-z-sticky:100`, `--mui-z-modal:300`, `--mui-z-toast:400`                                               |
+| Touch    | `--mui-touch-target: 44px` — enforce on all interactive elements                                             |
+| Focus    | `--mui-color-focus-ring`, `--mui-focus-ring-width`, `--mui-focus-ring-offset`                                |
 
 ## Testing patterns
 
@@ -353,7 +367,7 @@ await renderTemplate('<button muiButton (clicked)="handler($event)">Btn</button>
 });
 
 // Blocked-click testing (pointer-events: none elements)
-fireEvent.click(screen.getByRole('button'));   // not userEvent.click()
+fireEvent.click(screen.getByRole('button')); // not userEvent.click()
 ```
 
 ## Publishing checklist

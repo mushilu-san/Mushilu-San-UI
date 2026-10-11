@@ -1,0 +1,110 @@
+@for (view of views(); track view.cls.name) {
+  <section class="class" [attr.aria-labelledby]="'api-' + view.cls.name">
+    <h3 [id]="'api-' + view.cls.name">{{ view.cls.name }}</h3>
+    <p class="meta">
+      @if (view.cls.selector; as sel) {
+        Selector: <code>{{ sel }}</code>
+      } @else if (view.cls.providedIn; as scope) {
+        Service, provided in <code>{{ scope }}</code>
+      }
+    </p>
+
+    @for (table of view.tables; track table.kind) {
+      <div
+        class="scroll"
+        tabindex="0"
+        role="region"
+        [attr.aria-label]="view.cls.name + ' ' + table.title"
+      >
+        <table [attr.aria-label]="view.cls.name + ' ' + table.title.toLowerCase()">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Type</th>
+              @if (table.kind !== 'output') {
+                <th scope="col">Default</th>
+              }
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (m of table.rows; track m.name) {
+              <tr>
+                <td>
+                  <code>{{ m.name }}</code>
+                  @if (m.required) {
+                    <mui-badge variant="warning" size="sm">required</mui-badge>
+                  }
+                  @if (m.deprecated !== undefined) {
+                    <mui-badge variant="danger" size="sm">deprecated</mui-badge>
+                  }
+                </td>
+                <td>
+                  <code>{{ m.type }}</code>
+                </td>
+                @if (table.kind !== 'output') {
+                  <td>
+                    @if (m.default; as d) {
+                      <code>{{ d }}</code>
+                    } @else {
+                      <span class="muted">—</span>
+                    }
+                  </td>
+                }
+                <td>
+                  {{ m.description }}
+                  @if (m.transform === 'booleanAttribute') {
+                    <span class="note"
+                      >Accepts attribute presence, e.g. <code>&lt;… {{ m.name }}&gt;</code>.</span
+                    >
+                  }
+                  @if (m.deprecated) {
+                    <span class="note">Deprecated: {{ m.deprecated }}</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    @if (view.cls.methods.length > 0) {
+      <div class="scroll" tabindex="0" role="region" [attr.aria-label]="view.cls.name + ' Methods'">
+        <table [attr.aria-label]="view.cls.name + ' methods'">
+          <thead>
+            <tr>
+              <th scope="col">Method</th>
+              <th scope="col">Signature</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (fn of view.cls.methods; track fn.name) {
+              <tr>
+                <td>
+                  <code>{{ fn.name }}</code>
+                </td>
+                <td>
+                  <code>{{ fn.signature }}</code>
+                </td>
+                <td>{{ fn.description }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    @if (view.cls.parts.length > 0) {
+      <h4>CSS parts</h4>
+      <ul class="parts" [attr.aria-label]="view.cls.name + ' CSS parts'">
+        @for (part of view.cls.parts; track part) {
+          <li>
+            <code>::part({{ part }})</code>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+}

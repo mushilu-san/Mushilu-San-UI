@@ -1,0 +1,14 @@
+<button type="button" class="skip-link" (click)="skipToMain()">Skip to content</button>
+<docs-header [menuOpen]="navOpen()" (menu)="navOpen.set(true)" />
+<div class="layout">
+  <aside class="sidebar" aria-label="Documentation navigation">
+    <docs-nav />
+  </aside>
+  <main id="main" tabindex="-1" class="main">
+    <router-outlet />
+  </main>
+</div>
+<mui-sheet side="left" heading="Navigation" [(open)]="navOpen">
+  <docs-nav (navigate)="navOpen.set(false)" />
+</mui-sheet>
+<div class="visually-hidden" aria-live="polite" aria-atomic="true">{{ routeFocus.message() }}</div>

@@ -1,0 +1,40 @@
+import type { Routes } from '@angular/router';
+import { componentDocResolver } from './pages/component-page/component-doc.resolver';
+import { componentTitle, groupTitle } from './route-titles';
+
+export const routes: Routes = [
+  {
+    path: '',
+    title: 'Introduction',
+    loadComponent: () => import('./pages/home/home').then((m) => m.Home),
+  },
+  {
+    path: 'getting-started',
+    title: 'Installation',
+    loadComponent: () =>
+      import('./pages/getting-started/getting-started').then((m) => m.GettingStarted),
+  },
+  {
+    path: 'components',
+    title: 'Components',
+    loadComponent: () =>
+      import('./pages/components-index/components-index').then((m) => m.ComponentsIndex),
+  },
+  {
+    path: 'components/group/:group',
+    title: groupTitle,
+    loadComponent: () => import('./pages/group/group-page').then((m) => m.GroupPage),
+  },
+  {
+    path: 'components/:slug',
+    title: componentTitle,
+    resolve: { doc: componentDocResolver },
+    loadComponent: () =>
+      import('./pages/component-page/component-page').then((m) => m.ComponentPage),
+  },
+  {
+    path: '**',
+    title: 'Not found',
+    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
+  },
+];

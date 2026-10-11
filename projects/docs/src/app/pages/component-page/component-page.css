@@ -1,0 +1,151 @@
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mui-space-10);
+  max-width: calc(var(--docs-content-max) + var(--docs-toc-width) + var(--mui-space-10));
+}
+
+.content {
+  min-width: 0;
+  max-width: var(--docs-content-max);
+}
+
+.head h1 {
+  margin: var(--mui-space-2) 0 var(--mui-space-2);
+  font-size: var(--mui-font-size-3xl);
+  line-height: var(--mui-line-height-snug);
+}
+
+.summary {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--mui-color-text-muted);
+  font-size: var(--mui-font-size-lg);
+}
+
+.selector {
+  margin-block: var(--mui-space-6) var(--mui-space-3);
+  color: var(--mui-color-text-muted);
+  font-size: var(--mui-font-size-sm);
+}
+
+.import {
+  margin-bottom: var(--mui-space-6);
+}
+
+.hero {
+  margin-bottom: var(--mui-space-10);
+}
+
+section {
+  margin-top: var(--mui-space-12);
+}
+
+h2 {
+  font-size: var(--mui-font-size-2xl);
+  padding-bottom: var(--mui-space-2);
+  border-bottom: 1px solid var(--mui-color-border);
+  margin-bottom: var(--mui-space-4);
+}
+
+h3 {
+  font-size: var(--mui-font-size-lg);
+  margin-block: var(--mui-space-8) var(--mui-space-2);
+}
+
+/* reset.css zeroes every margin; restore a paragraph rhythm for prose sections, and keep prose
+   lines under ~75 characters even though tables and demos use the full content width. */
+section > p {
+  max-width: 70ch;
+  margin-block: 0 var(--mui-space-4);
+}
+
+.usage,
+.guidelines {
+  display: grid;
+  gap: var(--mui-space-6);
+  margin-top: var(--mui-space-6);
+}
+
+.usage h3 {
+  margin-top: 0;
+}
+
+.do,
+.dont {
+  padding: var(--mui-space-4);
+  border-radius: var(--mui-radius-md);
+  border-top: 3px solid var(--mui-color-success);
+  background: var(--mui-color-surface);
+}
+
+.dont {
+  border-top-color: var(--mui-color-danger);
+}
+
+.do h3,
+.dont h3 {
+  margin-top: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mui-space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.chips a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--mui-touch-target);
+  padding-inline: var(--mui-space-3);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-full);
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .usage,
+  .guidelines {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 1279.98px) {
+  .toc {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .page {
+    grid-template-columns: minmax(0, var(--docs-content-max)) var(--docs-toc-width);
+  }
+  .toc {
+    display: block;
+    position: sticky;
+    top: calc(var(--docs-header-height) + var(--mui-space-6));
+    align-self: start;
+    font-size: var(--mui-font-size-sm);
+  }
+  .toc-title {
+    margin-top: 0;
+    font-weight: var(--mui-font-weight-semibold);
+  }
+  .toc ul {
+    padding: 0;
+    list-style: none;
+  }
+  .toc a {
+    display: flex;
+    align-items: center;
+    min-height: var(--mui-touch-target);
+    color: var(--mui-color-text-muted);
+    text-decoration: none;
+  }
+  .toc a:hover {
+    color: var(--mui-color-text);
+  }
+}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Usage: ./scripts/ci-verify.sh [--skip-install] [--affected[=<base-ref>]]
-# Mirrors .github/workflows/ci.yml exactly: clean install -> lint -> format check -> test -> build -> size budget -> storybook build -> e2e.
+# Mirrors .github/workflows/ci.yml exactly: clean install -> lint -> format check -> test -> build -> size budget -> storybook build -> docs build -> e2e -> docs e2e.
 # Run before pushing to catch CI failures locally. Requires the Node version from .nvmrc.
 # --affected swaps the Test and E2E steps for the git-diff-scoped variants (scripts/affected.mjs),
 # diffed against <base-ref> (default: origin/main) — everything else still runs in full.
@@ -46,6 +46,9 @@ fi
 echo "==> Test release scripts"
 npm run test:scripts
 
+echo "==> Test docs site"
+npm run test:docs
+
 echo "==> Build library"
 npm run build
 
@@ -54,6 +57,9 @@ npm run size
 
 echo "==> Build Storybook"
 npm run storybook:build
+
+echo "==> Build + verify docs site"
+npm run docs:verify
 
 echo "==> Install Playwright browsers (chromium)"
 npx playwright install chromium --with-deps
@@ -65,5 +71,8 @@ else
   echo "==> E2E tests"
   npm run e2e
 fi
+
+echo "==> Docs site E2E"
+npx playwright test -c playwright.docs.config.ts
 
 echo "✅ All CI steps passed locally."

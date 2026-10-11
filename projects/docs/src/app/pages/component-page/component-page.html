@@ -1,0 +1,147 @@
+@if (entry(); as e) {
+  <div class="page">
+    <article class="content">
+      <header class="head">
+        <mui-badge variant="primary" size="sm">{{ groupLabel() }}</mui-badge>
+        <h1>{{ e.name }}</h1>
+        <p class="summary">{{ e.summary }}</p>
+      </header>
+
+      @if (loaded(); as d) {
+        <p class="selector">
+          Selector: <code>{{ d.selector }}</code>
+        </p>
+        <docs-code-block
+          class="import"
+          label="Import"
+          [lines]="importLines()"
+          [source]="importText()"
+        />
+
+        @if (d.demos[0]; as hero) {
+          <docs-demo-viewer class="hero" [demo]="hero" />
+        }
+
+        <section id="overview" aria-labelledby="overview-h">
+          <h2 id="overview-h">Overview</h2>
+          @for (p of d.description; track $index) {
+            <p><docs-inline-text [text]="p" /></p>
+          }
+          <div class="usage">
+            <div>
+              <h3>When to use</h3>
+              <ul>
+                @for (item of d.whenToUse; track $index) {
+                  <li><docs-inline-text [text]="item" /></li>
+                }
+              </ul>
+            </div>
+            <div>
+              <h3>When not to use</h3>
+              <ul>
+                @for (item of d.whenNotToUse; track $index) {
+                  <li>
+                    <docs-inline-text [text]="item.text" />
+                    @if (item.alternative; as alt) {
+                      Use <a [routerLink]="['/components', alt]">{{ nameOf(alt) }}</a> instead.
+                    }
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        @if (extraDemos().length > 0) {
+          <section id="examples" aria-labelledby="examples-h">
+            <h2 id="examples-h">Examples</h2>
+            @for (demo of extraDemos(); track demo.id) {
+              <h3 [id]="demo.id">{{ demo.title }}</h3>
+              @if (demo.description; as desc) {
+                <p><docs-inline-text [text]="desc" /></p>
+              }
+              <docs-demo-viewer [demo]="demo" />
+            }
+          </section>
+        }
+
+        @if (d.guidelines; as g) {
+          <section id="guidelines" aria-labelledby="guidelines-h">
+            <h2 id="guidelines-h">Guidelines</h2>
+            <div class="guidelines">
+              <div class="do">
+                <h3>Do</h3>
+                <ul>
+                  @for (item of g.do; track $index) {
+                    <li><docs-inline-text [text]="item" /></li>
+                  }
+                </ul>
+              </div>
+              <div class="dont">
+                <h3>Don't</h3>
+                <ul>
+                  @for (item of g.dont; track $index) {
+                    <li><docs-inline-text [text]="item" /></li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+        }
+
+        <section id="accessibility" aria-labelledby="accessibility-h">
+          <h2 id="accessibility-h">Accessibility</h2>
+          <docs-a11y-section [a11y]="d.a11y" />
+        </section>
+
+        <section id="api" aria-labelledby="api-h">
+          <h2 id="api-h">API</h2>
+          <docs-api-reference [classes]="d.apiClasses" />
+        </section>
+
+        @if (d.tokens?.length) {
+          <section id="tokens" aria-labelledby="tokens-h">
+            <h2 id="tokens-h">Tokens</h2>
+            <ul class="chips">
+              @for (t of d.tokens; track t) {
+                <li>
+                  <code>{{ t }}</code>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (d.related?.length) {
+          <section id="related" aria-labelledby="related-h">
+            <h2 id="related-h">Related</h2>
+            <ul class="chips">
+              @for (r of d.related; track r) {
+                <li>
+                  <a [routerLink]="['/components', r]">{{ nameOf(r) }}</a>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+      } @else {
+        <p role="alert">This page failed to load. Try reloading.</p>
+      }
+    </article>
+
+    @if (sections().length > 0) {
+      <nav class="toc" aria-label="On this page">
+        <p class="toc-title">On this page</p>
+        <ul>
+          @for (s of sections(); track s.id) {
+            <li>
+              <a routerLink="." [fragment]="s.id">{{ s.label }}</a>
+            </li>
+          }
+        </ul>
+      </nav>
+    }
+  </div>
+} @else {
+  <docs-not-found />
+}
