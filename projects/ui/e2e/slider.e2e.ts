@@ -64,4 +64,21 @@ test.describe('Slider — E2E pointer drag', () => {
     await slider.increment(1);
     await expect.poll(() => slider.getValue()).toBeGreaterThan(before);
   });
+
+  test('#673: story props bind, so keyboard steps report a numeric aria-valuenow', async ({
+    page,
+  }) => {
+    const frame = await gotoStory(page, 'forms-slider--default');
+    const thumb = frame.getByRole('slider');
+    // Wait for the bound story value before interacting (hydration can lag the iframe load).
+    await expect(thumb).toHaveAttribute('aria-valuenow', '40');
+    await thumb.focus();
+    await expect(thumb).toBeFocused();
+    await thumb.press('ArrowRight');
+    // Zoneless CD flushes after the keypress, so poll instead of reading once.
+    await expect
+      .poll(async () => Number(await thumb.getAttribute('aria-valuenow')))
+      .toBeGreaterThan(40);
+    expect(Number.isFinite(Number(await thumb.getAttribute('aria-valuenow')))).toBe(true);
+  });
 });
