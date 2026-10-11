@@ -229,4 +229,29 @@ describe('Tabs', () => {
     await userEvent.keyboard('{ArrowUp}');
     expect(tabA).toHaveFocus();
   });
+
+  it('A-7 #686: two Tabs sharing values get unique DOM ids and wiring', async () => {
+    await renderTemplate(
+      `<div>
+        <mui-tabs activeTab="a">
+          <mui-tab-list><mui-tab value="a">A1</mui-tab></mui-tab-list>
+          <mui-tab-panel value="a">P1</mui-tab-panel>
+        </mui-tabs>
+        <mui-tabs activeTab="a">
+          <mui-tab-list><mui-tab value="a">A2</mui-tab></mui-tab-list>
+          <mui-tab-panel value="a">P2</mui-tab-panel>
+        </mui-tabs>
+      </div>`,
+      { imports: ALL },
+    );
+    const tabs = screen.getAllByRole('tab');
+    const panels = screen.getAllByRole('tabpanel');
+    const tabIds = tabs.map((t) => t.id);
+    expect(new Set(tabIds).size).toBe(2);
+    expect(new Set(panels.map((p) => p.id)).size).toBe(2);
+    tabs.forEach((tab, i) => {
+      expect(tab.getAttribute('aria-controls')).toBe(panels[i].id);
+      expect(panels[i].getAttribute('aria-labelledby')).toBe(tab.id);
+    });
+  });
 });
