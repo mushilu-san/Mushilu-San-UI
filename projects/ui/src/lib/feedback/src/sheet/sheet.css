@@ -45,6 +45,7 @@
   inset: 0 0 0 auto;
   inline-size: var(--_sheet-inline-size, var(--_sheet-size-md));
   block-size: 100dvh;
+  /* stylelint-disable-next-line property-disallowed-list -- side="right" is a physical edge; the inner border is always on the left. */
   border-left: 1px solid var(--mui-color-border);
   animation: mui-sheet-in-right var(--mui-duration-normal, 220ms) var(--mui-easing-default, ease)
     both;
@@ -64,6 +65,7 @@
   inset: 0 auto 0 0;
   inline-size: var(--_sheet-inline-size, var(--_sheet-size-md));
   block-size: 100dvh;
+  /* stylelint-disable-next-line property-disallowed-list -- side="left" is a physical edge; the inner border is always on the right. */
   border-right: 1px solid var(--mui-color-border);
   animation: mui-sheet-in-left var(--mui-duration-normal, 220ms) var(--mui-easing-default, ease)
     both;

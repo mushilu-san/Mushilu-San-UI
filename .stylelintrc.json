@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/stylelintrc.json",
+  "rules": {
+    "property-disallowed-list": [
+      [
+        "margin-left",
+        "margin-right",
+        "padding-left",
+        "padding-right",
+        "border-left",
+        "border-right"
+      ],
+      {
+        "message": "Use logical properties (margin-inline-start, padding-inline-end, border-inline-start, ...) so the component works under dir=rtl (#584)."
+      }
+    ],
+    "declaration-property-value-disallowed-list": {
+      "text-align": ["left", "right"]
+    }
+  }
+}
