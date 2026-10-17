@@ -68,7 +68,7 @@
     "@ngx-playwright/test": "^0.6.2",
     "@nx/angular": "23.2.1",
     "@nx/workspace": "23.2.1",
-    "@playwright/test": "^1.63.0",
+    "@playwright/test": "^1.64.0",
     "@schematics/angular": "^22.2.2",
     "@size-limit/preset-small-lib": "^14.1.0",
     "@storybook/addon-a11y": "^10.6.1",
