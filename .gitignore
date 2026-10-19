@@ -54,9 +54,6 @@ storybook-static
 /playwright-report/
 /.playwright-mcp/
 
-# Graphify
-/graphify-out/
-
 # Nx
 .nx/cache
 .nx/workspace-data

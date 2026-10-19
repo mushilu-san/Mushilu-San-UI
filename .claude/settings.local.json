@@ -17,7 +17,6 @@
       "Bash(gh auth *)",
       "Bash(gh repo *)",
       "Read(//Users/mzakay/.claude/skills/skill-qa-agent/**)",
-      "Bash(python3 -m scripts.lint_skill --format skill ~/.claude/skills/graphify)",
       "Bash(python3 -m scripts.lint_skill --format skill ~/.claude/skills/skill-qa-agent)",
       "Bash(python3 -m scripts.lint_skill --format skill ~/.claude/skills/ui-ux-design)",
       "Bash(python3 -m scripts.lint_skill --format mdc ~/.cursor/rules/skill-qa.mdc)",
