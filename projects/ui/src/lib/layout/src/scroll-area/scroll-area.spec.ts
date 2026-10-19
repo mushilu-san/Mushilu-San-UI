@@ -31,4 +31,11 @@ describe('ScrollArea', () => {
     });
     expect(document.querySelector('.mui-scroll-area__viewport p')).toBeInTheDocument();
   });
+
+  it('H-A11Y-728: the scrollable viewport can receive keyboard focus', async () => {
+    await renderTemplate('<mui-scroll-area><p>Long content</p></mui-scroll-area>', {
+      imports: [ScrollArea],
+    });
+    expect(document.querySelector('.mui-scroll-area__viewport')).toHaveAttribute('tabindex', '0');
+  });
 });

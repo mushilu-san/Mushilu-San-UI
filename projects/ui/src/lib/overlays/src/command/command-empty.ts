@@ -6,9 +6,9 @@ import { COMMAND_CONTEXT } from './command';
   standalone: true,
   template: `
     @if (!ctx.search()) {
-      <div class="mui-command-empty" part="empty" role="status"><ng-content /></div>
+      <div class="mui-command-empty" part="empty" aria-live="polite"><ng-content /></div>
     } @else {
-      <div class="mui-command-empty" part="empty" role="status"><ng-content /></div>
+      <div class="mui-command-empty" part="empty" aria-live="polite"><ng-content /></div>
     }
   `,
   styles: [

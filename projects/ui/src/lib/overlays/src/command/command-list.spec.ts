@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/angular';
 import { describe, expect, it } from 'vitest';
-import { renderTemplate } from '../../../../core/testing';
+import { renderComponent, renderTemplate } from '../../../../core/testing';
 import { CommandList } from './command-list';
 
 describe('CommandList', () => {
@@ -22,5 +22,10 @@ describe('CommandList', () => {
       },
     );
     expect(screen.getByTestId('item')).toBeInTheDocument();
+  });
+
+  it('H-A11Y-726: names the listbox', async () => {
+    await renderComponent(CommandList, { inputs: { label: 'Pages' } });
+    expect(document.querySelector('[role="listbox"]')).toHaveAttribute('aria-label', 'Pages');
   });
 });

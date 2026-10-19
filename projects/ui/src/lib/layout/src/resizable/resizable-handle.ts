@@ -23,6 +23,7 @@ import { RESIZABLE_GROUP_CONTEXT } from './resizable-context';
     '[attr.data-handle]': 'withHandle() || null',
     '[attr.part]': '"handle"',
     role: 'separator',
+    '[attr.aria-valuenow]': 'valueNow()',
     '[attr.aria-orientation]': 'direction() === "horizontal" ? "vertical" : "horizontal"',
     '(pointerdown)': 'onPointerDown($event)',
     '(keydown)': 'onKeydown($event)',
@@ -37,6 +38,8 @@ export class ResizableHandle {
   private readonly el = inject(ElementRef<HTMLElement>);
 
   protected readonly direction = computed(() => this.ctx.direction());
+  /** Size of the panel before this handle, in percent. Needed for a focusable separator (#727). */
+  protected readonly valueNow = computed(() => this.ctx.handleValue(this.el.nativeElement));
   protected readonly gripDots: [number, number][] = [
     [8, 8],
     [8, 12],

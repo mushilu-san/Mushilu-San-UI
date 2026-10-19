@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   summary: 'A region with a styled scrollbar for content that is taller or wider than its box.',
   description: [
     'Scroll area clips its content and scrolls it inside a box with a themed scrollbar. Set `orientation` to `vertical`, `horizontal` or `both`.',
-    'The region is not focusable by default. Add `tabindex="0"` to it when it has no focusable content, so keyboard users can scroll it with the arrow and page keys.',
+    'The scrollable viewport is focusable, so keyboard users can scroll it with the arrow and page keys.',
   ],
   whenToUse: [
     'A long list or log inside a fixed-height panel.',

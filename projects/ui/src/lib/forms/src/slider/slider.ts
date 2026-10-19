@@ -45,6 +45,8 @@ export class Slider implements ControlValueAccessor {
   disabled = input(false, { transform: booleanAttribute });
   /** Current value. Two-way bindable with `[(value)]`. */
   value = model(0);
+  /** Accessible name for the thumb. Set it, since `aria-label` on the host does not reach the thumb (#729). */
+  label = input<string>();
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly trackRef = viewChild.required<ElementRef<HTMLDivElement>>('trackRef');

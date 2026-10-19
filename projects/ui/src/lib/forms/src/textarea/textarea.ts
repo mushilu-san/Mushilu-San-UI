@@ -18,6 +18,7 @@ import type { TextareaResize, TextareaSize, TextareaVariant } from './textarea.t
     '[attr.data-size]': 'size()',
     '[attr.data-variant]': 'variant()',
     '[attr.data-invalid]': 'invalid() || null',
+    '[attr.aria-invalid]': 'invalid() || null',
     '[attr.data-resize]': 'resize()',
     '[attr.part]': '"textarea"',
   },
@@ -29,6 +30,6 @@ export class Textarea {
   variant = input<TextareaVariant>('outline');
   /** Whether the user can resize the textarea: `none`, `vertical` or `both`. Default `vertical`. */
   resize = input<TextareaResize>('vertical');
-  /** Shows the failed-validation style and sets `data-invalid`. Does not set `aria-invalid`. */
+  /** Shows the failed-validation style and sets `data-invalid`. Also sets `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
 }

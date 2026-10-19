@@ -44,4 +44,17 @@ describe('Select (muiSelect directive)', () => {
     });
     expect(document.querySelector('select')).toHaveAttribute('data-invalid');
   });
+
+  // #724: invalid state must reach assistive technology, not only the stylesheet.
+  it('H-A11Y-724: sets aria-invalid when invalid', async () => {
+    await renderTemplate('<select muiSelect invalid><option>a</option></select>', {
+      imports: [Select],
+    });
+    expect(document.querySelector('select')).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('H-A11Y-724: omits aria-invalid when valid', async () => {
+    await renderTemplate('<select muiSelect><option>a</option></select>', { imports: [Select] });
+    expect(document.querySelector('select')).not.toHaveAttribute('aria-invalid');
+  });
 });

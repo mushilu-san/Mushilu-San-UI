@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   summary: 'Applies the library type scale to headings, body text, quotes and code.',
   description: [
     'Typography applies the type scale to its content. `variant` picks the style: `h1` to `h4` for headings, `p`, `lead`, `large`, `small` and `muted` for body text, and `code` and `blockquote`.',
-    'Typography only styles the text. It does not create a heading element, so `variant="h1"` alone gives a screen reader no heading. Wrap the text in a native heading when the outline matters.',
+    'Heading variants (`h1`–`h4`) are exposed as `role="heading"` with the matching `aria-level`, so screen readers see the outline.',
   ],
   whenToUse: [
     'Headings and body text that should match the type scale without a custom class.',
@@ -40,7 +40,8 @@ export const doc: ComponentDoc = {
       {
         element: 'host',
         role: '— (no role)',
-        notes: 'Styled text only. Add a native heading element around heading variants.',
+        notes:
+          'Heading variants get `role="heading"` and `aria-level`. Other variants have no role.',
       },
     ],
     keyboard: [],

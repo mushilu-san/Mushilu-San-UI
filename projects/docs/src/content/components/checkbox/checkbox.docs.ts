@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   summary: 'A native checkbox for selecting one or more independent options.',
   description: [
     'Checkbox is applied to a native `<input type="checkbox">`, so it keeps the native role, checked state and Space key behaviour. Pair it with a `<label>` so the whole label is clickable.',
-    'Set `invalid` to show the failed-validation styling (`data-invalid`). The component does not set `aria-invalid`, so also set it yourself and link an error message with `aria-describedby`.',
+    'Set `invalid` to show the failed-validation styling (`data-invalid`) and to set `aria-invalid="true"`. Link an error message with `aria-describedby`.',
   ],
   whenToUse: [
     'Choosing any number of options from a list, such as notification types.',
@@ -49,8 +49,7 @@ export const doc: ComponentDoc = {
       {
         element: 'input[type=checkbox]',
         role: 'checkbox (native)',
-        notes:
-          '`invalid` adds `data-invalid` for styling only. Set `aria-invalid="true"` yourself.',
+        notes: '`invalid` sets `data-invalid` and `aria-invalid="true"`.',
       },
     ],
     keyboard: [

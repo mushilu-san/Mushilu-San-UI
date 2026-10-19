@@ -21,6 +21,7 @@ import { INPUT_GROUP_CONTEXT } from '../input-group/input-group';
     '[attr.data-size]': 'size()',
     '[attr.data-variant]': 'variant()',
     '[attr.data-invalid]': 'effectiveInvalid() || null',
+    '[attr.aria-invalid]': 'effectiveInvalid() || null',
     '[attr.data-in-group]': 'groupCtx != null ? "" : null',
     '[attr.part]': '"input"',
   },
@@ -30,7 +31,7 @@ export class Input {
   size = input<InputSize>('md');
   /** Visual style: `outline`, `filled` or `ghost`. Default `outline`. */
   variant = input<InputVariant>('outline');
-  /** Shows the failed-validation style and sets `data-invalid`. Does not set `aria-invalid`. */
+  /** Shows the failed-validation style and sets `data-invalid`. Also sets `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
 
   protected readonly groupCtx = inject(INPUT_GROUP_CONTEXT, { optional: true });

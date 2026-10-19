@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   summary: 'A multi-line text field for longer free-form input.',
   description: [
     'Textarea is applied to a native `<textarea>`. Set `resize` to control whether the user can resize it: `vertical` by default, `none` to fix the size, or `both`.',
-    'As with Input, `invalid` only adds `data-invalid`. Set `aria-invalid="true"` yourself and link the error message.',
+    'As with Input, `invalid` also sets `aria-invalid="true"`. Link the error message with `aria-describedby`.',
   ],
   whenToUse: [
     'A comment, description or message that can span several lines.',
@@ -42,7 +42,7 @@ export const doc: ComponentDoc = {
       {
         element: 'textarea[muiTextarea]',
         role: 'textbox (native)',
-        notes: '`invalid` adds `data-invalid` only.',
+        notes: '`invalid` sets `data-invalid` and `aria-invalid="true"`.',
       },
     ],
     keyboard: [
