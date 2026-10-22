@@ -22,8 +22,8 @@
 
 /* ---- Sizes ---- */
 .mui-toggle-group-item__btn[data-size='sm'] {
-  min-height: 32px;
-  min-width: 32px;
+  min-height: var(--mui-touch-target);
+  min-width: var(--mui-touch-target);
   padding: 0 var(--mui-space-2);
   font-size: var(--mui-font-size-sm);
 }

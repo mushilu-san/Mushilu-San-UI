@@ -15,12 +15,13 @@
 }
 
 :host([data-size='sm']) {
-  height: 32px;
+  /* 44px hit area (WCAG 2.5.5); size variant only changes padding and text */
+  height: var(--mui-touch-target);
   --_padding-x: var(--mui-space-2);
   --_font-size: var(--mui-font-size-sm);
 }
 :host([data-size='md']) {
-  height: 40px;
+  height: var(--mui-touch-target);
 }
 :host([data-size='lg']) {
   height: 48px;

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   inject,
   ViewEncapsulation,
   booleanAttribute,
@@ -12,8 +13,9 @@ import {
   numberAttribute,
   viewChild,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { resolveDirection, useCva } from '@mushilu-san/ui';
+import { createDrag, resolveDirection, useCva, type DragSession } from '@mushilu-san/ui';
 
 @Component({
   selector: 'mui-slider',
@@ -34,7 +36,7 @@ import { resolveDirection, useCva } from '@mushilu-san/ui';
     '[attr.part]': '"root"',
   },
 })
-export class Slider implements ControlValueAccessor {
+export class Slider implements ControlValueAccessor, OnDestroy {
   /** Lowest value on the slider. Default `0`. */
   min = input(0, { transform: numberAttribute });
   /** Highest value on the slider. Default `100`. */
@@ -49,6 +51,8 @@ export class Slider implements ControlValueAccessor {
   label = input<string>();
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly doc = inject(DOCUMENT);
+  private _dragSession: DragSession | null = null;
   private readonly trackRef = viewChild.required<ElementRef<HTMLDivElement>>('trackRef');
 
   private readonly _cva = useCva<number>(this.disabled);
@@ -114,11 +118,26 @@ export class Slider implements ControlValueAccessor {
     if (this.isDisabled()) return;
     (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
     this.setFromClientX(event.clientX);
+    this.endDrag();
+    this._dragSession = createDrag(this.doc, {
+      onMove: (e) => {
+        if (this.isDisabled() || e.buttons === 0) return;
+        this.setFromClientX(e.clientX);
+      },
+      onEnd: () => {
+        this._dragSession = null;
+      },
+    });
   }
 
-  protected onTrackPointerMove(event: PointerEvent): void {
-    if (this.isDisabled() || event.buttons === 0) return;
-    this.setFromClientX(event.clientX);
+  /** Stops following the pointer. Also called on `pointercancel`, which `createDrag` does not see. */
+  protected endDrag(): void {
+    this._dragSession?.destroy();
+    this._dragSession = null;
+  }
+
+  ngOnDestroy(): void {
+    this.endDrag();
   }
 
   protected onBlur(): void {

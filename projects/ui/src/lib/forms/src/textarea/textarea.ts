@@ -5,6 +5,7 @@ import {
   booleanAttribute,
   input,
 } from '@angular/core';
+import { linkFieldDescription } from '../form-field/form-field-context';
 import type { TextareaResize, TextareaSize, TextareaVariant } from './textarea.types';
 
 @Component({
@@ -32,4 +33,8 @@ export class Textarea {
   resize = input<TextareaResize>('vertical');
   /** Shows the failed-validation style and sets `data-invalid`. Also sets `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
+
+  constructor() {
+    linkFieldDescription();
+  }
 }

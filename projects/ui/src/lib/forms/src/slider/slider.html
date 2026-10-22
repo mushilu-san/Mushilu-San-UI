@@ -3,7 +3,7 @@
   class="slider-track"
   part="track"
   (pointerdown)="onTrackPointerDown($event)"
-  (pointermove)="onTrackPointerMove($event)"
+  (pointercancel)="endDrag()"
 >
   <div class="slider-fill" part="fill" [style.width.%]="fillPercent()"></div>
 
