@@ -7,14 +7,14 @@ test.describe('AlertDialog — E2E focus trap + no-Escape', () => {
   test('focus moves inside alert dialog on open', async ({ page }) => {
     const frame = await gotoStory(page, 'feedback-alertdialog--default');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
-    await expect(frame.getByRole('dialog')).toBeVisible();
+    await expect(frame.getByRole('alertdialog')).toBeVisible();
     await expect(frame.locator('dialog:focus-within')).toBeAttached();
   });
 
   test('Escape does NOT close the alert dialog', async ({ page }) => {
     const frame = await gotoStory(page, 'feedback-alertdialog--default');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
-    const dialog = frame.getByRole('dialog');
+    const dialog = frame.getByRole('alertdialog');
     await expect(dialog).toBeVisible();
     await page.keyboard.press('Escape');
     // Dialog must remain open — this is the key AlertDialog invariant
@@ -29,6 +29,8 @@ test.describe('AlertDialog — E2E focus trap + no-Escape', () => {
     await expect.poll(() => dialog.isOpen()).toBe(true);
     await dialog.cancel();
     await expect.poll(() => dialog.isOpen()).toBe(false);
+    // H-E-ed438e: focus returns to the trigger after close
+    await expect(frame.getByRole('button', { name: 'Open dialog' })).toBeFocused();
   });
 
   test('Confirm button closes the alert dialog', async ({ page }) => {
@@ -38,5 +40,7 @@ test.describe('AlertDialog — E2E focus trap + no-Escape', () => {
     await expect.poll(() => dialog.isOpen()).toBe(true);
     await dialog.confirm();
     await expect.poll(() => dialog.isOpen()).toBe(false);
+    // H-E-ed438e: focus returns to the trigger after close
+    await expect(frame.getByRole('button', { name: 'Open dialog' })).toBeFocused();
   });
 });

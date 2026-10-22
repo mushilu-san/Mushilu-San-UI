@@ -87,7 +87,11 @@ export class AlertDialog {
     if (this.open()) this.open.set(false);
   }
 
-  /** Escape is intentionally prevented — AlertDialog must be explicitly dismissed. */
+  /**
+   * Escape is intentionally prevented — AlertDialog must be explicitly dismissed.
+   * NOTE: conflicts with the "Escape closes overlays" rule and the APG alertdialog pattern;
+   * kept pending a human decision (#809).
+   */
   protected onCancel(event: Event): void {
     event.preventDefault();
   }

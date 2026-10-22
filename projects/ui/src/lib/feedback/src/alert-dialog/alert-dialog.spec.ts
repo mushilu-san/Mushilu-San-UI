@@ -15,6 +15,14 @@ describe('AlertDialog', () => {
     expect(document.querySelector('dialog')).toHaveAttribute('open');
   });
 
+  it('H-A-67dc46: panel has role=alertdialog, labelled and described', async () => {
+    await renderComponent(AlertDialog, { inputs: { open: true, heading: 'Delete?' } });
+    const dialog = screen.getByRole('alertdialog', { name: 'Delete?' });
+    expect(dialog).toHaveAttribute('aria-modal', 'true');
+    const descId = dialog.getAttribute('aria-describedby');
+    expect(descId && document.getElementById(descId)).toBeTruthy();
+  });
+
   it('renders heading', async () => {
     await renderComponent(AlertDialog, { inputs: { open: true, heading: 'Delete item?' } });
     expect(screen.getByRole('heading', { name: 'Delete item?' })).toBeInTheDocument();
