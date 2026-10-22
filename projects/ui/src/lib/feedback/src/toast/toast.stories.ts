@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 import { Toast } from './toast';
 import { ToastContainer } from './toast-container';
 import { ToastService } from './toast.service';
@@ -33,12 +33,16 @@ class ToastDemo {
 const meta: Meta<ToastDemo> = {
   title: 'Feedback/Toast',
   component: ToastDemo,
-  decorators: [moduleMetadata({ imports: [ToastDemo] })],
   parameters: { layout: 'padded' },
 };
 
 export default meta;
 type Story = StoryObj<ToastDemo>;
+
+export const Default: Story = {
+  render: (args) => ({ props: args }),
+  args: { placement: 'bottom-end' },
+};
 
 export const Playground: Story = {
   render: (args) => ({ props: args }),

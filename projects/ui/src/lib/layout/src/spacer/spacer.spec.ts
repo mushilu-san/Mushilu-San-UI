@@ -16,6 +16,18 @@ describe('Spacer', () => {
     expect(host.style.height).toBe('');
   });
 
+  it('H-T-a0301b: grows when size is bound to undefined or null (not NaN)', async () => {
+    await renderTemplate(
+      '<mui-spacer id="a" [size]="undefined"></mui-spacer><mui-spacer id="b" [size]="null"></mui-spacer>',
+      { imports: [Spacer] },
+    );
+    for (const id of ['a', 'b']) {
+      const host = document.getElementById(id) as HTMLElement;
+      expect(host.style.flex).toBe('1 1 0%');
+      expect(host.style.width).toBe('');
+    }
+  });
+
   it('becomes a fixed-size box when size is given', async () => {
     await renderTemplate('<mui-spacer [size]="4"></mui-spacer>', { imports: [Spacer] });
     const host = document.querySelector('mui-spacer') as HTMLElement;

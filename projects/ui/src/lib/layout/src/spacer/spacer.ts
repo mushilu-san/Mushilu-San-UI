@@ -7,6 +7,10 @@ import {
   numberAttribute,
 } from '@angular/core';
 
+// numberAttribute(null | undefined) is NaN, which would defeat the `??` fallback / grow check.
+const optionalNumber = (v: unknown): number | undefined =>
+  v == null ? undefined : numberAttribute(v);
+
 @Component({
   selector: 'mui-spacer',
   standalone: true,
@@ -28,7 +32,7 @@ export class Spacer {
    * When omitted, the spacer grows to fill available space (`flex: 1 1 0%`)
    * — the common "push items apart" pattern inside a Stack/flex row.
    */
-  size = input<number>(undefined, { transform: numberAttribute });
+  size = input<number | undefined, unknown>(undefined, { transform: optionalNumber });
 
   protected readonly flexValue = computed(() =>
     this.size() === undefined ? '1 1 0%' : '0 0 auto',

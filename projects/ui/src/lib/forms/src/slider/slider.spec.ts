@@ -312,4 +312,74 @@ describe('Slider', () => {
     await renderTemplate('<mui-slider label="Volume" />', { imports: [Slider] });
     expect(document.querySelector('.slider-thumb')).toHaveAttribute('aria-label', 'Volume');
   });
+
+  describe('H-C-70b835: drag lifecycle via createDrag', () => {
+    async function setup() {
+      const { fixture, detectChanges } = await renderComponent(Slider, {
+        inputs: { value: 0, min: 0, max: 100 },
+      });
+      const track = fixture.nativeElement.querySelector('.slider-track') as HTMLElement;
+      vi.spyOn(track, 'getBoundingClientRect').mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 20,
+        height: 20,
+        x: 0,
+        y: 0,
+        toJSON: () => ({}),
+      } as DOMRect);
+      track.setPointerCapture = vi.fn();
+      return { track, detectChanges, fixture };
+    }
+    const value = () => screen.getByRole('slider').getAttribute('aria-valuenow');
+
+    it('keeps dragging when the pointer leaves the track (document-level move)', async () => {
+      const { track, detectChanges } = await setup();
+      fireEvent.pointerDown(track, { clientX: 10, pointerId: 1 });
+      fireEvent.pointerMove(document.body, { clientX: 60, buttons: 1 });
+      detectChanges();
+      expect(value()).toBe('60');
+    });
+
+    it('stops following the pointer after pointerup', async () => {
+      const { track, detectChanges } = await setup();
+      fireEvent.pointerDown(track, { clientX: 10, pointerId: 1 });
+      fireEvent.pointerUp(document.body, { clientX: 10 });
+      fireEvent.pointerMove(document.body, { clientX: 90, buttons: 1 });
+      detectChanges();
+      expect(value()).toBe('10');
+    });
+
+    it('stops following the pointer after pointercancel', async () => {
+      const { track, detectChanges } = await setup();
+      fireEvent.pointerDown(track, { clientX: 10, pointerId: 1 });
+      fireEvent.pointerCancel(track, { pointerId: 1 });
+      fireEvent.pointerMove(document.body, { clientX: 90, buttons: 1 });
+      detectChanges();
+      expect(value()).toBe('10');
+    });
+
+    it('ignores moves once the slider is destroyed', async () => {
+      const { track, fixture } = await setup();
+      const spy = vi.spyOn(document, 'removeEventListener');
+      fireEvent.pointerDown(track, { clientX: 10, pointerId: 1 });
+      fixture.destroy();
+      expect(spy.mock.calls.some(([type]) => type === 'pointermove')).toBe(true);
+      spy.mockRestore();
+    });
+
+    it('does not start a drag when disabled', async () => {
+      const { fixture, detectChanges } = await renderComponent(Slider, {
+        inputs: { value: 20, disabled: true },
+      });
+      const track = fixture.nativeElement.querySelector('.slider-track') as HTMLElement;
+      track.setPointerCapture = vi.fn();
+      fireEvent.pointerDown(track, { clientX: 90, pointerId: 1 });
+      fireEvent.pointerMove(document.body, { clientX: 90, buttons: 1 });
+      detectChanges();
+      expect(value()).toBe('20');
+    });
+  });
 });

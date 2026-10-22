@@ -7,6 +7,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { linkFieldDescription } from '../form-field/form-field-context';
 import type { InputSize, InputVariant } from './input.types';
 import { INPUT_GROUP_CONTEXT } from '../input-group/input-group';
 
@@ -36,4 +37,8 @@ export class Input {
 
   protected readonly groupCtx = inject(INPUT_GROUP_CONTEXT, { optional: true });
   protected readonly effectiveInvalid = computed(() => this.groupCtx?.invalid() || this.invalid());
+
+  constructor() {
+    linkFieldDescription();
+  }
 }

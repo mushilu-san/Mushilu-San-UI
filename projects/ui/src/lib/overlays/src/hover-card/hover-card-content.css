@@ -4,7 +4,10 @@
 
 .mui-hover-card-content__panel {
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 200;
+  width: max-content;
   min-inline-size: 220px;
   max-inline-size: 360px;
   padding: var(--mui-space-4);
@@ -16,61 +19,7 @@
   animation: mui-hover-card-in var(--mui-duration-fast, 150ms) var(--mui-easing-default, ease) both;
 }
 
-/* ---- Placement ---- */
-.mui-hover-card-content__panel[data-placement^='bottom'] {
-  top: calc(100% + var(--mui-space-2));
-  left: 50%;
-  transform: translateX(-50%);
-}
-.mui-hover-card-content__panel[data-placement='bottom-start'] {
-  left: auto;
-  inset-inline-start: 0;
-  transform: none;
-}
-.mui-hover-card-content__panel[data-placement='bottom-end'] {
-  left: auto;
-  right: auto;
-  inset-inline-end: 0;
-  transform: none;
-}
-.mui-hover-card-content__panel[data-placement^='top'] {
-  bottom: calc(100% + var(--mui-space-2));
-  left: 50%;
-  transform: translateX(-50%);
-}
-.mui-hover-card-content__panel[data-placement='top-start'] {
-  left: auto;
-  inset-inline-start: 0;
-  transform: none;
-}
-.mui-hover-card-content__panel[data-placement='top-end'] {
-  left: auto;
-  right: auto;
-  inset-inline-end: 0;
-  transform: none;
-}
-.mui-hover-card-content__panel[data-placement^='left'] {
-  right: calc(100% + var(--mui-space-2));
-  top: 50%;
-  transform: translateY(-50%);
-}
-.mui-hover-card-content__panel[data-placement^='right'] {
-  left: calc(100% + var(--mui-space-2));
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* logical inline-axis placements: start = left in LTR, right in RTL */
-.mui-hover-card-content__panel[data-placement='start'] {
-  inset-inline-end: calc(100% + var(--mui-space-2));
-  top: 50%;
-  transform: translateY(-50%);
-}
-.mui-hover-card-content__panel[data-placement='end'] {
-  inset-inline-start: calc(100% + var(--mui-space-2));
-  top: 50%;
-  transform: translateY(-50%);
-}
+/* Placement: top/left are set from TS (computePosition, viewport-clamped). */
 
 @keyframes mui-hover-card-in {
   from {

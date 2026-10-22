@@ -27,6 +27,22 @@
   cursor: row-resize;
 }
 
+/* Invisible 44px hit area centred on the 5px bar; logical insets keep it RTL-safe (H-A-44ed13). */
+:host::before {
+  content: '';
+  position: absolute;
+}
+
+:host([data-direction='horizontal'])::before {
+  inset-block: 0;
+  inset-inline: calc((100% - var(--mui-touch-target)) / 2);
+}
+
+:host([data-direction='vertical'])::before {
+  inset-inline: 0;
+  inset-block: calc((100% - var(--mui-touch-target)) / 2);
+}
+
 :host(:focus-visible) {
   outline: none;
   box-shadow:

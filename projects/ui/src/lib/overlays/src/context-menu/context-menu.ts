@@ -18,6 +18,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { anchoredPanel, positionPanel } from '../positioning/anchored-panel';
 
 export interface ContextMenuContext {
   readonly open: Signal<boolean>;
@@ -58,11 +59,7 @@ export const CONTEXT_MENU_CONTEXT = new InjectionToken<ContextMenuContext>('CONT
       deps: [ContextMenu],
     },
   ],
-  host: {
-    '[attr.part]': '"root"',
-    '[style.--ctx-x.px]': 'panelX()',
-    '[style.--ctx-y.px]': 'panelY()',
-  },
+  host: { '[attr.part]': '"root"' },
 })
 export class ContextMenu {
   /** Whether the menu is open. Two-way bindable with `[(open)]`. */
@@ -75,17 +72,30 @@ export class ContextMenu {
   /** Emits when the menu closes, however it was closed. */
   readonly closed = output<void>();
 
-  protected readonly panelX = signal(0);
-  protected readonly panelY = signal(0);
+  private readonly point = signal({ x: 0, y: 0 });
 
   private readonly doc = inject(DOCUMENT);
   private readonly injector = inject(Injector);
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panelEl');
   private _restoreFocusEl: HTMLElement | null = null;
 
+  constructor() {
+    // H-C-a640a4: shared computePosition (4px viewport clamp), re-run on scroll/resize.
+    // The panel is position: fixed, so the cursor point is a zero-size anchor and the
+    // menu opens down-and-inline-end of it (rtl: false keeps the cursor on its left edge).
+    anchoredPanel({
+      open: this.open,
+      panel: () => this.panelRef()?.nativeElement,
+      place: (panel) => {
+        const { x, y } = this.point();
+        const anchor = { left: x, top: y, right: x, bottom: y, width: 0, height: 0 } as DOMRect;
+        positionPanel(panel, anchor, 'bottom-start', { rtl: false, gap: 0 });
+      },
+    });
+  }
+
   openAt(clientX: number, clientY: number): void {
-    this.panelX.set(clientX);
-    this.panelY.set(clientY);
+    this.point.set({ x: clientX, y: clientY });
     this.open.set(true);
     this.opened.emit();
     // H-E-648d10: focus must move into the menu panel once it renders — a

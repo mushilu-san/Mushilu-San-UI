@@ -77,7 +77,14 @@ export class Command {
     if (!items.length) return;
     const active = this.doc.activeElement as HTMLElement | null;
     const idx = active ? items.indexOf(active) : -1;
-    const next = (idx + direction + items.length) % items.length;
+    // H-C-f453c0: from outside the list (e.g. the input) ArrowUp must land on the last
+    // item, not len-2 — step from "before the first" / "after the last" instead.
+    const next =
+      idx < 0
+        ? direction === 1
+          ? 0
+          : items.length - 1
+        : (idx + direction + items.length) % items.length;
     items[next]?.focus();
   }
 }

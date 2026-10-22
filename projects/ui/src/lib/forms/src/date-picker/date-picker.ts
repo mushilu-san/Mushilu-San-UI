@@ -1,5 +1,7 @@
 import {
   ChangeDetectionStrategy,
+  Injector,
+  afterNextRender,
   Component,
   ElementRef,
   HostListener,
@@ -10,6 +12,7 @@ import {
   inject,
   input,
   model,
+  runInInjectionContext,
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
@@ -64,6 +67,7 @@ export class DatePicker implements ControlValueAccessor {
   protected readonly isOpen = signal(false);
 
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly injector = inject(Injector);
   private readonly _cva = useCva<Date | null>(this.disabled);
   protected readonly isDisabled = this._cva.isDisabled;
 
@@ -79,7 +83,18 @@ export class DatePicker implements ControlValueAccessor {
 
   protected toggle(): void {
     if (this.isDisabled()) return;
-    this.isOpen.update((o) => !o);
+    const open = !this.isOpen();
+    this.isOpen.set(open);
+    if (open) this.focusAfterRender('.dp-panel button.cal-day[tabindex="0"]');
+  }
+
+  /** Moves focus once Angular has rendered the target (panel content, or the trigger). */
+  private focusAfterRender(selector: string): void {
+    runInInjectionContext(this.injector, () => {
+      afterNextRender(() => {
+        (this.el.nativeElement as HTMLElement).querySelector<HTMLElement>(selector)?.focus();
+      });
+    });
   }
 
   protected close(): void {
@@ -92,6 +107,7 @@ export class DatePicker implements ControlValueAccessor {
     this._cva.onChange(n);
     this._cva.onTouched();
     this.isOpen.set(false);
+    this.focusAfterRender('.dp-trigger');
   }
 
   @HostListener('document:click', ['$event'])
@@ -106,7 +122,7 @@ export class DatePicker implements ControlValueAccessor {
   protected onEscape(): void {
     if (!this.isOpen()) return;
     this.close();
-    (this.el.nativeElement as HTMLElement).querySelector<HTMLElement>('.dp-trigger')?.focus();
+    this.focusAfterRender('.dp-trigger');
   }
 
   writeValue(v: Date | null): void {

@@ -215,13 +215,58 @@ describe('DropdownMenu', () => {
     expect(screen.getByRole('menu')).toBeInTheDocument();
   });
 
-  it('ArrowDown focuses first item when nothing is focused', async () => {
+  it('ArrowDown focuses first item when nothing in the menu is focused', async () => {
     const user = userEvent.setup();
     await renderTemplate(basic, { imports });
     await user.click(screen.getByRole('button', { name: 'Open' }));
+    (document.activeElement as HTMLElement).blur();
     const host = document.querySelector('mui-dropdown-menu')!;
     fireEvent.keyDown(host, { key: 'ArrowDown' });
     expect(document.activeElement).toBe(screen.getAllByRole('menuitem')[0]);
+  });
+
+  it('H-E-c091ef: opening moves focus onto the first enabled item', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(
+      `<mui-dropdown-menu>
+        <button muiDropdownTrigger>Open</button>
+        <mui-dropdown-item [disabled]="true">Off</mui-dropdown-item>
+        <mui-dropdown-item>On</mui-dropdown-item>
+      </mui-dropdown-menu>`,
+      { imports },
+    );
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    expect(document.activeElement).toBe(screen.getByRole('menuitem', { name: 'On' }));
+  });
+
+  it('H-E-c091ef: choosing an item returns focus to the trigger', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(basic, { imports });
+    const trigger = screen.getByRole('button', { name: 'Open' });
+    await user.click(trigger);
+    await user.click(screen.getByRole('menuitem', { name: 'Edit' }));
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it('H-C-07cbc7: panel is placed via computePosition, clamped to the viewport', async () => {
+    const user = userEvent.setup();
+    const anchor = { left: 980, top: 740, width: 40, height: 20, right: 1020, bottom: 760 };
+    vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(
+      () => anchor as DOMRect,
+    );
+    vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(160);
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(100);
+    await renderTemplate(basic, { imports });
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    const panel = screen.getByRole('menu');
+    // viewport 1024x768: left clamps to 1024-160-4 (860); top to 768-100-4 (664)
+    expect(panel.style.left).toBe('-120px');
+    expect(panel.style.top).toBe('-76px');
+    Object.assign(anchor, { top: 200, bottom: 220 });
+    window.dispatchEvent(new Event('scroll'));
+    expect(panel.style.top).toBe('24px'); // 220 + 4 gap - 200
+    vi.restoreAllMocks();
   });
 
   it('ArrowDown cycles to next item', async () => {
@@ -325,7 +370,6 @@ describe('DropdownMenu', () => {
     const trigger = screen.getByRole('button', { name: 'Open' });
     await user.click(trigger);
     const host = document.querySelector('mui-dropdown-menu')!;
-    fireEvent.keyDown(host, { key: 'ArrowDown' });
     expect(document.activeElement).toBe(screen.getAllByRole('menuitem')[0]);
     fireEvent.keyDown(host, { key: 'Escape' });
     expect(document.activeElement).toBe(trigger);

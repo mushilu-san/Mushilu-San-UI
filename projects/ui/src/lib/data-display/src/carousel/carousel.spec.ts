@@ -312,4 +312,56 @@ describe('Carousel autoPlay (fake timers)', () => {
     expect(() => fixture.destroy()).not.toThrow();
     expect(() => vi.advanceTimersByTime(5000)).not.toThrow();
   });
+
+  it('H-B-3d9b82: autoPlay changes at runtime start and stop the timer', async () => {
+    const props = { ap: 0 };
+    const { fixture, detectChanges } = await renderTemplate(
+      `<mui-carousel [autoPlay]="ap">
+        <mui-carousel-content>
+          <mui-carousel-item>Slide 1</mui-carousel-item>
+          <mui-carousel-item>Slide 2</mui-carousel-item>
+          <mui-carousel-item>Slide 3</mui-carousel-item>
+        </mui-carousel-content>
+      </mui-carousel>`,
+      { imports: IMPORTS, componentProperties: props },
+    );
+    vi.advanceTimersByTime(5000);
+    detectChanges();
+    expect(getItems()[0]).toHaveAttribute('data-active');
+
+    (fixture.componentInstance as { ap: number }).ap = 1000;
+    detectChanges();
+    vi.advanceTimersByTime(1000);
+    detectChanges();
+    expect(getItems()[1]).toHaveAttribute('data-active');
+
+    (fixture.componentInstance as { ap: number }).ap = 0;
+    detectChanges();
+    vi.advanceTimersByTime(5000);
+    detectChanges();
+    expect(getItems()[1]).toHaveAttribute('data-active');
+  });
+});
+
+describe('Carousel item registry', () => {
+  it('H-B-3d9b82: removing a middle slide then adding one keeps indices unique and contiguous', async () => {
+    const { fixture, detectChanges } = await renderTemplate(
+      `<mui-carousel>
+        <mui-carousel-content>
+          @for (i of items; track i) {
+            <mui-carousel-item>Slide {{ i }}</mui-carousel-item>
+          }
+        </mui-carousel-content>
+      </mui-carousel>`,
+      { imports: IMPORTS, componentProperties: { items: [1, 2, 3] } },
+    );
+    const host = fixture.componentInstance as { items: number[] };
+    host.items = [1, 3];
+    detectChanges();
+    host.items = [1, 3, 4];
+    detectChanges();
+    const labels = getItems().map((el) => el.getAttribute('aria-label'));
+    expect(labels).toEqual(['Slide 1 of 3', 'Slide 2 of 3', 'Slide 3 of 3']);
+    expect(getItems().filter((el) => el.hasAttribute('data-active'))).toHaveLength(1);
+  });
 });

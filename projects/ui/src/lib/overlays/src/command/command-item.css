@@ -21,7 +21,9 @@
 }
 
 .mui-command-item__btn:focus-visible {
-  outline: none;
+  /* H-A-5a851d: real ring, inset so the list's overflow can't clip it. */
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: calc(var(--mui-focus-ring-width) * -1);
   background-color: color-mix(in srgb, var(--mui-color-primary) 12%, transparent);
 }
 

@@ -16,6 +16,8 @@ import {
   runInInjectionContext,
   viewChild,
 } from '@angular/core';
+import { resolveDirection } from '@mushilu-san/ui';
+import { anchoredPanel, positionPanel } from '../positioning/anchored-panel';
 import type { PopoverPlacement } from './popover.types';
 
 let popoverUid = 0;
@@ -87,6 +89,22 @@ export class Popover {
   private readonly doc = inject(DOCUMENT);
   private readonly panelEl = viewChild<ElementRef<HTMLElement>>('panelEl');
   private triggerEl: HTMLElement | null = null;
+
+  constructor() {
+    // H-C-c098c2: shared computePosition (4px viewport clamp), re-run on scroll/resize.
+    anchoredPanel({
+      open: this.open,
+      panel: () => this.panelEl()?.nativeElement,
+      place: (panel) => {
+        const host = this.el.nativeElement as HTMLElement;
+        const anchor = host.getBoundingClientRect();
+        positionPanel(panel, anchor, this.placement(), {
+          rtl: resolveDirection(host, this.doc) === 'rtl',
+          origin: anchor,
+        });
+      },
+    });
+  }
 
   toggle(): void {
     const next = !this.open();

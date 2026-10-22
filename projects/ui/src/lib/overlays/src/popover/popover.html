@@ -10,7 +10,6 @@
     [id]="panelId"
     [attr.data-placement]="placement()"
     [attr.aria-labelledby]="heading() ? headingId : null"
-    [attr.aria-modal]="'true'"
   >
     @if (heading()) {
       <p class="mui-popover__heading" part="heading" [id]="headingId">{{ heading() }}</p>

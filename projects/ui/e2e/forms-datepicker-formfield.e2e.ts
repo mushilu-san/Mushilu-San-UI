@@ -21,13 +21,23 @@ test.describe('DatePicker — E-234 trigger, open/close, disabled state', () => 
     await expect(frame.locator('[role="dialog"]')).toBeVisible();
   });
 
-  test('Escape closes the open panel', async ({ page }) => {
-    const { loader } = await gotoStoryWithHarness(page, 'forms-datepicker--default');
+  test('opening moves focus inside the panel', async ({ page }) => {
+    const { frame, loader } = await gotoStoryWithHarness(page, 'forms-datepicker--default');
     const picker = await loader.getHarness(MuiDatePickerHarness);
     await picker.open();
     await expect.poll(() => picker.isOpen()).toBe(true);
-    await picker.close();
+    await expect(frame.locator('.dp-panel button.cal-day[tabindex="0"]')).toBeFocused();
+  });
+
+  test('Escape closes the open panel and returns focus to the trigger', async ({ page }) => {
+    const { frame, loader } = await gotoStoryWithHarness(page, 'forms-datepicker--default');
+    const picker = await loader.getHarness(MuiDatePickerHarness);
+    await picker.open();
+    await expect.poll(() => picker.isOpen()).toBe(true);
+    await expect(frame.locator('.dp-panel button.cal-day[tabindex="0"]')).toBeFocused();
+    await page.keyboard.press('Escape');
     await expect.poll(() => picker.isOpen()).toBe(false);
+    await expect(frame.locator('.dp-trigger')).toBeFocused();
   });
 
   test('selecting a day updates the displayed value and closes the panel', async ({ page }) => {
