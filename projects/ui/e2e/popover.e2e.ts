@@ -39,4 +39,22 @@ test.describe('Popover — E-3 focus / Escape / return-focus', () => {
     await expect(frame.getByRole('dialog')).not.toBeVisible();
     await expect(trigger).toBeFocused();
   });
+
+  test('H-C-c098c2: panel is placed under the trigger and inside the viewport', async ({
+    page,
+  }) => {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-popover--default');
+    const trigger = frame.getByRole('button', { name: /open popover/i });
+    await trigger.click();
+    const panel = frame.getByRole('dialog');
+    await expect(panel).toBeVisible();
+    const t = await trigger.boundingBox();
+    const p = await panel.boundingBox();
+    const vp = page.viewportSize();
+    if (!t || !p || !vp) throw new Error('missing geometry');
+    expect(p.y).toBeGreaterThanOrEqual(t.y + t.height);
+    expect(p.y - (t.y + t.height)).toBeLessThanOrEqual(8 + 4);
+    expect(p.x).toBeGreaterThanOrEqual(4 - 1);
+    expect(p.x + p.width).toBeLessThanOrEqual(vp.width - 4 + 1);
+  });
 });

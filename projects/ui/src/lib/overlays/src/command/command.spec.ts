@@ -140,6 +140,25 @@ describe('Command', () => {
     expect(document.activeElement).toBe(items[items.length - 1]);
   });
 
+  it('H-C-f453c0: ArrowUp from the input lands on the last item (not len-2)', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const items = screen.getAllByRole('option');
+    expect(items.length).toBeGreaterThan(2);
+    screen.getByRole('textbox').focus();
+    await user.keyboard('{ArrowUp}');
+    expect(document.activeElement).toBe(items[items.length - 1]);
+  });
+
+  it('H-C-f453c0: ArrowDown from the input lands on the first item', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const items = screen.getAllByRole('option');
+    screen.getByRole('textbox').focus();
+    await user.keyboard('{ArrowDown}');
+    expect(document.activeElement).toBe(items[0]);
+  });
+
   it('moveFocus does nothing when command has no focusable items', async () => {
     const user = userEvent.setup();
     await renderTemplate(`<mui-command><mui-command-input placeholder="Search…" /></mui-command>`, {

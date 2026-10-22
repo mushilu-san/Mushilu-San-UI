@@ -5,14 +5,19 @@ import {
   ElementRef,
   HostListener,
   InjectionToken,
+  Injector,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   inject,
   input,
   model,
   output,
+  runInInjectionContext,
+  viewChild,
 } from '@angular/core';
 import { handleRovingFocus, resolveDirection } from '@mushilu-san/ui';
+import { anchoredPanel, positionPanel } from '../positioning/anchored-panel';
 
 export const DROPDOWN_MENU_CONTEXT = new InjectionToken<DropdownMenu>('DROPDOWN_MENU_CONTEXT');
 
@@ -56,7 +61,26 @@ export class DropdownMenu {
 
   private readonly el = inject(ElementRef);
   private readonly doc = inject(DOCUMENT);
+  private readonly injector = inject(Injector);
+  private readonly panelEl = viewChild<ElementRef<HTMLElement>>('panelEl');
   private _triggerEl: HTMLElement | null = null;
+
+  constructor() {
+    // H-C-07cbc7: shared computePosition (4px viewport clamp), re-run on scroll/resize.
+    anchoredPanel({
+      open: this.open,
+      panel: () => this.panelEl()?.nativeElement,
+      place: (panel) => {
+        const host = this.el.nativeElement as HTMLElement;
+        const anchor = host.getBoundingClientRect();
+        positionPanel(panel, anchor, 'bottom-start', {
+          rtl: resolveDirection(host, this.doc) === 'rtl',
+          gap: 4,
+          origin: anchor,
+        });
+      },
+    });
+  }
 
   toggle(): void {
     const next = !this.open();
@@ -66,6 +90,13 @@ export class DropdownMenu {
     this.open.set(next);
     if (next) {
       this.opened.emit();
+      // H-E-c091ef: the menu pattern moves focus onto the first enabled item on open.
+      runInInjectionContext(this.injector, () => {
+        afterNextRender(() => {
+          const host = this.el.nativeElement as HTMLElement;
+          host.querySelector<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"])')?.focus();
+        });
+      });
     } else {
       this.closed.emit();
     }
@@ -79,7 +110,11 @@ export class DropdownMenu {
 
   /** Called by DropdownItem on selection. */
   onItemSelected(): void {
-    if (this.closeOnSelect()) this.close();
+    if (this.closeOnSelect()) {
+      this.close();
+      // H-E-c091ef: the focused item is removed on close; hand focus back to the trigger.
+      this._triggerEl?.focus();
+    }
   }
 
   /** Arrow-key / Home / End / Escape / Tab navigation across items. */

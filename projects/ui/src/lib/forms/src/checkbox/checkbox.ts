@@ -5,6 +5,7 @@ import {
   booleanAttribute,
   input,
 } from '@angular/core';
+import { linkFieldDescription } from '../form-field/form-field-context';
 import type { CheckboxSize } from './checkbox.types';
 
 @Component({
@@ -26,4 +27,8 @@ export class Checkbox {
   size = input<CheckboxSize>('md');
   /** Shows the failed-validation style and sets `data-invalid`. Also sets `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
+
+  constructor() {
+    linkFieldDescription();
+  }
 }

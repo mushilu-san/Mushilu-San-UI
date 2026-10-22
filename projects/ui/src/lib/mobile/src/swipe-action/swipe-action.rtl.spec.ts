@@ -15,15 +15,6 @@ const tpl = (dir: string) => `
 const host = () => document.querySelector('mui-swipe-action') as HTMLElement;
 const track = () => document.querySelector('.mui-swipe-action__track') as HTMLElement;
 
-function touch(type: 'touchstart' | 'touchmove', x: number) {
-  fireEvent(
-    host(),
-    Object.assign(new Event(type, { bubbles: true, cancelable: true }), {
-      touches: [{ clientX: x }],
-    }),
-  );
-}
-
 afterEach(() => vi.restoreAllMocks());
 
 async function swipe(dir: string, actions: SwipeActionItem[], dx: number) {
@@ -33,9 +24,9 @@ async function swipe(dir: string, actions: SwipeActionItem[], dx: number) {
     imports: [SwipeAction],
     componentProperties: { actions },
   });
-  touch('touchstart', 200);
-  touch('touchmove', 200 + dx);
-  fireEvent(host(), new Event('touchend', { bubbles: true }));
+  fireEvent.pointerDown(host(), { clientX: 200, pointerId: 1 });
+  fireEvent.pointerMove(document, { clientX: 200 + dx, pointerId: 1 });
+  fireEvent.pointerUp(document, { clientX: 200 + dx, pointerId: 1 });
   r.detectChanges();
   return host().getAttribute('data-revealed');
 }

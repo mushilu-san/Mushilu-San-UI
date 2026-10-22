@@ -4,8 +4,8 @@
 
 .mui-context-menu__panel {
   position: fixed;
-  left: var(--ctx-x, 0px);
-  top: var(--ctx-y, 0px);
+  top: 0; /* real offsets are set from TS (computePosition) */
+  left: 0;
   z-index: var(--mui-z-modal);
   min-inline-size: 180px;
   max-inline-size: 280px;

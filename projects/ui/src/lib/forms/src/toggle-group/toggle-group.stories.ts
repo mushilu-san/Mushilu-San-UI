@@ -12,6 +12,19 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
+export const Default: Story = {
+  render: () => ({
+    props: { align: 'left' },
+    template: `
+      <mui-toggle-group [(value)]="align" aria-label="Text alignment">
+        <mui-toggle-group-item value="left">Left</mui-toggle-group-item>
+        <mui-toggle-group-item value="center">Center</mui-toggle-group-item>
+        <mui-toggle-group-item value="right">Right</mui-toggle-group-item>
+      </mui-toggle-group>
+    `,
+  }),
+};
+
 export const Single: Story = {
   render: () => ({
     props: { align: 'left' },

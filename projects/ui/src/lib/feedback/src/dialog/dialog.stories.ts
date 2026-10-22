@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 import { Dialog } from './dialog';
 
 @Component({
@@ -38,7 +38,6 @@ class DialogDemo {
 const meta: Meta<DialogDemo> = {
   title: 'Feedback/Dialog',
   component: DialogDemo,
-  decorators: [moduleMetadata({ imports: [DialogDemo] })],
   parameters: { layout: 'centered' },
   argTypes: {
     heading: { control: 'text' },
@@ -50,6 +49,11 @@ const meta: Meta<DialogDemo> = {
 
 export default meta;
 type Story = StoryObj<DialogDemo>;
+
+export const Default: Story = {
+  render: (args) => ({ props: args }),
+  args: { heading: 'Delete item?', size: 'md', closeOnBackdrop: true, closeOnEscape: true },
+};
 
 export const Playground: Story = {
   render: (args) => ({ props: args }),

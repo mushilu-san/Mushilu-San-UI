@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
 import { Popover } from './popover';
 import { PopoverTrigger } from './popover-trigger';
@@ -170,5 +170,50 @@ describe('Popover', () => {
     const user = userEvent.setup();
     await user.keyboard('{Escape}');
     expect(onClosed).not.toHaveBeenCalled();
+  });
+
+  it('H-A-d23477: panel does not claim aria-modal (it does not trap focus)', async () => {
+    const user = userEvent.setup();
+    await renderTemplate(basic, { imports });
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-modal');
+  });
+
+  describe('positioning', () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it('H-C-c098c2: clamps into the viewport and repositions on scroll + resize while open', async () => {
+      const user = userEvent.setup();
+      const anchor = { left: 980, top: 740, width: 40, height: 20, right: 1020, bottom: 760 };
+      const rectSpy = vi
+        .spyOn(Element.prototype, 'getBoundingClientRect')
+        .mockImplementation(() => anchor as DOMRect);
+      vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(200);
+      vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(100);
+      await renderTemplate(basic, { imports });
+      await user.click(screen.getByRole('button', { name: 'Open' }));
+      const panel = screen.getByRole('dialog');
+      // viewport 1024x768: left clamps to 1024-200-4 (820) => 820-980 local; top to 664 => -76 local
+      expect(panel.style.left).toBe('-160px');
+      expect(panel.style.top).toBe('-76px');
+
+      // scroll: anchor moves up, panel no longer needs the vertical clamp
+      Object.assign(anchor, { top: 200, bottom: 220 });
+      window.dispatchEvent(new Event('scroll'));
+      expect(panel.style.top).toBe('28px'); // 200+20+8 - 200
+
+      // resize: narrower viewport changes the horizontal clamp
+      const innerWidth = window.innerWidth;
+      Object.defineProperty(window, 'innerWidth', { value: 600, configurable: true });
+      window.dispatchEvent(new Event('resize'));
+      expect(panel.style.left).toBe('-584px'); // (600-200-4) - 980
+      Object.defineProperty(window, 'innerWidth', { value: innerWidth, configurable: true });
+
+      // closing detaches the listeners
+      await user.click(screen.getByRole('button', { name: 'Open' }));
+      rectSpy.mockClear();
+      window.dispatchEvent(new Event('scroll'));
+      expect(rectSpy).not.toHaveBeenCalled();
+    });
   });
 });

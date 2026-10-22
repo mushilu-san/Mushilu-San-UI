@@ -1,16 +1,15 @@
 import { InjectionToken, makeEnvironmentProviders, type EnvironmentProviders } from '@angular/core';
 
-export interface MushiluUiConfig {
-  /** Prefix for generated element IDs. Defaults to 'mui'. */
-  idPrefix?: string;
-}
+/**
+ * Global library configuration. Currently has no options; reserved for future use.
+ * (The unused `idPrefix` option was removed — see H-D-c3eb0a.)
+ */
+export type MushiluUiConfig = Record<string, never>;
 
 export const MUSHILU_UI_CONFIG = new InjectionToken<MushiluUiConfig>('MUSHILU_UI_CONFIG', {
-  factory: () => ({ idPrefix: 'mui' }),
+  factory: () => ({}),
 });
 
 export function provideMushiluUi(config: MushiluUiConfig = {}): EnvironmentProviders {
-  return makeEnvironmentProviders([
-    { provide: MUSHILU_UI_CONFIG, useValue: { idPrefix: 'mui', ...config } },
-  ]);
+  return makeEnvironmentProviders([{ provide: MUSHILU_UI_CONFIG, useValue: { ...config } }]);
 }

@@ -1,6 +1,6 @@
 import { screen, fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { renderComponent, renderTemplate } from '../../../../core/testing';
 import { DatePicker } from './date-picker';
 
@@ -96,5 +96,47 @@ describe('DatePicker', () => {
   it('trigger has aria-haspopup="dialog"', async () => {
     await renderComponent(DatePicker, {});
     expect(screen.getByRole('button')).toHaveAttribute('aria-haspopup', 'dialog');
+  });
+
+  it('H-A-43691b: panel is a non-modal popup (no aria-modal)', async () => {
+    const user = userEvent.setup();
+    await renderComponent(DatePicker, {});
+    await user.click(screen.getByRole('button'));
+    expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-modal');
+  });
+
+  it('H-E-9b96ea: moves focus into the calendar on open', async () => {
+    const user = userEvent.setup();
+    await renderComponent(DatePicker, {});
+    await user.click(screen.getByRole('button'));
+    await vi.waitFor(() => {
+      expect(screen.getByRole('dialog').contains(document.activeElement)).toBe(true);
+    });
+    expect(document.activeElement?.classList.contains('cal-day')).toBe(true);
+  });
+
+  it('H-E-9b96ea: Escape closes and returns focus to the trigger', async () => {
+    const user = userEvent.setup();
+    await renderComponent(DatePicker, {});
+    const trigger = screen.getByRole('button');
+    await user.click(trigger);
+    await vi.waitFor(() =>
+      expect(document.activeElement?.classList.contains('cal-day')).toBe(true),
+    );
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    await vi.waitFor(() => expect(trigger).toHaveFocus());
+  });
+
+  it('H-E-9b96ea: selecting a day returns focus to the trigger', async () => {
+    const user = userEvent.setup();
+    await renderComponent(DatePicker, { inputs: { value: new Date(2024, 0, 1) } });
+    const trigger = screen.getByRole('button');
+    await user.click(trigger);
+    const day = Array.from(document.querySelectorAll<HTMLButtonElement>('button.cal-day')).find(
+      (b) => b.textContent?.trim() === '15' && !b.hasAttribute('data-outside'),
+    ) as HTMLButtonElement;
+    await user.click(day);
+    await vi.waitFor(() => expect(trigger).toHaveFocus());
   });
 });

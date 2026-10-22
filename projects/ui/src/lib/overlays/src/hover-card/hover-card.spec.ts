@@ -157,3 +157,60 @@ describe('HoverCard (fake timers)', () => {
     expect(() => fixture.destroy()).not.toThrow();
   });
 });
+
+describe('HoverCard dismiss and positioning', () => {
+  it('H-E-19e98b: Escape dismisses an open card, keeping focus on the trigger', async () => {
+    const onClosed = vi.fn();
+    await renderTemplate(
+      `<mui-hover-card [openDelay]="0" [closeDelay]="0" (closed)="onClosed()">
+        <a muiHoverCardTrigger href="#" data-testid="trigger">Hover me</a>
+        <mui-hover-card-content><p>Card content</p></mui-hover-card-content>
+      </mui-hover-card>`,
+      { imports: IMPORTS, componentProperties: { onClosed } },
+    );
+    const trigger = screen.getByTestId('trigger');
+    trigger.focus();
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
+    fireEvent.keyDown(document, { key: 'Escape' });
+    await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
+    expect(onClosed).toHaveBeenCalledOnce();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it('H-E-19e98b: Escape while closed is a no-op', async () => {
+    const onClosed = vi.fn();
+    await renderTemplate(
+      `<mui-hover-card (closed)="onClosed()">
+        <a muiHoverCardTrigger href="#">Hover me</a>
+        <mui-hover-card-content><p>Card content</p></mui-hover-card-content>
+      </mui-hover-card>`,
+      { imports: IMPORTS, componentProperties: { onClosed } },
+    );
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(onClosed).not.toHaveBeenCalled();
+  });
+
+  describe('positioning', () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it('H-C-57b708: clamps into the viewport and repositions on scroll while open', async () => {
+      const user = userEvent.setup();
+      const anchor = { left: 980, top: 740, width: 40, height: 20, right: 1020, bottom: 760 };
+      vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(
+        () => anchor as DOMRect,
+      );
+      vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(200);
+      vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(100);
+      await renderTemplate(BASE, { imports: IMPORTS });
+      await user.hover(screen.getByTestId('trigger'));
+      const panel = await waitFor(() => screen.getByRole('tooltip'));
+      // viewport 1024x768: left clamps to 820 (=> -160 local), top to 664 (=> -76 local)
+      expect(panel.style.left).toBe('-160px');
+      expect(panel.style.top).toBe('-76px');
+
+      Object.assign(anchor, { top: 200, bottom: 220 });
+      window.dispatchEvent(new Event('scroll'));
+      expect(panel.style.top).toBe('28px'); // 220 + 8 - 200
+    });
+  });
+});

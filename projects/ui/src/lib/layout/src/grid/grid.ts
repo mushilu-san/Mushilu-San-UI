@@ -8,6 +8,10 @@ import {
 } from '@angular/core';
 import type { GridAlign } from './grid.types';
 
+// numberAttribute(null | undefined) is NaN, which would defeat the `??` fallback / grow check.
+const optionalNumber = (v: unknown): number | undefined =>
+  v == null ? undefined : numberAttribute(v);
+
 const ALIGN_MAP: Record<GridAlign, string> = {
   start: 'start',
   center: 'center',
@@ -39,10 +43,10 @@ export class Grid {
   gap = input(4, { transform: numberAttribute });
 
   /** Column gap override — a step on the spacing scale (--mui-space-{n}). */
-  columnGap = input<number>(undefined, { transform: numberAttribute });
+  columnGap = input<number | undefined, unknown>(undefined, { transform: optionalNumber });
 
   /** Row gap override — a step on the spacing scale (--mui-space-{n}). */
-  rowGap = input<number>(undefined, { transform: numberAttribute });
+  rowGap = input<number | undefined, unknown>(undefined, { transform: optionalNumber });
 
   /** Block-axis alignment of grid items (align-items). */
   align = input<GridAlign>('stretch');

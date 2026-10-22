@@ -5,6 +5,7 @@ import {
   booleanAttribute,
   input,
 } from '@angular/core';
+import { linkFieldDescription } from '../form-field/form-field-context';
 import type { SelectSize, SelectVariant } from './select.types';
 
 @Component({
@@ -29,4 +30,8 @@ export class Select {
   variant = input<SelectVariant>('outline');
   /** Shows the failed-validation style and sets `data-invalid`. Also sets `aria-invalid`. */
   invalid = input(false, { transform: booleanAttribute });
+
+  constructor() {
+    linkFieldDescription();
+  }
 }

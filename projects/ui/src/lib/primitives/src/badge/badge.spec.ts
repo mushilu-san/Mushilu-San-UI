@@ -41,6 +41,17 @@ describe('Badge', () => {
     expect(document.querySelector('mui-badge')).toHaveAttribute('aria-label', '3 alerts');
   });
 
+  it('H-A-1955ff: labelled dot badge has role=img so aria-label is valid; others have no role', async () => {
+    await renderTemplate(
+      '<mui-badge id="a" dot label="3 alerts"></mui-badge><mui-badge id="b" dot></mui-badge><mui-badge id="c" label="x">Text</mui-badge>',
+      { imports: [Badge] },
+    );
+    expect(document.getElementById('a')).toHaveAttribute('role', 'img');
+    expect(document.getElementById('b')).not.toHaveAttribute('role');
+    expect(document.getElementById('c')).not.toHaveAttribute('role');
+    expect(document.getElementById('c')).not.toHaveAttribute('aria-label');
+  });
+
   it('sets aria-hidden on dot badge without label', async () => {
     await renderTemplate('<mui-badge dot variant="danger"></mui-badge>', { imports: [Badge] });
     expect(document.querySelector('mui-badge')).toHaveAttribute('aria-hidden', 'true');

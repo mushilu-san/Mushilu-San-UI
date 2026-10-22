@@ -96,7 +96,11 @@
   color: var(--mui-color-text);
   font-family: var(--mui-font-sans);
   font-size: var(--mui-font-size-base);
-  outline: none;
+}
+/* H-A-b24fb7: inset ring (the panel edge would clip an outset one). */
+.mui-combobox__search:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: calc(var(--mui-focus-ring-width) * -1);
 }
 .mui-combobox__search::placeholder {
   color: var(--mui-color-text-muted);

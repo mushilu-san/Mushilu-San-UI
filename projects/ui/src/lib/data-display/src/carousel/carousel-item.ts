@@ -6,7 +6,6 @@ import {
   ViewEncapsulation,
   computed,
   inject,
-  signal,
 } from '@angular/core';
 import { CAROUSEL_CONTEXT } from './carousel-context';
 
@@ -23,21 +22,23 @@ import { CAROUSEL_CONTEXT } from './carousel-context';
     '[attr.aria-label]': 'ariaLabel()',
     '[attr.data-active]': 'isActive() ? "" : null',
     '[attr.aria-hidden]': '!isActive()',
+    // inert removes inactive slides' focusable content from the tab order (H-A-b028b8).
+    '[attr.inert]': 'isActive() ? null : ""',
     '[attr.part]': '"item"',
   },
 })
 export class CarouselItem implements OnInit, OnDestroy {
   private readonly ctx = inject(CAROUSEL_CONTEXT);
-  private readonly _idx = signal(-1);
+  private readonly _idx = computed(() => this.ctx.indexOf(this));
 
   protected readonly isActive = computed(() => this.ctx.active() === this._idx());
   protected readonly ariaLabel = computed(() => `Slide ${this._idx() + 1} of ${this.ctx.count()}`);
 
   ngOnInit(): void {
-    this._idx.set(this.ctx.registerItem());
+    this.ctx.registerItem(this);
   }
 
   ngOnDestroy(): void {
-    this.ctx.unregisterItem();
+    this.ctx.unregisterItem(this);
   }
 }

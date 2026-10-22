@@ -30,6 +30,15 @@ describe('SidebarSection', () => {
     expect(document.querySelector('.section-label')).toHaveTextContent('Main');
   });
 
+  it('H-U-0feab3: section label is decorative (aria-hidden) and host adds no role', async () => {
+    await renderTemplate('<mui-sidebar-section label="Main">Items</mui-sidebar-section>', {
+      imports: [SidebarSection],
+      providers: [{ provide: SIDEBAR_CONTEXT, useValue: makeCtx(true) }],
+    });
+    expect(document.querySelector('.section-label')).toHaveAttribute('aria-hidden', 'true');
+    expect(document.querySelector('mui-sidebar-section')).not.toHaveAttribute('role');
+  });
+
   it('hides the label when collapsed even if a label is set', async () => {
     await renderTemplate('<mui-sidebar-section label="Main">Items</mui-sidebar-section>', {
       imports: [SidebarSection],

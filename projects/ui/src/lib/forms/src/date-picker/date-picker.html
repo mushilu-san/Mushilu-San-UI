@@ -20,14 +20,7 @@
 
 <!-- Floating calendar panel -->
 @if (isOpen()) {
-  <div
-    class="dp-panel"
-    part="panel"
-    role="dialog"
-    [id]="panelId"
-    aria-label="Date picker"
-    aria-modal="true"
-  >
+  <div class="dp-panel" part="panel" role="dialog" [id]="panelId" aria-label="Date picker">
     <mui-calendar
       [value]="value()"
       (valueChange)="onCalendarSelect($event)"

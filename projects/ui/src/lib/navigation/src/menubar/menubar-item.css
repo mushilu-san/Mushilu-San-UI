@@ -3,7 +3,7 @@
   align-items: center;
   gap: var(--mui-space-2);
   padding: var(--mui-space-2) var(--mui-space-3);
-  min-height: 32px;
+  min-height: var(--mui-touch-target);
   border-radius: var(--mui-radius-sm);
   color: var(--mui-color-text);
   font-size: var(--mui-font-size-sm);

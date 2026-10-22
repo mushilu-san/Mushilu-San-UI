@@ -5,7 +5,7 @@ import { MuiDialogHarness } from '../src/lib/feedback/src/testing/dialog-harness
 
 test.describe('Dialog — E-1 focus management', () => {
   test('focus moves inside dialog on open', async ({ page }) => {
-    const frame = await gotoStory(page, 'feedback-dialog--playground');
+    const frame = await gotoStory(page, 'feedback-dialog--default');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
     const dialog = frame.getByRole('dialog');
     await expect(dialog).toBeVisible();
@@ -14,7 +14,7 @@ test.describe('Dialog — E-1 focus management', () => {
   });
 
   test('Escape closes the dialog', async ({ page }) => {
-    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--playground');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--default');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
     const dialog = await loader.getHarness(MuiDialogHarness);
     // Poll rather than read once: zoneless CD flushes to the DOM asynchronously.
@@ -24,7 +24,7 @@ test.describe('Dialog — E-1 focus management', () => {
   });
 
   test('Cancel button closes the dialog', async ({ page }) => {
-    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--playground');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--default');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
     const dialog = await loader.getHarness(MuiDialogHarness);
     await expect.poll(() => dialog.isOpen()).toBe(true);
@@ -35,7 +35,7 @@ test.describe('Dialog — E-1 focus management', () => {
   });
 
   test('focus returns to trigger after Escape', async ({ page }) => {
-    const frame = await gotoStory(page, 'feedback-dialog--playground');
+    const frame = await gotoStory(page, 'feedback-dialog--default');
     const trigger = frame.getByRole('button', { name: 'Open dialog' });
     await trigger.click();
     await expect(frame.getByRole('dialog')).toBeVisible();
@@ -46,7 +46,7 @@ test.describe('Dialog — E-1 focus management', () => {
   });
 
   test('backdrop click closes dialog when closeOnBackdrop=true', async ({ page }) => {
-    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--playground');
+    const { frame, loader } = await gotoStoryWithHarness(page, 'feedback-dialog--default');
     await frame.getByRole('button', { name: 'Open dialog' }).click();
     const dialog = await loader.getHarness(MuiDialogHarness);
     await expect.poll(() => dialog.isOpen()).toBe(true);

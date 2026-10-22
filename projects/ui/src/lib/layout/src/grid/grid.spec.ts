@@ -33,6 +33,16 @@ describe('Grid', () => {
     expect(host.style.rowGap).toBe('var(--mui-space-6, 0px)');
   });
 
+  it('H-T-0d85b7: undefined/null columnGap and rowGap fall back to gap (not NaN)', async () => {
+    await renderTemplate(
+      '<mui-grid [gap]="6" [columnGap]="undefined" [rowGap]="null"></mui-grid>',
+      { imports: [Grid] },
+    );
+    const host = document.querySelector('mui-grid') as HTMLElement;
+    expect(host.style.columnGap).toBe('var(--mui-space-6, 0px)');
+    expect(host.style.rowGap).toBe('var(--mui-space-6, 0px)');
+  });
+
   it('lets columnGap/rowGap override the shared gap', async () => {
     await renderTemplate('<mui-grid [gap]="4" [columnGap]="8" [rowGap]="2"></mui-grid>', {
       imports: [Grid],
