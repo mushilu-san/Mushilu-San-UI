@@ -1,16 +1,9 @@
 import { fireEvent, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { renderComponent, renderTemplate } from '../../../../core/testing';
+import { renderTemplate } from '../../../../core/testing';
 import { SwipeAction } from './swipe-action';
 import type { SwipeActionItem } from './swipe-action.types';
-
-interface SwipePrivate {
-  _railWidth: () => number;
-  onTouchStart: (e: { touches: { clientX: number }[] }) => void;
-  onTouchMove: (e: { touches: { clientX: number }[] }) => void;
-  onTouchEnd: () => void;
-}
 
 const rightActions: SwipeActionItem[] = [
   { key: 'delete', label: 'Delete', side: 'right', color: 'danger' },
@@ -163,114 +156,132 @@ describe('SwipeAction', () => {
     expect(host.getAttribute('data-revealed')).toBeNull();
   });
 
-  describe('touch gestures', () => {
+  describe('pointer gestures (real DOM events)', () => {
     afterEach(() => vi.restoreAllMocks());
 
+    /** jsdom has no layout engine: give rails a width so settle logic can snap. */
+    const stubRailWidth = () =>
+      vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(80);
+
+    const host = () => document.querySelector('mui-swipe-action') as HTMLElement;
+    const track = () => document.querySelector('.mui-swipe-action__track') as HTMLElement;
+
+    async function mount(actions: SwipeActionItem[]) {
+      stubRailWidth();
+      return renderTemplate(
+        `<mui-swipe-action [actions]="actions"><span>Row</span></mui-swipe-action>`,
+        { imports: [SwipeAction], componentProperties: { actions } },
+      );
+    }
+
+    function swipe(dx: number, init: PointerEventInit & { target?: EventTarget } = {}): void {
+      const { pointerType, button } = init;
+      fireEvent.pointerDown(host(), { clientX: 0, pointerId: 1, pointerType, button });
+      fireEvent.pointerMove(document, { clientX: dx, pointerId: 1, pointerType });
+      fireEvent.pointerUp(document, { clientX: dx, pointerId: 1, pointerType });
+    }
+
     it('drag right beyond threshold reveals left rail', async () => {
-      const { fixture, detectChanges } = await renderComponent(SwipeAction, {
-        inputs: { actions: leftActions },
-      });
-      const instance = fixture.componentInstance as unknown as SwipePrivate;
-      // jsdom has no layout engine: stub _railWidth so settle logic can snap
-      instance._railWidth = () => 80;
-
-      instance.onTouchStart({ touches: [{ clientX: 0 }] });
-      instance.onTouchMove({ touches: [{ clientX: 100 }] }); // 100 > REVEAL_THRESHOLD (72)
-      instance.onTouchEnd();
+      const { detectChanges } = await mount(leftActions);
+      swipe(100); // 100 > REVEAL_THRESHOLD (72)
       detectChanges();
-
-      expect(fixture.nativeElement.getAttribute('data-revealed')).toBe('left');
+      expect(host().getAttribute('data-revealed')).toBe('left');
     });
 
     it('drag left beyond threshold reveals right rail', async () => {
-      const { fixture, detectChanges } = await renderComponent(SwipeAction, {
-        inputs: { actions: rightActions },
-      });
-      const instance = fixture.componentInstance as unknown as SwipePrivate;
-      instance._railWidth = () => 80;
-
-      instance.onTouchStart({ touches: [{ clientX: 0 }] });
-      instance.onTouchMove({ touches: [{ clientX: -100 }] }); // -100 < -72
-      instance.onTouchEnd();
+      const { detectChanges } = await mount(rightActions);
+      swipe(-100);
       detectChanges();
-
-      expect(fixture.nativeElement.getAttribute('data-revealed')).toBe('right');
+      expect(host().getAttribute('data-revealed')).toBe('right');
     });
 
     it('drag below threshold settles back to closed', async () => {
-      const { fixture, detectChanges } = await renderComponent(SwipeAction, {
-        inputs: { actions: leftActions },
-      });
-      const instance = fixture.componentInstance as unknown as SwipePrivate;
-      instance._railWidth = () => 80;
-
-      instance.onTouchStart({ touches: [{ clientX: 0 }] });
-      instance.onTouchMove({ touches: [{ clientX: 40 }] }); // 40 < 72
-      instance.onTouchEnd();
+      const { detectChanges } = await mount(leftActions);
+      swipe(40);
       detectChanges();
-
-      expect(fixture.nativeElement.getAttribute('data-revealed')).toBeNull();
+      expect(host().getAttribute('data-revealed')).toBeNull();
     });
 
-    it('H-B-3ea4ec: onTouchStart with empty touches does not crash', async () => {
-      const { fixture } = await renderComponent(SwipeAction, {
-        inputs: { actions: rightActions },
-      });
-      const instance = fixture.componentInstance as unknown as SwipePrivate;
-      expect(() => instance.onTouchStart({ touches: [] })).not.toThrow();
-    });
-
-    it('H-B-3ea4ec: onTouchMove with empty touches does not crash', async () => {
-      const { fixture } = await renderComponent(SwipeAction, {
-        inputs: { actions: rightActions },
-      });
-      const instance = fixture.componentInstance as unknown as SwipePrivate;
-      instance.onTouchStart({ touches: [{ clientX: 0 }] });
-      expect(() => instance.onTouchMove({ touches: [] })).not.toThrow();
-    });
-
-    it('onTouchMove is a no-op when not dragging', async () => {
-      const { fixture, detectChanges } = await renderComponent(SwipeAction, {
-        inputs: { actions: rightActions },
-      });
-      const instance = fixture.componentInstance as unknown as SwipePrivate;
-
-      // No touchstart, so _dragging is false
-      instance.onTouchMove({ touches: [{ clientX: 200 }] });
+    it('H-C-efb780: a mouse drag reveals the rail (not touch-only)', async () => {
+      const { detectChanges } = await mount(rightActions);
+      swipe(-100, { pointerType: 'mouse', button: 0 });
       detectChanges();
+      expect(host().getAttribute('data-revealed')).toBe('right');
+    });
 
-      expect(fixture.nativeElement.getAttribute('data-revealed')).toBeNull();
+    it('H-C-efb780: a pen drag reveals the rail', async () => {
+      const { detectChanges } = await mount(rightActions);
+      swipe(-100, { pointerType: 'pen' });
+      detectChanges();
+      expect(host().getAttribute('data-revealed')).toBe('right');
+    });
+
+    it('H-C-efb780: a non-primary mouse button does not start a swipe', async () => {
+      const { detectChanges } = await mount(rightActions);
+      swipe(-100, { pointerType: 'mouse', button: 2 });
+      detectChanges();
+      expect(host().getAttribute('data-revealed')).toBeNull();
+    });
+
+    it('H-C-efb780: pointercancel restores the pre-drag position and ends the drag', async () => {
+      const { detectChanges } = await mount(rightActions);
+      fireEvent.pointerDown(host(), { clientX: 0, pointerId: 1 });
+      fireEvent.pointerMove(document, { clientX: -60, pointerId: 1 });
+      detectChanges();
+      expect(track().style.transform).toBe('translateX(-60px)');
+      fireEvent.pointerCancel(host(), { pointerId: 1 });
+      detectChanges();
+      expect(track().style.transform).toBe('translateX(0px)');
+      // The drag is over: later moves/ups must not move or reveal anything.
+      fireEvent.pointerMove(document, { clientX: -200, pointerId: 1 });
+      fireEvent.pointerUp(document, { clientX: -200, pointerId: 1 });
+      detectChanges();
+      expect(host().getAttribute('data-revealed')).toBeNull();
+      expect(track().style.transform).toBe('translateX(0px)');
+    });
+
+    it('H-C-efb780: events from a different pointer are ignored mid-drag', async () => {
+      const { detectChanges } = await mount(rightActions);
+      fireEvent.pointerDown(host(), { clientX: 0, pointerId: 1 });
+      fireEvent.pointerMove(document, { clientX: -100, pointerId: 2 });
+      fireEvent.pointerUp(document, { clientX: -100, pointerId: 2 });
+      detectChanges();
+      expect(host().getAttribute('data-revealed')).toBeNull();
+      expect(track().style.transform).toBe('translateX(0px)');
+    });
+
+    it('H-C-efb780: destroying mid-drag removes the document listeners', async () => {
+      const { fixture, detectChanges } = await mount(rightActions);
+      const removeSpy = vi.spyOn(document, 'removeEventListener');
+      fireEvent.pointerDown(host(), { clientX: 0, pointerId: 1 });
+      fixture.destroy();
+      expect(removeSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
+      expect(removeSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
+      detectChanges();
+    });
+
+    it('H-P-e49724: no touch listeners remain; legacy touch events do nothing', async () => {
+      const { detectChanges } = await mount(rightActions);
+      fireEvent.touchStart(host(), { touches: [{ clientX: 0 }] });
+      fireEvent.touchMove(host(), { touches: [{ clientX: -100 }] });
+      fireEvent.touchEnd(host());
+      detectChanges();
+      expect(host().getAttribute('data-revealed')).toBeNull();
     });
 
     it('track has no transition during active drag', async () => {
-      const { fixture, detectChanges } = await renderComponent(SwipeAction, {
-        inputs: { actions: leftActions },
-      });
-      const instance = fixture.componentInstance as unknown as SwipePrivate;
-      instance._railWidth = () => 80;
-
-      instance.onTouchStart({ touches: [{ clientX: 0 }] });
-      instance.onTouchMove({ touches: [{ clientX: 30 }] });
+      const { detectChanges } = await mount(leftActions);
+      fireEvent.pointerDown(host(), { clientX: 0, pointerId: 1 });
+      fireEvent.pointerMove(document, { clientX: 30, pointerId: 1 });
       detectChanges();
-
-      const track = fixture.nativeElement.querySelector('.mui-swipe-action__track') as HTMLElement;
-      expect(track.style.transition).toBe('none');
+      expect(track().style.transition).toBe('none');
     });
 
     it('track has ease transition once drag ends', async () => {
-      const { fixture, detectChanges } = await renderComponent(SwipeAction, {
-        inputs: { actions: leftActions },
-      });
-      const instance = fixture.componentInstance as unknown as SwipePrivate;
-      instance._railWidth = () => 80;
-
-      instance.onTouchStart({ touches: [{ clientX: 0 }] });
-      instance.onTouchMove({ touches: [{ clientX: 100 }] });
-      instance.onTouchEnd();
+      const { detectChanges } = await mount(leftActions);
+      swipe(100);
       detectChanges();
-
-      const track = fixture.nativeElement.querySelector('.mui-swipe-action__track') as HTMLElement;
-      expect(track.style.transition).toBe('transform 220ms ease');
+      expect(track().style.transition).toBe('transform 220ms ease');
     });
   });
 

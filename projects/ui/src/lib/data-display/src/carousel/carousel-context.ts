@@ -3,8 +3,9 @@ import { InjectionToken, Signal } from '@angular/core';
 export interface CarouselContext {
   readonly active: Signal<number>;
   readonly count: Signal<number>;
-  registerItem(): number;
-  unregisterItem(): void;
+  registerItem(item: object): void;
+  unregisterItem(item: object): void;
+  indexOf(item: object): number;
   next(): void;
   prev(): void;
   goTo(idx: number): void;

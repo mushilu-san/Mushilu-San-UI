@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
-  OnInit,
   ViewEncapsulation,
   booleanAttribute,
+  computed,
   effect,
   forwardRef,
   inject,
@@ -38,7 +37,7 @@ import { CAROUSEL_CONTEXT, CarouselContext } from './carousel-context';
     '(keydown)': 'onKeydown($event)',
   },
 })
-export class Carousel implements CarouselContext, OnInit, OnDestroy {
+export class Carousel implements CarouselContext {
   /** Index of the visible slide, starting at 0. Two-way bindable with `[(active)]`. */
   active = model(0);
   /** Wraps from the last slide to the first and back. Default `false`. */
@@ -48,11 +47,12 @@ export class Carousel implements CarouselContext, OnInit, OnDestroy {
   /** Accessible name of the carousel region. Default `Carousel`. */
   label = input('Carousel');
 
-  private readonly _count = signal(0);
-  readonly count = this._count.asReadonly();
+  /** Live items in registration order; an item's slide index is its position here. */
+  private readonly _items = signal<readonly object[]>([]);
+  private readonly _count = computed(() => this._items().length);
+  readonly count = this._count;
 
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
-  private _timer: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
     // Clamp active index whenever item count decreases (B-8).
@@ -62,28 +62,30 @@ export class Carousel implements CarouselContext, OnInit, OnDestroy {
         this.active.set(n - 1);
       }
     });
+
+    // (Re)start auto-play whenever the interval changes; cleanup stops the old timer (H-B-3d9b82).
+    effect((onCleanup) => {
+      const ms = this.autoPlay();
+      if (ms > 0) {
+        const timer = setInterval(() => this.next(), ms);
+        onCleanup(() => clearInterval(timer));
+      }
+    });
   }
 
   /** Called by CarouselItem on ngOnInit. */
-  registerItem(): number {
-    const idx = this._count();
-    this._count.update((n) => n + 1);
-    return idx;
+  registerItem(item: object): void {
+    this._items.update((items) => (items.includes(item) ? items : [...items, item]));
   }
 
-  /** Called by CarouselItem on ngOnDestroy. */
-  unregisterItem(): void {
-    this._count.update((n) => Math.max(0, n - 1));
+  /** Called by CarouselItem on ngOnDestroy; later items shift down so indices stay contiguous. */
+  unregisterItem(item: object): void {
+    this._items.update((items) => items.filter((i) => i !== item));
   }
 
-  ngOnInit(): void {
-    if (this.autoPlay() > 0) {
-      this._timer = setInterval(() => this.next(), this.autoPlay());
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this._timer !== null) clearInterval(this._timer);
+  /** Current slide index of a registered item, or -1. */
+  indexOf(item: object): number {
+    return this._items().indexOf(item);
   }
 
   /** ArrowRight = next in LTR, prev in RTL (H-A-e64f76). */

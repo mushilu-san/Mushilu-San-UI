@@ -71,34 +71,24 @@ test.describe('Overlays / mobile — RTL placement', () => {
     const frame = await gotoStoryRtl(page, 'mobile-swipeaction--logical-end');
     const el = frame.locator('mui-swipe-action');
     await expect(el).toBeVisible();
-    await touchSwipe(page, 90);
+    await touchSwipe(page, el, 90);
     await expect.poll(() => el.getAttribute('data-revealed')).toBe('left');
   });
 });
 
-// Raw synthetic touch events, same approach as swipe-action.e2e.ts.
-async function touchSwipe(page: PlaywrightPage, dx: number): Promise<void> {
-  const storyFrame = page.frames().find((f) => f.url().includes('/iframe.html'));
-  if (!storyFrame) throw new Error('Storybook preview iframe not found');
-  await storyFrame.evaluate((dist: number) => {
-    const el = document.querySelector('mui-swipe-action');
-    if (!el) throw new Error('mui-swipe-action not found');
-    const rect = el.getBoundingClientRect();
-    const startX = rect.left + 20;
-    const y = rect.top + rect.height / 2;
-    const touch = (x: number) =>
-      new Touch({ identifier: 1, target: el, clientX: x, clientY: y, pageX: x, pageY: y });
-    const fire = (type: string, x: number, active: boolean) =>
-      el.dispatchEvent(
-        new TouchEvent(type, {
-          touches: active ? [touch(x)] : [],
-          changedTouches: [touch(x)],
-          bubbles: true,
-          cancelable: true,
-        }),
-      );
-    fire('touchstart', startX, true);
-    for (let i = 1; i <= 5; i++) fire('touchmove', startX + (dist * i) / 5, true);
-    fire('touchend', startX + dist, false);
-  }, dx);
+// Real pointer input via page.mouse: SwipeAction listens to pointer events (mouse, pen and touch
+// share one path), same approach as swipe-action.e2e.ts.
+async function touchSwipe(
+  page: PlaywrightPage,
+  el: import('@playwright/test').Locator,
+  dx: number,
+): Promise<void> {
+  const box = await el.boundingBox();
+  if (!box) throw new Error('mui-swipe-action not found');
+  const startX = box.x + 20;
+  const y = box.y + box.height / 2;
+  await page.mouse.move(startX, y);
+  await page.mouse.down();
+  await page.mouse.move(startX + dx, y, { steps: 5 });
+  await page.mouse.up();
 }

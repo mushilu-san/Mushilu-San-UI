@@ -18,6 +18,8 @@ import type { BadgeSize, BadgeVariant } from './badge.types';
     '[attr.data-variant]': 'variant()',
     '[attr.data-size]': 'size()',
     '[attr.data-dot]': 'dot() ? "" : null',
+    // aria-label is only valid on an element with a role; a dot is a graphic, so role=img (H-A-1955ff).
+    '[attr.role]': 'dot() && label() ? "img" : null',
     '[attr.aria-label]': 'dot() && label() ? label() : null',
     '[attr.aria-hidden]': 'dot() && !label() ? "true" : null',
     '[attr.part]': '"root"',

@@ -15,6 +15,7 @@ describe('CarouselContext', () => {
       count: signal(3),
       registerItem: vi.fn(() => 0),
       unregisterItem: vi.fn(),
+      indexOf: vi.fn(() => 0),
       next: vi.fn(),
       prev: vi.fn(),
       goTo: vi.fn(),

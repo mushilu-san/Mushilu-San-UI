@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
   computed,
@@ -13,7 +13,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { resolveDirection, type Direction } from '@mushilu-san/ui';
+import { createDrag, resolveDirection, type Direction, type DragSession } from '@mushilu-san/ui';
 import type { SwipeActionColor, SwipeActionItem, SwipeSide } from './swipe-action.types';
 
 const REVEAL_THRESHOLD = 72; // px before actions snap fully open
@@ -44,9 +44,14 @@ const MAX_OVERSCROLL = 16; // px of rubber-band past the action rail
     role: 'listitem',
     '[attr.part]': '"root"',
     '[attr.data-revealed]': 'revealedSide() ?? null',
+    // Pointer events (not touch): mouse/pen/touch share one path. Horizontal vs vertical
+    // arbitration is done by CSS `touch-action: pan-y` on the track, so nothing here calls
+    // preventDefault and no non-passive scroll-blocking listener is needed (H-P-e49724).
+    '(pointerdown)': 'onPointerDown($event)',
+    '(pointercancel)': 'onPointerCancel($event)',
   },
 })
-export class SwipeAction implements OnInit {
+export class SwipeAction implements OnInit, OnDestroy {
   private readonly doc = inject(DOCUMENT);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
@@ -95,42 +100,59 @@ export class SwipeAction implements OnInit {
   private readonly trackRef = viewChild<ElementRef<HTMLElement>>('track');
 
   private _dragging = false;
+  private _pointerId = -1;
   private _startX = 0;
   private _startOffset = 0;
+  private _drag: DragSession | null = null;
 
   /* ----------------------------------------------------------------
-     Touch handlers — zoneless; signal writes drive change detection
+     Pointer handlers — zoneless; signal writes drive change detection
      ---------------------------------------------------------------- */
   ngOnInit(): void {
     this.dir.set(resolveDirection(this.host.nativeElement, this.doc));
   }
 
-  @HostListener('touchstart', ['$event'])
-  protected onTouchStart(e: TouchEvent): void {
+  ngOnDestroy(): void {
+    this._drag?.destroy();
+  }
+
+  protected onPointerDown(e: PointerEvent): void {
+    // Only the primary button of a mouse starts a swipe.
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
     this.dir.set(resolveDirection(this.host.nativeElement, this.doc));
-    const t = e.touches[0];
-    if (!t) return;
-    this._startX = t.clientX;
+    this._pointerId = e.pointerId;
+    this._startX = e.clientX;
     this._startOffset = this.offsetX();
     this._dragging = true;
+    this._drag?.destroy();
+    this._drag = createDrag(this.doc, {
+      onMove: (ev) => this._onPointerMove(ev),
+      onEnd: (ev) => this._onPointerUp(ev),
+    });
   }
 
-  @HostListener('touchmove', ['$event'])
-  protected onTouchMove(e: TouchEvent): void {
-    if (!this._dragging) return;
-    const t = e.touches[0];
-    if (!t) return;
-    const delta = t.clientX - this._startX;
-    const raw = this._startOffset + delta;
-    this.offsetX.set(this._clamp(raw));
+  private _onPointerMove(e: PointerEvent): void {
+    if (!this._dragging || e.pointerId !== this._pointerId) return;
+    this.offsetX.set(this._clamp(this._startOffset + (e.clientX - this._startX)));
   }
 
-  @HostListener('touchend')
-  @HostListener('touchcancel')
-  protected onTouchEnd(): void {
-    if (!this._dragging) return;
-    this._dragging = false;
+  private _onPointerUp(e: PointerEvent): void {
+    if (!this._dragging || e.pointerId !== this._pointerId) return;
+    this._stopDrag();
     this._settle();
+  }
+
+  /** The browser took the gesture (e.g. vertical scroll): restore the pre-drag position. */
+  protected onPointerCancel(e: PointerEvent): void {
+    if (!this._dragging || e.pointerId !== this._pointerId) return;
+    this._stopDrag();
+    this.offsetX.set(this._startOffset);
+  }
+
+  private _stopDrag(): void {
+    this._dragging = false;
+    this._drag?.destroy();
+    this._drag = null;
   }
 
   /* ----------------------------------------------------------------
