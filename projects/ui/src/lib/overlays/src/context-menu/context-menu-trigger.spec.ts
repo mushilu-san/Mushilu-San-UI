@@ -71,4 +71,45 @@ describe('ContextMenuTrigger', () => {
     vi.advanceTimersByTime(600);
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
+
+  it('H-B-662ead: touchcancel cancels the long-press timer', async () => {
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const trigger = screen.getByTestId('trigger');
+
+    fireEvent.touchStart(trigger, { touches: [{ clientX: 100, clientY: 50 }] });
+    fireEvent.touchCancel(trigger);
+    vi.advanceTimersByTime(600);
+
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('H-B-662ead: a second touchstart restarts the timer instead of leaking the first', async () => {
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const trigger = screen.getByTestId('trigger');
+
+    fireEvent.touchStart(trigger, { touches: [{ clientX: 10, clientY: 10 }] });
+    vi.advanceTimersByTime(400);
+    fireEvent.touchStart(trigger, { touches: [{ clientX: 100, clientY: 50 }] });
+    vi.advanceTimersByTime(300); // first timer would fire here if it had leaked
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+
+    // lifting the finger cancels the one live timer — nothing may fire afterwards
+    fireEvent.touchEnd(trigger);
+    vi.advanceTimersByTime(1000);
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('H-P-5d3c41: touch listeners are registered passive', async () => {
+    const spy = vi.spyOn(HTMLElement.prototype, 'addEventListener');
+    await renderTemplate(BASE, { imports: IMPORTS });
+    const touchCalls = spy.mock.calls.filter(([type]) => String(type).startsWith('touch'));
+    expect(touchCalls.map(([type]) => type).sort()).toEqual([
+      'touchcancel',
+      'touchend',
+      'touchmove',
+      'touchstart',
+    ]);
+    for (const [, , opts] of touchCalls) expect(opts).toMatchObject({ passive: true });
+    spy.mockRestore();
+  });
 });

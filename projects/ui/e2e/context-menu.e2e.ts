@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { gotoStoryWithHarness } from './helpers/harness';
 import { MuiContextMenuHarness } from '../src/lib/overlays/src/testing/context-menu-harness';
 
@@ -78,5 +78,55 @@ test.describe('ContextMenu — E-5 right-click / Escape / keyboard', () => {
     await page.keyboard.press('Escape');
     await expect(frame.getByRole('menu')).not.toBeVisible();
     await expect(priorFocus).toBeFocused();
+  });
+});
+
+test.describe('ContextMenu — H-E-9e07fc long-press (touch)', () => {
+  test.use({ hasTouch: true });
+
+  // Real touch input over CDP: Playwright's touchscreen API only taps, it cannot hold.
+  // One CDP session per test — the browser tracks the active touch per session.
+  async function setup(page: Page) {
+    const { frame } = await gotoStoryWithHarness(page, 'overlays-contextmenu--default');
+    const target = frame.getByText('Right-click here');
+    await expect(target).toBeVisible();
+    const box = await target.boundingBox();
+    if (!box) throw new Error('trigger has no bounding box');
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height / 2;
+    const cdp = await page.context().newCDPSession(page);
+    const touch = (type: 'touchStart' | 'touchMove' | 'touchEnd', dx = 0, dy = 0) =>
+      cdp.send('Input.dispatchTouchEvent', {
+        type,
+        touchPoints: type === 'touchEnd' ? [] : [{ x: x + dx, y: y + dy }],
+      });
+    return { frame, touch };
+  }
+
+  test('holding for 600ms opens the menu', async ({ page }) => {
+    const { frame, touch } = await setup(page);
+    await touch('touchStart');
+    await expect(frame.getByRole('menu')).not.toBeVisible();
+    await page.waitForTimeout(700);
+    await expect(frame.getByRole('menu')).toBeVisible();
+    await touch('touchEnd');
+  });
+
+  test('releasing before 600ms does not open the menu', async ({ page }) => {
+    const { frame, touch } = await setup(page);
+    await touch('touchStart');
+    await page.waitForTimeout(250);
+    await touch('touchEnd');
+    await page.waitForTimeout(600);
+    await expect(frame.getByRole('menu')).not.toBeVisible();
+  });
+
+  test('moving the finger cancels the long-press', async ({ page }) => {
+    const { frame, touch } = await setup(page);
+    await touch('touchStart');
+    await touch('touchMove', 20, 20);
+    await page.waitForTimeout(700);
+    await expect(frame.getByRole('menu')).not.toBeVisible();
+    await touch('touchEnd');
   });
 });

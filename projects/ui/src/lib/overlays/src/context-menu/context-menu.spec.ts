@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
 import { ContextMenu } from './context-menu';
 import { ContextMenuItem } from './context-menu-item';
@@ -90,16 +90,33 @@ describe('ContextMenu', () => {
     expect(screen.getByRole('menu')).toBeInTheDocument();
   });
 
-  it('openAt positions panel via CSS custom properties', async () => {
+  it('openAt places the panel at the cursor position', async () => {
     await renderTemplate(BASE, { imports: IMPORTS });
-    const host = document.querySelector('mui-context-menu') as HTMLElement;
     fireEvent.contextMenu(screen.getByTestId('trigger'), { clientX: 150, clientY: 250 });
-    // Angular [style.--ctx-x.px]='panelX()' sets the inline CSS variable
-    const x = host.style.getPropertyValue('--ctx-x');
-    const y = host.style.getPropertyValue('--ctx-y');
-    // Values could be "150px" or "150" depending on Angular's rendering
-    expect(x).toBeTruthy();
-    expect(y).toBeTruthy();
+    const panel = screen.getByRole('menu');
+    expect(panel.style.left).toBe('150px');
+    expect(panel.style.top).toBe('250px');
+  });
+
+  describe('viewport clamping', () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it('H-C-a640a4: clamps near the viewport edge and re-clamps on resize', async () => {
+      vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(200);
+      vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(100);
+      await renderTemplate(BASE, { imports: IMPORTS });
+      // viewport 1024x768
+      fireEvent.contextMenu(screen.getByTestId('trigger'), { clientX: 1000, clientY: 760 });
+      const panel = screen.getByRole('menu');
+      expect(panel.style.left).toBe('820px'); // 1024 - 200 - 4
+      expect(panel.style.top).toBe('664px'); // 768 - 100 - 4
+
+      const innerWidth = window.innerWidth;
+      Object.defineProperty(window, 'innerWidth', { value: 600, configurable: true });
+      window.dispatchEvent(new Event('resize'));
+      expect(panel.style.left).toBe('396px'); // 600 - 200 - 4
+      Object.defineProperty(window, 'innerWidth', { value: innerWidth, configurable: true });
+    });
   });
 
   it('emits opened event when menu opens', async () => {

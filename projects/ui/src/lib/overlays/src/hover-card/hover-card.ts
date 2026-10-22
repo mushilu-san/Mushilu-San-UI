@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostListener,
   InjectionToken,
   OnDestroy,
   Signal,
@@ -81,6 +82,16 @@ export class HoverCard implements OnDestroy {
       this.open.set(true);
       this.opened.emit();
     }, this.openDelay());
+  }
+
+  /** H-E-19e98b: Escape dismisses the card without moving focus (WCAG 1.4.13). */
+  @HostListener('document:keydown.escape')
+  protected onEscape(): void {
+    if (!this.open()) return;
+    this.clearOpen();
+    this.clearClose();
+    this.open.set(false);
+    this.closed.emit();
   }
 
   scheduleClose(): void {

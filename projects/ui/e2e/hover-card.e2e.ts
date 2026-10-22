@@ -30,4 +30,16 @@ test.describe('HoverCard — E-4 hover / focus / dismiss', () => {
     await trigger.focus();
     await expect(frame.getByRole('tooltip')).toBeVisible({ timeout: 5000 });
   });
+
+  test('H-E-19e98b: Escape dismisses the card and focus stays on the trigger', async ({ page }) => {
+    const { frame, loader } = await gotoStoryWithHarness(page, 'overlays-hovercard--default');
+    const card = await loader.getHarness(MuiHoverCardHarness);
+    const trigger = frame.getByRole('link', { name: /@mushilu-san/i });
+    await trigger.focus();
+    await expect(frame.getByRole('tooltip')).toBeVisible({ timeout: 5000 });
+    await page.keyboard.press('Escape');
+    await expect(frame.getByRole('tooltip')).not.toBeVisible();
+    await expect.poll(() => card.isOpen()).toBe(false);
+    await expect(trigger).toBeFocused();
+  });
 });
