@@ -61,7 +61,7 @@
     "@angular/platform-browser-dynamic": "^22.2.2",
     "@angular/platform-server": "22.2.2",
     "@angular/ssr": "22.2.2",
-    "@axe-core/playwright": "^4.13.0",
+    "@axe-core/playwright": "^4.14.0",
     "@changesets/cli": "^3.0.3",
     "@eslint/js": "^10.0.1",
     "@ngx-playwright/harness": "^0.12.2",
