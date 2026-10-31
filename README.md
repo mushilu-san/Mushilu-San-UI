@@ -95,3 +95,11 @@ See **[team/README.md](team/README.md)** for the full roster, hooks, and how it'
 Versioning and publishing use [Changesets](https://github.com/changesets/changesets):
 add a changeset on your PR, merge it, and the Changesets bot opens a "Version Packages" PR
 that publishes to npm on merge. See the publishing checklist in [CLAUDE.md](CLAUDE.md).
+
+## Contributing
+
+Enable the secret-blocking pre-commit hook once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```

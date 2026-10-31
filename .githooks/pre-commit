@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Block commits that would publish a secret (this repo is public).
+# Enabled per clone with: git config core.hooksPath .githooks
+# Bypass only if you are sure it is a false positive: git commit --no-verify
+set -euo pipefail
+
+files=$(git diff --cached --name-only --diff-filter=ACMR)
+bad=$(printf '%s\n' "$files" | grep -E '(^|/)(\.dev\.vars|\.env(\..*)?|[^/]*\.(pem|key|p12))$' || true)
+if [ -n "$bad" ]; then
+  echo "Commit blocked: these files hold secrets and must stay local:" >&2
+  printf '  %s\n' $bad >&2
+  exit 1
+fi
+
+# Telegram bot token, 64-hex API key (SerpApi style), private key block, or key/secret/token/password = "<long value>"
+pattern='[0-9]{6,12}:[A-Za-z0-9_-]{30,}|(^|[^a-f0-9])[a-f0-9]{64}([^a-f0-9]|$)|-----BEGIN [A-Z ]*PRIVATE KEY-----|(api[_-]?key|secret|token|password)["'"'"' ]*[:=] *["'"'"'][^"'"'"' ]{12,}'
+hits=$(git diff --cached -U0 --diff-filter=ACMR -- . ':(exclude)*package-lock.json' |
+  awk '/^\+\+\+ /{f=substr($0,7)} /^\+[^+]/{print f": "substr($0,2)}' |
+  grep -iE "$pattern" || true)
+if [ -n "$hits" ]; then
+  echo "Commit blocked: these added lines look like secrets (values cut off):" >&2
+  printf '%s\n' "$hits" | sed -E 's/^([^:]+: .{0,12}).*/  \1…/' >&2
+  echo "Put secrets in .dev.vars or 'wrangler secret put', never in the repo." >&2
+  exit 1
+fi
