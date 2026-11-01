@@ -240,7 +240,7 @@
     "js-yaml": ">=4.1.0",
     "@babel/core": ">=7.29.1",
     "http-proxy-middleware": ">=3.0.7",
-    "follow-redirects": ">=1.16.1",
+    "follow-redirects": ">=1.16.2",
     "nx": {
       "undici": "^7.29.1"
     },
