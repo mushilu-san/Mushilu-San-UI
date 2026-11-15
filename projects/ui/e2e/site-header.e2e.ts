@@ -33,3 +33,22 @@ test.describe('SiteHeader — E-11 wide screen', () => {
     await expect(frame.getByRole('button', { name: 'Menu' })).toBeHidden();
   });
 });
+
+test.describe('SiteHeader — E-11 styling hooks (#885)', () => {
+  test.use({ viewport: { width: 1200, height: 700 } });
+
+  test('custom properties set width, height and background', async ({ page }) => {
+    const frame = await gotoStory(page, 'navigation-siteheader--default');
+    const host = frame.locator('mui-site-header');
+    await host.evaluate((el) => {
+      el.style.setProperty('--mui-site-header-max-width', '600px');
+      el.style.setProperty('--mui-site-header-min-height', '96px');
+      el.style.setProperty('--mui-site-header-bg', 'rgb(1, 2, 3)');
+    });
+    const inner = frame.locator('.mui-site-header');
+    const box = await inner.boundingBox();
+    expect(box?.width).toBeLessThanOrEqual(600);
+    expect(box?.height).toBeGreaterThanOrEqual(96);
+    expect(await host.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(1, 2, 3)');
+  });
+});

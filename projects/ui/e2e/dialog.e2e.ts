@@ -56,3 +56,18 @@ test.describe('Dialog — E-1 focus management', () => {
     await expect.poll(() => dialog.isOpen()).toBe(false);
   });
 });
+
+test.describe('Dialog — close button edge (#884)', () => {
+  test('without a heading the close button sits at the inline-end edge', async ({ page }) => {
+    const frame = await gotoStory(page, 'feedback-dialog--no-heading');
+    await frame.getByRole('button', { name: 'Open dialog' }).click();
+    const close = frame.getByRole('button', { name: 'Close dialog' });
+    await expect(close).toBeVisible();
+    const surface = await frame.locator('.mui-dialog__surface').boundingBox();
+    const btn = await close.boundingBox();
+    expect(surface && btn).toBeTruthy();
+    // End edge in LTR is the right side: the button hugs it, and is not at the left.
+    expect(surface!.x + surface!.width - (btn!.x + btn!.width)).toBeLessThan(24);
+    expect(btn!.x - surface!.x).toBeGreaterThan(surface!.width / 2);
+  });
+});

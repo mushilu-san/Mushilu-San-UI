@@ -1,5 +1,14 @@
+/*
+ * Styling hooks (#885), all optional:
+ *   --mui-site-header-bg              bar colour (full width)
+ *   --mui-site-header-max-width       width of the content column, centred in the bar
+ *   --mui-site-header-padding-inline  space at both ends of the content column
+ *   --mui-site-header-min-height      minimum bar height
+ */
 :host {
   display: block;
+  background-color: var(--mui-site-header-bg, var(--mui-color-surface));
+  border-block-end: 1px solid var(--mui-color-border);
 }
 
 .mui-site-header {
@@ -8,9 +17,12 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--mui-space-2);
-  padding: var(--mui-space-2) var(--mui-space-4);
-  background-color: var(--mui-color-surface);
-  border-block-end: 1px solid var(--mui-color-border);
+  box-sizing: border-box;
+  max-inline-size: var(--mui-site-header-max-width, none);
+  min-block-size: var(--mui-site-header-min-height, 0);
+  margin-inline: auto;
+  padding-block: var(--mui-space-2);
+  padding-inline: var(--mui-site-header-padding-inline, var(--mui-space-4));
   font-family: var(--mui-font-sans);
 }
 
