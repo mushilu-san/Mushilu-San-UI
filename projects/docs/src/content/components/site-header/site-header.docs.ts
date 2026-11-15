@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   summary: 'A page header whose navigation collapses behind a menu button on small screens.',
   description: [
     'Site header shows a brand, the main navigation and optional actions. Project the brand with `slot="brand"`, extra buttons such as a theme toggle with `slot="actions"`, and the links as default content.',
-    'On screens narrower than 48rem the links hide behind a menu button with `aria-expanded` and `aria-controls`. Escape closes the menu and returns focus to the button, and following a link closes it. On wide screens the links are always inline, decided by CSS alone, so a prerendered page does not shift when it loads. Bind `[(open)]` to control the menu from outside, for example to close it on a router navigation.',
+    'On screens narrower than 48rem the links hide behind a menu button with `aria-expanded` and `aria-controls`. Escape closes the menu and returns focus to the button, and following a link closes it. On wide screens the links are always inline, decided by CSS alone, so a prerendered page does not shift when it loads. Set `--mui-site-header-bg`, `--mui-site-header-max-width`, `--mui-site-header-padding-inline` and `--mui-site-header-min-height` on the element to match the header to your page column. Bind `[(open)]` to control the menu from outside, for example to close it on a router navigation.',
   ],
   whenToUse: [
     'The top of a content site or blog with a handful of links.',
@@ -58,6 +58,10 @@ export const doc: ComponentDoc = {
   },
   tokens: [
     '--mui-color-surface',
+    '--mui-site-header-bg',
+    '--mui-site-header-max-width',
+    '--mui-site-header-padding-inline',
+    '--mui-site-header-min-height',
     '--mui-color-border',
     '--mui-touch-target',
     '--mui-color-focus-ring',

@@ -13,6 +13,7 @@ import { Dialog } from './dialog';
       [open]="open()"
       (openChange)="open.set($event)"
       [heading]="heading"
+      [ariaLabel]="ariaLabel"
       [size]="size"
       [closeOnBackdrop]="closeOnBackdrop"
       [closeOnEscape]="closeOnEscape"
@@ -29,6 +30,7 @@ import { Dialog } from './dialog';
 })
 class DialogDemo {
   heading = 'Delete item?';
+  ariaLabel = '';
   size: 'sm' | 'md' | 'lg' = 'md';
   closeOnBackdrop = true;
   closeOnEscape = true;
@@ -53,6 +55,11 @@ type Story = StoryObj<DialogDemo>;
 export const Default: Story = {
   render: (args) => ({ props: args }),
   args: { heading: 'Delete item?', size: 'md', closeOnBackdrop: true, closeOnEscape: true },
+};
+
+export const NoHeading: Story = {
+  render: (args) => ({ props: args }),
+  args: { heading: '', ariaLabel: 'Certificate', size: 'md' },
 };
 
 export const Playground: Story = {

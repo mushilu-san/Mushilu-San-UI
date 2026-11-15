@@ -74,7 +74,8 @@
   min-width: var(--mui-touch-target);
   min-height: var(--mui-touch-target);
   margin-block: calc(var(--mui-space-2) * -1) 0;
-  margin-inline: 0 calc(var(--mui-space-2) * -1);
+  /* Auto start margin keeps the button at the end edge when there is no heading (#884). */
+  margin-inline: auto calc(var(--mui-space-2) * -1);
   padding: 0;
   border: none;
   border-radius: var(--mui-radius-sm);
