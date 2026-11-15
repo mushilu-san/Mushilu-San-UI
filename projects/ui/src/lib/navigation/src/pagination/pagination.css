@@ -25,6 +25,7 @@
   font-size: var(--mui-font-size-base);
   font-weight: var(--mui-font-weight-medium);
   cursor: pointer;
+  text-decoration: none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transition:

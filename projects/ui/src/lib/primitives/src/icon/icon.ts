@@ -4,8 +4,11 @@ import {
   ViewEncapsulation,
   booleanAttribute,
   computed,
+  inject,
   input,
 } from '@angular/core';
+import { MUI_ICONS } from './icon-registry';
+import type { IconData } from './icon-registry';
 import type { IconColor, IconName, IconSize } from './icon.types';
 
 const SIZE_PX: Record<IconSize, number> = {
@@ -16,12 +19,10 @@ const SIZE_PX: Record<IconSize, number> = {
   xl: 32,
 };
 
-interface IconData {
-  paths: string[];
-}
-
 const ICONS: Record<IconName, IconData> = {
+  'arrow-down': { paths: ['M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3'] },
   'arrow-left': { paths: ['M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'] },
+  'arrow-up': { paths: ['M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18'] },
   'arrow-right': { paths: ['M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'] },
   bell: {
     paths: [
@@ -39,6 +40,7 @@ const ICONS: Record<IconName, IconData> = {
   'chevron-left': { paths: ['M15.75 19.5L8.25 12l7.5-7.5'] },
   'chevron-right': { paths: ['M8.25 4.5l7.5 7.5-7.5 7.5'] },
   'chevron-up': { paths: ['M4.5 15.75l7.5-7.5 7.5 7.5'] },
+  clock: { paths: ['M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0z'] },
   copy: {
     paths: [
       'M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75',
@@ -76,6 +78,12 @@ const ICONS: Record<IconName, IconData> = {
       'M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3z',
     ],
   },
+  github: {
+    paths: [
+      'M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4',
+      'M9 18c-4.51 2-5-2-7-2',
+    ],
+  },
   heart: {
     paths: [
       'M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z',
@@ -89,6 +97,11 @@ const ICONS: Record<IconName, IconData> = {
   info: {
     paths: [
       'M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zm-9-3.75h.008v.008H12V8.25z',
+    ],
+  },
+  link: {
+    paths: [
+      'M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244',
     ],
   },
   loading: { paths: ['M12 3a9 9 0 1 0 9 9'] },
@@ -107,12 +120,22 @@ const ICONS: Record<IconName, IconData> = {
   minus: { paths: ['M19.5 12h-15'] },
   'more-horizontal': { paths: ['M6 12h.01M12 12h.01M18 12h.01'] },
   'more-vertical': { paths: ['M12 6h.01M12 12h.01M12 18h.01'] },
+  moon: {
+    paths: [
+      'M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998z',
+    ],
+  },
   phone: {
     paths: [
       'M2.25 6.338c0-1.24.959-2.25 2.19-2.25h1.532a.75.75 0 0 1 .75.75c0 .41.09.836.241 1.236l.924 2.44a.75.75 0 0 1-.357.893l-.617.308a.75.75 0 0 0-.218.946 10.5 10.5 0 0 0 5.837 5.836.75.75 0 0 0 .947-.22l.309-.617a.75.75 0 0 1 .893-.357l2.44.924c.4.151.826.241 1.236.241.41 0 .75.336.75.75v1.532c0 1.232-1.01 2.19-2.25 2.19-8.284 0-15-6.716-15-15z',
     ],
   },
   plus: { paths: ['M12 4.5v15m7.5-7.5h-15'] },
+  rss: {
+    paths: [
+      'M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0z',
+    ],
+  },
   search: {
     paths: ['M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z'],
   },
@@ -122,9 +145,20 @@ const ICONS: Record<IconName, IconData> = {
       'M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z',
     ],
   },
+  sun: {
+    paths: [
+      'M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z',
+    ],
+  },
   star: {
     paths: [
       'M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5z',
+    ],
+  },
+  tag: {
+    paths: [
+      'M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3z',
+      'M6 6h.008v.008H6z',
     ],
   },
   trash: {
@@ -165,8 +199,8 @@ const ICONS: Record<IconName, IconData> = {
   },
 })
 export class Icon {
-  /** Name of the built-in icon to draw. */
-  name = input.required<IconName>();
+  /** Name of a built-in icon, or of one registered with `provideMuiIcons()`. */
+  name = input.required<IconName | (string & {})>();
   /** Icon size: `xs` (12px) to `xl` (32px). Default `md` (20px). */
   size = input<IconSize>('md');
   /** Icon colour from the semantic palette. `inherit` uses the surrounding text colour. */
@@ -177,5 +211,13 @@ export class Icon {
   mirror = input(false, { transform: booleanAttribute });
 
   protected readonly svgSize = computed(() => SIZE_PX[this.size()]);
-  protected readonly iconData = computed(() => ICONS[this.name()]);
+  private readonly custom = inject(MUI_ICONS, { optional: true }) ?? [];
+  protected readonly iconData = computed<IconData>(() => {
+    const name = this.name();
+    for (let i = this.custom.length - 1; i >= 0; i--) {
+      const set = this.custom[i];
+      if (set && Object.hasOwn(set, name)) return set[name] as IconData;
+    }
+    return Object.hasOwn(ICONS, name) ? ICONS[name as IconName] : { paths: [] };
+  });
 }

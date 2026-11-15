@@ -115,3 +115,62 @@ describe('Pagination', () => {
     expect(document.querySelector('mui-pagination')).toHaveAttribute('part', 'pagination');
   });
 });
+
+describe('Pagination link mode (#875)', () => {
+  const hrefFor = (p: number) => `/blog/page/${p}/`;
+
+  it('renders every page as an anchor with its own href', async () => {
+    await renderComponent(Pagination, { inputs: { totalPages: 3, page: 2, hrefFor } });
+    expect(screen.queryAllByRole('button')).toHaveLength(0);
+    expect(screen.getByRole('link', { name: 'Page 1' })).toHaveAttribute('href', '/blog/page/1/');
+    expect(screen.getByRole('link', { name: 'Page 3' })).toHaveAttribute('href', '/blog/page/3/');
+  });
+
+  it('marks the current page with aria-current="page"', async () => {
+    await renderComponent(Pagination, { inputs: { totalPages: 3, page: 2, hrefFor } });
+    expect(screen.getByRole('link', { name: 'Page 2' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Page 1' })).not.toHaveAttribute('aria-current');
+  });
+
+  it('sets rel prev and next with matching hrefs', async () => {
+    await renderComponent(Pagination, { inputs: { totalPages: 3, page: 2, hrefFor } });
+    const prev = screen.getByRole('link', { name: 'Go to previous page' });
+    const next = screen.getByRole('link', { name: 'Go to next page' });
+    expect(prev).toHaveAttribute('rel', 'prev');
+    expect(prev).toHaveAttribute('href', '/blog/page/1/');
+    expect(next).toHaveAttribute('rel', 'next');
+    expect(next).toHaveAttribute('href', '/blog/page/3/');
+  });
+
+  it('drops the href and sets aria-disabled on previous at the first page', async () => {
+    await renderComponent(Pagination, { inputs: { totalPages: 3, page: 1, hrefFor } });
+    const prev = screen.getByRole('link', { name: 'Go to previous page' });
+    expect(prev).not.toHaveAttribute('href');
+    expect(prev).toHaveAttribute('aria-disabled', 'true');
+    expect(prev).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('takes translated labels', async () => {
+    await renderComponent(Pagination, {
+      inputs: {
+        totalPages: 3,
+        page: 2,
+        hrefFor,
+        previousLabel: 'הקודם',
+        nextLabel: 'הבא',
+        pageLabel: (p: number) => `עמוד ${p}`,
+      },
+    });
+    expect(screen.getByRole('link', { name: 'הקודם' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'הבא' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'עמוד 2' })).toBeInTheDocument();
+  });
+
+  it('keeps button mode, with translatable labels, when hrefFor is unset', async () => {
+    await renderComponent(Pagination, {
+      inputs: { totalPages: 3, page: 2, nextLabel: 'Weiter' },
+    });
+    expect(screen.getByRole('button', { name: 'Weiter' })).toBeInTheDocument();
+    expect(screen.queryAllByRole('link')).toHaveLength(0);
+  });
+});

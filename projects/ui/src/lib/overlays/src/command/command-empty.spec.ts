@@ -34,4 +34,14 @@ describe('CommandEmpty', () => {
     });
     expect(document.querySelector('.mui-command-empty')).toHaveAttribute('part', 'empty');
   });
+
+  it('A-13: is a disabled option so the listbox owns only valid children', async () => {
+    await renderTemplate('<mui-command-empty>No results found.</mui-command-empty>', {
+      imports: [CommandEmpty],
+      providers: [{ provide: COMMAND_CONTEXT, useValue: makeCtx() }],
+    });
+    const empty = document.querySelector('.mui-command-empty');
+    expect(empty).toHaveAttribute('role', 'option');
+    expect(empty).toHaveAttribute('aria-disabled', 'true');
+  });
 });

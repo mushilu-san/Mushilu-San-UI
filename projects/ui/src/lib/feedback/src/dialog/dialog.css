@@ -73,7 +73,8 @@
   justify-content: center;
   min-width: var(--mui-touch-target);
   min-height: var(--mui-touch-target);
-  margin: calc(var(--mui-space-2) * -1) calc(var(--mui-space-2) * -1) 0 0;
+  margin-block: calc(var(--mui-space-2) * -1) 0;
+  margin-inline: 0 calc(var(--mui-space-2) * -1);
   padding: 0;
   border: none;
   border-radius: var(--mui-radius-sm);

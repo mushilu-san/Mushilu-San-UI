@@ -89,4 +89,42 @@ describe('Dialog', () => {
     });
     expect(panel()).toHaveAttribute('data-size', 'lg');
   });
+
+  it('#876: close button label defaults to English and is translatable', async () => {
+    await renderTemplate('<mui-dialog [open]="true">Body</mui-dialog>', { imports: [Dialog] });
+    expect(document.querySelector('.mui-dialog__close')).toHaveAttribute(
+      'aria-label',
+      'Close dialog',
+    );
+  });
+
+  it('#876: closeLabel overrides the close button name', async () => {
+    await renderTemplate('<mui-dialog [open]="true" closeLabel="סגירה">Body</mui-dialog>', {
+      imports: [Dialog],
+    });
+    expect(document.querySelector('.mui-dialog__close')).toHaveAttribute('aria-label', 'סגירה');
+  });
+
+  it('#876: hideCloseButton removes the built-in close button', async () => {
+    await renderTemplate('<mui-dialog [open]="true" hideCloseButton>Body</mui-dialog>', {
+      imports: [Dialog],
+    });
+    expect(document.querySelector('.mui-dialog__close')).toBeNull();
+  });
+
+  it('#876: ariaLabel names a dialog without a heading', async () => {
+    await renderTemplate('<mui-dialog [open]="true" ariaLabel="Certificate">Body</mui-dialog>', {
+      imports: [Dialog],
+    });
+    expect(panel()).toHaveAttribute('aria-label', 'Certificate');
+  });
+
+  it('#876: heading wins over ariaLabel', async () => {
+    await renderTemplate(
+      '<mui-dialog [open]="true" heading="Title" ariaLabel="Ignored">Body</mui-dialog>',
+      { imports: [Dialog] },
+    );
+    expect(panel()).not.toHaveAttribute('aria-label');
+    expect(panel()).toHaveAttribute('aria-labelledby');
+  });
 });

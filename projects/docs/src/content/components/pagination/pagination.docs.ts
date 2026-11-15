@@ -10,6 +10,7 @@ export const doc: ComponentDoc = {
   description: [
     'Pagination renders a `role="navigation"` with previous and next buttons and page buttons. The current page is a two-way `page` model, and `totalPages` sets the range.',
     'Long ranges collapse to ellipses around the current page. `siblingCount` sets how many pages show on each side of it.',
+    'Set `hrefFor` to switch to link mode: each page becomes a real `<a href>` with `aria-current="page"` on the current one, and previous and next get `rel="prev"` and `rel="next"`. It works before hydration and for crawlers. Translate the button names with `previousLabel`, `nextLabel` and `pageLabel`.',
   ],
   whenToUse: [
     'Lists of results split across pages, such as search results or a table of records.',

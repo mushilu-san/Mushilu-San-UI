@@ -1,0 +1,35 @@
+/* Visually hidden until focused; the first Tab stop on the page reveals it. */
+:host {
+  position: absolute;
+  inset-block-start: var(--mui-space-2);
+  inset-inline-start: var(--mui-space-2);
+  z-index: var(--mui-z-toast);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--mui-touch-target);
+  min-width: var(--mui-touch-target);
+  padding: 0 var(--mui-space-4);
+  border-radius: var(--mui-radius-md);
+  background-color: var(--mui-color-primary);
+  color: var(--mui-color-primary-text);
+  font-family: var(--mui-font-sans);
+  font-size: var(--mui-font-size-base);
+  font-weight: var(--mui-font-weight-medium);
+  text-decoration: none;
+}
+
+:host(:not(:focus)) {
+  inline-size: 1px;
+  block-size: 1px;
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:host(:focus-visible) {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}

@@ -42,6 +42,18 @@ export class Pagination {
   variant = input<PaginationVariant>('default');
   /** Accessible name of the navigation landmark. Default `Pagination`. */
   ariaLabel = input<string>('Pagination');
+  /**
+   * Link mode: returns the URL of a page. Every page then renders as a real `<a href>` (works
+   * before hydration and for crawlers), and previous and next carry `rel="prev"` / `rel="next"`.
+   * Takes a string, so the library needs no router; build router URLs with `Router.serializeUrl`.
+   */
+  hrefFor = input<((page: number) => string) | undefined>(undefined);
+  /** Accessible name of the previous button. Default `Go to previous page`. */
+  previousLabel = input('Go to previous page');
+  /** Accessible name of the next button. Default `Go to next page`. */
+  nextLabel = input('Go to next page');
+  /** Accessible name of a page button, from its number. Default `Page N`. */
+  pageLabel = input<(page: number) => string>((p) => `Page ${p}`);
 
   protected pages = computed(() => this.buildPages());
 

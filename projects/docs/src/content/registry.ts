@@ -24,6 +24,13 @@ export const REGISTRY: readonly RegistryEntry[] = [
     load: () => import('./components/button/button.docs').then((m) => m.doc),
   },
   {
+    slug: 'chip',
+    name: 'Chip',
+    group: 'primitives',
+    summary: 'A compact pill for tags and filters, as a link, a toggle button or a plain label.',
+    load: () => import('./components/chip/chip.docs').then((m) => m.doc),
+  },
+  {
     slug: 'divider',
     name: 'Divider',
     group: 'primitives',
@@ -232,6 +239,20 @@ export const REGISTRY: readonly RegistryEntry[] = [
     group: 'navigation',
     summary: 'Moves through pages of results with previous, next and numbered controls.',
     load: () => import('./components/pagination/pagination.docs').then((m) => m.doc),
+  },
+  {
+    slug: 'site-header',
+    name: 'Site header',
+    group: 'navigation',
+    summary: 'A page header whose navigation collapses behind a menu button on small screens.',
+    load: () => import('./components/site-header/site-header.docs').then((m) => m.doc),
+  },
+  {
+    slug: 'skip-link',
+    name: 'Skip link',
+    group: 'navigation',
+    summary: 'A link that is hidden until focused and jumps keyboard users past the page header.',
+    load: () => import('./components/skip-link/skip-link.docs').then((m) => m.doc),
   },
   {
     slug: 'tabs',

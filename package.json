@@ -149,7 +149,7 @@
     {
       "name": "navigation",
       "path": "dist/ui/fesm2022/mushilu-san-ui-navigation.mjs",
-      "limit": "8 KB",
+      "limit": "9 KB",
       "ignore": [
         "@angular/common",
         "@angular/compiler",

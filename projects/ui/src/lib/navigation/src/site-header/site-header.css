@@ -1,0 +1,96 @@
+:host {
+  display: block;
+}
+
+.mui-site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mui-space-2);
+  padding: var(--mui-space-2) var(--mui-space-4);
+  background-color: var(--mui-color-surface);
+  border-block-end: 1px solid var(--mui-color-border);
+  font-family: var(--mui-font-sans);
+}
+
+.mui-site-header__bar {
+  display: contents;
+}
+
+.mui-site-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--mui-space-2);
+  min-width: 0;
+}
+
+.mui-site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mui-space-2);
+  margin-inline-start: auto;
+}
+
+.mui-site-header__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--mui-touch-target);
+  min-height: var(--mui-touch-target);
+  padding: 0;
+  border: none;
+  border-radius: var(--mui-radius-md);
+  background: transparent;
+  color: var(--mui-color-text);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mui-site-header__toggle path {
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mui-site-header__toggle:hover {
+  background-color: var(--mui-color-surface-hover, var(--mui-color-border));
+}
+
+.mui-site-header__toggle:focus-visible {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+/* Narrow screens: the nav sits on its own row and is hidden until opened. */
+.mui-site-header__nav {
+  display: none;
+  flex-basis: 100%;
+}
+
+:host([data-open]) .mui-site-header__nav {
+  display: block;
+}
+
+/*
+ * Wide screens: the nav is always inline and the button is gone. This is CSS only, so the first
+ * paint (and a prerendered page) already has the final layout and nothing shifts on hydration.
+ */
+@media (min-width: 48rem) {
+  .mui-site-header__nav {
+    display: block;
+    flex: 1 1 auto;
+    order: 1;
+  }
+
+  .mui-site-header__actions {
+    order: 2;
+    margin-inline-start: 0;
+  }
+
+  .mui-site-header__toggle {
+    display: none;
+  }
+}

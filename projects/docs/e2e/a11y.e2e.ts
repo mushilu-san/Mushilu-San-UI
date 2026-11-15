@@ -7,11 +7,7 @@ import { join } from 'node:path';
 // with an open audit finding, scoped to the one page that shows the gap.
 // Known library gaps. Each entry disables only the listed axe rules on that one page, and names
 // the audit finding that tracks the remaining gap. Remove the entry when the finding is resolved.
-const KNOWN_AXE_ISSUES: Record<string, { rules: string[]; finding: string }> = {
-  // A-13 (#726): the listbox still owns a non-option child (the empty-state message), so
-  // aria-required-children fails. The name and shortcut contrast are fixed.
-  command: { rules: ['aria-required-children'], finding: 'A-13' },
-};
+const KNOWN_AXE_ISSUES: Record<string, { rules: string[]; finding: string }> = {};
 
 // Every component page is checked, so a new docs page is covered without editing this list.
 const componentSlugs = readdirSync(join(__dirname, '..', 'src', 'content', 'components')).sort();

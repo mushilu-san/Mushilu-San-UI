@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   apiClasses: ['Icon'],
   summary: 'A set of built-in outline icons, sized and coloured with the surrounding text.',
   description: [
-    'Icon draws an SVG from a fixed set of names. It uses `currentColor`, so it takes the colour of its parent unless `color` is set.',
+    'Icon draws an SVG from a set of built-in names, plus any icons you register with `provideMuiIcons({ name: { paths: [...] } })`. It uses `currentColor`, so it takes the colour of its parent unless `color` is set.',
     'An icon without a `label` is decorative and hidden from assistive technology. Set `label` when the icon carries meaning on its own, and the icon gets `role="img"`.',
   ],
   whenToUse: [
