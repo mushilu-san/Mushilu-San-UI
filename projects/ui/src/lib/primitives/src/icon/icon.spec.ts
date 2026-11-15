@@ -2,6 +2,7 @@ import { screen } from '@testing-library/angular';
 import { describe, expect, it } from 'vitest';
 import { renderComponent, renderTemplate } from '../../../../core/testing';
 import { Icon } from './icon';
+import { provideMuiIcons } from './icon-registry';
 
 describe('Icon', () => {
   it('renders an svg element', async () => {
@@ -130,5 +131,39 @@ describe('Icon', () => {
       imports: [Icon],
     });
     expect(screen.getByRole('img', { name: 'Close dialog' })).toBeInTheDocument();
+  });
+});
+
+describe('Icon names and registry (#881)', () => {
+  it.each(['sun', 'moon', 'rss', 'github', 'arrow-up', 'arrow-down', 'link', 'clock', 'tag'])(
+    'draws the built-in %s icon',
+    async (name) => {
+      await renderComponent(Icon, { inputs: { name } });
+      const paths = document.querySelectorAll('svg path');
+      expect(paths.length).toBeGreaterThan(0);
+      for (const p of Array.from(paths)) expect(p.getAttribute('d')).toBeTruthy();
+    },
+  );
+
+  it('draws an icon registered with provideMuiIcons', async () => {
+    await renderComponent(Icon, {
+      inputs: { name: 'my-logo' },
+      providers: [provideMuiIcons({ 'my-logo': { paths: ['M4 4h16v16H4z'] } })],
+    });
+    expect(document.querySelector('svg path')).toHaveAttribute('d', 'M4 4h16v16H4z');
+  });
+
+  it('lets a registered icon override a built-in one', async () => {
+    await renderComponent(Icon, {
+      inputs: { name: 'check' },
+      providers: [provideMuiIcons({ check: { paths: ['M1 1h2'] } })],
+    });
+    expect(document.querySelector('svg path')).toHaveAttribute('d', 'M1 1h2');
+  });
+
+  it('renders an empty svg for an unknown name instead of throwing', async () => {
+    await renderComponent(Icon, { inputs: { name: 'constructor' } });
+    expect(document.querySelector('svg')).toBeTruthy();
+    expect(document.querySelectorAll('svg path')).toHaveLength(0);
   });
 });

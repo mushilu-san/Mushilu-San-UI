@@ -1,0 +1,39 @@
+<header class="mui-site-header" part="header">
+  <div class="mui-site-header__bar" part="bar">
+    <div class="mui-site-header__brand" part="brand">
+      <ng-content select="[slot=brand]" />
+    </div>
+    <div class="mui-site-header__actions" part="actions">
+      <ng-content select="[slot=actions]" />
+      <button
+        #toggleBtn
+        type="button"
+        class="mui-site-header__toggle"
+        part="toggle"
+        [attr.aria-expanded]="open()"
+        [attr.aria-controls]="navId"
+        [attr.aria-label]="menuLabel()"
+        (click)="toggle()"
+      >
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
+          @if (open()) {
+            <path d="M6 18 18 6M6 6l12 12" />
+          } @else {
+            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          }
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- Click bubbles from links inside the projected nav, to close the menu on navigation. -->
+  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+  <nav
+    class="mui-site-header__nav"
+    part="nav"
+    [id]="navId"
+    [attr.aria-label]="navLabel()"
+    (click)="onNavClick($event)"
+  >
+    <ng-content />
+  </nav>
+</header>

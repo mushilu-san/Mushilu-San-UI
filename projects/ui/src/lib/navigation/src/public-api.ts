@@ -25,3 +25,7 @@ export { MenubarTrigger } from './menubar/menubar-trigger';
 export { MenubarContent } from './menubar/menubar-content';
 export { MenubarItem } from './menubar/menubar-item';
 export { MenubarSeparator } from './menubar/menubar-separator';
+
+export { SkipLink } from './skip-link/skip-link';
+
+export { SiteHeader } from './site-header/site-header';

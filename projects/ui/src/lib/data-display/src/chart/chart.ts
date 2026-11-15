@@ -9,12 +9,19 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { Chart as ChartJs, registerables } from 'chart.js';
-import type { ChartData, ChartOptions, ChartType } from 'chart.js';
+import type { Chart as ChartJs, ChartData, ChartOptions, ChartType } from 'chart.js';
 
 type PortableChartOptions = Record<string, unknown>;
 
-ChartJs.register(...registerables);
+// #877: chart.js is loaded on first use, so importing `data-display` never pulls it into a bundle.
+let chartJsLoad: Promise<typeof ChartJs> | undefined;
+function loadChartJs(): Promise<typeof ChartJs> {
+  chartJsLoad ??= import('chart.js').then((m) => {
+    m.Chart.register(...m.registerables);
+    return m.Chart;
+  });
+  return chartJsLoad;
+}
 
 let chartUid = 0;
 
@@ -46,7 +53,9 @@ export class Chart implements AfterViewInit, OnDestroy {
   label = input<string>('Chart');
 
   private readonly canvasRef = viewChild.required<ElementRef<HTMLCanvasElement>>('canvasRef');
+  private chartCtor?: typeof ChartJs;
   private chartInstance?: ChartJs;
+  private destroyed = false;
   protected readonly canvasId = `mui-chart-canvas-${chartUid++}`;
 
   constructor() {
@@ -54,12 +63,13 @@ export class Chart implements AfterViewInit, OnDestroy {
       const type = this.type();
       const data = this.data();
       const opts = this.options();
-      if (!this.chartInstance) return;
+      const ctor = this.chartCtor;
+      if (!ctor || !this.chartInstance) return;
 
       const config = this.chartInstance.config as { type: ChartType };
       if (config.type !== type) {
         this.chartInstance.destroy();
-        this.chartInstance = new ChartJs(this.canvasRef().nativeElement, {
+        this.chartInstance = new ctor(this.canvasRef().nativeElement, {
           type,
           data,
           options: opts as ChartOptions,
@@ -72,12 +82,17 @@ export class Chart implements AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
+    const ctor = await loadChartJs();
+    if (this.destroyed) return;
+    this.chartCtor = ctor;
+
     const baseOptions: ChartOptions = prefersReducedMotion
       ? { animation: false, animations: {} }
       : {};
 
-    this.chartInstance = new ChartJs(this.canvasRef().nativeElement, {
+    // Read the inputs now: they may have changed while chart.js was loading.
+    this.chartInstance = new ctor(this.canvasRef().nativeElement, {
       type: this.type(),
       data: this.data(),
       options: { ...baseOptions, ...this.options() } as ChartOptions,
@@ -85,6 +100,7 @@ export class Chart implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.destroyed = true;
     this.chartInstance?.destroy();
   }
 }

@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { renderTemplate } from '../../../../core/testing';
 import { AccordionItem } from './accordion-item';
+import { AccordionGroup } from './accordion';
 import { ACCORDION_CONTEXT } from './accordion.types';
 import type { AccordionContext } from './accordion.types';
 
@@ -89,5 +90,69 @@ describe('AccordionItem (isolated)', () => {
     expect(btn).toHaveAttribute('aria-disabled', 'true');
     fireEvent.click(btn);
     expect(toggle).not.toHaveBeenCalled();
+  });
+});
+
+describe('AccordionItem open state and heading (#878)', () => {
+  it('works standalone: [open] starts it open and a click toggles it', async () => {
+    await renderTemplate(
+      '<mui-accordion-item heading="Contents" [open]="true">Body</mui-accordion-item>',
+      {
+        imports: [AccordionItem],
+      },
+    );
+    const btn = screen.getByRole('button', { name: 'Contents' });
+    expect(btn).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.click(btn);
+    expect(btn).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('emits openChange when toggled', async () => {
+    const changed = vi.fn();
+    await renderTemplate(
+      '<mui-accordion-item heading="Contents" (openChange)="c($event)">Body</mui-accordion-item>',
+      { imports: [AccordionItem], componentProperties: { c: changed } },
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Contents' }));
+    expect(changed).toHaveBeenCalledWith(true);
+  });
+
+  it('inside a group, [open] opens that item and single-open closes the previous one', async () => {
+    await renderTemplate(
+      `<mui-accordion>
+        <mui-accordion-item heading="A" [open]="true">a</mui-accordion-item>
+        <mui-accordion-item heading="B">b</mui-accordion-item>
+      </mui-accordion>`,
+      { imports: [AccordionItem, AccordionGroup] },
+    );
+    expect(screen.getByRole('button', { name: 'A' })).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.click(screen.getByRole('button', { name: 'B' }));
+    expect(screen.getByRole('button', { name: 'B' })).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: 'A' })).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('headingLevel wraps the trigger in a real heading', async () => {
+    await renderTemplate(
+      '<mui-accordion-item heading="Contents" headingLevel="2">Body</mui-accordion-item>',
+      { imports: [AccordionItem] },
+    );
+    expect(screen.getByRole('heading', { level: 2 })).toContainElement(
+      screen.getByRole('button', { name: 'Contents' }),
+    );
+  });
+
+  it('has no heading wrapper without headingLevel', async () => {
+    await renderTemplate('<mui-accordion-item heading="Contents">Body</mui-accordion-item>', {
+      imports: [AccordionItem],
+    });
+    expect(screen.queryByRole('heading')).toBeNull();
+  });
+
+  it('projects rich heading content with slot="heading"', async () => {
+    await renderTemplate(
+      '<mui-accordion-item><b slot="heading">On this page</b>Body</mui-accordion-item>',
+      { imports: [AccordionItem] },
+    );
+    expect(screen.getByRole('button', { name: 'On this page' })).toBeInTheDocument();
   });
 });

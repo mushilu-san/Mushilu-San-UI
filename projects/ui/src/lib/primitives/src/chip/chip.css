@@ -1,0 +1,65 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mui-space-1);
+  min-height: 32px;
+  min-width: 32px;
+  box-sizing: border-box;
+  padding: 0 var(--mui-space-3);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-full);
+  background-color: transparent;
+  color: var(--mui-color-text);
+  font-family: var(--mui-font-sans);
+  font-size: var(--mui-font-size-sm);
+  font-weight: var(--mui-font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+:host([data-interactive]) {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--mui-duration-fast) var(--mui-easing-default),
+    border-color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+/* The chip is 32px tall, but the pointer target stays 44px (WCAG 2.5.5). */
+:host([data-interactive])::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+}
+
+:host([data-interactive]:hover) {
+  background-color: var(--mui-color-surface);
+}
+
+:host([data-selected]) {
+  background-color: var(--mui-color-primary);
+  border-color: var(--mui-color-primary);
+  color: var(--mui-color-primary-text);
+}
+
+:host([data-selected][data-interactive]:hover) {
+  background-color: var(--mui-color-primary);
+}
+
+:host(:focus-visible) {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+.mui-chip__leading {
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([data-interactive]) {
+    transition: none;
+  }
+}

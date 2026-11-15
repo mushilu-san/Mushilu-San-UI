@@ -4,12 +4,19 @@ import { COMMAND_CONTEXT } from './command';
 @Component({
   selector: 'mui-command-empty',
   standalone: true,
+  // A-13 (#726): the empty message lives inside the listbox, so it is a disabled option.
+  // A bare <div> there fails aria-required-children.
   template: `
-    @if (!ctx.search()) {
-      <div class="mui-command-empty" part="empty" aria-live="polite"><ng-content /></div>
-    } @else {
-      <div class="mui-command-empty" part="empty" aria-live="polite"><ng-content /></div>
-    }
+    <div
+      class="mui-command-empty"
+      part="empty"
+      role="option"
+      aria-disabled="true"
+      aria-selected="false"
+      aria-live="polite"
+    >
+      <ng-content />
+    </div>
   `,
   styles: [
     `

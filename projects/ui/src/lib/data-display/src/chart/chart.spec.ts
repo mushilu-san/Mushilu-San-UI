@@ -27,6 +27,9 @@ const SAMPLE_DATA = {
   datasets: [{ label: 'Sales', data: [10, 20, 30] }],
 };
 
+// chart.js loads lazily (#877), so the instance appears a microtask after render.
+const instanceReady = () => vi.waitFor(() => expect(ctorCalls.length).toBeGreaterThan(0));
+
 describe('Chart', () => {
   beforeEach(() => {
     mockDestroy.mockClear();
@@ -92,6 +95,7 @@ describe('Chart', () => {
 
   it('creates a Chart.js instance on init', async () => {
     await renderComponent(Chart, { inputs: { data: SAMPLE_DATA } });
+    await instanceReady();
     expect(ctorCalls).toHaveLength(1);
     expect(ctorCalls[0].canvas).toBeInstanceOf(HTMLCanvasElement);
   });
@@ -100,21 +104,25 @@ describe('Chart', () => {
     await renderComponent(Chart, {
       inputs: { data: SAMPLE_DATA, type: 'line' },
     });
+    await instanceReady();
     expect((ctorCalls[0].cfg as { type: string }).type).toBe('line');
   });
 
   it('passes data to Chart.js constructor', async () => {
     await renderComponent(Chart, { inputs: { data: SAMPLE_DATA } });
+    await instanceReady();
     expect((ctorCalls[0].cfg as { data: unknown }).data).toEqual(SAMPLE_DATA);
   });
 
   it('defaults type to bar', async () => {
     await renderComponent(Chart, { inputs: { data: SAMPLE_DATA } });
+    await instanceReady();
     expect((ctorCalls[0].cfg as { type: string }).type).toBe('bar');
   });
 
   it('destroys chart instance on component destroy', async () => {
     const { fixture } = await renderComponent(Chart, { inputs: { data: SAMPLE_DATA } });
+    await instanceReady();
     fixture.destroy();
     expect(mockDestroy).toHaveBeenCalledOnce();
   });
@@ -123,6 +131,7 @@ describe('Chart', () => {
     const { fixture, detectChanges } = await renderComponent(Chart, {
       inputs: { data: SAMPLE_DATA },
     });
+    await instanceReady();
     const newData = { labels: ['Apr'], datasets: [{ label: 'X', data: [99] }] };
     fixture.componentRef.setInput('data', newData);
     detectChanges();
@@ -136,6 +145,7 @@ describe('Chart', () => {
     const { fixture, detectChanges } = await renderComponent(Chart, {
       inputs: { data: SAMPLE_DATA, type: 'bar' as const },
     });
+    await instanceReady();
     // The mock chart starts with config.type = 'bar' (from the class definition)
     // Changing to 'line' triggers the destroy + new ChartJs path
     fixture.componentRef.setInput('type', 'line');
@@ -150,6 +160,7 @@ describe('Chart', () => {
     const { fixture, detectChanges } = await renderComponent(Chart, {
       inputs: { data: SAMPLE_DATA },
     });
+    await instanceReady();
     fixture.componentRef.setInput('options', { responsive: true });
     detectChanges();
     await fixture.whenStable();

@@ -10,7 +10,7 @@ export const doc: ComponentDoc = {
   description: [
     'Dialog renders a native `<dialog>` opened with `showModal()`. The browser makes the rest of the page inert and, when the dialog closes, returns focus to the element that had it before.',
     'Open state is a two-way `open` model. Bind it with `[(open)]` and close the dialog from your own actions by setting it to `false`. The `opened` and `closed` outputs fire on each transition, and `close()` closes it imperatively.',
-    'A close button is always rendered in the header, independent of `closeOnBackdrop` and `closeOnEscape`.',
+    'A close button is rendered in the header, independent of `closeOnBackdrop` and `closeOnEscape`. Translate its name with `closeLabel`, or remove it with `hideCloseButton` when you project your own. Set `ariaLabel` to name a dialog that has no visible `heading`.',
   ],
   whenToUse: [
     'A short, focused task that must be finished or cancelled before continuing, such as editing a record.',

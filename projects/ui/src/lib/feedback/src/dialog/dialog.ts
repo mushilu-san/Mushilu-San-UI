@@ -30,6 +30,12 @@ export class Dialog {
   open = model(false);
   /** Bold heading; wires up aria-labelledby when present. */
   heading = input<string>();
+  /** Accessible name when there is no visible `heading`. Ignored when `heading` is set. */
+  ariaLabel = input<string>();
+  /** Accessible name of the built-in close button. Translate it for non-English pages. */
+  closeLabel = input('Close dialog');
+  /** Hides the built-in close button, for dialogs that project their own. */
+  hideCloseButton = input(false, { transform: booleanAttribute });
   /** Width of the dialog: `sm`, `md` or `lg`. Default `md`. */
   size = input<DialogSize>('md');
   /** Closes the dialog when the backdrop is clicked. Default `true`. */

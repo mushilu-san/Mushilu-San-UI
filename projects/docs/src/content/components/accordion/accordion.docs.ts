@@ -10,6 +10,7 @@ export const doc: ComponentDoc = {
   description: [
     'Accordion is a group of items. Each `mui-accordion-item` has a `heading` button that toggles its panel, with `aria-expanded` and `aria-controls` linking the two.',
     'By default one panel is open at a time. Set `multiple` on the group to let several stay open.',
+    'Set `open` (two-way) on an item to start it open or to open it from outside. An item also works on its own, without a group, as a single collapsible section. Wrap the trigger in a real heading with `headingLevel`, and project rich heading content with `slot="heading"` instead of the `heading` text.',
   ],
   whenToUse: [
     'FAQs and long settings pages where users look for one topic at a time.',
