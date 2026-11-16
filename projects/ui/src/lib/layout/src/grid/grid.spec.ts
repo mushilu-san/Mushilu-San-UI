@@ -14,6 +14,18 @@ describe('Grid', () => {
     expect(getComputedStyle(host).display).toBe('grid');
   });
 
+  it('minColumnWidth emits an auto-fill minmax template', async () => {
+    await renderTemplate('<mui-grid minColumnWidth="16rem" [columns]="3"></mui-grid>', {
+      imports: [Grid],
+    });
+    expect((document.querySelector('mui-grid') as HTMLElement).style.gridTemplateColumns).toContain(
+      'auto-fill',
+    );
+    expect((document.querySelector('mui-grid') as HTMLElement).style.gridTemplateColumns).toContain(
+      '16rem',
+    );
+  });
+
   it('builds grid-template-columns from the columns input', async () => {
     await renderTemplate('<mui-grid [columns]="3"></mui-grid>', { imports: [Grid] });
     const host = document.querySelector('mui-grid') as HTMLElement;

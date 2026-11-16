@@ -82,4 +82,43 @@ describe('Card', () => {
     await renderTemplate('<mui-card></mui-card>', { imports: [Card] });
     expect(document.querySelector('mui-card')).toHaveAttribute('part', 'root');
   });
+
+  describe('link mode', () => {
+    it('renders a real anchor with href, rel, target and aria-label', async () => {
+      await renderTemplate(
+        '<mui-card href="/a" rel="noopener" target="_blank" linkLabel="Read A">x</mui-card>',
+        { imports: [Card] },
+      );
+      const a = document.querySelector('mui-card a')!;
+      expect(a).toHaveAttribute('href', '/a');
+      expect(a).toHaveAttribute('rel', 'noopener');
+      expect(a).toHaveAttribute('target', '_blank');
+      expect(a).toHaveAttribute('aria-label', 'Read A');
+    });
+
+    it('does not add button semantics to the host, even when clickable', async () => {
+      await renderTemplate('<mui-card href="/a" [clickable]="true"></mui-card>', {
+        imports: [Card],
+      });
+      const host = document.querySelector('mui-card')!;
+      expect(host).not.toHaveAttribute('role');
+      expect(host).not.toHaveAttribute('tabindex');
+      expect(host).toHaveAttribute('data-link');
+    });
+
+    it('emits clicked once when the anchor is clicked', async () => {
+      const h = vi.fn();
+      await renderTemplate('<mui-card href="/a" [clickable]="true" (clicked)="h()"></mui-card>', {
+        imports: [Card],
+        componentProperties: { h },
+      });
+      fireEvent.click(document.querySelector('mui-card a')!);
+      expect(h).toHaveBeenCalledTimes(1);
+    });
+
+    it('renders no anchor without href', async () => {
+      await renderTemplate('<mui-card></mui-card>', { imports: [Card] });
+      expect(document.querySelector('mui-card a')).toBeNull();
+    });
+  });
 });

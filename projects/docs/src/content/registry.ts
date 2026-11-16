@@ -24,6 +24,13 @@ export const REGISTRY: readonly RegistryEntry[] = [
     load: () => import('./components/button/button.docs').then((m) => m.doc),
   },
   {
+    slug: 'copy-button',
+    name: 'Copy button',
+    group: 'primitives',
+    summary: 'Copies text to the clipboard and announces that it was copied.',
+    load: () => import('./components/copy-button/copy-button.docs').then((m) => m.doc),
+  },
+  {
     slug: 'chip',
     name: 'Chip',
     group: 'primitives',
@@ -241,6 +248,13 @@ export const REGISTRY: readonly RegistryEntry[] = [
     load: () => import('./components/pagination/pagination.docs').then((m) => m.doc),
   },
   {
+    slug: 'pager',
+    name: 'Pager',
+    group: 'navigation',
+    summary: 'Previous and next links with direction labels that mirror in right-to-left.',
+    load: () => import('./components/pager/pager.docs').then((m) => m.doc),
+  },
+  {
     slug: 'site-header',
     name: 'Site header',
     group: 'navigation',
@@ -348,6 +362,27 @@ export const REGISTRY: readonly RegistryEntry[] = [
     summary:
       'A placeholder for a list or area with no content yet, with a title, text and an action.',
     load: () => import('./components/empty/empty.docs').then((m) => m.doc),
+  },
+  {
+    slug: 'stat',
+    name: 'Stat',
+    group: 'data-display',
+    summary: 'A large figure above a short label, grouped in a responsive list.',
+    load: () => import('./components/stat/stat.docs').then((m) => m.doc),
+  },
+  {
+    slug: 'stepper',
+    name: 'Stepper',
+    group: 'data-display',
+    summary: 'An ordered list of numbered steps, with optional links and meta text.',
+    load: () => import('./components/stepper/stepper.docs').then((m) => m.doc),
+  },
+  {
+    slug: 'image-zoom',
+    name: 'Image zoom',
+    group: 'data-display',
+    summary: 'A thumbnail that opens the image enlarged in a dialog.',
+    load: () => import('./components/image-zoom/image-zoom.docs').then((m) => m.doc),
   },
   {
     slug: 'table',

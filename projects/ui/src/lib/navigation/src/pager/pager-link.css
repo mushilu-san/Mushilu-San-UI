@@ -1,0 +1,65 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mui-space-2);
+  min-block-size: var(--mui-touch-target);
+  min-inline-size: var(--mui-touch-target);
+  padding-inline: var(--mui-space-3);
+  border: 1px solid var(--mui-color-border);
+  border-radius: var(--mui-radius-md);
+  color: var(--mui-color-text);
+  text-decoration: none;
+  transition: background-color var(--mui-duration-fast) var(--mui-easing-default);
+}
+
+:host([data-direction='next']) {
+  flex-direction: row-reverse;
+  margin-inline-start: auto;
+  text-align: end;
+}
+
+:host(:hover) {
+  background-color: var(--mui-color-surface-raised);
+}
+
+:host(:focus-visible) {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+.icon {
+  flex: none;
+}
+
+/* Chevron points to the start edge for "previous"; flip for "next", and again in RTL. */
+:host([data-direction='next']) .icon {
+  transform: scaleX(-1);
+}
+
+:host(:dir(rtl)) .icon {
+  transform: scaleX(-1);
+}
+
+:host([data-direction='next']:dir(rtl)) .icon {
+  transform: none;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.direction {
+  font-size: var(--mui-font-size-xs);
+  color: var(--mui-color-text-muted);
+}
+
+.title {
+  font-weight: var(--mui-font-weight-medium);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}

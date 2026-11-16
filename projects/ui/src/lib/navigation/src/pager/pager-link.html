@@ -1,0 +1,22 @@
+<svg
+  class="icon"
+  part="icon"
+  viewBox="0 0 24 24"
+  width="20"
+  height="20"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d="M15 6l-6 6 6 6" />
+</svg>
+<span class="text" part="text">
+  @if (directionLabel(); as l) {
+    <span class="direction" part="direction">{{ l }}</span>
+  }
+  <span class="title" part="title"><ng-content /></span>
+</span>

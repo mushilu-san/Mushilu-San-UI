@@ -19,3 +19,5 @@ export type { DividerOrientation, DividerVariant } from './divider/divider.types
 
 export { Avatar } from './avatar/avatar';
 export type { AvatarSize, AvatarShape } from './avatar/avatar.types';
+
+export { CopyButton } from './copy-button/copy-button';

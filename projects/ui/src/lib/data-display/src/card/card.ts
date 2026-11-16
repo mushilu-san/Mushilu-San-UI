@@ -4,6 +4,7 @@ import {
   HostListener,
   ViewEncapsulation,
   booleanAttribute,
+  computed,
   input,
   output,
 } from '@angular/core';
@@ -18,10 +19,11 @@ import type { CardVariant } from './card.types';
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     '[attr.data-variant]': 'variant()',
-    '[attr.data-clickable]': 'clickable() ? "" : null',
+    '[attr.data-clickable]': 'isButton() ? "" : null',
     '[attr.part]': '"root"',
-    '[attr.tabindex]': 'clickable() ? "0" : null',
-    '[attr.role]': 'clickable() ? "button" : null',
+    '[attr.data-link]': 'href() ? "" : null',
+    '[attr.tabindex]': 'isButton() ? "0" : null',
+    '[attr.role]': 'isButton() ? "button" : null',
   },
 })
 export class Card {
@@ -30,17 +32,31 @@ export class Card {
   /** When true, the card is keyboard-activatable and emits `clicked`. */
   clickable = input(false, { transform: booleanAttribute });
 
-  /** Emitted when a clickable card is activated (click, Enter, Space). */
+  /**
+   * Link mode: renders a real anchor stretched over the whole card. Takes precedence over
+   * `clickable`. Nested interactive content must sit above it (`position: relative; z-index: 1`).
+   */
+  href = input<string | undefined>(undefined);
+  /** Accessible name of the link (`aria-label`). Required for a meaningful link in link mode. */
+  linkLabel = input<string | undefined>(undefined);
+  /** Anchor `target` in link mode. */
+  target = input<string | undefined>(undefined);
+  /** Anchor `rel` in link mode. */
+  rel = input<string | undefined>(undefined);
+
+  protected readonly isButton = computed(() => this.clickable() && !this.href());
+
+  /** Emitted when a clickable card is activated (click, Enter, Space), or the link-mode anchor is clicked (lets SPA apps route instead of navigating). */
   readonly clicked = output<void>();
 
   @HostListener('click')
   protected onClick(): void {
-    if (this.clickable()) this.clicked.emit();
+    if (this.isButton()) this.clicked.emit();
   }
 
   @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
-    if (!this.clickable()) return;
+    if (!this.isButton()) return;
     if (event.key === 'Enter') {
       this.clicked.emit();
     } else if (event.key === ' ') {

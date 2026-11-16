@@ -23,6 +23,18 @@ describe('Container', () => {
     expect(document.querySelector('mui-container')).toHaveAttribute('data-size', 'full');
   });
 
+  it('applies maxWidth as an inline max-width override', async () => {
+    await renderTemplate('<mui-container maxWidth="72rem"></mui-container>', {
+      imports: [Container],
+    });
+    expect((document.querySelector('mui-container') as HTMLElement).style.maxWidth).toBe('72rem');
+  });
+
+  it('sets no inline max-width by default', async () => {
+    await renderTemplate('<mui-container></mui-container>', { imports: [Container] });
+    expect((document.querySelector('mui-container') as HTMLElement).style.maxWidth).toBe('');
+  });
+
   it('is padded by default', async () => {
     await renderTemplate('<mui-container></mui-container>', { imports: [Container] });
     expect(document.querySelector('mui-container')).toHaveAttribute('data-padded');

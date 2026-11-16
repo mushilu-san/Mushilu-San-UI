@@ -39,6 +39,9 @@ export class Grid {
   /** Number of equal-width columns (uses `repeat(n, minmax(0, 1fr))`). */
   columns = input(1, { transform: numberAttribute });
 
+  /** Responsive auto-fit: minimum column width (any CSS length, e.g. `16rem`). Overrides `columns`. */
+  minColumnWidth = input<string | undefined>(undefined);
+
   /** Gap applied to both axes — a step on the spacing scale (--mui-space-{n}). Overridden by columnGap/rowGap. */
   gap = input(4, { transform: numberAttribute });
 
@@ -54,7 +57,12 @@ export class Grid {
   /** Inline-axis alignment of grid items (justify-items). */
   justify = input<GridAlign>('stretch');
 
-  protected readonly templateColumns = computed(() => `repeat(${this.columns()}, minmax(0, 1fr))`);
+  protected readonly templateColumns = computed(() => {
+    const min = this.minColumnWidth();
+    return min
+      ? `repeat(auto-fill, minmax(min(100%, ${min}), 1fr))`
+      : `repeat(${this.columns()}, minmax(0, 1fr))`;
+  });
   protected readonly columnGapValue = computed(
     () => `var(--mui-space-${this.columnGap() ?? this.gap()}, 0px)`,
   );

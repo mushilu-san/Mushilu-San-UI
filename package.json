@@ -101,7 +101,7 @@
     {
       "name": "primitives",
       "path": "dist/ui/fesm2022/mushilu-san-ui-primitives.mjs",
-      "limit": "8 KB",
+      "limit": "9 KB",
       "ignore": [
         "@angular/common",
         "@angular/compiler",
@@ -181,7 +181,7 @@
     {
       "name": "data-display",
       "path": "dist/ui/fesm2022/mushilu-san-ui-data-display.mjs",
-      "limit": "10 KB",
+      "limit": "11 KB",
       "ignore": [
         "@angular/common",
         "@angular/compiler",

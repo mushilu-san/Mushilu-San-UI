@@ -44,6 +44,29 @@
 }
 
 /* ----------------------------------------------------------------
+   Link mode — stretched anchor over the card
+   ---------------------------------------------------------------- */
+:host([data-link]) {
+  position: relative;
+}
+
+.link {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+:host([data-link]:has(.link:focus-visible)) {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+}
+
+:host([data-link]:has(.link)):hover {
+  box-shadow: var(--mui-shadow-3);
+}
+
+/* ----------------------------------------------------------------
    Reduced motion
    ---------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {

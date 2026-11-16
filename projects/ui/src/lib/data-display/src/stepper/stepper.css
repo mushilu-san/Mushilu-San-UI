@@ -1,0 +1,8 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mui-space-4);
+  margin: 0;
+  padding: 0;
+  counter-reset: mui-step;
+}
