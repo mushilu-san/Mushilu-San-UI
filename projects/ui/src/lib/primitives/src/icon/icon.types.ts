@@ -24,6 +24,7 @@ export type IconName =
   | 'home'
   | 'info'
   | 'link'
+  | 'linkedin'
   | 'loading'
   | 'mail'
   | 'map-pin'

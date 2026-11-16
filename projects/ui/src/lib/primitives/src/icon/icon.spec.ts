@@ -135,15 +135,23 @@ describe('Icon', () => {
 });
 
 describe('Icon names and registry (#881)', () => {
-  it.each(['sun', 'moon', 'rss', 'github', 'arrow-up', 'arrow-down', 'link', 'clock', 'tag'])(
-    'draws the built-in %s icon',
-    async (name) => {
-      await renderComponent(Icon, { inputs: { name } });
-      const paths = document.querySelectorAll('svg path');
-      expect(paths.length).toBeGreaterThan(0);
-      for (const p of Array.from(paths)) expect(p.getAttribute('d')).toBeTruthy();
-    },
-  );
+  it.each([
+    'sun',
+    'moon',
+    'rss',
+    'github',
+    'linkedin',
+    'arrow-up',
+    'arrow-down',
+    'link',
+    'clock',
+    'tag',
+  ])('draws the built-in %s icon', async (name) => {
+    await renderComponent(Icon, { inputs: { name } });
+    const paths = document.querySelectorAll('svg path');
+    expect(paths.length).toBeGreaterThan(0);
+    for (const p of Array.from(paths)) expect(p.getAttribute('d')).toBeTruthy();
+  });
 
   it('draws an icon registered with provideMuiIcons', async () => {
     await renderComponent(Icon, {
