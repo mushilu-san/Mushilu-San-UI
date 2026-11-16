@@ -1,0 +1,14 @@
+<span class="marker" part="marker" aria-hidden="true"></span>
+<div class="body" part="body">
+  <div class="heading">
+    @if (href(); as h) {
+      <a class="link" part="link" [attr.href]="h" [attr.target]="target()" [attr.rel]="rel()">{{
+        label()
+      }}</a>
+    } @else {
+      <span class="label" part="label">{{ label() }}</span>
+    }
+    <span class="meta" part="meta"><ng-content select="[slot=meta]" /></span>
+  </div>
+  <div class="description" part="description"><ng-content /></div>
+</div>

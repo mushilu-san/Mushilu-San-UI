@@ -1,0 +1,80 @@
+:host {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mui-space-3);
+  counter-increment: mui-step;
+}
+
+.marker {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--mui-space-8);
+  block-size: var(--mui-space-8);
+  border-radius: var(--mui-radius-full);
+  background-color: var(--mui-color-primary);
+  color: var(--mui-color-primary-text);
+  font-size: var(--mui-font-size-sm);
+  font-weight: var(--mui-font-weight-semibold);
+}
+
+.marker::before {
+  content: counter(mui-step);
+  content: counter(mui-step) / '';
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--mui-space-2);
+  font-weight: var(--mui-font-weight-medium);
+  color: var(--mui-color-text);
+}
+
+.meta {
+  font-size: var(--mui-font-size-sm);
+  font-weight: var(--mui-font-weight-regular);
+  color: var(--mui-color-text-muted);
+}
+
+.description {
+  color: var(--mui-color-text-muted);
+}
+
+.description:empty {
+  display: none;
+}
+
+/* Stretched link: the anchor's ::after covers the whole step. */
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.link:focus-visible::after {
+  outline: var(--mui-focus-ring-width) solid var(--mui-color-focus-ring);
+  outline-offset: var(--mui-focus-ring-offset);
+  border-radius: var(--mui-radius-md);
+}

@@ -29,3 +29,7 @@ export { MenubarSeparator } from './menubar/menubar-separator';
 export { SkipLink } from './skip-link/skip-link';
 
 export { SiteHeader } from './site-header/site-header';
+
+export { Pager } from './pager/pager';
+export { PagerLink } from './pager/pager-link';
+export type { PagerDirection } from './pager/pager.types';

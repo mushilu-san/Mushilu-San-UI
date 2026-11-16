@@ -1,0 +1,25 @@
+<button
+  type="button"
+  class="trigger"
+  part="trigger"
+  aria-haspopup="dialog"
+  [attr.aria-label]="enlargeLabel() + ': ' + alt()"
+  (click)="open()"
+>
+  <img class="thumb" part="image" [src]="src()" alt="" />
+</button>
+<dialog
+  #dialog
+  class="dialog"
+  part="dialog"
+  [attr.aria-label]="alt()"
+  (pointerdown)="onDialogPointerdown($event)"
+>
+  <figure class="figure">
+    <img class="full" [src]="fullSrc() ?? src()" [alt]="alt()" />
+    @if (caption(); as c) {
+      <figcaption class="caption" part="caption">{{ c }}</figcaption>
+    }
+  </figure>
+  <button type="button" class="close" part="close" (click)="close()">{{ closeLabel() }}</button>
+</dialog>

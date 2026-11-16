@@ -34,3 +34,14 @@ export { CarouselItem } from './carousel/carousel-item';
 export { CarouselPrev } from './carousel/carousel-prev';
 export { CarouselNext } from './carousel/carousel-next';
 export { CarouselDots } from './carousel/carousel-dots';
+
+// Stat
+export { Stat } from './stat/stat';
+export { Stats } from './stat/stats';
+
+// Stepper
+export { Stepper } from './stepper/stepper';
+export { Step } from './stepper/step';
+
+// ImageZoom
+export { ImageZoom } from './image-zoom/image-zoom';
