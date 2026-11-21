@@ -91,7 +91,7 @@
     "rolldown": "^1.2.13",
     "size-limit": "^14.3.0",
     "storybook": "^10.6.7",
-    "stylelint": "^17.16.0",
+    "stylelint": "^18.0.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.0",
     "vitest": "^5.1.0",
